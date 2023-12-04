@@ -11,35 +11,8 @@ export default function Account() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const handleSignout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
 
-      if (error) {
-        setMessage(error.message);
-      } else {
-        setMessage("You have been signed out.");
-        redirect("/login"); // Redirect after successful sign out
-      }
-    } catch (error) {
-      setMessage("An error occurred during sign out");
-    }
-  };
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [dropdownRef]);
 
   const signInWithPassword = async (event) => {
     event.preventDefault();
@@ -84,8 +57,7 @@ export default function Account() {
 
   return (
     <div className="auth-form">
-
-      <form onSubmit={signInWithPassword}>
+      <form onSubmit={signInWithPassword} className="auth-form">
         <input
           type="email"
           placeholder="Email"
@@ -99,21 +71,13 @@ export default function Account() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" disabled={loading}>
-       Login
+          Login
         </button>
       </form>
       <button onClick={() => handleOAuthLogin("google")} disabled={loading}>
         Login with Google
       </button>
       {message && <p>{message}</p>}
-      <div className="account-icon" onClick={toggleDropdown} ref={dropdownRef}>
-        <AccountIcon />
-        {isDropdownOpen && (
-          <div className="dropdown-menu">
-            <button onClick={handleSignout}>Sign Out</button>
-          </div>
-        )}
-      </div>
     </div>
   );
 }

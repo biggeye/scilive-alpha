@@ -96,33 +96,26 @@
 }
 
 .gallery-container {
-  background: linear-gradient(to bottom, #e5e7eb, #cbd5e1);
+  background: radial-gradient(circle, rgba(173, 216, 230, 0.7) 0%, rgba(173, 216, 230, 0) 70%);
+  border-top: .05rem solid #5f9ea0; /* slightly darker border on top */
+  border-left: .1rem solid #5f9ea0; /* slightly darker border on left */
+  border-bottom: .05rem solid #5f9ea0; /* thin border on bottom */
+  border-right: .1rem solid #5f9ea0; /* thin border on right */
+  border-radius: 10px; /* round corners for a softer look */
+  box-shadow: 5px 5px 15px rgba(95, 158, 160, 0.2); /* soft shadow for 3D effect */
   overflow-y: auto;
   text-align: center;
-  padding: .5rem;
+  padding: 0.2rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  min-width: 18.75rem; /* 300px */
+  min-width: 250px;
+  margin-left: 5%;
+  width: 90%;
   @media screen and (min-width: 640px) {
-    min-width: 41.25rem; /* 660px */
-  }
-}
-
-.card-container {
-  margin: .5rem;
-  padding: .5rem;
-  perspective: 1000px; /* 3D effect */
-  border-top-left-radius: .4rem;
-  border-bottom-right-radius: .4rem;
-  border-color:#1F2937;
-  border-width: .05rem;
-  background-color:rgba(0, 0, 0, 0.2);
-  @media screen and (min-width: 640px) {
-    margin: .75rem;
-    padding: .75rem;
+    min-width: 400px; /* 660px */
   }
 }
 
@@ -130,7 +123,18 @@
   transition: transform 0.5s, box-shadow 0.5s;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 250px; 
+  margin: 0.25rem;
+  padding: 0.25rem;
+  perspective: 1000px;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white for card background */
+  border: 1px solid #87ceeb; /* Thin border around each card */
+  @media screen and (min-width: 640px) {
+    margin: .2rem;
+    padding: .2rem;
+  }
 }
+
 
 .card-container img:hover {
   transform: rotateY(10deg); /* 3D rotate effect */
@@ -149,16 +153,7 @@
   }
 }
 
-/* Auth Form Styling */
-.auth-form {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
-/* Account Icon Styling */
 .account-icon {
   margin-left: auto;
   margin-right: auto;
@@ -174,8 +169,6 @@
     padding-right: .5rem; /* 2px */
   }
 }
-
-/* Dropdown Menu Styling */
 .dropdown-menu {
   position: absolute;
   right: 0;
@@ -197,7 +190,17 @@
   }
 }
 
-/* Additional Styling for Inputs and Buttons */
+
+.auth-form {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: small;
+}
+
 .auth-form input,
 .auth-form button {
   margin: 10px 0;

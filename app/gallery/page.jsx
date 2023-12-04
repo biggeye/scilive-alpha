@@ -17,6 +17,7 @@ export default function GalleryPage() {
         router.push('/login');
       } else {
         setUser(session.user);
+        console.log("checkUser: ", user);
       }
     };
 
@@ -33,6 +34,7 @@ export default function GalleryPage() {
         console.error('Error fetching content:', error);
       } else {
         setContentItems(data);
+        console.log("fetchContent: ", contentItems);
       }
     };
 
@@ -55,16 +57,13 @@ export default function GalleryPage() {
   };
 
   return (
-    <div>
-      <h1>Gallery</h1>
-      <div>
+      <div className="gallery-container">
         {contentItems.map((item) => (
-          <div key={item.content_id}>
+          <div className="card-container" key={item.content_id}>
             <img src={item.url} alt={item.title} />
             <button onClick={() => handleDelete(item.content_id)}>Delete</button>
           </div>
         ))}
       </div>
-    </div>
   );
 };

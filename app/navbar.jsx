@@ -2,7 +2,8 @@
 import { usePathname } from "next/navigation";
 import { AccountIcon, DashboardIcon, GalleryIcon } from "./icons";
 import { createClient } from "@/utils/supabase/client";
-import Account from "./account";
+import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: DashboardIcon },
@@ -13,6 +14,37 @@ export default function Navbar() {
   const pathname = usePathname();
   const supabase = createClient();
   const user = supabase.auth.getUser();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleSignout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        setMessage(error.message);
+      } else {
+        setMessage("You have been signed out.");
+        redirect("/login"); // Redirect after successful sign out
+      }
+    } catch (error) {
+      setMessage("An error occurred during sign out: ", error);
+    }
+  };
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownRef]);
+
   return (
     <div className="navbar-container">
       <div className="nav-item">
@@ -27,8 +59,18 @@ export default function Navbar() {
           </a>
         ))}
         <div className="avatar">
-
-        <Account />
+          <div
+            className="account-icon"
+            onClick={toggleDropdown}
+            ref={dropdownRef}
+          >
+            <AccountIcon />
+            {isDropdownOpen && (
+              <div className="dropdown-menu">
+                <button onClick={handleSignout}>Sign Out</button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

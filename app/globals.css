@@ -3,27 +3,40 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-size: 1rem; /* Base font size */
+    @media (min-width: 640px) { font-size: 1.125rem; } /* lg font size */
+    @media (min-width: 768px) { font-size: 1.25rem; } /* xl font size */
+  }
+
   :root {
-    --background: 200 20% 98%;
-    --btn-background: 200 10% 91%;
-    --btn-background-hover: 200 10% 89%;
-    --foreground: 200 50% 3%;
-    --font-size-base: 13px;
+    --background-default: 200 20% 98%;
+    --btn-background-default: 200 10% 91%;
+    --btn-background-hover-default: 200 10% 89%;
+    --foreground-default: 200 50% 3%;
+    --background-dark: 200 50% 3%;
+    --btn-background-dark: 200 10% 9%;
+    --btn-background-hover-dark: 200 10% 12%;
+    --foreground-dark: 200 20% 96%;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --background: 200 50% 3%;
-      --btn-background: 200 10% 9%;
-      --btn-background-hover: 200 10% 12%;
-      --foreground: 200 20% 96%;
+      --background: var(--background-dark);
+      --btn-background: var(--btn-background-dark);
+      --btn-background-hover: var(--btn-background-hover-dark);
+      --foreground: var(--foreground-dark);
     }
   }
-}
 
-@layer base {
   * {
-    @apply border-foreground/20;
+    border-color: rgba(200, 50%, 3%, .2);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    * {
+      border-color: rgba(200, 20%, 96%, .2);
+    }
   }
 }
 
@@ -42,32 +55,29 @@
   }
 }
 
-
 .navbar-container {
+  margin-top: .5rem;
   margin-left: auto;
   margin-right: auto;
-  max-width: 7xl;
-  padding-left: 1px;
-  padding-right: 1px;
-
-  @media screen and (min-width: 640px) {
-    padding-left: 1px;
-    padding-right: 1px;
-  }
+  max-width: 80rem; /* 7xl */
+  padding-left: .125rem; /* 1px */
+  padding-right: .125rem; /* 1px */
 
   @media screen and (min-width: 1024px) {
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: .5rem; /* 2px */
+    padding-right: .5rem; /* 2px */
   }
 }
 
 .nav-item {
   display: flex;
-  margin-left: 5rem;
+  margin-left: 1rem; /* 4 */
   @media screen and (min-width: 640px) {
-    display: flex;
-    gap: 5rem;
-
+    gap: 1rem; /* 4 */
+  }
+  @media screen and (min-width: 768px) {
+    margin-left: 1.25rem; /* 5 */
+    gap: 1.25rem; /* 5 */
   }
 }
 
@@ -95,7 +105,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  min-width: 660px;
+  min-width: 18.75rem; /* 300px */
+  @media screen and (min-width: 640px) {
+    min-width: 41.25rem; /* 660px */
+  }
 }
 
 .card-container {
@@ -107,6 +120,10 @@
   border-color:#1F2937;
   border-width: .05rem;
   background-color:rgba(0, 0, 0, 0.2);
+  @media screen and (min-width: 640px) {
+    margin: .75rem;
+    padding: .75rem;
+  }
 }
 
 .card-container img {
@@ -120,12 +137,82 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Fixed input bar */
 .dynamic-input {
-  height: 40px;
+  height: 2.5rem; /* 40px */
   position: fixed;
   bottom: 0;
   width: 80%;
   z-index: 1000;
-  padding: 1;
+  padding: .25rem;
+  @media screen and (min-width: 640px) {
+    width: 90%;
+  }
+}
+
+/* Auth Form Styling */
+.auth-form {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Account Icon Styling */
+.account-icon {
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: .125rem;
+  position: absolute;
+  margin-top: .5rem;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+
+  @media screen and (min-width: 1024px) {
+    padding-left: .5rem; /* 2px */
+    padding-right: .5rem; /* 2px */
+  }
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  animation: slideDown 300ms ease-out forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Additional Styling for Inputs and Buttons */
+.auth-form input,
+.auth-form button {
+  margin: 10px 0;
+  padding: 8px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.auth-form button {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.auth-form button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
 }

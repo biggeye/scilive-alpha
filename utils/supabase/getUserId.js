@@ -1,6 +1,10 @@
+import { createClient } from "./server";
+import { cookies } from "next/headers";
 
-
-export async function getUserId(supabase) {
+export async function getUserId() {
+    const cookieStore = cookies();
+    const supabase = createClient();
+    
     try {
         let { data, error, status } = await supabase
             .from('profiles')
@@ -21,7 +25,10 @@ export async function getUserId(supabase) {
     }
 };
 
-export async function getMasterContent(supabase) {
+export async function getMasterContent() {
+    const cookieStore = cookies();
+    const supabase = createClient();
+    
     try {
         let { data, error, status } = await supabase
             .from('master_content')
@@ -39,7 +46,10 @@ export async function getMasterContent(supabase) {
     }
 };
 
-export async function getUserProfile(supabase) {
+export async function getUserProfile() {
+    const cookieStore = cookies();
+    const supabase = createClient();
+    
     try {
         let { data, error, status } = await supabase.from('profiles').select('*');
         if (error && status !== 406) {
@@ -52,4 +62,4 @@ export async function getUserProfile(supabase) {
         console.error('Error fetching profile data:', error.message);
         return null;
     }
-}
+};

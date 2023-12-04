@@ -1,65 +1,70 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Card from "./card";
-import Pagination from "./pagination";
-import { createClient } from "@/utils/supabase/client";
-import { getUserId, getMasterContent } from "@/utils/supabase/getUserId";
+'use client'
 
-export default function Gallery() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [deleteImageUrl, setDeleteImageUrl] = useState("");
-  const [cards, setCards] = useState([]);
-  const [userId, setUserId] = useState(null);
-  const rowsPerPage = 6;
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
+export default function GalleryPage() {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [contentItems, setContentItems] = useState([]);
   const supabase = createClient();
 
-  const fetchUserIdAndCards = async () => {
-    try {
-      const fetchedUserId = await getUserId(supabase);
-      setUserId(fetchedUserId);
-      const masterContent = await getMasterContent(supabase);
-      setCards(masterContent);
-      console.log("master_content: ", masterContent);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: session } = await supabase.auth.getUser();
+      if (!session) {
+        router.push('/login');
+      } else {
+        setUser(session.user);
+      }
+    };
+
+    checkUser();
+  }, [router, supabase.auth]);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      const { data, error } = await supabase
+        .from('master_content')
+        .select('*');
+
+      if (error) {
+        console.error('Error fetching content:', error);
+      } else {
+        setContentItems(data);
+      }
+    };
+
+    fetchContent();
+  }, [supabase]);
+
+  const handleDelete = async (contentId) => {
+    const { error } = await supabase
+      .from('master_content')
+      .delete()
+      .match({ content_id: contentId });
+
+    if (error) {
+      console.error('Error deleting content:', error);
+    } else {
+      setContentItems((prevItems) =>
+        prevItems.filter((item) => item.content_id !== contentId)
+      );
     }
   };
 
-  useEffect(() => {
-    fetchUserIdAndCards();
-  }, []);
-
-  useEffect(() => {
-    setTotal(Math.ceil(cards.length / rowsPerPage));
-  }, [cards]);
-
-  const startIndex = page * rowsPerPage;
-  const selectedCards = cards.slice(startIndex, startIndex + rowsPerPage);
-
   return (
-    <>
-      <div className="gallery-container">
-        {selectedCards.map((card, index) => (
-          <div key={index} className="card-container">
-            <Card
-              imageUrl={card.url}
-              created_at={card.created_at}
-              prompt={card.prompt}
-              id={card.content_id}
-              isLoading={isLoading}
-            />
+    <div>
+      <h1>Gallery</h1>
+      <div>
+        {contentItems.map((item) => (
+          <div key={item.content_id}>
+            <img src={item.url} alt={item.title} />
+            <button onClick={() => handleDelete(item.content_id)}>Delete</button>
           </div>
         ))}
       </div>
-
-      <Pagination
-        currentPage={page}
-        totalPages={total}
-        onPageChange={(newPage) => setPage(newPage)}
-      />
-    </>
+    </div>
   );
-}
+};

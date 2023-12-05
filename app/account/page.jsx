@@ -2,55 +2,16 @@
 
 import { createClient } from "@/utils/supabase/client";
 import React, { useState } from "react";
+import {  } from "@/lib/supabase.js";
 
-export default function Account() {
+const Account = () => {
   const supabase = createClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const signInWithPassword = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    const { user, session, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) setMessage(error.message);
-    else setMessage("Login successful!");
-
-    setLoading(false);
-  };
-
-  const handleOAuthLogin = async (provider) => {
-    setLoading(true);
-
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          queryParams: {
-            access_type: "offline",
-            prompt: "consent",
-          },
-          redirectTo: `${default_url}/api/auth/callback`,
-        },
-      });
-
-      if (error) {
-        setMessage(error.message);
-      }
-      // The page will redirect on successful login
-    } catch (error) {
-      setMessage("An error occurred during login");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  
   return (
     <div className="auth-form">
       <form onSubmit={signInWithPassword} className="auth-form">
@@ -77,3 +38,5 @@ export default function Account() {
     </div>
   );
 }
+
+export default Account;

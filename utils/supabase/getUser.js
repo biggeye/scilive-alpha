@@ -67,10 +67,3 @@ export async function getProfile() {
     }
 };
 
-export async function getSession() {
-
-    const { data: session } = await supabase.auth.getSession();
-      console.log("session: ", session);
-
-    return session;
-    };

@@ -19,21 +19,7 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const [message, setMessage] = useState("");
 
-  const handleSignout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      console.log('Signing out...');
-
-      if (error) {
-        setMessage(error.message);
-      } else {
-        setMessage("You have been signed out.");
-        redirect("/login"); // Redirect after successful sign out
-      }
-    } catch (error) {
-      console.error("An error occurred during sign out: ", error);
-    }
-  };
+ 
 
   const toggleDropdown = () => {
     console.log('Toggling dropdown...');

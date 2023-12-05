@@ -1,10 +1,13 @@
+'use server'
+
 import { createClient } from "./server";
 import { cookies } from "next/headers";
 
+const cookieStore = cookies();
+const supabase = createClient(cookieStore);
+
 export async function getUserId() {
-    const cookieStore = cookies();
-    const supabase = createClient();
-    
+
     try {
         let { data, error, status } = await supabase
             .from('profiles')
@@ -15,9 +18,9 @@ export async function getUserId() {
         }
 
         if (data && data.length > 0) {
-            return data[0].id; // Return the id of the first object in the array
+            return data[0].id;
         } else {
-            return null; // Return null if no data is found
+            return null;
         }
     } catch (error) {
         console.error('Error fetching profile IDs:', error.message);
@@ -26,8 +29,6 @@ export async function getUserId() {
 };
 
 export async function getMasterContent() {
-    const cookieStore = cookies();
-    const supabase = createClient();
     
     try {
         let { data, error, status } = await supabase
@@ -46,16 +47,18 @@ export async function getMasterContent() {
     }
 };
 
-export async function getUserProfile() {
-    const cookieStore = cookies();
-    const supabase = createClient();
+export async function getProfile() {
     
     try {
-        let { data, error, status } = await supabase.from('profiles').select('*');
+        let { data, error, status } = await supabase
+        .from('profiles')
+        .select('*');
+
         if (error && status !== 406) {
             throw error;
         }
         if (data) {
+            console.log("profile: ", data);
             return data; // Return the content data
         }
     } catch (error) {
@@ -63,3 +66,11 @@ export async function getUserProfile() {
         return null;
     }
 };
+
+export async function getSession() {
+
+    const { data: session } = await supabase.auth.getSession();
+      console.log("session: ", session);
+
+    return session;
+    };

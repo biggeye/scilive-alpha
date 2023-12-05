@@ -1,9 +1,7 @@
-// /app/login/page.tsx
-"use client";
+"use client"
+
 import { createClient } from "@/utils/supabase/client";
-import { redirect } from "next/navigation";
-import React, { useState, useRef, useEffect } from "react";
-import { AccountIcon } from "./icons";
+import React, { useState } from "react";
 
 export default function Account() {
   const supabase = createClient();
@@ -11,8 +9,6 @@ export default function Account() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
-
 
   const signInWithPassword = async (event) => {
     event.preventDefault();
@@ -34,7 +30,7 @@ export default function Account() {
 
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
+        provider,
         options: {
           queryParams: {
             access_type: "offline",

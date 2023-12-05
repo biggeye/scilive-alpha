@@ -17,6 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  console.log('Rendering children:', children);
   return (
 <html lang="en" className={GeistSans.className}>
         <body className="body">

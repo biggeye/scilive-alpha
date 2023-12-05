@@ -113,11 +113,14 @@
   justify-content: center;
   min-width: 250px;
   margin-left: 5%;
+  margin-top: 5%;
   width: 90%;
   @media screen and (min-width: 640px) {
     min-width: 400px; /* 660px */
   }
 }
+
+
 
 .card-container img {
   transition: transform 0.5s, box-shadow 0.5s;
@@ -139,6 +142,10 @@
 .card-container img:hover {
   transform: rotateY(10deg); /* 3D rotate effect */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.micro-account {
+  font-size: xx-small;
 }
 
 .dynamic-input {

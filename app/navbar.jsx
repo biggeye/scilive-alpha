@@ -8,18 +8,21 @@ import { useRef } from "react";
 const navigation = [
   { name: "Dashboard", href: "/", icon: DashboardIcon },
   { name: "Gallery", href: "/gallery", icon: GalleryIcon },
+  { name: "Account", href: "/account", icon: AccountIcon },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const supabase = createClient();
-  const user = supabase.auth.getUser();
+  const user = supabase.auth.getSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [message, setMessage] = useState("");
 
   const handleSignout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
+      console.log('Signing out...');
 
       if (error) {
         setMessage(error.message);
@@ -28,10 +31,15 @@ export default function Navbar() {
         redirect("/login"); // Redirect after successful sign out
       }
     } catch (error) {
-      setMessage("An error occurred during sign out: ", error);
+      console.error("An error occurred during sign out: ", error);
     }
   };
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+  const toggleDropdown = () => {
+    console.log('Toggling dropdown...');
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -67,7 +75,11 @@ export default function Navbar() {
             <AccountIcon />
             {isDropdownOpen && (
               <div className="dropdown-menu">
-                <button onClick={handleSignout}>Sign Out</button>
+              {user ? ( <button onClick={handleSignout}>Sign Out</button>
+              ) : (
+               <a href="/account">Log In</a>
+               )}
+                
               </div>
             )}
           </div>

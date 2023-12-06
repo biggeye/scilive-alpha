@@ -4,10 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers';
 
-export const config = {
-  runtime: 'experimental-edge',
-};
-
+export const runtime = "experimental-edge"
 export default async function handler(req: NextRequest) {
     const cookieStore = cookies();
   const supabase = createClient(cookieStore)

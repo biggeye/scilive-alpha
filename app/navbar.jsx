@@ -13,19 +13,33 @@ const navigation = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const supabase = createClient();
-  const user = supabase.auth.getSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [message, setMessage] = useState("");
 
- 
+  const [session, setSession] = useState(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const session = supabase.auth.getSession();
+    setSession(session);
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+      }
+    );
+console.log("authListener.subscription: ", authListener.subscription);
+    return () => {
+    //  authListener.unsubscribe();
+    
+  };
+  }, [supabase]);
 
   const toggleDropdown = () => {
-    console.log('Toggling dropdown...');
+    console.log("Toggling dropdown...");
     setIsDropdownOpen(!isDropdownOpen);
   };
-
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -58,16 +72,25 @@ export default function Navbar() {
             onClick={toggleDropdown}
             ref={dropdownRef}
           >
-            <AccountIcon />
-            {isDropdownOpen && (
-              <div className="dropdown-menu">
-              {user ? ( <button onClick={handleSignout}>Sign Out</button>
+            <div className="flex-col">
+              <AccountIcon />
+              {session ? (
+                <div className="account-icon">
+                  Logged in as {session.user.email}
+                </div>
               ) : (
-               <a href="/account">Log In</a>
-               )}
-                
-              </div>
-            )}
+                <div className="account-icon">Not logged in</div>
+              )}
+              {isDropdownOpen && (
+                <div className="dropdown-menu">
+                  {session ? (
+                    <button onClick={handleSignout}>Log Out</button>
+                  ) : (
+                    <a href="/account">Log In</a>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

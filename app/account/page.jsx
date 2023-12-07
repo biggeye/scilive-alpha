@@ -1,20 +1,49 @@
 "use client"
 
-import { createClient } from "@/utils/supabase/client";
 import React, { useState } from "react";
-import {  } from "@/lib/supabase.js";
+import { signInWithPassword, handleOAuthLogin } from "@/lib/supabase.js";
 
 const Account = () => {
-  const supabase = createClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  
+  const handleSignInWithPassword = async (signInWithPassword, event) => {
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const result = await signInWithPassword(event);
+      if (result && result.error) {
+        setMessage(result.error);
+      }
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignInWithGoogle = async (handleOAuthLogin) => {
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const result = await signInWithPassword("google");
+      if (result && result.error) {
+        setMessage(result.error);
+      }
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="auth-form">
-      <form onSubmit={signInWithPassword} className="auth-form">
+      <form onSubmit={handleSignInWithPassword} className="auth-form">
         <input
           type="email"
           placeholder="Email"
@@ -31,7 +60,7 @@ const Account = () => {
           Login
         </button>
       </form>
-      <button onClick={() => handleOAuthLogin("google")} disabled={loading}>
+      <button onClick={() => handleSignInWithGoogle("google")}>
         Login with Google
       </button>
       {message && <p>{message}</p>}

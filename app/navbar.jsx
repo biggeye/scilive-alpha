@@ -29,12 +29,11 @@ export default function Navbar() {
         setSession(session);
       }
     );
-console.log("authListener.subscription: ", authListener.subscription);
+    console.log("authListener.subscription: ", authListener.subscription);
     return () => {
-    //  authListener.unsubscribe();
-    
-  };
-  }, [supabase]);
+      //  authListener.unsubscribe();
+    };
+  }, [session]);
 
   const toggleDropdown = () => {
     console.log("Toggling dropdown...");
@@ -76,7 +75,7 @@ console.log("authListener.subscription: ", authListener.subscription);
               <AccountIcon />
               {session ? (
                 <div className="account-icon">
-                  Logged in as {session.user.email}
+                  Logged in as {session.user}
                 </div>
               ) : (
                 <div className="account-icon">Not logged in</div>

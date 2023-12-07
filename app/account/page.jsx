@@ -9,12 +9,13 @@ const Account = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleSignInWithPassword = async (signInWithPassword, event) => {
+  const handleSignInWithPassword = async (event) => {
+    event.preventDefault();
     setLoading(true);
     setMessage('');
 
     try {
-      const result = await signInWithPassword(event);
+      const result = await signInWithPassword(email, password);
       if (result && result.error) {
         setMessage(result.error);
       }
@@ -25,12 +26,12 @@ const Account = () => {
     }
   };
 
-  const handleSignInWithGoogle = async (handleOAuthLogin) => {
+  const handleSignInWithGoogle = async () => {
     setLoading(true);
     setMessage('');
 
     try {
-      const result = await signInWithPassword("google");
+      const result = await handleOAuthLogin("google");
       if (result && result.error) {
         setMessage(result.error);
       }

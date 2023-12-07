@@ -7,22 +7,19 @@ import
   getSession } 
   from '@/utils/supabase/getUser';
 
-const GalleryLayout = ({ children }) => {
-  const userId = getUserId();
-  const galleryContent = getMasterContent();
-  const url = galleryContent.url;
+  const GalleryLayout = ({ children }) => {
+    const userId = getUserId();
+    const galleryContent = getMasterContent();
+    const url = galleryContent.url;
   
-  console.log("Rendering children: ", children);
-
-  return (
-    <div>
-    <code>userId: {userId}</code>
-    <code>url: {url}</code>
-    <code>galleryContent: {galleryContent}</code>
-
-     {children}
-    </div>
-  );
-};
-
+    return (
+      <div>
+        <code>userId: {userId}</code>
+        <code>url: {url}</code>
+        <code>galleryContent title: {galleryContent.title}</code>
+  
+        {children}
+      </div>
+    );
+  };
 export default GalleryLayout;

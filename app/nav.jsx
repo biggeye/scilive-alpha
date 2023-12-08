@@ -1,7 +1,10 @@
+'use server'
+
 import Navbar from './navbar';
-import { auth } from './auth';
+import { getSession, handleSignInWithPassword, handleSignout } from '@/lib/supabase-server';
 
 export default async function Nav() {
-  const session = await auth();
-  return <Navbar user={session?.user} />;
+  const session = getSession();
+
+  return <Navbar user={session?.user} handleSignIn={handleSignInWithPassword} handleSignout={handleSignout}/>;
 }

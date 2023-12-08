@@ -5,7 +5,7 @@ import
   getMasterContent, 
   getProfile, 
   getSession } 
-  from '@/utils/supabase/getUser';
+  from '@/utils/supabase/getPublicProfile';
 
   const GalleryLayout = ({ children }) => {
     const userId = getUserId();
@@ -13,13 +13,14 @@ import
     const url = galleryContent.url;
   
     return (
-      <div>
-        <code>userId: {userId}</code>
-        <code>url: {url}</code>
-        <code>galleryContent title: {galleryContent.title}</code>
-  
+      <div className="gallery-container">
         {children}
+      <div className="code">
+        userId: {userId}<br />
+        galleryContent: {galleryContent}<br />
+        url: {url}<br />
       </div>
+</div>
     );
   };
 export default GalleryLayout;

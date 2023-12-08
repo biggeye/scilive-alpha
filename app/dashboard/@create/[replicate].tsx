@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import ModelSelect from "./ModelSelect";
-import { txt2img } from "../../../data/replicate/txt2img";
-import uploadPrediction from "../../../utils/replicate/uploadPrediction";
+import { txt2img } from "@/data/replicate/txt2img";
+import uploadPrediction from "@/utils/replicate/uploadPrediction";
 
 const CreatePrediction = () => {
   const router = useRouter();

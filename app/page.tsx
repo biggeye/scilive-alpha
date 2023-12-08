@@ -1,6 +1,4 @@
-'use client'
-
-export default async function Index() {
+const Index = () => {
   const apiResults = "API call results will be displayed here.";
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
@@ -26,3 +24,5 @@ export default async function Index() {
     </div>
   )
 }
+
+export default Index;

@@ -1,4 +1,4 @@
-const title = 'Parallel Routes';
+const title = 'Dashboard';
 
 export const metadata = {
   title,
@@ -10,12 +10,12 @@ export const metadata = {
 
 export default function Layout({
   children,
-  audience,
-  views,
+  create,
+  social,
 }: {
   children: React.ReactNode;
-  audience: React.ReactNode;
-  views: React.ReactNode;
+  create: React.ReactNode;
+  social: React.ReactNode;
 }) {
   return (
     <div className="space-y-6">
@@ -23,8 +23,8 @@ export default function Layout({
         {children}
 
         <div className="space-y-6">
-          {audience}
-          {views}
+          {create}
+          {social}
         </div>
       </div>
     </div>

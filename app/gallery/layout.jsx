@@ -1,12 +1,25 @@
 'use server'
 
-const Layout = ({ children }) => {
+import 
+{ getUserId, 
+  getMasterContent, 
+  getProfile, 
+  getSession } 
+  from '@/utils/supabase/getUser';
 
-  return (
-    <div>
-     {children}
-    </div>
-  );
-};
-
-export default Layout;
+  const GalleryLayout = ({ children }) => {
+    const userId = getUserId();
+    const galleryContent = getMasterContent();
+    const url = galleryContent.url;
+  
+    return (
+      <div>
+        <code>userId: {userId}</code>
+        <code>url: {url}</code>
+        <code>galleryContent title: {galleryContent.title}</code>
+  
+        {children}
+      </div>
+    );
+  };
+export default GalleryLayout;

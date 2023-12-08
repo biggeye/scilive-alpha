@@ -18,13 +18,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-<html lang="en" className={GeistSans.className}>
-        <body className="body">
-          <Navbar  />
-          <main className="flex flex-1 min-h-90 pb-10 bg-gradient-to-r from-light-blue-200 to-gray-300">
-              {children}
-          </main>
-        </body>
+    <html lang="en" className={GeistSans.className}>
+      <body className="body">
+        <Navbar />
+        <main className="flex flex-1 min-h-90 pb-10 bg-gradient-to-r from-light-blue-200 to-gray-300">
+          {children}
+        </main>
+      </body>
     </html>
   )
 }

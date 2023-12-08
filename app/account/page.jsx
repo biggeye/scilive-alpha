@@ -1,9 +1,9 @@
 // /app/login/page.tsx
 "use client";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { redirect } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
-import { AccountIcon } from "./icons";
+import { AccountIcon } from "../icons";
 
 export default function Account() {
   const supabase = createClient();
@@ -24,7 +24,9 @@ export default function Account() {
     });
 
     if (error) setMessage(error.message);
-    else setMessage("Login successful!");
+    else
+
+    setMessage("Login successful!", userSession, userId);
 
     setLoading(false);
   };
@@ -56,7 +58,7 @@ export default function Account() {
   };
 
   return (
-    <div className="auth-form">
+    <div>
       <form onSubmit={signInWithPassword} className="auth-form">
         <input
           type="email"

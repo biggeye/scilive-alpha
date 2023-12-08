@@ -1,6 +1,5 @@
 'use server'
 
-
 const Layout = ({ children }) => {
 
   return (

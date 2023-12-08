@@ -1,13 +1,14 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { AccountIcon, DashboardIcon, GalleryIcon } from "./icons";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: DashboardIcon },
   { name: "Gallery", href: "/gallery", icon: GalleryIcon },
+  { name: "Account", href: "/account", icon: AccountIcon },
 ];
 
 export default function Navbar() {

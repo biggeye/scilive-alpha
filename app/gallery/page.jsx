@@ -37,7 +37,6 @@ const GalleryPage = () => {
   };
 
   return (
-    <div className="gallery-container">
       <div className="card-container">
         {contentItems.map((item) => (
           <div key={item.content_id}> {/* Ensure each child in a list has a unique key */}
@@ -48,7 +47,6 @@ const GalleryPage = () => {
           </div>
         ))}
       </div>
-    </div>
   );
 };
 

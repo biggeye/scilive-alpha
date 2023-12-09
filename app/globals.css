@@ -40,6 +40,11 @@
   }
 }
 
+.main {
+  height: 90vh;
+  width: 100vw;
+}
+
 .animate-in {
   animation: animateIn 0.3s ease 0.15s both;
 }
@@ -55,13 +60,24 @@
   }
 }
 
+.code {
+  position: absolute;
+  bottom: 5px;
+  font-size: xx-small;
+  border-bottom-left-radius: .2rem;
+  border-color:#374151;
+}
+
 .navbar-container {
+  height: 7vh;
   margin-top: .5rem;
   margin-left: auto;
   margin-right: auto;
   max-width: 80rem; /* 7xl */
   padding-left: .125rem; /* 1px */
   padding-right: .125rem; /* 1px */
+  flex-direction: row;
+  display: flex;
 
   @media screen and (min-width: 1024px) {
     padding-left: .5rem; /* 2px */
@@ -111,8 +127,9 @@
   align-items: center;
   justify-content: center;
   min-width: 250px;
-  margin-left: 5%;
-  margin-top: 5%;
+  padding-top: 40px;
+  top: 50px;
+  margin: auto;
   width: 90%;
   @media screen and (min-width: 640px) {
     min-width: 400px; /* 660px */

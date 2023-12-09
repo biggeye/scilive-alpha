@@ -1,12 +1,13 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { AccountIcon, DashboardIcon, GalleryIcon } from "./icons";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: DashboardIcon },
+  { name: "Home", href: "/", icon: DashboardIcon},
+  { name: "Dashboard", href: "/dashboard", icon: DashboardIcon },
   { name: "Gallery", href: "/gallery", icon: GalleryIcon },
   { name: "Account", href: "/account", icon: AccountIcon },
 ];
@@ -71,25 +72,9 @@ export default function Navbar() {
             onClick={toggleDropdown}
             ref={dropdownRef}
           >
-            <div className="flex-col">
-              <AccountIcon />
-              {session ? (
-                <div className="account-icon">
-                  Logged in as {session.user}
-                </div>
-              ) : (
-                <div className="account-icon">Not logged in</div>
-              )}
-              {isDropdownOpen && (
-                <div className="dropdown-menu">
-                  {session ? (
-                    <button onClick={handleSignout}>Log Out</button>
-                  ) : (
-                    <a href="/account">Log In</a>
-                  )}
-                </div>
-              )}
-            </div>
+           <div className="account-icon">
+            <AccountIcon />
+           </div>
           </div>
         </div>
       </div>

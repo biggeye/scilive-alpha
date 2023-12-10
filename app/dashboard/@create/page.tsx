@@ -2,10 +2,13 @@
 import React from 'react';
 import ImageCreation from '@/components/replicate/ImageCreation';
 
+const createHeading = 
+
 const DashboardPage = () => {
   return (
       <div className="dashboard-content">
-        <h1>Image Creation</h1>
+        <h1>{createHeading}
+        </h1>
           <ImageCreation />
       </div>
   );

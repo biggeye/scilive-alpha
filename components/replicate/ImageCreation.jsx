@@ -37,7 +37,7 @@ import uploadPrediction from "../../../utils/replicate/uploadPrediction";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const ImageCreation = ({ currentPage }) => {
+const ImageCreation = () => {
   // ******STATE
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);

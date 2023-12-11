@@ -1,5 +1,4 @@
-import { VStack, Select } from "@chakra-ui/react";
-// Sort the models based on their friendly names
+
 
 const ModelSelect = ({ handleModelChange, models }) => {
 
@@ -19,22 +18,16 @@ const ModelSelect = ({ handleModelChange, models }) => {
   
 
   return (
-    <VStack>
-      <Select
-        p={1}
-        pl={3}
-        pr={3}
-        fontSize={["sm", "md", "lg"]}
-        onChange={handleSelectionChange}
-        size={["xs", "sm"]}
+    <div className="flex flex-col">
+      <select
       >
         {models.map((model) => (
           <option key={model.id} value={model.id}>
             {model.friendlyName}
           </option>
         ))}
-      </Select>
-    </VStack>
+      </select>
+    </div>
   );
 };
 

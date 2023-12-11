@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client'
 
 import React, { useState } from 'react';
@@ -73,3 +74,15 @@ const renderDynamicFields = () => {
 };
 
 export default DashboardPage;
+=======
+const title = "Dashboard"
+
+const DashboardPage = () => {
+
+    return(
+        <p>
+            Dashboard Content
+        </p>
+    )
+}
+>>>>>>> ad490ca (.)

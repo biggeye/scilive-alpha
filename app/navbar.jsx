@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from "react";
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: DashboardIcon },
   { name: "Gallery", href: "/gallery", icon: GalleryIcon },
+  { name: "Account", href: "/login", icon: AccountIcon },
 ];
 
 const Navbar = ({ user, handleSignout }) => {

@@ -1,39 +1,11 @@
+'use client'
+
 import { useState, useEffect } from "react";
-import {
-  chakra,
-  Link,
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Box,
-  Button,
-  CircularProgress,
-  Grid,
-  GridItem,
-  Flex,
-  Image,
-  Spacer,
-  Select,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  InputRightAddon,
-  Center,
-  Skeleton,
-  Toast,
-  useDisclosure,
-  Text,
-  IconButton,
-  VStack,
-  useToast,
-} from "@chakra-ui/react";
-import { SettingsIcon, ArrowRightIcon } from "@chakra-ui/icons";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { createClient } from "@/utils/supabase/client";
 import ModelSelect from "./ModelSelect";
-import { txt2img } from "../../../data/replicate/txt2img";
+import { txt2img } from "@/data/replicate/txt2img";
 import axios from "axios";
-import uploadPrediction from "../../../utils/replicate/uploadPrediction";
+import uploadPrediction from "@/utils/replicate/uploadPrediction";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

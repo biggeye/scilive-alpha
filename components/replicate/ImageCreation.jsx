@@ -206,138 +206,79 @@ const ImageCreation = () => {
     }
   }, [delayToast, toast]);
 
-  return (
-    <>
-      <Box
-        bgGradient="linear(to-b, white 0%, gray.200 40%, white 60%, white 100%)"
-        overflowY="none"
-        fontSize={["sm", "md", "lg", "xl"]}
-        display="flex"
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-      <Flex direction="column">
-          <InputGroup>
-            <Input
-              color="black"
-              name="prompt"
-              placeholder="Describe your image here"
-              size="md"
-              resize="none"
-              value={userInput}
-              onChange={handleUserInputChange}
-            />
-            <InputRightAddon>
-              <IconButton
-                icon={<ArrowRightIcon />}
-                isLoading={isLoading}
-                onClick={handleUserInputSubmit}
-                size="xs"
-              />
-            </InputRightAddon>
-          </InputGroup>
-        
-        <Card w="80vw" align="center">
-          <CardHeader>
-            <ModelSelect
-              handleModelChange={handleModelChange}
-              models={sortedTxt2Img}
-            />
-          </CardHeader>
-          <CardBody>
-            {isLoading ? (
-              prediction && (
-                <Box>
-                  <CircularProgress
-                    isIndeterminate={prediction.status === "starting"}
-                    value={predictionProgress}
-                    color="green.300"
-                  />
-                  <br />
-                  {prediction.status}
-                </Box>
-              )
-            ) : (
-              <Box
-                mx="auto"
-                rounded="lg"
-                shadow="md"
-                bg="white"
-                _dark={{ bg: "gray.800" }}
-                maxW="2xl"
-              >
-                {newPrediction ? (
-                  <Image
-                    roundedTop="lg"
-                    w="full"
-                    h="50vh"
-                    fit="cover"
-                    src={newPrediction}
-                    alt="Article"
-                    onClick={handleImageReset}
-                  />
-                ) : (
-                  <Image
-                    roundedTop="lg"
-                    w="full"
-                    h="50vh"
-                    fit="cover"
-                    src={selectedModel.example}
-                    alt="Article"
-                  />
-                )}
+    return (
+    <div className="bg-gradient-to-b from-white via-gray-200 to-white text-sm md:text-md lg:text-lg xl:text-xl flex flex-col items-center justify-center overflow-y-auto">
+      <div className="flex flex-col w-full">
+        <div className="input-group">
+          <input
+            className="text-black p-2"
+            name="prompt"
+            placeholder="Describe your image here"
+            value={userInput}
+            onChange={handleUserInputChange}
+          />
+          <span className="input-group-append">
+            <button
+              className={`p-2 ${isLoading ? 'loading' : ''}`}
+              onClick={handleUserInputSubmit}
+            >
+              submit
+            </button>
+          </span>
+        </div>
 
-                <Box p={6}>
-                  <Box>
-                    <chakra.span
-                      fontSize="xs"
-                      textTransform="uppercase"
-                      color="brand.600"
-                      _dark={{ color: "brand.400" }}
-                    >
-                      txt2img
-                    </chakra.span>
-                    <chakra.p
-                      display="block"
-                      color="gray.800"
-                      _dark={{ color: "white" }}
-                      fontWeight="bold"
-                      fontSize="2xl"
-                      mt={2}
-                      _hover={{ color: "gray.600", textDecor: "underline" }}
-                    >
-                      {selectedModel.friendlyName}
-                    </chakra.p>
-                    <chakra.p
-                      mt={2}
-                      fontSize="sm"
-                      color="gray.600"
-                      _dark={{ color: "gray.400" }}
-                    >
-                      {selectedModel.shortDesc}
-                    </chakra.p>
-                  </Box>
-                </Box>
-              </Box>
-            )}
-          </CardBody>
-          <CardFooter></CardFooter>
-        </Card>
-        </Flex>
-      </Box>
-      <Box
-        fontSize={["sm", "md", "lg", "xl"]}
-        p={[".25rem", ".5rem"]}
-        position="fixed"
-        bottom="0rem"
-        width="100%"
-        opacity={0.9}
-        backdropFilter="blur(10px)"
-      >
-        
-      </Box>
-    </>
+        <div className="w-80vw mx-auto text-center">
+          <ModelSelect
+            handleModelChange={handleModelChange}
+            models={sortedTxt2Img}
+          />
+          {isLoading ? (
+            prediction && (
+              <div>
+                {/* Implement CircularProgress equivalent in Tailwind */}
+                <p>{prediction.status}</p>
+              </div>
+            )
+          ) : (
+            <div className="mx-auto rounded-lg shadow-md bg-white dark:bg-gray-800 max-w-2xl">
+              {newPrediction ? (
+                <img
+                  className="rounded-t-lg w-full h-50vh object-cover"
+                  src={newPrediction}
+                  alt="Article"
+                  onClick={handleImageReset}
+                />
+              ) : (
+                <img
+                  className="rounded-t-lg w-full h-50vh object-cover"
+                  src={selectedModel.example}
+                  alt="Article"
+                />
+              )}
+
+              <div className="p-6">
+                <div>
+                  <span className="text-xs uppercase text-brand-600 dark:text-brand-400">
+                    txt2img
+                  </span>
+                  <p className="block text-gray-800 dark:text-white font-bold text-2xl mt-2 hover:text-gray-600 hover:underline">
+                    {selectedModel.friendlyName}
+                  </p>
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    {selectedModel.shortDesc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="text-sm md:text-md lg:text-lg xl:text-xl p-1 md:p-2 fixed bottom-0 w-full opacity-90 backdrop-blur-md">
+        {/* Footer content */}
+      </div>
+    </div>
   );
 };
+
 export default ImageCreation;

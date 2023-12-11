@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import ModelSelect from "./ModelSelect";
 import { txt2img } from "@/data/replicate/txt2img";
-import axios from "axios";
 import uploadPrediction from "@/utils/replicate/uploadPrediction";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -153,31 +152,7 @@ const ImageCreation = () => {
     });
     setNewPrediction(null);
   };
-  useEffect(() => {
-    if (error) {
-      toast.closeAll();
-      toast({
-        title: "img2img Failed",
-        description: `Process failed: ${error}`,
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
-    }
-  }, [error, toast]);
-  useEffect(() => {
-    toast.closeAll();
-    if (delayToast) {
-      toast({
-        title: "Delay Notice",
-        description: delayToast,
-        status: "info",
-        duration: 10000,
-        isClosable: false,
-      });
-    }
-  }, [delayToast, toast]);
-
+  
     return (
     <div className="bg-gradient-to-b from-white via-gray-200 to-white text-sm md:text-md lg:text-lg xl:text-xl flex flex-col items-center justify-center overflow-y-auto">
       <div className="flex flex-col w-full">

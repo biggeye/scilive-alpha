@@ -1,59 +1,27 @@
-# **Next.js 14 Social Media App**
-
-Building a responsive web application with the features you've outlined in Next.js 14 involves several key components and steps. Let's break down the project into manageable parts:
+# **sciLive**
 
 # **Project Setup and Structure**:
 
-- **Next.js 14 project**: Use **`create-next-app`** to set up your base project.
-- **Directory Structure**: App router
-- **RootLayout (layout.tsx)**: In **`app/layout.tsx`**, include global styles and layout components that should persist across different pages, like **`Header`** and **`Footer`** components from **`components/`**.
-- **Client-Side Entry (entry.client.tsx)**: Use **`entry.client.tsx`** for client-side specific logic, like managing client-side state or initializing client-side libraries.
+- **Next.js 14**
+- **App Router**
 
 # **User Authentication and Dashboard**:
 
 - **Supabase for Authentication**: Use Supabase's SSR package for authentication. Implement login, registration, and user session management.
-- In **`lib/supabase.ts`**, initialize the Supabase client.
-- In **`app/login/`** create forms for user authentication ( signin and signup ). Use the Supabase client to handle sign-in and sign-up requests.
 
 ### Dashboard **Structure with Parallel Routes**
 
- Two main routes: **`/dashboard/social`** and **`/dashboard/create`**. 
+ 
+**Dashboard**
+1. **Social Slot**:
+    -  API tools for interacting with user's social media accounts.
 
-1. **Social Dashboard (`/dashboard/@social`)**:
-    - The **`@social`** folder under **`dashboard`** represents a parallel route for social media-related features.
-    - The dynamic route **`/dashboard/social/[platform]`** (implemented as **`@dashboard/@social/[platform].tsx`**) caters to individual social media platforms.
-    - **`/dashboard/@social/page.tsx`** serves as the main page for the social dashboard.
-2. **Create Dashboard (`/dashboard/@create`)**:
-    - The **`@create`** folder under **`dashboard`** is another parallel route focusing on content creation tools.
-    - The dynamic route **`/dashboard/@create/[tool]`** (implemented as **`@dashboard/@create/[tool].tsx`**) handles various content creation tools.
-    - **`@dashboard/@create/page.tsx`** is the main entry for the create dashboard.
+2. **Gallery Slot**:
+   - Access to user generated content for either:
+      -posting to social media
+      -editing with relevant AI model
+   - "drag n drop" capability
 
-   - Design a unified dashboard interface that allows easy navigation between the different content creation tools.
-   - Implement shared components, like a navigation bar or tool selection menu, to maintain consistency across different creation tools.
-   - For each specific tool, dynamically load the relevant UI and functionality based on the route.
-   - "drag n drop" capability for content -> social platforms
-   - Ensure the dashboard is responsive and provides a seamless user experience across various devices.
-
-
-
-### **Adjusted File Structure with Parallel Routes**
-
-
-/
-│
-├── app/
-│   ├── routes/
-│   │   ├── @dashboard/
-│   │   │   ├── @social/
-│   │   │   │   ├── [platform].tsx     # Dynamic route for social media platforms
-│   │   │   │   └── index.tsx          # Main page for the social dashboard
-│   │   │   │
-│   │   │   ├── @create/
-│   │   │   │   ├── [tool].tsx         # Dynamic route for creation tools
-│   │   │   │   └── index.tsx          # Main page for the create dashboard
-│   │   │   │
-│   │   │   └── index.tsx              # General dashboard landing page
-│   ...
 
 ```
 
@@ -73,37 +41,9 @@ Building a responsive web application with the features you've outlined in Next.
 - **API Security**: Secure all API requests with proper authentication and handle errors gracefully.
 - **Styling**: Utilize CSS modules in **`styles/`** or a preferred CSS-in-JS solution for styling components.
 
-# **Content Creation with AI APIs**:
-
-- **Replicate, D-ID, OpenAI, and ElevenLabs Integration**: Integrate these APIs to create and manipulate content.
-- **UI for Content Creation**: Provide interfaces for text input, image uploads, and other inputs required for these APIs.
-
-### **Implementation Details**
-
-1. **/app/dashboard/@create/[replicate].tsx (Text-to-Image Models)**
-    - This page integrates with the Replicate API to create images from text descriptions.
-    - Implement a form to capture user input for text descriptions.
-    - On submission, send a request to the Replicate API and display the generated image.
-2. **/app/dashboard/@create/[replicate-edit].tsx (Image-to-Image Models)**
-    - This route uses Replicate's image-to-image models to edit or transform images.
-    - Provide an upload interface for users to submit their original images.
-    - Include options for specifying the type of image transformation.
-    - Call the Replicate API with the user's image and chosen transformation, then display the result.
-3. **/app/dashboard/@create/[xilabs].tsx (Voiceovers with ElevenLabs)**
-    - Integrate with the ElevenLabs API to generate voiceovers.
-    - Create a text input area for users to type or paste the script for the voiceover.
-    - Optionally, allow users to select voice types or other parameters provided by ElevenLabs.
-    - Send the text to ElevenLabs API and play back the generated voiceover or provide a download link.
-4. **/app/dashboard/@create/[d-id].tsx (Video Creation with D-ID)**
-    - Utilize the D-ID API for video creation or manipulation.
-    - Provide an interface for uploading video files or images, along with any other necessary inputs as per D-ID's API capabilities.
-    - Process the user's input with the D-ID API and showcase the generated or modified video.
-
-
 # **Media Gallery**:
 
-- **Storage Solution**: Use Supabase Storage to store user media.
-- **Gallery UI**: Implement a media gallery to display images, videos, and other content specific to each user.
+- **Standalone Solution**:  Upload / Download / Share
 
 # **Simulcast Video Streaming**:
 

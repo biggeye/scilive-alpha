@@ -5,13 +5,11 @@ import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState, useRef } from "react";
 
 const navigation = [
-  { name: "Home", href: "/", icon: DashboardIcon},
   { name: "Dashboard", href: "/dashboard", icon: DashboardIcon },
   { name: "Gallery", href: "/gallery", icon: GalleryIcon },
-  { name: "Account", href: "/account", icon: AccountIcon },
 ];
 
-const Navbar = ({user, handleSignout}) => {
+const Navbar = ({ user, handleSignout }) => {
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -48,33 +46,27 @@ const Navbar = ({user, handleSignout}) => {
         <a
           key={item.name}
           href={item.href}
-          className="nav-link"
+          className="nav-item"
           aria-current={pathname === item.href ? "page" : undefined}
         >
           <item.icon />
         </a>
       ))}
-      <div className="code-top">Welcome {user}</div>
-      <div className="avatar">
-        <div
-          className="account-icon"
-          onClick={toggleDropdown}
-          ref={dropdownRef}
-        >
-          <AccountIcon />
-          {isDropdownOpen && (
-            <div className="dropdown-menu">
-              {session ? (
-                <button onClick={handleSignout}>Log Out</button>
-              ) : (
-                <a href="/login">Log In</a>
-              )}
-            </div>
-          )}
-        </div>
+
+      <div className="account-icon" onClick={toggleDropdown} ref={dropdownRef}>
+        <AccountIcon />
+        {isDropdownOpen && (
+          <div className="dropdown-menu">
+            {session ? (
+              <button onClick={handleSignout}>Log Out</button>
+            ) : (
+              <a href="/login">Log In</a>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default Navbar;

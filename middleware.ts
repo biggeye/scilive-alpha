@@ -1,27 +1,51 @@
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { createClient } from '@/utils/supabase/middleware'
+
 
 export async function middleware(request: NextRequest) {
-  try {
-    const { supabase, response } = createClient(request);
-    const { data: session, error } = await supabase.auth.getSession();
-    const user = await supabase.auth.getUser();
-    if (error) {
-      // Handle the error, e.g., log it or return an error response
-      console.error("Error retrieving session:", error.message);
-      return NextResponse.redirect('/login'); // Redirect to login or error page
-    }
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
 
-    console.log("middleware response: ", response);
-    console.log("middleware session: ", session);
-    console.log("middleware user: ", user);
-    return response
-  } catch (e) {
-
-    return NextResponse.next({
-      request: {
-        headers: request.headers,
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+        },
+        remove(name: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+        },
       },
-    })
-  }
+    }
+  )
+
+  await supabase.auth.getSession()
+
+  return response
 }

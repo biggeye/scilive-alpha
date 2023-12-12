@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.jsx", "app/account/layout.tsx", "app/gallery/layout.jsx", "app/account/account.jsx", "app/dashboard/page.jsx", "lib/supabase-server.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/dashboard/@gallery/page.jsx", "app/account/layout.tsx", "app/dashboard/@gallery/layout.jsx", "app/account/account.jsx", "app/dashboard/page.jsx", "lib/supabase-server.js"],
   "exclude": ["node_modules"]
 }

@@ -73,15 +73,15 @@
   margin-top: .5rem;
   margin-left: auto;
   margin-right: auto;
-  max-width: 80rem; /* 7xl */
+  max-width: 90vw; /* 7xl */
   padding-left: .125rem; /* 1px */
   padding-right: .125rem; /* 1px */
   flex-direction: row;
   display: flex;
 
   @media screen and (min-width: 1024px) {
-    padding-left: .5rem; /* 2px */
-    padding-right: .5rem; /* 2px */
+    padding-left: .25rem; /* 2px */
+    padding-right: .25rem; /* 2px */
   }
 }
 
@@ -89,10 +89,8 @@
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  padding: .5rem;
   @media screen and (min-width: 768px) {
-    margin-left: 1.25rem; /* 5 */
-    gap: 5rem; /* 5 */
+    gap: .25rem; /* 5 */
   }
 }
 
@@ -126,11 +124,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  min-width: 250px;
-  padding-top: 40px;
+  min-width: 50px;
+  padding-top: 20px;
   top: 50px;
   margin: auto;
-  width: 90%;
+  width: 25vw;
   @media screen and (min-width: 640px) {
     min-width: 400px; /* 660px */
   }
@@ -213,6 +211,22 @@
   }
 }
 
+.galleryList{
+  position: relative;
+  top: 30px;
+  margin-left: auto;
+  font-size: xx-small;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 1000;
+}
 
 .auth-form {
   margin-top: 40px;

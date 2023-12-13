@@ -3,18 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import Replicate from 'replicate';
 
 // Define the structure of allInputs
-interface AllInputs {
-  modelName: string;
-  prompt: string;
-  [key: string]: any; // For other dynamic keys
-}
 
-export const config = {
-  runtime: 'experimental-edge',
-};
+
 
 export async function POST(req: NextRequest) {
-  try {
+  
     const { allInputs }: { allInputs: AllInputs } = await req.json();
 
     if (!allInputs.modelName || !allInputs.prompt) {
@@ -37,17 +30,14 @@ export async function POST(req: NextRequest) {
     const modelName = inputObject.modelName;
     delete inputObject.modelName;  // Remove modelName from inputObject as it's not an input parameter
 
-    let prediction = await replicate.deployments.predictions.create(
-      "biggeye",  // Assuming "biggeye" is a constant part of the request
+    let prediction: any = await replicate.deployments.predictions.create(
+      "biggeye",
       modelName,
-      { input: inputObject }  // Pass the dynamically constructed input object
-    ) as DeploymentPredictionCreateResponse;
-
-    prediction = await replicate.wait(prediction) as DeploymentPredictionCreateResponse;
+      { input: inputObject }
+    );
+    
+    prediction = await replicate.wait(prediction);
     console.log(prediction.output);
-
+    
     return new Response(JSON.stringify(prediction.output));
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
-  }
-}
+    }

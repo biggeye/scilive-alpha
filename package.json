@@ -5,7 +5,7 @@
     "build": "next build",
     "start": "next start"
   },
-   "overrides": {
+  "overrides": {
     "node-gyp-build": "4.6.1"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "18.2.0",
+    "react-icons": "^4.12.0",
     "replicate": "^0.22.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.3"

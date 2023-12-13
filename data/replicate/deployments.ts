@@ -1,12 +1,20 @@
+import { File } from "buffer";
+
 // Define a TypeScript interface for the objects in the array
 interface Deployment {
   modelName: string;
   type: string;
   inputExample?: string;
   outputExample?: string;
-  input?: object;  
-    img?: string;
+  input: object;
     prompt?: string;
+    text?: string;
+    text_prompt?: string;
+    custom_voice?: File;
+    img?: File;
+    video_path?: File;
+
+
 }
 
 // Define the array with the specified type
@@ -17,8 +25,8 @@ const deployments: Deployment[] = [
     inputExample: "https://replicate.delivery/pbxt/Io5RPgJuXv0NrYiefJ6mW7jadKLxebgsaZo0iyGJngHR93cv/fishfeet.webp",
     outputExample: "Exquisite and eye-catching, the pair of fish-themed sandals is sure to turn heads. Perfect for beach days or casual outings, these unique sandals feature a pair of large fish painted in green and yellow, adding a whimsical touch to any outfit.  With their innovative design, these sandals are unlike any other, promising to stand out in a crowd and make a statement. Boasting impeccable craftsmanship and attention to detail, these sandals are a must-have for those who value individuality and want to make a statement while on their feet.  So, for all those who seek unique, high-quality sandals, look no further. Be the envy of your friends and family with these exotic fish-themed sandals, which are sure to turn heads and make a lasting impression.",
     input: {
-      img: "https://replicate.delivery/pbxt/Io5RPgJuXv0NrYiefJ6mW7jadKLxebgsaZo0iyGJngHR93cv/fishfeet.webp",
-      prompt: "I designed these sandals. Can you help me write an advertisement?",
+      img: "imgUrl",
+      prompt: "string",
     }
   },
   {
@@ -54,7 +62,10 @@ const deployments: Deployment[] = [
     modelName: "yi-34b-chat",
     type: "txt2txt",
     inputExample: "https://replicate.delivery/pbxt/Io5RPgJuXv0NrYiefJ6mW7jadKLxebgsaZo0iyGJngHR93cv/fishfeet.webp",
-    outputExample: "..."
+    outputExample: "...",
+    input: {
+      prompt: ""
+    }
   }
 ];
 

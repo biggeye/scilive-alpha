@@ -1,4 +1,4 @@
-export const img2img = [
+export default const img2img = [
     {
         name: "mv-lab/swin2sr",
         id: "a01b0512004918ca55d02e554914a9eca63909fa83a29ff0f115c78a7045574f",

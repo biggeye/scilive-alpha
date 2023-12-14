@@ -10,7 +10,7 @@ export default function Chat() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("/api/predictions", {
+    const response = await fetch("/api/replicate/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export default function Chat() {
       prediction.status !== "failed"
     ) {
       await sleep(500);
-      const response = await fetch("/api/predictions/" + prediction.id);
+      const response = await fetch("/api/replicate/chat/" + prediction.id);
       prediction = await response.json();
       if (response.status !== 200) {
         setError(prediction.detail);

@@ -1,10 +1,12 @@
 'use server'
 import { NextRequest, NextResponse } from 'next/server';
 
+
+export default async function handler(req: NextRequest) {
+
 const modelVersion =
   "04e422a9b85baed86a4f24981d7f9953e20c5fd82f6103b74ebc431588e1cec8";
 
-export default async function handler(req: NextRequest) {
 
   const response = await fetch("https://api.replicate.com/v1/predictions", {
     method: "POST",

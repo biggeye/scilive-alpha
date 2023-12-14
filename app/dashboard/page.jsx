@@ -7,6 +7,7 @@ import ToolSelector from '@/components/ToolSelector';
 import ToolOptions from '@/components/ToolOptions';
 import DynamicInput from '@/components/DynamicInput';
 import DisplayResults from '@/components/DisplayResults';
+import Chat from '@/components/replicate/Chat';
 import { createClient } from '@/utils/supabase/client';
 
 const DashboardPage = () => {

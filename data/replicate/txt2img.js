@@ -1,4 +1,4 @@
-export default const txt2img = [
+ const txt2img = [
     {
         name: "cjwbw/magifactory-t-shirt-diffusion",
         id: "8d24b92f902aef5df3133aa6fce518d1f86580e5cdf1adecc18693f1f3ba6bcb",
@@ -89,5 +89,6 @@ export default const txt2img = [
         shortDesc: "Visual instruction tuning towards large language and vision models with GPT-4 level capabilities",
         friendlyName: "yorickvp GPT4",
         example: "https://replicate.delivery/pbxt/JfvBi04QfleIeJ3ASiBEMbJvhTQKWKLjKaajEbuhO1Y0wPHd/view.jpg",
-    }
-]
+    },
+];
+export default txt2img;

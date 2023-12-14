@@ -59,6 +59,7 @@ const Navbar = ({ user, handleSignout }) => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             {session ? (
+              
               <button onClick={handleSignout}>Log Out</button>
             ) : (
               <a href="/login">Log In</a>

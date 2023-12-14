@@ -109,55 +109,31 @@
 }
 
 .gallery-container {
-  background: radial-gradient(circle, rgba(173, 216, 230, 0.7) 0%, rgba(173, 216, 230, 0) 70%);
-  border-top: .05rem solid #5f9ea0; /* slightly darker border on top */
-  border-left: .1rem solid #5f9ea0; /* slightly darker border on left */
-  border-bottom: .05rem solid #5f9ea0; /* thin border on bottom */
-  border-right: .1rem solid #5f9ea0; /* thin border on right */
-  border-radius: 10px; /* round corners for a softer look */
-  box-shadow: 5px 5px 15px rgba(95, 158, 160, 0.2); /* soft shadow for 3D effect */
+  background: linear-gradient(to bottom, #e5e7eb, #cbd5e1);
   overflow-y: auto;
   text-align: center;
-  padding: 0.2rem;
+  padding: 2rem;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 50px;
-  padding-top: 20px;
-  top: 50px;
-  margin: auto;
-  width: 25vw;
-  @media screen and (min-width: 640px) {
-    min-width: 400px; /* 660px */
-  }
 }
 
-
+.card-container {
+  padding: 1rem;
+  perspective: 1000px; /* 3D effect */
+}
 
 .card-container img {
   transition: transform 0.5s, box-shadow 0.5s;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 250px; 
-  margin: 0.25rem;
-  padding: 0.25rem;
-  perspective: 1000px;
-  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white for card background */
-  border: 1px solid #87ceeb; /* Thin border around each card */
-  @media screen and (min-width: 640px) {
-    margin: .2rem;
-    padding: .2rem;
-  }
 }
-
 
 .card-container img:hover {
   transform: rotateY(10deg); /* 3D rotate effect */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
-
 .micro-account {
   font-size: xx-small;
 }
@@ -257,4 +233,46 @@
 .auth-form button:disabled {
   background-color: #ccc;
   border-color: #ccc;
+}
+.dynamic-input {
+  height: 40px;
+  position: fixed;
+  bottom: 0;
+  width: 80%;
+  z-index: 1000;
+  padding: 1;
+}
+
+.form-input {
+  background: linear-gradient(to top, lightgray, transparent);
+  padding: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+
+.submit-button {
+  padding: 6px 12px;
+  /* Button padding */
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  /* Border matching the form-input */
+  border-radius: 4px;
+  /* Border radius matching the form-input */
+  background-color: var(--btn-background);
+  /* Initial background color */
+  color: var(--foreground);
+  /* Text color */
+  cursor: pointer;
+  /* Changes the cursor to a pointer */
+  transition: background-color 0.3s, color 0.3s;
+  /* Smooth transition for color changes */
+}
+
+.submit-button:hover {
+  background-color: lightgray;
+  /* Background color on hover */
+}
+
+.submit-button:active {
+  background-color: darken(lightgray), 5%;
+  /* Slightly darken the color on click */
 }

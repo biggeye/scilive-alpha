@@ -7,7 +7,6 @@ export default function DashboardLayout(props: {
   return (
     <div style={{ display: 'flex', width: '100%' }}>
       <div>
-        {/* Gallery Section */}
         {props.gallery}
         {props.chat}
       </div>

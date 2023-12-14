@@ -1,4 +1,4 @@
-export default const img2img = [
+const img2img = [
     {
         name: "mv-lab/swin2sr",
         id: "a01b0512004918ca55d02e554914a9eca63909fa83a29ff0f115c78a7045574f",
@@ -140,3 +140,5 @@ export default const img2img = [
         example: "https://replicate.delivery/mgxm/1fdd16a4-21d1-4b65-aec4-21936690f66d/out.png"
     },
 ].sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
+
+export default img2img;

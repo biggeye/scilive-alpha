@@ -1,13 +1,15 @@
 export default function DashboardLayout(props: {
   children: React.ReactNode,
   social: React.ReactNode,
-  gallery: React.ReactNode
+  gallery: React.ReactNode,
+  chat: React.ReactNode,
 }) {
   return (
     <div style={{ display: 'flex', width: '100%' }}>
       <div>
         {/* Gallery Section */}
         {props.gallery}
+        {props.chat}
       </div>
       <div style={{ width: '65%' }}>
         {/* Create Section */}

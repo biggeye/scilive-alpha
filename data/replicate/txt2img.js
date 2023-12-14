@@ -90,5 +90,5 @@
         friendlyName: "yorickvp GPT4",
         example: "https://replicate.delivery/pbxt/JfvBi04QfleIeJ3ASiBEMbJvhTQKWKLjKaajEbuhO1Y0wPHd/view.jpg",
     },
-];
+].sort((a, b) => a.friendlyName.localeCompare(b.friendlyName))
 export default txt2img;

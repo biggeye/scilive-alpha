@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default async function GET(req, res) {
   const response = await fetch(
     "https://api.replicate.com/v1/predictions/" + req.query.id,
     {

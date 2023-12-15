@@ -1,4 +1,6 @@
 // Assuming "use client" is to be removed or replaced with a valid import
+"use client"
+
 import { createClient } from "@/utils/supabase/client";
 import Modal from "@/components/Modal";
 import React, { useState, useEffect } from 'react';

@@ -5,7 +5,6 @@ import ToolSelector from "@/components/ToolSelector";
 import ToolOptions from "@/components/ToolOptions";
 import DynamicInput from "@/components/DynamicInput";
 import DisplayResults from "@/components/DisplayResults";
-import GallerySmall from "@/components/GallerySmall";
 import { createClient } from "@/utils/supabase/client";
 
 
@@ -63,23 +62,6 @@ const DashboardPage = () => {
     setSelectedModel({ modelId, friendlyName, shortDesc, example });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch("/api/replicate/txt2img", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ allInputs }),
-      });
-
-      const responseData = await response.json();
-      setPrediction(responseData);
-    } catch (error) {
-      console.error("Error fetching prediction:", error);
-    }
-  };
 
   const handleExampleImageChange = (newExampleImage) => {
     setExampleImage(newExampleImage);
@@ -90,7 +72,6 @@ const DashboardPage = () => {
     <div className="min-h-screen bg-gray-100">
       <div className="h-[90vh] w-full flex flex-col items-center justify-start p-4">
         <div className="w-full flex flex-row justify-start items-center gap-2 p-2">
-        <GallerySmall />
         </div>
 
         <div className="flex-1 w-full bg-white mt-4 p-4 rounded-lg shadow-md">

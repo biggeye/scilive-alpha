@@ -1,13 +1,9 @@
-// app/api/replicate/predict.ts
-import { NextRequest, NextResponse } from 'next/server';
 import Replicate from 'replicate';
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
+import { NextResponse, type NextRequest } from 'next/server';
 
-// Define the structure of allInputs
-
-
-
-export async function POST(req: NextRequest) {
-  
+export async function POST(request: NextRequest) {
     const { allInputs }: { allInputs: AllInputs } = await req.json();
 
     if (!allInputs.modelName || !allInputs.prompt) {

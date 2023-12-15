@@ -48,8 +48,7 @@ const GalleryList = () => {
 
   
   return (
-    <div className="galleryList">
-      <ul>
+    <div className="gallery-list">
         {contentItems.map((item) => (
           <li
             fontSize="xs"
@@ -59,7 +58,6 @@ const GalleryList = () => {
             {item.title}
           </li>
         ))}
-      </ul>
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

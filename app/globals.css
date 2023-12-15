@@ -4,9 +4,20 @@
 
 @layer base {
   html {
-    font-size: 1rem; /* Base font size */
-    @media (min-width: 640px) { font-size: 1.125rem; } /* lg font size */
-    @media (min-width: 768px) { font-size: 1.25rem; } /* xl font size */
+    font-size: 1rem;
+    /* Base font size */
+    border-color: rgba(200, 50%, 3%, .2);
+
+    @media (min-width: 640px) {
+      font-size: 1.125rem;
+    }
+
+    /* lg font size */
+    @media (min-width: 1024px) {
+      font-size: 1.25rem;
+    }
+
+    /* xl font size */
   }
 
   :root {
@@ -29,10 +40,6 @@
     }
   }
 
-  * {
-    border-color: rgba(200, 50%, 3%, .2);
-  }
-
   @media (prefers-color-scheme: dark) {
     * {
       border-color: rgba(200, 20%, 96%, .2);
@@ -40,13 +47,20 @@
   }
 }
 
-.main {
-  height: 90vh;
-  width: 100vw;
-}
-
 .animate-in {
   animation: animateIn 0.3s ease 0.15s both;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes animateIn {
@@ -54,6 +68,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -65,7 +80,7 @@
   bottom: 5px;
   font-size: xx-small;
   border-bottom-left-radius: .2rem;
-  border-color:#374151;
+  border-color: #374151;
 }
 
 .navbar-container {
@@ -73,15 +88,20 @@
   margin-top: .5rem;
   margin-left: auto;
   margin-right: auto;
-  max-width: 90vw; /* 7xl */
-  padding-left: .125rem; /* 1px */
-  padding-right: .125rem; /* 1px */
+  max-width: 90vw;
+  /* 7xl */
+  padding-left: .125rem;
+  /* 1px */
+  padding-right: .125rem;
+  /* 1px */
   flex-direction: row;
   display: flex;
 
   @media screen and (min-width: 1024px) {
-    padding-left: .25rem; /* 2px */
-    padding-right: .25rem; /* 2px */
+    padding-left: .25rem;
+    /* 2px */
+    padding-right: .25rem;
+    /* 2px */
   }
 }
 
@@ -89,14 +109,17 @@
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  @media screen and (min-width: 768px) {
-    gap: .25rem; /* 5 */
+
+  @media screen and (min-width: 1024px) {
+    gap: .25rem;
+    /* 5 */
   }
 }
 
 .nav-link {
   border-color: transparent;
   color: #6B7280;
+
   &:hover {
     color: #374151;
     border-color: #D1D5DB;
@@ -108,20 +131,70 @@
   color: #1F2937;
 }
 
+.menu-icon {
+  position: fixed;
+  margin-top: .5rem;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+
+  @media screen and (min-width: 1024px) {
+    padding-left: .5rem;
+    /* 2px */
+    padding-right: .5rem;
+    /* 2px */
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  animation: slideDown 300ms ease-out forwards;
+}
+
 .gallery-container {
   background: linear-gradient(to bottom, #e5e7eb, #cbd5e1);
   overflow-y: auto;
   text-align: center;
   padding: 2rem;
   display: flex;
-  flex-direction: column;
+
   align-items: center;
   justify-content: center;
+
+
+  flex-direction: column;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
 }
+
+.gallery-list {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
+}
+
+.gallery-small {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
+}
+
 
 .card-container {
   padding: 1rem;
-  perspective: 1000px; /* 3D effect */
+  perspective: 1000px;
+  /* 3D effect */
 }
 
 .card-container img {
@@ -131,63 +204,34 @@
 }
 
 .card-container img:hover {
-  transform: rotateY(10deg); /* 3D rotate effect */
+  transform: rotateY(10deg);
+  /* 3D rotate effect */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
+
 .micro-account {
   font-size: xx-small;
 }
 
 .dynamic-input {
-  height: 2.5rem; /* 40px */
+  height: 2.5rem;
+  /* 40px */
   position: fixed;
   bottom: 0;
   width: 80%;
   z-index: 1000;
   padding: .25rem;
+
   @media screen and (min-width: 640px) {
     width: 90%;
   }
 }
 
 
-.account-icon {
-  margin-left: auto;
-  margin-right: auto;
-  padding: .5rem;
-  position: absolute;
-  margin-top: .5rem;
-  top: 0;
-  right: 0;
-  cursor: pointer;
 
-  @media screen and (min-width: 1024px) {
-    padding-left: .5rem; /* 2px */
-    padding-right: .5rem; /* 2px */
-  }
-}
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  animation: slideDown 300ms ease-out forwards;
-}
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.galleryList{
+.galleryList {
   position: relative;
   top: 30px;
   margin-left: auto;
@@ -234,6 +278,7 @@
   background-color: #ccc;
   border-color: #ccc;
 }
+
 .dynamic-input {
   height: 40px;
   position: fixed;

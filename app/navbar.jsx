@@ -42,24 +42,23 @@ const Navbar = ({ user, handleSignout }) => {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
-    <div className="navbar-container">
-      {navigation.map((item) => (
-        <a
-          key={item.name}
-          href={item.href}
-          className="nav-item"
-          aria-current={pathname === item.href ? "page" : undefined}
-        >
-          <item.icon />
-        </a>
-      ))}
-
-      <div className="account-icon" onClick={toggleDropdown} ref={dropdownRef}>
+  
+      <div className="menu-icon" onClick={toggleDropdown} ref={dropdownRef}>
         <AccountIcon />
         {isDropdownOpen && (
           <div className="dropdown-menu">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="nav-item"
+                aria-current={pathname === item.href ? "page" : undefined}
+              >
+                {item.name}
+              </a>
+            ))}
+            <hr />
             {session ? (
-              
               <button onClick={handleSignout}>Log Out</button>
             ) : (
               <a href="/login">Log In</a>
@@ -67,7 +66,7 @@ const Navbar = ({ user, handleSignout }) => {
           </div>
         )}
       </div>
-    </div>
+
   );
 };
 

@@ -30,6 +30,11 @@ export async function POST(req: NextRequest) {
     const modelName = inputObject.modelName;
     delete inputObject.modelName;  // Remove modelName from inputObject as it's not an input parameter
 
+    console.log("modelName: ", modelName);
+    console.log("inputObject: ", {
+      inputObject
+    })
+
     let prediction: any = await replicate.deployments.predictions.create(
       "biggeye",
       modelName,

@@ -7,20 +7,12 @@ const NewOauthLogin = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [userId, setUserId] = useState(null);
   
   const supabase = createClient();
  
-
-  const handleSubmit = async (e) => {
+  
+ const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Ensure the user is logged in
-    if (!userId) {
-      console.error('User is not authenticated');
-      return;
-    }
-
     // Insert data into Supabase - adjust table and column names as per your schema
     const { data, error } = await supabase
       .from('profiles')

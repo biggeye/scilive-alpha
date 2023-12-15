@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers';
 
 export async function POST(req: NextRequest) {
-    const cookieStore = cookies();
+  const cookieStore = cookies();
   const supabase = createClient(cookieStore)
   const session = await supabase.auth.getSession()
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   try {
     // Retrieve request body
     const bodyData = await req.json()
-    const { version, image, input_image, prompt, negative_prompt } = bodyData
+    const { version, image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path } = bodyData
 
     const payload = {
       version,
@@ -26,6 +26,11 @@ export async function POST(req: NextRequest) {
         ...(input_image && { input_image }),
         ...(prompt && { prompt }),
         ...(negative_prompt && { negative_prompt }),
+        ...(text && { text }),
+        ...(text_prompt && { text_prompt }),
+        ...(custom_voice && { custom_voice }),
+        ...(img && { img }),
+        ...(video_path && { video_path }),
       },
     };
 

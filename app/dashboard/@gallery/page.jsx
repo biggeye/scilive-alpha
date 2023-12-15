@@ -49,18 +49,15 @@ const Gallery = () => {
   
   return (
     <div className="gallery">
-      <ul>
         {contentItems.map((item) => (
-            <img src={item.url}
-          
-        ))}
-      </ul>
+            <img src={item.url} />
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
         item={selectedItem}
         handleDelete={handleDelete}
       />
+      ))}
     </div>
   );
 };

@@ -5,7 +5,23 @@ interface Input {
     image: string;
     prompt?: string;
   }
-  
+  // Define a TypeScript interface for the objects in the array
+export interface Deployment {
+  modelName: string;
+  type: string;
+  inputExample?: string;
+  outputExample?: string;
+  input: object;
+    prompt?: string;
+    text?: string;
+    text_prompt?: string;
+    custom_voice?: File;
+    img?: File;
+    video_path?: File;
+
+
+}
+
   // Define the structure for each item in the img2img array
   export interface Img2ImgItem {
     name: string;

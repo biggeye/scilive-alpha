@@ -47,13 +47,15 @@ const DynamicInput = ({
     }
     setIsLoading(true);
     const modelId = selectedModel.modelId;
+    const imageCreateSubmit = {
+      userInput: userInput,
+      modelId: modelId,
+    };
+    console.log(imageCreateSubmit);
     await handleImageCreateSubmit(
-      userInput,
-      modelId,
+      {imageCreateSubmit},
       setError,
       setPrediction,
-      userId,
-      supabase,
       setNewPrediction
     );
     setIsLoading(false);

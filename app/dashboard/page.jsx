@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import ToolSelector from "@/components/ToolSelector";
-import ToolOptions from "@/components/ToolOptions";
-import DynamicInput from "@/components/DynamicInput";
-import DisplayResults from "@/components/DisplayResults";
+import ToolSelector from "@/components/dashboard/ToolSelector";
+import ToolOptions from "@/components/dashboard/ToolOptions";
+import DynamicInput from "@/components/dashboard/DynamicInput";
+import DisplayResults from "@/components/dashboard/DisplayResults";
 import { createClient } from "@/utils/supabase/client";
 
 
@@ -62,7 +62,6 @@ const DashboardPage = () => {
     setSelectedModel({ modelId, friendlyName, shortDesc, example });
   };
 
-
   const handleExampleImageChange = (newExampleImage) => {
     setExampleImage(newExampleImage);
     console.log("exampleImage: ", exampleImage)
@@ -73,7 +72,6 @@ const DashboardPage = () => {
       <div className="h-[90vh] w-full flex flex-col items-center justify-start p-4">
         <div className="w-full flex flex-row justify-start items-center gap-2 p-2">
         </div>
-
         <div className="flex-1 w-full bg-white mt-4 p-4 rounded-lg shadow-md">
           <ToolSelector onToolChange={handleToolChange} />
           <ToolOptions

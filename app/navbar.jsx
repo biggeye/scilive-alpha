@@ -42,7 +42,10 @@ const Navbar = ({ user, handleSignout }) => {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
-  
+    <>
+  <div className="logo-icon">
+    <img width="150px" src="/scifiction.png" />
+  </div>
       <div className="menu-icon" onClick={toggleDropdown} ref={dropdownRef}>
         <AccountIcon />
         {isDropdownOpen && (
@@ -66,7 +69,7 @@ const Navbar = ({ user, handleSignout }) => {
           </div>
         )}
       </div>
-
+      </>
   );
 };
 

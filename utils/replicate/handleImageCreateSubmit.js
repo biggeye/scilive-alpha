@@ -1,18 +1,24 @@
 import uploadPrediction from "./uploadPrediction";
+import { createClient } from "@/utils/supabase/client";
 
 export const handleImageCreateSubmit = async ({
-  userInput,
-  modelId,
+  imageCreateSubmit,
   setError,
   setPrediction,
-  userId,
-  supabase,
   setNewPrediction
 }) => {
+
+
   const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
   };
+  const userInput = imageCreateSubmit.userInput;
+  const modelId = imageCreateSubmit.modelId;
     try {
+
+      const supabase = createClient();
+      const userId = await supabase.auth.getUser();
+      console.log(userId);
       const requestBody = {
         prompt: userInput,
         version: modelId,

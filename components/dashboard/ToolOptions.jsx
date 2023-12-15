@@ -1,6 +1,6 @@
 //(ToolOptions.jsx)
 import React, { useEffect, useState } from "react";
-import ModelSelect from "@/utils/replicate/ModelSelect";
+import ModelSelect from "@/components/replicate/ModelSelect";
 import txt2img from "@/data/replicate/txt2img";
 import img2img from "@/data/replicate/img2img";
 import deployments from "@/data/replicate/deployments";
@@ -28,26 +28,11 @@ const ToolOptions = ({
     }
   }, [selectedModel, onExampleImageChange]);
 
-  const handleSelectionChange = (event) => {
-    const selectedModelId = event.target.value;
-    const selectedModel = models.find(model => model.id === selectedModelId);
-    if (!selectedModel) {
-      console.log(`No model found with id: ${selectedModelId}`);
-      return;
-    }
-    const modelId = selectedModel.id;
-    const modelName = selectedModel.friendlyName;
-    const shortDesc = selectedModel.shortDesc;
-    const example = selectedModel.example;
-    console.log("modelId: ", modelId);
-    handleModelChange(modelId, modelName, shortDesc, example);
-  };
-
   if (tool === "articleCreation") {
     return <div>Settings for Article Creation</div>;
   } else if (models) {
     return (
-      <ModelSelect models={models} handleSelectionChange={handleSelectionChange} />
+      <ModelSelect models={models} handleModelChange={handleModelChange} />
     );
   } else {
     return null;

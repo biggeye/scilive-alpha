@@ -75,6 +75,34 @@
   }
 }
 
+.logo-icon {
+  position: fixed;
+  top: .5rem;
+  left: .5rem;
+  
+  @media screen and (min-width: 1024px) {
+    padding-left: .5rem;
+    /* 2px */
+    padding-right: .5rem;
+    /* 2px */
+  }
+}
+
+
+.menu-icon {
+  position: fixed;
+  top: .5rem;
+  right: .5rem;
+  cursor: pointer;
+
+  @media screen and (min-width: 1024px) {
+    padding-left: .5rem;
+    /* 2px */
+    padding-right: .5rem;
+    /* 2px */
+  }
+}
+
 .code {
   position: absolute;
   bottom: 5px;
@@ -131,20 +159,6 @@
   color: #1F2937;
 }
 
-.menu-icon {
-  position: fixed;
-  margin-top: .5rem;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-
-  @media screen and (min-width: 1024px) {
-    padding-left: .5rem;
-    /* 2px */
-    padding-right: .5rem;
-    /* 2px */
-  }
-}
 
 .dropdown-menu {
   position: absolute;

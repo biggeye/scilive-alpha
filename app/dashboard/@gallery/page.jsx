@@ -1,5 +1,4 @@
-"use client";
-
+// Assuming "use client" is to be removed or replaced with a valid import
 import { createClient } from "@/utils/supabase/client";
 import Modal from "@/components/Modal";
 import React, { useState, useEffect } from 'react';
@@ -10,13 +9,15 @@ const Gallery = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const supabase = createClient();
 
- const openModal = (item) => {
+  const openModal = (item) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     const fetchContent = async () => {
       const { data, error } = await supabase.from("master_content").select("*");
@@ -25,11 +26,12 @@ const Gallery = () => {
         console.error("Error fetching content:", error);
       } else {
         setContentItems(data);
-        console.log("contentItems: ", contentItems);
+        // Consider logging outside this function to see the updated state
       }
     };
     fetchContent();
   }, []);
+
   const handleDelete = async (contentId) => {
     const { error } = await supabase
       .from("master_content")
@@ -45,19 +47,21 @@ const Gallery = () => {
     }
   };
 
-
-  
   return (
     <div className="gallery">
+      <ul>
         {contentItems.map((item) => (
-            <img src={item.url} />
+          <li key={item.content_id}> {/* Assuming content_id is unique */}
+            <img src={item.url} alt={item.description} /> {/* Added alt for accessibility */}
+          </li>
+        ))}
+      </ul>
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
         item={selectedItem}
         handleDelete={handleDelete}
       />
-      ))}
     </div>
   );
 };

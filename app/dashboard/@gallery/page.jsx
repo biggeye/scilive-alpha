@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import Modal from "@/components/Modal";
 import React, { useState, useEffect } from 'react';
 
-const GalleryList = () => {
+const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,7 +48,7 @@ const GalleryList = () => {
 
   
   return (
-    <div className="galleryList">
+    <div className="gallery">
       <ul>
         {contentItems.map((item) => (
           <li
@@ -56,7 +56,7 @@ const GalleryList = () => {
             key={item.content_id}
             onClick={() => openModal(item)}
           >
-            {item.title}
+            <img src={item.url}
           </li>
         ))}
       </ul>
@@ -70,4 +70,4 @@ const GalleryList = () => {
   );
 };
 
-export default GalleryList;
+export default Gallery;

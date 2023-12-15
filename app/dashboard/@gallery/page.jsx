@@ -51,13 +51,8 @@ const Gallery = () => {
     <div className="gallery">
       <ul>
         {contentItems.map((item) => (
-          <li
-            fontSize="xs"
-            key={item.content_id}
-            onClick={() => openModal(item)}
-          >
             <img src={item.url}
-          </li>
+          
         ))}
       </ul>
       <Modal

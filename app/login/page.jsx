@@ -1,18 +1,21 @@
+'use server'
+
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import GitHubLoginButton from "@/components/auth/GitHubLoginButton";
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 
+
 export default async function LoginPage() {
   const cookieStore = cookies();
   const supabase = createClient({ cookieStore });
+  const { data: { session },} = await supabase.auth.getSession();
 
-  const { data: predictions } = await supabase
-    .from("master_content")
-    .select("content-type");
+  
 
   return (
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+ 
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <GitHubLoginButton />
         <GoogleLoginButton />

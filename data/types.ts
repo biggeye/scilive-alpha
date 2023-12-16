@@ -82,3 +82,10 @@ export interface AllInputs {
   prompt: string;
   [key: string]: any; // For other dynamic keys
 }
+
+export interface NewOAuthLogin {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+}

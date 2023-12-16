@@ -1,4 +1,5 @@
-//(ToolOptions.jsx)
+'use client'
+
 import React, { useEffect, useState } from "react";
 import ModelSelect from "@/components/replicate/ModelSelect";
 import txt2img from "@/data/replicate/txt2img";

@@ -69,10 +69,9 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="h-[90vh] w-full flex flex-col items-center justify-start p-4">
-        <div className="w-full flex flex-row justify-start items-center gap-2 p-2">
-        </div>
-        <div className="flex-1 w-full bg-white mt-4 p-4 rounded-lg shadow-md">
+      <div className="h-auto w-full flex flex-col items-center justify-start p-4">
+
+        <div className="flex-1 w-full flex-row bg-white mt-8 p-4 rounded-lg shadow-md">
           <ToolSelector onToolChange={handleToolChange} />
           <ToolOptions
             tool={selectedTool}

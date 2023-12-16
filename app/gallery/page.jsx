@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
+import { createClient } from "@/utils/supabase/client";
+import Modal from "@/components/Modal";
+import React, { useState, useEffect } from "react";
 
-const GalleryPage = () => {
+const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
   const supabase = createClient();
 
   useEffect(() => {
@@ -16,6 +17,7 @@ const GalleryPage = () => {
         console.error("Error fetching content:", error);
       } else {
         setContentItems(data);
+        // Consider logging outside this function to see the updated state
       }
     };
     fetchContent();
@@ -37,17 +39,17 @@ const GalleryPage = () => {
   };
 
   return (
-      <div className="card-container">
-        {contentItems.map((item) => (
-          <div key={item.content_id}> {/* Ensure each child in a list has a unique key */}
-            <img src={item.url} alt={item.title} />
-            <button onClick={() => handleDelete(item.content_id)}>
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
+    <div className="card-container">
+      {contentItems.map((item) => (
+        <>
+          <img key={item.content_id} src={item.url} alt={item.content_type} />
+          <button onClick={handleDelete} className="micro-account">
+            Delete
+          </button>
+        </>
+      ))}
+    </div>
   );
 };
 
-export default GalleryPage;
+export default Gallery;

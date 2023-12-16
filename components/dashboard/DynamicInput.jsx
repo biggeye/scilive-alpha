@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from "react";
 import { handleImageEditSubmit } from "@/utils/replicate/handleImageEditSubmit";
 import { handleImageCreateSubmit } from "@/utils/replicate/handleImageCreateSubmit";
@@ -99,13 +101,13 @@ const DynamicInput = ({
         <div className="dynamic-input flex flex-row justify-center h-full m-2">
           <input
             placeholder="Enter text for image creation"
-            className="form-input w-80 ml-40 px-2 py-2 flex-grow"
+            className="form-input w-80  px-2 py-2 flex-grow"
             onChange={handleTextInputChange}
           />
           <button
             disabled={isLoading}
             onClick={handleUserImageCreateSubmit}
-            className="submit-button pr-6 pl-4 py-2"
+            className="submit-button"
           >
             {isLoading ? "Processing..." : "Submit"}
           </button>
@@ -123,7 +125,7 @@ const DynamicInput = ({
           <input
             type="text"
             placeholder="Describe modifications..."
-            className="form-input w-80 ml-40 px-2 py-2 flex-grow"
+            className="form-input w-80 px-2 py-2 flex-grow"
             value={userInput}
             onChange={handleTextInputChange}
           />

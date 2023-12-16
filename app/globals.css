@@ -4,22 +4,15 @@
 
 @layer base {
   html {
-    font-size: 1rem;
-    /* Base font size */
+    font-size: .75rem;
     border-color: rgba(200, 50%, 3%, .2);
-
     @media (min-width: 640px) {
-      font-size: 1.125rem;
+      font-size: .85rem;
     }
-
-    /* lg font size */
     @media (min-width: 1024px) {
-      font-size: 1.25rem;
+      font-size: 0.9rem;
     }
-
-    /* xl font size */
   }
-
   :root {
     --background-default: 200 20% 98%;
     --btn-background-default: 200 10% 91%;
@@ -30,7 +23,6 @@
     --btn-background-hover-dark: 200 10% 12%;
     --foreground-dark: 200 20% 96%;
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
       --background: var(--background-dark);
@@ -39,18 +31,15 @@
       --foreground: var(--foreground-dark);
     }
   }
-
   @media (prefers-color-scheme: dark) {
     * {
       border-color: rgba(200, 20%, 96%, .2);
     }
   }
 }
-
 .animate-in {
   animation: animateIn 0.3s ease 0.15s both;
 }
-
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -62,7 +51,6 @@
     transform: translateY(0);
   }
 }
-
 @keyframes animateIn {
   from {
     opacity: 0;
@@ -74,7 +62,23 @@
     transform: translateY(0);
   }
 }
-
+.body {
+  background: linear-gradient(to bottom, #e5e7eb, #cbd5e1); 
+  height: 100vh;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 500;
+}
 .logo-icon {
   position: fixed;
   top: .5rem;
@@ -87,8 +91,6 @@
     /* 2px */
   }
 }
-
-
 .menu-icon {
   position: fixed;
   top: .5rem;
@@ -102,7 +104,6 @@
     /* 2px */
   }
 }
-
 .code {
   position: absolute;
   bottom: 5px;
@@ -111,67 +112,8 @@
   border-color: #374151;
 }
 
-.navbar-container {
-  height: 7vh;
-  margin-top: .5rem;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 90vw;
-  /* 7xl */
-  padding-left: .125rem;
-  /* 1px */
-  padding-right: .125rem;
-  /* 1px */
-  flex-direction: row;
-  display: flex;
-
-  @media screen and (min-width: 1024px) {
-    padding-left: .25rem;
-    /* 2px */
-    padding-right: .25rem;
-    /* 2px */
-  }
-}
-
-.nav-item {
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-
-  @media screen and (min-width: 1024px) {
-    gap: .25rem;
-    /* 5 */
-  }
-}
-
-.nav-link {
-  border-color: transparent;
-  color: #6B7280;
-
-  &:hover {
-    color: #374151;
-    border-color: #D1D5DB;
-  }
-}
-
-.nav-link-active {
-  border-color: #64748B;
-  color: #1F2937;
-}
-
-
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  animation: slideDown 300ms ease-out forwards;
-}
-
 .gallery-container {
-  background: linear-gradient(to bottom, #e5e7eb, #cbd5e1);
+
   overflow-y: auto;
   text-align: center;
   padding: 2rem;
@@ -179,15 +121,12 @@
 
   align-items: center;
   justify-content: center;
-
-
   flex-direction: column;
 
   @media (min-width: 1024px) {
     flex-direction: row;
   }
 }
-
 .gallery-list {
   display: flex;
   flex-direction: column;
@@ -195,7 +134,6 @@
     flex-direction: row;
   }
 }
-
 .gallery-small {
   display: flex;
   flex-direction: column;
@@ -203,30 +141,24 @@
     flex-direction: row;
   }
 }
-
-
 .card-container {
   padding: 1rem;
   perspective: 1000px;
   /* 3D effect */
 }
-
 .card-container img {
   transition: transform 0.5s, box-shadow 0.5s;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 .card-container img:hover {
   transform: rotateY(10deg);
   /* 3D rotate effect */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
-
 .micro-account {
   font-size: xx-small;
 }
-
 .dynamic-input {
   height: 2.5rem;
   /* 40px */
@@ -241,76 +173,13 @@
   }
 }
 
-
-
-
-
-.galleryList {
-  position: relative;
-  top: 30px;
-  margin-left: auto;
-  font-size: xx-small;
-}
-
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  z-index: 1000;
-}
-
-.auth-form {
-  margin-top: 40px;
-  margin-left: 5%;
-  margin-right: 5%;
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: small;
-}
-
-.auth-form input,
-.auth-form button {
-  margin: 10px 0;
-  padding: 8px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.auth-form button {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.auth-form button:disabled {
-  background-color: #ccc;
-  border-color: #ccc;
-}
-
-.dynamic-input {
-  height: 40px;
-  position: fixed;
-  bottom: 0;
-  width: 80%;
-  z-index: 1000;
-  padding: 1;
-}
-
 .form-input {
-  background: linear-gradient(to top, lightgray, transparent);
   padding: 4px;
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 4px;
 }
-
 .submit-button {
-  padding: 6px 12px;
+  padding: .1rem;
   /* Button padding */
   border: 1px solid rgba(0, 0, 0, 0.8);
   /* Border matching the form-input */
@@ -325,12 +194,10 @@
   transition: background-color 0.3s, color 0.3s;
   /* Smooth transition for color changes */
 }
-
 .submit-button:hover {
   background-color: lightgray;
   /* Background color on hover */
 }
-
 .submit-button:active {
   background-color: darken(lightgray), 5%;
   /* Slightly darken the color on click */

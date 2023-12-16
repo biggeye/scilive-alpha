@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client'; // Import your configured Supabase client
 import { getSessionServer } from '@/lib/supabase-server';
 
-const NewOauthLogin = ({ session }) => {
+const NewOauthLogin = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');

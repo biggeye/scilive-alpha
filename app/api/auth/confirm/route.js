@@ -2,6 +2,7 @@ const { createServerClient } = require('@supabase/ssr')
 const { cookies } = require('next/headers')
 const { NextRequest, NextResponse } = require('next/server')
 
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const token_hash = searchParams.get('token_hash')

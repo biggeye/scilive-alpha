@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.jsx", "app/gallery/layout.jsx", "app/dashboard/page.jsx", "lib/supabase-server.js", "app/dashboard/layout.tsx", "app/api/replicate/chat/route.js", "data/replicate/deployments.js", "app/login/newOAuth/page.jsx", "utils/supabase/server.js", "app/api/auth/callback/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.jsx", "app/gallery/layout.jsx", "app/dashboard/page.jsx", "lib/supabase-server.js", "app/dashboard/layout.tsx", "app/api/replicate/chat/route.js", "data/replicate/deployments.js", "app/login/newOAuth/page.jsx", "utils/supabase/server.js", "app/api/auth/callback/route.js", "app/api/auth/confirm/route.js"],
   "exclude": ["node_modules"]
 }

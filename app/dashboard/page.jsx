@@ -68,7 +68,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <div className="h-auto w-full flex flex-col items-center justify-start p-4">
 
         <div className="flex-1 w-full flex-row bg-white mt-8 p-4 rounded-lg shadow-md">

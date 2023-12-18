@@ -18,6 +18,7 @@
     "headlessui": "^0.0.0",
     "heroicons": "^2.0.18",
     "next": "latest",
+    "openai": "^4.0.0",
     "postcss": "^8.4.32",
     "react": "18.2.0",
     "react-dnd": "^16.0.1",

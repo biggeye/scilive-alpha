@@ -63,7 +63,6 @@
   }
 }
 .body {
-  background: linear-gradient(to bottom, #e5e7eb, #cbd5e1); 
   height: 100vh;
 }
 .main {
@@ -202,3 +201,9 @@
   background-color: darken(lightgray), 5%;
   /* Slightly darken the color on click */
 }
+
+/* globals.css or index.css */
+
+/* In your globals.css or index.css */
+
+

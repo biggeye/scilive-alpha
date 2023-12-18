@@ -5,7 +5,7 @@ const Modal = ({ isOpen, onClose, item, handleDelete }) => {
   
     return (
       <div className="modal">
-        <img src={item.url} alt={item.title} />
+        <img key={item.id} src={item.url} alt={item.title} />
         <button onClick={() => handleDelete(item.content_id)}>Delete</button>
         <button onClick={onClose}>Close</button>
       </div>

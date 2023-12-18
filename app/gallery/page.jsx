@@ -1,12 +1,11 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
-import Modal from "@/components/Modal";
+
 import React, { useState, useEffect } from "react";
 
 const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
   const supabase = createClient();
 
   useEffect(() => {

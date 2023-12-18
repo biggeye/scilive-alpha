@@ -11,8 +11,6 @@ export default async function LoginPage() {
   const supabase = createClient({ cookieStore });
   const { data: { session },} = await supabase.auth.getSession();
 
-  
-
   return (
  
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -37,7 +35,7 @@ export default async function LoginPage() {
                 type="email"
                 autocomplete="email"
                 required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-800 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -66,7 +64,7 @@ export default async function LoginPage() {
                 type="password"
                 autocomplete="current-password"
                 required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-800 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>

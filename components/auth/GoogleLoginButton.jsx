@@ -41,7 +41,7 @@ const GoogleLoginButton = () => {
       ></div>
 
       <div
-        class="g_id_signin"
+        className="g_id_signin"
         data-type="icon"
         data-shape="square"
         data-theme="filled_blue"

@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers';
+import { supabase } from '@/utils/supabase/legacy'
 
 export async function POST(req) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore)
   const session = await supabase.auth.getSession()
 
   if (!session) {

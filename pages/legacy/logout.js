@@ -8,7 +8,7 @@ const Logout = () => {
        const logout = async () => {
 
        await supabase.auth.signOut()
-        Router.push('/');
+        Router.push('/legacy');
        } 
        logout();
     }, []);

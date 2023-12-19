@@ -1,38 +1,19 @@
 "use client";
-import { usePathname } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
-import { useEffect, useState } from "react";
-import { Fragment } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { handleSignOut } from '@/lib/supabase-server';
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", },
-  { name: "Gallery", href: "/gallery", }
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Gallery", href: "/gallery" },
 ];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
-  const [session, setSession] = useState(null);
-  const supabase = createClient();
-
-  const signOut = handleSignOut();
-
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      const userSession = await supabase.auth.getSession();
-      setSession(userSession);
-    };
-
-    fetchSession();
-  }, []); 
-
-  return (  
+  return (
     <Disclosure as="nav" className="bg-slate-100">
       {({ open }) => (
         <>
@@ -65,10 +46,12 @@ const Navbar = () => {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-800 text-slate-600' : 'text-slate-900  hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current
+                            ? "bg-gray-800 text-slate-600"
+                            : "text-slate-900  hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
                       </a>
@@ -109,45 +92,46 @@ const Navbar = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-  <Menu.Item>
-    {({ active }) => (
-      <a
-        href="#"
-        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-slate-900')}
-      >
-        Your Profile
-      </a>
-    )}
-  </Menu.Item>
-  <Menu.Item>
-    {({ active }) => (
-      <a
-        href="#"
-        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-slate-900')}
-      >
-        Settings
-      </a>
-    )}
-  </Menu.Item>
-  <Menu.Item>
-    {({ active }) => (
-      session // Assuming 'session' is the variable holding the session state
-      ? <button
-          onClick={signOut}
-          className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-slate-900')}
-        >
-          Sign out
-        </button>
-      : <a
-          href="/login"
-          className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-slate-900')}
-        >
-          Login
-        </a>
-    )}
-  </Menu.Item>
-</Menu.Items>
-
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-slate-900"
+                            )}
+                          >
+                            Your Profile
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-slate-900"
+                            )}
+                          >
+                            Settings
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="/login"
+                          className={classNames(
+                            active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-slate-900"
+                          )}
+                        >
+                          Login
+                        </a>
+                                 )}
+                      </Menu.Item>
+                    </Menu.Items>
                   </Transition>
                 </Menu>
               </div>
@@ -162,10 +146,12 @@ const Navbar = () => {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-slate-600' : 'text-slate-900 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    item.current
+                      ? "bg-gray-900 text-slate-600"
+                      : "text-slate-900 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
@@ -176,6 +162,6 @@ const Navbar = () => {
       )}
     </Disclosure>
   );
-}
+};
 
 export default Navbar;

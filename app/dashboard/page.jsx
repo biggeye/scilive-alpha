@@ -6,7 +6,7 @@ import ToolOptions from "@/components/dashboard/ToolOptions";
 import DynamicInput from "@/components/dashboard/DynamicInput";
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import { createClient } from "@/utils/supabase/client";
-
+import ImageCreateForm from '@/components/replicate/ImageCreateForm';
 
 const DashboardPage = () => {
   const [modelName, setModelName] = useState("");
@@ -70,6 +70,7 @@ const DashboardPage = () => {
   return (
       <div className="w-full flex flex-col items-center justify-start p-4">
         <div className="flex-1 w-full flex-row bg-gray-400 mt-8 p-4 rounded-md shadow-md">
+        <ImageCreateForm modelId={modelId} supabase={supabase} />
           <ToolSelector onToolChange={handleToolChange} />
           <ToolOptions
             tool={selectedTool}

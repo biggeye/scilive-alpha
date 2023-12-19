@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,9 +24,20 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.jsx", "app/gallery/layout.jsx", "app/dashboard/page.jsx", "lib/supabase-server.js", "app/dashboard/layout.tsx", "app/api/replicate/chat/route.js", "data/replicate/deployments.js", "app/login/newOAuth/page.jsx", "utils/supabase/server.js", "app/api/auth/callback/route.js", "app/api/auth/confirm/route.js", "app/api/replicate/route.JS", "components/auth/AuthButton.jsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

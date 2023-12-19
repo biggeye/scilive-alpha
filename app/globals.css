@@ -110,7 +110,6 @@
   border-bottom-left-radius: .2rem;
   border-color: #374151;
 }
-
 .gallery-container {
 
   overflow-y: auto;
@@ -171,7 +170,6 @@
     width: 90%;
   }
 }
-
 .form-input {
   padding: 4px;
   border: 1px solid rgba(0, 0, 0, 0.8);
@@ -201,9 +199,3 @@
   background-color: darken(lightgray), 5%;
   /* Slightly darken the color on click */
 }
-
-/* globals.css or index.css */
-
-/* In your globals.css or index.css */
-
-

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { signOut } from '@/utils/supabase/signOut';
+import { handleSignOut } from '@/lib/supabase-server';
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", },
@@ -19,6 +19,9 @@ function classNames(...classes) {
 const Navbar = () => {
   const [session, setSession] = useState(null);
   const supabase = createClient();
+
+  const signOut = handleSignOut();
+
 
   useEffect(() => {
     const fetchSession = async () => {

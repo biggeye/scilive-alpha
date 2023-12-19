@@ -68,10 +68,8 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="h-auto w-full flex flex-col items-center justify-start p-4">
-
-        <div className="flex-1 w-full flex-row bg-white mt-8 p-4 rounded-lg shadow-md">
+      <div className="w-full flex flex-col items-center justify-start p-4">
+        <div className="flex-1 w-full flex-row bg-gray-400 mt-8 p-4 rounded-md shadow-md">
           <ToolSelector onToolChange={handleToolChange} />
           <ToolOptions
             tool={selectedTool}
@@ -87,8 +85,7 @@ const DashboardPage = () => {
               exampleImage={exampleImage}
               newPrediction={newPrediction}
             />
-            <div className="w-2/3 h-full bg-gray-300 rounded-lg">
-              <div className="w-1/3 flex flex-col gap-4">
+
                 <div className="dynamic-input flex flex-row justify-center h-full m-2">
                   <DynamicInput
                     userId={userId}
@@ -105,12 +102,11 @@ const DashboardPage = () => {
                     }
                   />
                 </div>
-              </div>
-            </div>
+                            </div>
+
           </div>
+
         </div>
-      </div>
-    </div>
   );
 };
 

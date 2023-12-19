@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState } from "react";
-import { handleImageEditSubmit } from "@/utils/replicate/handleImageEditSubmit";
-import { handleImageCreateSubmit } from "@/utils/replicate/handleImageCreateSubmit";
+import { handleImageEditSubmit } from "@/lib/replicate/handleImageEditSubmit";
+import { handleImageCreateSubmit } from "@/lib/replicate/handleImageCreateSubmit";
 
 const DynamicInput = ({
   userId,
@@ -101,7 +101,7 @@ const DynamicInput = ({
         <div className="dynamic-input flex flex-row justify-center h-full m-2">
           <input
             placeholder="Enter text for image creation"
-            className="form-input w-80  px-2 py-2 flex-grow"
+            className="form-input w-80 px-2 py-2 flex-grow"
             onChange={handleTextInputChange}
           />
           <button
@@ -115,7 +115,7 @@ const DynamicInput = ({
       )}
 
       {tool === "imageEditing" && (
-        <div className="dynamic-input flex flex-row justify-center h-full m-2">
+        <div className="dynamic-input flex flex-row justify-center h-full m-3">
           <input
             type="file"
             accept="image/*"
@@ -140,10 +140,10 @@ const DynamicInput = ({
       )}
 
       {tool === "articleCreation" && (
-        <div className="flex flex-row justify-center h-full">
+        <div className="dynamic-input flex flex-row justify-center h-full m-3">
           <textarea
             placeholder="Enter text for article creation"
-            className="form-input w-80 ml-40 px-2 py-2 flex-grow"
+            className="form-input w-80 px-2 py-2 flex-grow"
           />
           {/* Add a submit button if needed */}
         </div>

@@ -24,6 +24,7 @@ export default function RootLayout({
           <main className="main">
               {children}
             </main>
+            <script src="https://tikapi.io/assets/js/popup.js"></script>
           </body>
   
     </html>

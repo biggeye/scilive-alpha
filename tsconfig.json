@@ -38,6 +38,7 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
+    "app/api/d-id/create-stream.js",
     "node_modules"
   ]
 }

@@ -4,10 +4,11 @@ const supabase = createClient();
 
 const LessonDetails = ({ lesson }) => {
   return (
-    <div>
-        <h1>{lesson.title}</h1>
-        <p>{lesson.description}</p>
-    </div>
+    <div class="max-w-2xl mx-auto p-5">
+    <h1 class="text-2xl font-bold mb-3">{lesson.title}</h1>
+    <p class="text-lg text-gray-600">{lesson.description}</p>
+</div>
+
   )
 };
 

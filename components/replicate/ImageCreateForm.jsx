@@ -12,14 +12,15 @@ const ImageCreateForm = ({ modelId, supabase }) => {
   };
 
   return (
-    <div className="image-create-form">
+    <div className="dynamic-input">
       <input
+      className="form-input"
         placeholder="Enter text for image creation"
         value={userInput}
         onChange={handleInputChange}
         disabled={isLoading}
       />
-      <button onClick={handleSubmit} disabled={isLoading}>
+      <button className="submit-button" onClick={handleSubmit} disabled={isLoading}>
         {isLoading ? "Processing..." : "Submit"}
       </button>
       {error && <div className="error">{error}</div>}

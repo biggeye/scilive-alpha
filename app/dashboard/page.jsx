@@ -70,7 +70,6 @@ const DashboardPage = () => {
   return (
       <div className="w-full flex flex-col items-center justify-start p-4">
         <div className="toolOptions">
-  
           <ToolSelector onToolChange={handleToolChange} />
           <ToolOptions
             tool={selectedTool}

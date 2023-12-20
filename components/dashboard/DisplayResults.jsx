@@ -32,13 +32,13 @@ const DisplayResults = ({
       display: 'flex', 
       justifyContent: 'center',
       alignItems: 'center',
-      padding: '20px'
+      padding: '35px'
     }}>
       {displayedImage ? (
         <div style={{
           maxWidth: '80%', 
           maxHeight: '550px',
-          boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
           borderRadius: '10px',
           transform: 'translateZ(0) scale(1.0, 1.0)',
           transition: 'transform 0.5s',

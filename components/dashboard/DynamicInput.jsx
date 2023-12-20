@@ -77,30 +77,30 @@ const DynamicInput = ({
   return (
     <>
       {tool === "imageCreation" && (
-        <div className="dynamic-input flex flex-row justify-center h-full m-2">
+        <div className="dynamic-input">
           <ImageCreateForm modelId={modelId} supabase={supabase} />
         </div>
       )}
 
       {tool === "imageEditing" && (
-        <div className="dynamic-input flex flex-row justify-center h-full m-3">
+        <div className="dynamic-input">
           <input
             type="file"
             accept="image/*"
             onChange={onImageChange}
-            className="form-input text-md"
+            className="form-input"
           />
           <input
             type="text"
             placeholder="Describe modifications..."
-            className="form-input w-80 px-2 py-2 flex-grow"
+            className="form-input"
             value={userInput}
             onChange={handleTextInputChange}
           />
           <button
             disabled={isLoading}
             onClick={handleUserImageEditSubmit}
-            className="submit-button pr-6 pl-4 py-2"
+            className="submit-button"
           >
             {isLoading ? "Processing..." : "Submit"}
           </button>
@@ -108,10 +108,10 @@ const DynamicInput = ({
       )}
 
       {tool === "articleCreation" && (
-        <div className="dynamic-input flex flex-row justify-center h-full m-3">
+        <div className="dynamic-input">
           <textarea
             placeholder="Enter text for article creation"
-            className="form-input w-80 px-2 py-2 flex-grow"
+            className="form-input"
             value={userInput}
             onChange={handleTextInputChange}
           />

@@ -11,7 +11,7 @@ const Index = () => {
             className="font-bold hover:underline"
             rel="noreferrer"
           >
-            SciFiction.com
+            <img src="/scifiction.png" width="70px" />
           </a>
         </p>
       </footer>

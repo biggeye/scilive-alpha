@@ -29,6 +29,8 @@ export default function LoginPage() {
     }
   }
 
+
+  
   async function handleLogIn(event) {
     event.preventDefault(); // Prevent default form submission behavior
 

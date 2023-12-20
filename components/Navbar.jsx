@@ -22,7 +22,7 @@ const Navbar = () => {
   return (
     <Disclosure as="nav" className="bg-slate-100">
       {({ open }) => (
-        <>
+        <div className="navbar-container">
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               {/* Mobile menu button */}
@@ -41,13 +41,13 @@ const Navbar = () => {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
                   <img
-                    className="h-8 w-auto"
-                    src="/scifiction.svg"
-                    alt="Your Company"
+                    className="mt-4 h-16 w-auto"
+                    src="/sciLive.svg"
+                    alt="sciLive"
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                  <div className="flex flex-space-between space-x-4 mt-4">
                     {navigation.map((item) => (
                       <a
                         key={item.name}
@@ -70,24 +70,17 @@ const Navbar = () => {
               {/* Right-side elements */}
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Notification bell */}
-                <button
-                  type="button"
-                  className="p-1 rounded-full text-slate-900 bg-gray-300 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
+        
                 {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
+                <Menu as="div" className="relative">
                   <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button className="relative flex">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                        className="h-12 w-auto"
+                        src="/avatar-icon.svg"
+                        alt="Avatar"
                       />
                     </Menu.Button>
                   </div>
@@ -180,7 +173,7 @@ const Navbar = () => {
               ))}
             </div>
           </Disclosure.Panel>
-        </>
+        </div>
       )}
     </Disclosure>
   );

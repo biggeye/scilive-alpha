@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { createClient } from "@/utils/supabase/client"; // Ensure this path is correct
 import GitHubLoginButton from "@/components/auth/GitHubLoginButton";
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
+import TikAPILoginButton from "@/components/auth/TikAPILoginButton";
 
 export default function LoginPage() {
   const supabase = createClient();
@@ -47,10 +48,15 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="submit-button">
         <GitHubLoginButton />
+        </div>
+          <div className="submit-button">
         <GoogleLoginButton />
-        <form>
+        </div>
+        <form className="input-form">
           <input 
+          
             type="email" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
@@ -62,8 +68,8 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)} 
             placeholder="Password" 
           />
-          <button onClick={handleSignUp} type="submit">Sign Up</button>
-          <button onClick={handleLogIn} type="submit">Log In</button>
+          <button className="submit-button" onClick={handleSignUp} type="submit">Sign Up</button>
+          <button className="submit-button" onClick={handleLogIn} type="submit">Log In</button>
         </form>
       </div>
     </div>

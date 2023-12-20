@@ -13,17 +13,12 @@ export default function GitHubLoginButton() {
         })
     };
 
-    const handleSignOut = async () => {
-        await supabase.auth.signOut();
-    }
-
     return (
         <>
-        <button onClick={handleGitHubLogin}>
-        Sign In With GitHub
-    </button>
-    <button onClick={handleSignOut}>Sign Out</button>
-    </>
+            <button className="submit-button" onClick={handleGitHubLogin}>
+                GitHub
+            </button>
+        </>
     )
 }
 

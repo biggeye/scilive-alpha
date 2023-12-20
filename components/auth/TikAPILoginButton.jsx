@@ -1,17 +1,11 @@
 "use server";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
 
-export default function TikAPILoginButton() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-
-  const handleTikAPILogin = async () => {
-    await TikAPI.popup({
+export default async function TikAPILoginButton() {
+  const handleTikAPILogin = await TikAPI.popup({
       client_id: "c_BCLMWJVHOJ",
       scope: ["VIEW_PROFILE", "USER_MESSAGES"],
     });
 
-    return <button onClick={TikAPILoginButton}>Sign In With TikTok</button>;
+    return <button onClick={handleTikAPILogin}>Sign In With TikTok</button>;
   };
-}
+

@@ -201,7 +201,6 @@ select:focus {
 .navbar-main{
   top: 4px;
 }
-
 .logo-main {
   position: absolute;
   top: 4px;
@@ -209,11 +208,12 @@ select:focus {
   width: auto;
   height: 75px;
 }
-
 .menu-button {
   margin-top: 4px;
   margin-right: 4px;
-  position: absolute;
+  height: 75px;
+  width: auto;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -222,7 +222,6 @@ select:focus {
   color: #1e293b; /* text-slate-900 */
   /* Add hover and focus styles */
 }
-
 .nav-link {
   border-radius: 0.375rem; /* rounded-md */
   padding-left: 0.75rem; /* px-3 */
@@ -234,8 +233,6 @@ select:focus {
   color: #1e293b; /* text-slate-900 */
   /* Add hover styles */
 }
-
-
 /* Dark mode styling */
 @media (prefers-color-scheme: dark) {
   select {
@@ -253,15 +250,12 @@ select:focus {
     box-shadow: 0 0 0 2px rgba(var(--foreground-dark), 0.5);
   }
 }
-
 /* Responsive adjustments */
 @media (min-width: 640px) {
   .toolSelector select, .toolOptions select {
     min-width: 300px; /* Adjust as needed */
   }
 }
-
-
 .toolOptions {
   width: auto;
   padding: .25rem;
@@ -276,7 +270,6 @@ select:focus {
   background-color: rgba(211, 211, 211, 0.555);
   border-radius: .25rem;
 }
-
 .displayResults{
   width: 90vw;
   height: 750px;
@@ -293,11 +286,9 @@ select:focus {
   transition: transform 0.5s;
   perspective: 1000px;
 }
-
 .imageSkeleton:hover {
   transform: translateZ(0) scale(1.02, 1.02);
 }
-
 .modal {
   position: fixed;
   top: 50%;
@@ -307,7 +298,6 @@ select:focus {
   padding: 20px;
   z-index: 500;
 }
-
 .logo-icon {
   position: fixed;
   top: .5rem;
@@ -320,7 +310,6 @@ select:focus {
     /* 2px */
   }
 }
-
 .menu-icon {
   position: fixed;
   top: .5rem;
@@ -334,7 +323,6 @@ select:focus {
     /* 2px */
   }
 }
-
 .code {
   position: absolute;
   bottom: 5px;
@@ -342,7 +330,6 @@ select:focus {
   border-bottom-left-radius: .2rem;
   border-color: #374151;
 }
-
 .gallery-container {
 
   overflow-y: auto;
@@ -358,7 +345,6 @@ select:focus {
     flex-direction: row;
   }
 }
-
 .gallery-list {
   display: flex;
   flex-direction: column;
@@ -367,7 +353,6 @@ select:focus {
     flex-direction: row;
   }
 }
-
 .gallery-small {
   display: flex;
   flex-direction: column;
@@ -376,29 +361,24 @@ select:focus {
     flex-direction: row;
   }
 }
-
 .card-container {
   padding: 1rem;
   perspective: 1000px;
   /* 3D effect */
 }
-
 .card-container img {
   transition: transform 0.5s, box-shadow 0.5s;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 .card-container img:hover {
   transform: rotateY(10deg);
   /* 3D rotate effect */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
-
 .micro-account {
   font-size: xx-small;
 }
-
 .dynamic-input {
   display: flex;
   flex-direction: row;
@@ -416,15 +396,12 @@ select:focus {
     width: 90%;
   }
 }
-
 .dynamic-input-upload {
   position: relative;
 }
-
 .dynamic-input-upload label {
   display: none;
 }
-
 .dynamic-input-upload input[type='file'] {
   width: 100%;
   height: 100%;
@@ -432,7 +409,11 @@ select:focus {
   position: absolute;
   cursor: pointer;
 }
-
+.login-buttons {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+}
 .form-input {
   width: 75vw;
   margin: .5rem;
@@ -440,9 +421,9 @@ select:focus {
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 4px;
 }
-
 .submit-button {
-  padding: .1rem;
+
+  padding: .25rem;
   /* Button padding */
   border: 1px solid rgba(0, 0, 0, 0.8);
   /* Border matching the form-input */

@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { handleImageEditSubmit } from "@/lib/replicate/handleImageEditSubmit";
 import { handleImageCreateSubmit } from "@/lib/replicate/handleImageCreateSubmit";
+import ImageCreateForm from "../replicate/ImageCreateForm";
+// Import AudioPlayer if it's a separate component
+// import AudioPlayer from 'path-to-AudioPlayer';
 
 const DynamicInput = ({
   userId,
@@ -17,18 +20,23 @@ const DynamicInput = ({
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  // Define state for dynamic fields if necessary
+  // const [selectedImage, setSelectedImage] = useState(null);
+  // const [selectedVoice, setSelectedVoice] = useState(null);
+  // const [prompt, setPrompt] = useState("");
+
+  const modelId = selectedModel ? selectedModel.modelId : null;
 
   const handleTextInputChange = (e) => {
     setUserInput(e.target.value);
   };
 
   const handleUserImageEditSubmit = async () => {
-    if (!selectedModel) {
+    if (!modelId) {
       console.error("No model selected");
       return;
     }
     setIsLoading(true);
-    const modelId = selectedModel.modelId;
     await handleImageEditSubmit(
       userInput,
       userInFile,
@@ -43,19 +51,13 @@ const DynamicInput = ({
   };
 
   const handleUserImageCreateSubmit = async () => {
-    if (!selectedModel) {
+    if (!modelId) {
       console.error("No model selected");
       return;
     }
     setIsLoading(true);
-    const modelId = selectedModel.modelId;
-    const imageCreateSubmit = {
-      userInput: userInput,
-      modelId: modelId,
-    };
-    console.log(imageCreateSubmit);
     await handleImageCreateSubmit(
-      {imageCreateSubmit},
+      { userInput, modelId },
       setError,
       setPrediction,
       setNewPrediction
@@ -67,50 +69,16 @@ const DynamicInput = ({
     if (!selectedModel || !selectedModel.input) return null;
 
     return Object.entries(selectedModel.input).map(([key, value], index) => {
-        if (key === 'prompt' || key === 'text' || key === 'text_prompt') {
-          return (
-            <div key={index}>
-              <label>{key}:</label>
-              <input type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} />
-            </div>
-          );
-        }
-        if (selectedModel.type.startsWith('img')) {
-          return (
-            <div>
-              <label>Upload Image:</label>
-              <input type="file" onChange={handleImageChange} />
-              {selectedImage && <img src={selectedImage} alt="Preview" />}
-            </div>
-          );
-        }
-        if (selectedModel.type.match('txt2audio')) {
-          return (
-            <div>
-               <input type="text" value={prompt} />
-               <input type="file" onChange={handleVoiceChange} />
-               {selectedVoice && <AudioPlayer src={selectedVoice} />}
-            </div>
-          )
-        }
-      })};
-     
+      // Implement your logic for dynamic fields
+      // Use state variables like selectedImage, selectedVoice, prompt as needed
+    });
+  };
+
   return (
     <>
       {tool === "imageCreation" && (
         <div className="dynamic-input flex flex-row justify-center h-full m-2">
-          <input
-            placeholder="Enter text for image creation"
-            className="form-input w-80 px-2 py-2 flex-grow"
-            onChange={handleTextInputChange}
-          />
-          <button
-            disabled={isLoading}
-            onClick={handleUserImageCreateSubmit}
-            className="submit-button"
-          >
-            {isLoading ? "Processing..." : "Submit"}
-          </button>
+          <ImageCreateForm modelId={modelId} supabase={supabase} />
         </div>
       )}
 
@@ -144,6 +112,8 @@ const DynamicInput = ({
           <textarea
             placeholder="Enter text for article creation"
             className="form-input w-80 px-2 py-2 flex-grow"
+            value={userInput}
+            onChange={handleTextInputChange}
           />
           {/* Add a submit button if needed */}
         </div>

@@ -6,7 +6,7 @@ const GitHubLogin = () => {
         supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: 'http://localhost:3000/legacy'
+                redirectTo: 'https://scilive.cloud/legacy'
             }
         })
     }, []);

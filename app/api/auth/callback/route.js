@@ -19,5 +19,5 @@ export async function GET(request) {
     }
 
   }
-  return NextResponse.redirect("http://localhost:3000/dashboard")
+  return NextResponse.redirect("https://scilive.cloud/dashboard")
 }

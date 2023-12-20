@@ -8,7 +8,7 @@ export default function GitHubLoginButton() {
         await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: 'http://localhost:3000/api/auth/callback'
+                redirectTo: 'https://scilive.cloud/api/auth/callback'
             }
         })
     };

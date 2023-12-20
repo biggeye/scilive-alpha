@@ -16,7 +16,7 @@ export default function LoginPage() {
       email: email,
       password: password,
       options: {
-        emailRedirectTo: "http://localhost:3000/dashboard",
+        emailRedirectTo: "https://scilive.cloud/dashboard",
       },
     });
 

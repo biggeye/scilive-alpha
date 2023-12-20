@@ -413,12 +413,28 @@ select:focus {
   display: flex;
   flex-direction: row;
   padding: 4px;
+  justify-content: space-evenly;
 }
 .form-input {
   width: 75vw;
   margin: .5rem;
   padding: .25rem;
   border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+.signin-input {
+  width: 35vw;
+  margin: .5rem;
+  padding: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+.signin-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: auto;
+  padding: .5rem;
+  border: 1px solid (0,0,0,0.5);
   border-radius: 4px;
 }
 .submit-button {

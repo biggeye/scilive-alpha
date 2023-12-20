@@ -51,22 +51,24 @@ export default function LoginPage() {
 
           <GitHubLoginButton />
           <GoogleLoginButton />
+
         </div>
          <form className="flex flex-col">
           <input
-          className="form-input"
+          className="signin-input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail"
           />
           <input
-          className="form-input"
+          className="signin-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
+          <div className="signin-buttons">
           <button
             className="submit-button"
             onClick={handleSignUp}
@@ -77,6 +79,7 @@ export default function LoginPage() {
           <button className="submit-button" onClick={handleLogIn} type="submit">
             Log In
           </button>
+          </div>
         </form>
       </div>
  

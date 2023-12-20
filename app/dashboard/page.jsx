@@ -69,7 +69,7 @@ const DashboardPage = () => {
 
   return (
       <div className="w-full flex flex-col items-center justify-start p-4">
-        <div className="flex-1 w-full flex-row bg-gray-400 mt-8 p-4 rounded-md shadow-md">
+        <div className="toolOptions">
   
           <ToolSelector onToolChange={handleToolChange} />
           <ToolOptions
@@ -77,7 +77,8 @@ const DashboardPage = () => {
             handleModelChange={handleModelChange}
             onExampleImageChange={handleExampleImageChange}
           />
-          <div className="flex flex-row gap-4">
+          </div>
+          <div className="displayResults">
             <DisplayResults
               tool={selectedTool}
               prediction={prediction}
@@ -86,7 +87,7 @@ const DashboardPage = () => {
               exampleImage={exampleImage}
               newPrediction={newPrediction}
             />
-
+                </div>
                 <div className="dynamic-input flex flex-row justify-center h-full m-2">
                   <DynamicInput
                     userId={userId}
@@ -105,9 +106,7 @@ const DashboardPage = () => {
                 </div>
                             </div>
 
-          </div>
-
-        </div>
+  
   );
 };
 

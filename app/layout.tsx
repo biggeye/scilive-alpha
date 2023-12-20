@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className}>
           <body className="body bg-slate-100">
           <Navbar />
-          <main className="bg-gradient-to-b from-slate-100 to-gray-300">
+          <main className="main">
               {children}
             </main>
           </body>

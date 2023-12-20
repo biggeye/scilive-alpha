@@ -30,20 +30,20 @@ const DisplayResults = ({
       maxHeight: '750px', 
       overflow: 'auto', 
       display: 'flex', 
-      justifyContent: 'center', // Center the card horizontally
-      alignItems: 'center', // Center the card vertically
-      padding: '20px' // Add some space around the card
-    }}> {/* Scrollable container */}
-      {displayedImage && (
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '20px'
+    }}>
+      {displayedImage ? (
         <div style={{
-          maxWidth: '100%', 
-          maxHeight: '600px',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)', // Shadow for 3D effect
-          borderRadius: '10px', // Rounded corners
-          transform: 'translateZ(0) scale(1.0, 1.0)', // Subtle 3D effect
+          maxWidth: '80%', 
+          maxHeight: '550px',
+          boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+          borderRadius: '10px',
+          transform: 'translateZ(0) scale(1.0, 1.0)',
           transition: 'transform 0.5s',
           ':hover': {
-            transform: 'translateZ(0) scale(1.05, 1.05)' // Slightly enlarge on hover
+            transform: 'translateZ(0) scale(1.05, 1.05)'
           }
         }}>
           <img 
@@ -51,17 +51,15 @@ const DisplayResults = ({
             alt="Selected or Processed" 
             style={{ 
               width: '100%', 
-              height: 'auto' // Maintain aspect ratio
-            }} // Image size constraints
+              height: 'auto'
+            }}
           />
         </div>
+      ) : (
+        <div className="imageSkeleton">
+          </div>
       )}
-      {/* {predictionProgress && (
-        <CircularProgress variant="determinate" value={predictionProgress} />
-      )} */}
-    </div>
-    
-  );
-};
+      </div>
+)}
 
 export default DisplayResults;

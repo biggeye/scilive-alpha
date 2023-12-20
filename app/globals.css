@@ -6,13 +6,16 @@
   html {
     font-size: .75rem;
     border-color: rgba(200, 50%, 3%, .2);
+
     @media (min-width: 640px) {
       font-size: .85rem;
     }
+
     @media (min-width: 1024px) {
       font-size: 0.9rem;
     }
   }
+
   :root {
     --background-default: 200 20% 98%;
     --btn-background-default: 200 10% 91%;
@@ -23,6 +26,7 @@
     --btn-background-hover-dark: 200 10% 12%;
     --foreground-dark: 200 20% 96%;
   }
+
   @media (prefers-color-scheme: dark) {
     :root {
       --background: var(--background-dark);
@@ -31,15 +35,18 @@
       --foreground: var(--foreground-dark);
     }
   }
+
   @media (prefers-color-scheme: dark) {
     * {
       border-color: rgba(200, 20%, 96%, .2);
     }
   }
 }
+
 .animate-in {
   animation: animateIn 0.3s ease 0.15s both;
 }
+
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -51,6 +58,7 @@
     transform: translateY(0);
   }
 }
+
 @keyframes animateIn {
   from {
     opacity: 0;
@@ -62,13 +70,61 @@
     transform: translateY(0);
   }
 }
+
+.main {
+  height: 100%;
+
+  .bg-gradient-to-b {
+    background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+  }
+}
+
 .body {
   height: 100vh;
+  overflow-y: hidden;
 }
+
 .main {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
+
+.toolOptions {
+  width: auto;
+  padding: .5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2rem
+    /* 32px */
+  ;
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  border-radius: .25rem;
+}
+
+.displayResults{
+  width: 90vw;
+  height: 750px;
+}
+/* styles/globals.css or any other global stylesheet */
+.imageSkeleton {
+  width: 60vw;
+  height: 60vh;
+  background-color: #e0e0e0;
+  /* Grey background for the skeleton */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  transform: translateZ(0) scale(1.0, 1.0);
+  transition: transform 0.5s;
+}
+
+.imageSkeleton:hover {
+  transform: translateZ(0) scale(1.02, 1.02);
+}
+
 .modal {
   position: fixed;
   top: 50%;
@@ -78,11 +134,12 @@
   padding: 20px;
   z-index: 500;
 }
+
 .logo-icon {
   position: fixed;
   top: .5rem;
   left: .5rem;
-  
+
   @media screen and (min-width: 1024px) {
     padding-left: .5rem;
     /* 2px */
@@ -90,6 +147,7 @@
     /* 2px */
   }
 }
+
 .menu-icon {
   position: fixed;
   top: .5rem;
@@ -103,6 +161,7 @@
     /* 2px */
   }
 }
+
 .code {
   position: absolute;
   bottom: 5px;
@@ -110,6 +169,7 @@
   border-bottom-left-radius: .2rem;
   border-color: #374151;
 }
+
 .gallery-container {
 
   overflow-y: auto;
@@ -125,38 +185,47 @@
     flex-direction: row;
   }
 }
+
 .gallery-list {
   display: flex;
   flex-direction: column;
+
   @media (min-width: 1024px) {
     flex-direction: row;
   }
 }
+
 .gallery-small {
   display: flex;
   flex-direction: column;
+
   @media (min-width: 1024px) {
     flex-direction: row;
   }
 }
+
 .card-container {
   padding: 1rem;
   perspective: 1000px;
   /* 3D effect */
 }
+
 .card-container img {
   transition: transform 0.5s, box-shadow 0.5s;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .card-container img:hover {
   transform: rotateY(10deg);
   /* 3D rotate effect */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
+
 .micro-account {
   font-size: xx-small;
 }
+
 .dynamic-input {
   height: 2.5rem;
   /* 40px */
@@ -170,11 +239,13 @@
     width: 90%;
   }
 }
+
 .form-input {
   padding: 4px;
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 4px;
 }
+
 .submit-button {
   padding: .1rem;
   /* Button padding */
@@ -191,10 +262,12 @@
   transition: background-color 0.3s, color 0.3s;
   /* Smooth transition for color changes */
 }
+
 .submit-button:hover {
   background-color: lightgray;
   /* Background color on hover */
 }
+
 .submit-button:active {
   background-color: darken(lightgray), 5%;
   /* Slightly darken the color on click */

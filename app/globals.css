@@ -37,8 +37,53 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    * {
+    html {
+      --background: var(--background-dark);
+      --btn-background: var(--btn-background-dark);
+      --btn-background-hover: var(--btn-background-hover-dark);
+      --foreground: var(--foreground-dark);
       border-color: rgba(200, 20%, 96%, .2);
+    }
+
+    .body, .main, .toolOptions, .gallery-container, .dynamic-input, .form-input, .submit-button {
+      background-color: rgba(var(--background-dark), 1);
+      color: rgba(var(--foreground-dark), 1);
+    }
+
+    .card-container img {
+      box-shadow: 0 4px 8px rgba(var(--foreground-dark), 0.2);
+    }
+
+    .card-container img:hover {
+      box-shadow: 0 8px 16px rgba(var(--foreground-dark), 0.3);
+    }
+
+    .submit-button {
+      background-color: var(--btn-background-dark);
+      color: var(--foreground-dark);
+    }
+
+    .submit-button:hover {
+      background-color: var(--btn-background-hover-dark);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    select {
+      background-color: rgba(var(--background-dark), 1);
+      color: rgba(var(--foreground-dark), 1);
+      border: 1px solid rgba(var(--foreground-dark), 0.5);
+    }
+  
+    select:hover {
+      background-color: rgba(var(--btn-background-hover-dark), 1);
+      color: rgba(var(--foreground-dark), 1);
+    }
+  
+    select:focus {
+      outline: none;
+      border-color: rgba(var(--foreground-dark), 1);
+      box-shadow: 0 0 0 2px rgba(var(--foreground-dark), 0.5);
     }
   }
 }
@@ -88,9 +133,112 @@
   align-items: center;
 }
 
+/* Base styling for all select elements */
+/* Global CSS file */
+
+select {
+  background-color: #f8fafc; /* For the default background, similar to text-slate-900 */
+  color: #1e293b; /* For the text color, similar to text-slate-900 */
+  padding: 0.75rem 1rem; /* Similar to px-3 py-2 */
+  border-radius: 0.375rem; /* Similar to rounded-md */
+  font-size: 1rem; /* Similar to text-base */
+  font-weight: 500; /* Similar to font-medium */
+  transition: background-color 150ms ease-in-out, color 150ms ease-in-out; /* Similar to transition duration-150 ease-in-out */
+  border: 1px solid #e2e8f0; /* Similar to a standard border color in Tailwind */
+  width: 100%; /* To make it full width as per block display */
+}
+
+select:hover {
+  background-color: #cbd5e1; /* Similar to hover:bg-slate-300 */
+  color: #1e293b; /* Similar to hover:text-slate-800 */
+}
+
+/* For the dropdown options */
+select option {
+  background-color: #f8fafc; /* For the default background, similar to text-slate-900 */
+  color: #1e293b; /* For the text color, similar to text-slate-900 */
+}
+
+
+select:focus {
+  outline: none;
+  border-color: rgba(var(--foreground-default), 1);
+  box-shadow: 0 0 0 2px rgba(var(--foreground-default), 0.5);
+}
+
+/* Styling for toolSelector and toolOptions */
+.toolSelector select, .toolOptions select {
+  min-width: 150px; /* Adjust as needed */
+}
+
+.navbar-container {
+  background-color: #f1f5f9; /* bg-slate-100 */
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 112rem; /* max-w-7xl */
+  padding-left: 0.5rem; /* px-2 */
+  padding-right: 0.5rem; /* px-2 */
+  /* Add media queries for sm:px-6 and lg:px-8 */
+  position: relative;
+  display: flex;
+  height: 4rem; /* h-16 */
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 0.5rem; /* p-2 */
+  color: #1e293b; /* text-slate-900 */
+  /* Add hover and focus styles */
+}
+
+.nav-link {
+  border-radius: 0.375rem; /* rounded-md */
+  padding-left: 0.75rem; /* px-3 */
+  padding-right: 0.75rem; /* px-3 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem; /* py-2 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: #1e293b; /* text-slate-900 */
+  /* Add hover styles */
+}
+
+
+/* Dark mode styling */
+@media (prefers-color-scheme: dark) {
+  select {
+    background-color: rgba(var(--background-dark), 1);
+    color: rgba(var(--foreground-dark), 1);
+    border: 1px solid rgba(var(--foreground-dark), 0.5);
+  }
+
+  select:hover {
+    border-color: rgba(var(--foreground-dark), 0.75);
+  }
+
+  select:focus {
+    border-color: rgba(var(--foreground-dark), 1);
+    box-shadow: 0 0 0 2px rgba(var(--foreground-dark), 0.5);
+  }
+}
+
+/* Responsive adjustments */
+@media (min-width: 640px) {
+  .toolSelector select, .toolOptions select {
+    min-width: 300px; /* Adjust as needed */
+  }
+}
+
+
 .toolOptions {
   width: auto;
-  padding: .5rem;
+  padding: .25rem;
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -110,7 +258,7 @@
 /* styles/globals.css or any other global stylesheet */
 .imageSkeleton {
   width: 80vw;
-  height: 60vh;
+  height: 50vh;
   background-color: #e0e0e0;
   /* Grey background for the skeleton */
   box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
@@ -228,6 +376,7 @@
 .dynamic-input {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   height: auto;
   /* 40px */
@@ -240,6 +389,22 @@
   @media screen and (min-width: 640px) {
     width: 90%;
   }
+}
+
+.dynamic-input-upload {
+  position: relative;
+}
+
+.dynamic-input-upload label {
+  display: none;
+}
+
+.dynamic-input-upload input[type='file'] {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
 }
 
 .form-input {

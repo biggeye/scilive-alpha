@@ -11,6 +11,12 @@ export async function GET(request) {
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
     await supabase.auth.exchangeCodeForSession(code);
+    if (!session) {
+      console.error("No session exchanged!")
+    }
+    else {
+      console.log("Session received: ", session)
+    }
 
   }
   return NextResponse.redirect("http://localhost:3000/dashboard")

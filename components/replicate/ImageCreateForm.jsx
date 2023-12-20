@@ -13,7 +13,7 @@ const ImageCreateForm = ({ modelId, supabase }) => {
 
   return (
     <div className="dynamic-input">
-      <input
+      <textarea
       className="form-input"
         placeholder="Enter text for image creation"
         value={userInput}

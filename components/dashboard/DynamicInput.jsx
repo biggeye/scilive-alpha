@@ -83,14 +83,15 @@ const DynamicInput = ({
       )}
 
       {tool === "imageEditing" && (
+
         <div className="dynamic-input">
           <input
+          className="dynamic-input-upload"
             type="file"
             accept="image/*"
             onChange={onImageChange}
-            className="form-input"
           />
-          <input
+          <textarea
             type="text"
             placeholder="Describe modifications..."
             className="form-input"

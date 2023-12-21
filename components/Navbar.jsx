@@ -53,40 +53,41 @@ const Navbar = () => {
 
             {/* Logo and navigation links */}
             <div style={{}}>
-              <img
-                style={{
-                  position: "fixed",
-                  height: "64px",
-                  left: "4px",
-                  top: "4px",
-                }}
-                src="/sciLive.svg"
-                alt="sciLive"
-              />
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    style={{
-                      padding: "8px 12px",
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                    aria-current={item.current ? "page" : undefined}
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-            </div>
+                <Menu as="div" className="relative inline-block text-left">
+          <Menu.Button style={{ ... }}>
+            <img
+              src="/sciLive.svg"
+              alt="sciLive"
+              style={{ height: "64px" }}
+            />
+          </Menu.Button>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="absolute left-0 w-56 mt-2 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              {navigation.map((item) => (
+                <Menu.Item key={item.name}>
+                  {({ active }) => (
+                    <a
+                      href={item.href}
+                      className={`${
+                        active ? 'bg-gray-100' : ''
+                      } group flex rounded-md items-center w-full px-2 py-2 text-sm text-slate-900`}
+                    >
+                      {item.name}
+                    </a>
+                  )}
+                </Menu.Item>
+              ))}
+            </Menu.Items>
+          </Transition>
+        </Menu>
 
             {/* Right-side elements */}
             <div

@@ -16,32 +16,71 @@ const Navbar = () => {
   const closeAccountModal = () => setIsAccountModalOpen(false);
 
   return (
-    <Disclosure as="nav" style={{ backgroundColor: '#f1f1f1' }}>
+    <Disclosure as="nav" style={{ backgroundColor: "#f1f1f1" }}>
       {({ open }) => (
-        <div className="navbar-container" style={{ margin: 'auto', maxWidth: '1200px', padding: '0 16px' }}>
-          <div style={{ position: 'relative', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-
+        <div
+          className="navbar-container"
+          style={{ margin: "auto", maxWidth: "1200px", padding: "0 16px" }}
+        >
+          <div
+            style={{
+              position: "relative",
+              height: "64px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             {/* Mobile menu button */}
-            <Disclosure.Button style={{ position: 'absolute', insetY: '0', left: '0', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}>
+            <Disclosure.Button
+              style={{
+                position: "absolute",
+                insetY: "0",
+                left: "0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "8px",
+              }}
+            >
               <span className="sr-only">Open main menu</span>
-              {open ? <XMarkIcon className="icon" aria-hidden="true" /> : <Bars3Icon className="icon" aria-hidden="true" />}
+              {open ? (
+                <XMarkIcon className="icon" aria-hidden="true" />
+              ) : (
+                <Bars3Icon className="icon" aria-hidden="true" />
+              )}
             </Disclosure.Button>
 
             {/* Logo and navigation links */}
-            <div style={{ display: 'flex', left: '0px', flex: '1', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{}}>
               <img
-                style={{ display: 'absolute', marginTop: '16px', height: '64px' }}
+                style={{
+                  position: "fixed",
+                  height: "64px",
+                  left: "4px",
+                  top: "4px",
+                }}
                 src="/sciLive.svg"
                 alt="sciLive"
               />
 
-              <div style={{ display: 'flex', alignItems: 'center', marginLeft: '24px' }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                }}
+              >
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    style={{ padding: '8px 12px', textDecoration: 'none', color: 'black' }}
-                    aria-current={item.current ? 'page' : undefined}
+                    style={{
+                      padding: "8px 12px",
+                      textDecoration: "none",
+                      color: "black",
+                    }}
+                    aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
                   </a>
@@ -50,15 +89,28 @@ const Navbar = () => {
             </div>
 
             {/* Right-side elements */}
-            <div style={{ position: 'fixed', insetY: '0', right: '0', display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
-              <Menu as="div" className="profile-dropdown" style={{ position: 'relative' }}>
-                <Menu.Button style={{ display: 'flex' }}>
-                  <img
-                    style={{ height: '48px' }}
-                    src="/avatar-icon.svg"
-                    alt="Avatar"
-                  />
-                </Menu.Button>
+            <div
+              style={{
+                position: "fixed",
+                insetY: "0",
+                right: "0",
+                display: "flex",
+                alignItems: "center",
+                paddingRight: "8px",
+              }}
+            >
+              <Menu as="div" className="relative">
+                <div>
+                  <Menu.Button className="relative flex">
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="h-20 top-4 right-4 w-auto"
+                      src="/avatartech.png"
+                      alt="Avatar"
+                    />
+                  </Menu.Button>
+                </div>
                 <Transition
                   as={Fragment}
                   enter="transition ease-out duration-100"
@@ -68,32 +120,89 @@ const Navbar = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="menu-items" style={{ position: 'absolute', right: '0', marginTop: '8px', width: '192px', backgroundColor: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                    {/* Menu items here */}
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={openAccountModal}
+                          className={
+                            (active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-slate-900 w-full text-left")
+                          }
+                        >
+                          Your Profile
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="#"
+                          className={
+                            (active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-slate-900")
+                          }
+                        >
+                          Settings
+                        </a>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="/login"
+                          className={
+                            (active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-slate-900")
+                          }
+                        >
+                          Login
+                        </a>
+                      )}
+                    </Menu.Item>
                   </Menu.Items>
                 </Transition>
               </Menu>
             </div>
-
           </div>
 
+          {isAccountModalOpen && (
+            <div className="fixed inset-0 z-50 overflow-auto bg-smoke-light flex">
+              <div className="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg">
+                <span className="absolute top-0 right-0 p-4">
+                  <button onClick={closeAccountModal} className="text-black">
+                    &times;
+                  </button>
+                </span>
+                <AccountForm />
+              </div>
+            </div>
+          )}
+
           {/* Mobile menu panel */}
-          <Disclosure.Panel className="mobile-menu" style={{ display: open ? 'block' : 'none' }}>
-            <div style={{ padding: '8px' }}>
+          <Disclosure.Panel
+            className="mobile-menu"
+            style={{ display: open ? "block" : "none" }}
+          >
+            <div style={{ padding: "8px" }}>
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
                   as="a"
                   href={item.href}
-                  style={{ display: 'block', padding: '8px 12px', textDecoration: 'none', color: 'black' }}
-                  aria-current={item.current ? 'page' : undefined}
+                  style={{
+                    display: "block",
+                    padding: "8px 12px",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
               ))}
             </div>
           </Disclosure.Panel>
-
         </div>
       )}
     </Disclosure>

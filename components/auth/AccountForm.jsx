@@ -25,7 +25,7 @@ export default function AccountForm() {
     fetchUser();
   }, [supabase]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [profileDetails, setProfileDetails] = useState({
     first_name: "",
     last_name: "",
@@ -71,7 +71,6 @@ export default function AccountForm() {
       setLoading(true);
 
       const { error } = await supabase.from("profiles").upsert({
-        id: userId,
         first_name,
         last_name,
         username,

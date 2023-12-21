@@ -1,23 +1,23 @@
-"use server";
+'use client'
 
-const TikAPILoginButton = () => {
-  
- 
+export default async function TikAPILoginButton() {
+
+  useEffect(() => {
     const fetchContent = async () => {
-      try {
-        const TikLogIn = await TikAPI.popup({
-          client_id: "c_BCLMWJVHOJ",
-          scope: ["VIEW_PROFILE", "USER_MESSAGES"],
-        });
-        // Further logic if needed
-      } catch (error) {
-        console.error('Error with TikAPI:', error);
-      }
+        try {
+            await TikAPI.popup({
+                client_id: "c_BCLMWJVHOJ",
+                scope: ["VIEW_PROFILE", "USER_MESSAGES"],
+            });
+        } catch (error) {
+            console.error('Error during TikAPI popup:', error);
+        }
     };
 
+    fetchContent();
+}, []); 
 
 
-  return <button onClick={fetchContent}>Sign In With TikTok</button>;
+  return <button onClick={fetchContent}>TikTok</button>;
 };
 
-export default TikAPILoginButton;

@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
@@ -10,7 +11,7 @@ export default function Avatar({ uid, url, size, onUpload }) {
   useEffect(() => {
     async function downloadImage(path) {
       try {
-        const { data, error } = await supabase.storage.from("avatars").download(path);
+        const { data, error } = await supabase.storage.from("user_avatars").download(path);
         if (error) {
           throw error;
         }
@@ -54,7 +55,7 @@ export default function Avatar({ uid, url, size, onUpload }) {
   };
 
   return (
-    <div className="box">
+    <div className="flex flex-col">
       {avatarUrl ? (
         <img className={`h-${size} w-${size} object-cover`} src={avatarUrl} alt="Avatar" />
       ) : (

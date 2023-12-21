@@ -9,6 +9,7 @@ export default function LoginPage() {
   const supabase = createClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [tikTokLogin, setTikTokLogin] = useState(null);
 
   async function handleSignUp(event) {
     event.preventDefault(); // Prevent default form submission behavior
@@ -44,6 +45,7 @@ export default function LoginPage() {
       // Redirect or handle successful login
     }
   }
+  
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -51,7 +53,6 @@ export default function LoginPage() {
 
           <GitHubLoginButton />
           <GoogleLoginButton />
-
         </div>
          <form className="flex flex-col">
           <input

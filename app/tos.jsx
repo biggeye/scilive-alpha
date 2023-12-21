@@ -37,4 +37,4 @@ const TermsOfService = () => {
       </ul>
     </div>
   );
-};ccount, users acknowledge that they have read, understood, and agree to be bound by these terms.
+};

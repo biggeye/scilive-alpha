@@ -16,19 +16,10 @@ const Navbar = () => {
   const closeAccountModal = () => setIsAccountModalOpen(false);
 
   return (
-    <Disclosure as="nav" style={{ backgroundColor: "#f1f1f1" }}>
+    <Disclosure as="nav" className="navbar-container">
       {({ open }) => (
         <>
-          <div
-            className="navbar-container"
-          >
-            <div
-              style={{
-                height: "64px",
-                display: "flex",
-              }}
-            >
-              {/* Mobile menu button */}
+                      {/* Mobile menu button */}
               <Disclosure.Button
                 style={{
                   position: "absolute",
@@ -62,7 +53,7 @@ const Navbar = () => {
                 onOpenAccountModal={openAccountModal}
                 userImageUrl="/avatartech.png"
               />
-            </div>
+          
 
             {/* Account Modal */}
             {isAccountModalOpen && (
@@ -71,7 +62,7 @@ const Navbar = () => {
 
             {/* Mobile menu panel */}
             <MobileMenu navigation={navigation} open={open} />
-          </div>
+         
         </>
       )}
     </Disclosure>

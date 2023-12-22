@@ -114,7 +114,6 @@
   }
 }
 
-
 .body {
   height: 100vh;
   overflow-y: hidden;
@@ -125,12 +124,11 @@
 }
 
 .main {
-  height: 100%;
+  background: linear-gradient(to bottom, #f1f1f1 0%, white 100%);
 
-  .bg-gradient-to-b {
-    background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-  }
-
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+  
 }
 
 /* Base styling for all select elements */
@@ -171,18 +169,15 @@ select:focus {
 }
 
 .navbar-container {
-  background-color: #f1f5f9; /* bg-slate-100 */
-  margin-left: auto;
-  margin-right: auto;
+  background-image: linear-grandient(to bottom, #f1f1f1 to white);
   width: 100vw;
-  padding-left: 0.2rem; /* px-2 */
-  padding-right: 0.2rem; /* px-2 */
+  padding: .5rem;
   /* Add media queries for sm:px-6 and lg:px-8 */
   position: relative;
   display: flex;
-  height: 5rem; /* h-16 */
+  height: 7rem; /* h-16 */
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .navbar-content {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import useImageCreateSubmit from '@/lib/replicate/useImageCreateSubmit'; // Custom hook for submission logic
+import handleImageCreateSubmit from '@/lib/replicate/handleImageCreateSubmit'; // Custom hook for submission logic
 
 const ImageCreateForm = ({ modelId, supabase }) => {
   const [userInput, setUserInput] = useState("");
-  const { isLoading, error, submitImageCreate, newPrediction } = useImageCreateSubmit(supabase);
+  const { isLoading, error, submitImageCreate, newPrediction } = handleImageCreateSubmit(supabase);
 
   const handleInputChange = (e) => setUserInput(e.target.value);
 

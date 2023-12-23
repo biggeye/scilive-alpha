@@ -11,11 +11,9 @@ const ToolSelector = ({ onToolChange }) => {
   };
 
   return (
-    <select onChange={handleToolChange} value={selectedTool}>
+    <select className="toolSelector" onChange={handleToolChange} value={selectedTool}>
       <option value="imageCreation">Image Creation</option>
       <option value="imageEditing">Image Editing</option>
-      <option value="deployments">Deployments</option>
-      <option value="articleCreation">Article Creation</option>
     </select>
   );
 };

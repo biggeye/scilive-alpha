@@ -1,15 +1,51 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client"; // Ensure this path is correct
-import GitHubLoginButton from "@/components/auth/GitHubLoginButton";
-import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
-import TikAPILoginButton from "@/components/auth/TikAPILoginButton";
+import GitHubLoginButton from "@/components/auth/oauth2/GitHubLoginButton";
+import GoogleLoginButton from "@/components/auth/oauth2/GoogleLoginButton";
+import TikAPILoginButton from "@/components/auth/oauth2/TikAPILoginButton";
 
 export default function LoginPage() {
   const supabase = createClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [tikTokLogin, setTikTokLogin] = useState(null);
+
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth event:', event);
+        console.log('Session:', session);
+  
+        if (session) {
+          // Insert session data into oauth2tokens table
+          const { data, error } = await supabase
+            .from('oauth2tokens')
+            .insert([
+              { 
+                user_id: session.user.id, 
+                service: 'supabase',
+                access_token: session.access_token,
+                token_type: 'Bearer',
+                expires_in: new Date(session.expires_at),
+              },
+            ]);
+  
+          if (error) {
+            console.error("Error inserting session data:", error.message);
+          } else {
+            console.log("Session data inserted:", data);
+          }
+        }
+      }
+    );
+  
+    // Cleanup the listener when the component is unmounted.
+    return () => {
+      authListener;
+    };
+  }, []);
+  
 
   async function handleSignUp(event) {
     event.preventDefault(); // Prevent default form submission behavior

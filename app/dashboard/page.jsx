@@ -7,7 +7,6 @@ import DynamicInput from "@/components/dashboard/DynamicInput";
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import { createClient } from "@/utils/supabase/client";
 
-
 const DashboardPage = () => {
   const [modelName, setModelName] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -64,48 +63,46 @@ const DashboardPage = () => {
 
   const handleExampleImageChange = (newExampleImage) => {
     setExampleImage(newExampleImage);
-    console.log("exampleImage: ", exampleImage)
+    console.log("exampleImage: ", exampleImage);
   };
 
   return (
-      <div className="w-full flex flex-col items-center justify-start p-4">
-        <div className="toolOptions">
-          <ToolSelector onToolChange={handleToolChange} />
-          <ToolOptions
-            tool={selectedTool}
-            handleModelChange={handleModelChange}
-            onExampleImageChange={handleExampleImageChange}
-          />
-          </div>
-          <div className="displayResults">
-            <DisplayResults
-              tool={selectedTool}
-              prediction={prediction}
-              predictionProgress={predictionProgress}
-              selectedImage={selectedImage}
-              exampleImage={exampleImage}
-              newPrediction={newPrediction}
-            />
-                </div>
-                <div className="dynamic-input flex flex-row justify-center h-full m-2">
-                  <DynamicInput
-                    userId={userId}
-                    tool={selectedTool}
-                    selectedModel={selectedModel}
-                    userInFile={userInFile}
-                    onImageChange={handleImageChange}
-                    setNewPrediction={setNewPrediction}
-                    setPrediction={setPrediction}
-                    supabase={supabase} // 'supabase' is not defined in the provided code
-                    onResultsChange={(newResults) => setResults(newResults)}
-                    onPredictionProgressChange={(progress) =>
-                      setPredictionProgress(progress)
-                    }
-                  />
-                </div>
-                            </div>
-
-  
+    <div className="w-full flex flex-col items-center justify-start p-4">
+      <div className="toolOptions">
+        <ToolSelector onToolChange={handleToolChange} />
+        <ToolOptions
+          tool={selectedTool}
+          handleModelChange={handleModelChange}
+          onExampleImageChange={handleExampleImageChange}
+        />
+      </div>
+      <div className="displayResults">
+        <DisplayResults
+          tool={selectedTool}
+          prediction={prediction}
+          predictionProgress={predictionProgress}
+          selectedImage={selectedImage}
+          exampleImage={exampleImage}
+          newPrediction={newPrediction}
+        />
+      </div>
+      <div className="dynamicInput">
+        <DynamicInput
+          userId={userId}
+          tool={selectedTool}
+          selectedModel={selectedModel}
+          userInFile={userInFile}
+          onImageChange={handleImageChange}
+          setNewPrediction={setNewPrediction}
+          setPrediction={setPrediction}
+          supabase={supabase} // 'supabase' is not defined in the provided code
+          onResultsChange={(newResults) => setResults(newResults)}
+          onPredictionProgressChange={(progress) =>
+            setPredictionProgress(progress)
+          }
+        />
+      </div>
+    </div>
   );
 };
 

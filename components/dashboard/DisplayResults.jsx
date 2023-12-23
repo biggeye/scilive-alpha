@@ -26,38 +26,13 @@ const DisplayResults = ({
   
 
   return (
-    <div style={{ 
-      maxHeight: '750px', 
-      overflow: 'auto', 
-      display: 'flex', 
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: '35px'
-    }}>
-      {displayedImage ? (
-        <div style={{
-          maxWidth: '80%', 
-          maxHeight: '550px',
-          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
-          borderRadius: '10px',
-          transform: 'translateZ(0) scale(1.0, 1.0)',
-          transition: 'transform 0.5s',
-          ':hover': {
-            transform: 'translateZ(0) scale(1.05, 1.05)'
-          }
-        }}>
-          <img 
-            src={displayedImage} 
-            alt="Selected or Processed" 
-            style={{ 
-              width: '100%', 
-              height: 'auto'
-            }}
-          />
+    <div className="displayResults utility-padding">
+   {displayedImage ? (
+        <div className="imageSkeleton">
+          <img src={displayedImage} alt="Selected or Processed" />
         </div>
       ) : (
-        <div className="imageSkeleton">
-          </div>
+        <div className="imageSkeleton"></div>
       )}
       </div>
 )}

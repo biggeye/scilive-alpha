@@ -2,7 +2,7 @@
 import React, { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import AccountForm from "@/components/auth/AccountForm"; // Adjust the import path as necessary
+import AccountForm from "@/components/account/AccountForm"; // Adjust the import path as necessary
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
@@ -99,8 +99,8 @@ const DropdownMenu = ({ items }) => (
 );
 
 const UserMenu = ({ onOpenAccountModal, userImageUrl }) => (
-  <Menu as="div" className="relative">
-    <Menu.Button className="flex">
+  <Menu as="div">
+    <Menu.Button>
       <img
         className="h-20 w-auto"
         src={userImageUrl}

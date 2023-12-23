@@ -1,29 +1,20 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 import Avatar from "./Avatar";
-import SignOut from "./SignOut";
+import SignOut from "../auth/SignOut";
+
+import { useSupabase } from '@/utils/supabase/useSupabase'; // Import useSupabase hook
 
 export default function AccountForm() {
-  const supabase = createClient();
+  const { supabase, user } = useSupabase(); // Use the hook to get Supabase client and user
   const [userId, setUserId] = useState(null); // Initialize userId as null
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const { data, error } = await supabase.auth.getUser();
-        if (error) {
-          console.error("Error fetching user:", error);
-        } else if (data?.user) {
-          setUserId(data.user.id); // Set userId when user data is available
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+    if (user) {
+      setUserId(user.id); // Set userId when user data is available
+    }
+  }, [user]);
 
-    fetchUser();
-  }, [supabase]);
 
   const [loading, setLoading] = useState(false);
   const [profileDetails, setProfileDetails] = useState({
@@ -34,7 +25,7 @@ export default function AccountForm() {
     avatar_url: "",
   });
 
-  const { first_name, last_name, username, avatar_url, email } = profileDetails;
+  const { first_name, last_name, email, username, avatar_url } = profileDetails;
 
   const getProfile = useCallback(async () => {
     if (userId) {
@@ -54,6 +45,7 @@ export default function AccountForm() {
         if (data) {
           setProfileDetails(data);
         }
+        
       } catch (error) {
         alert("Error loading user data!");
       } finally {
@@ -64,6 +56,7 @@ export default function AccountForm() {
 
   useEffect(() => {
     getProfile();
+    console.log(userId);
   }, [getProfile, userId]);
 
   async function updateProfile(e) {

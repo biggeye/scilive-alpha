@@ -29,11 +29,9 @@ const ToolOptions = ({
     }
   }, [selectedModel, onExampleImageChange]);
 
-  if (tool === "articleCreation") {
-    return <div>Settings for Article Creation</div>;
-  } else if (models) {
+   if (models) {
     return (
-      <ModelSelect models={models} handleModelChange={handleModelChange} />
+      <ModelSelect className="toolOptions" models={models} handleModelChange={handleModelChange} />
     );
   } else {
     return null;

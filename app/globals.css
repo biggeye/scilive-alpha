@@ -3,88 +3,351 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-      :root {
-    --background-default: 200 20% 98%;
-    --btn-background-default: 200 10% 91%;
-    --btn-background-hover-default: 200 10% 89%;
-    --foreground-default: 200 50% 3%;
-    --background-dark: 200 50% 3%;
-    --btn-background-dark: 200 10% 9%;
-    --btn-background-hover-dark: 200 10% 12%;
-    --foreground-dark: 200 20% 96%;
-  }
-    
-    font-size: .75rem;
-    border-color: rgba(200, 50%, 3%, .2);
-
-    @media (min-width: 640px) {
-      font-size: .85rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 0.9rem;
-    }
-  }
-
-
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: var(--background-dark);
-      --btn-background: var(--btn-background-dark);
-      --btn-background-hover: var(--btn-background-hover-dark);
-      --foreground: var(--foreground-dark);
-    }
-  
-    html {
-      --background: var(--background-dark);
-      --btn-background: var(--btn-background-dark);
-      --btn-background-hover: var(--btn-background-hover-dark);
-      --foreground: var(--foreground-dark);
-      border-color: rgba(200, 20%, 96%, .2);
-    }
-
-    .body, .main, .toolOptions, .gallery-container, .dynamic-input, .form-input, .submit-button {
-      background-color: rgba(var(--background-dark), 1);
-      color: rgba(var(--foreground-dark), 1);
-    }
-
-    .card-container img {
-      box-shadow: 0 4px 8px rgba(var(--foreground-dark), 0.2);
-    }
-
-    .card-container img:hover {
-      box-shadow: 0 8px 16px rgba(var(--foreground-dark), 0.3);
-    }
-
-    .submit-button {
-      background-color: var(--btn-background-dark);
-      color: var(--foreground-dark);
-    }
-
-    .submit-button:hover {
-      background-color: var(--btn-background-hover-dark);
-    }
-
-    select {
-      background-color: rgba(var(--background-dark), 1);
-      color: rgba(var(--foreground-dark), 1);
-      border: 1px solid rgba(var(--foreground-dark), 0.5);
-    }
-  
-    select:hover {
-      background-color: rgba(var(--btn-background-hover-dark), 1);
-      color: rgba(var(--foreground-dark), 1);
-    }
-  
-    select:focus {
-      outline: none;
-      border-color: rgba(var(--foreground-dark), 1);
-      box-shadow: 0 0 0 2px rgba(var(--foreground-dark), 0.5);
-    }
+  :root {
+    --black: #070708ff;
+    --onyx: #454545ff;
+    --orange: rgb(255, 166, 93);
+    --light-blue: rgb(75, 108, 255);
+    --silver: #C3C2C3ff;
+    --seasalt: #F6F6F6ff;
+    --max-width: 1100px;
+    --border-radius: 12px;
+    --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
+      'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
+      'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
   }
 }
+
+li:hover {
+  cursor: pointer;
+}
+
+ol:hover {
+  cursor: pointer;
+}
+
+ul:hover {
+  cursor: pointer;
+}
+
+li span:hover {
+  cursor: pointer;
+}
+
+ol span:hover {
+  cursor: pointer;
+}
+
+ul span:hover {
+  cursor: pointer;
+}
+
+.message_user {
+  text-align: left;
+  border-width: .1rem;
+  border-radius: .25rem;
+  border-color: #555;
+  box-shadow: 5px 0px 3px 0px rgba(0, 0, 0, 0.75);
+
+}
+
+.message_assistant {
+  text-decoration: bold;
+  border-width: .1rem;
+  border-radius: .25rem;
+  border-color: #555;
+  text-align: right;
+  box-shadow: 5px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  background-color: #c0c0c0;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  /* Background color of the scrollbar track */
+  border-radius: 8px;
+  /* Rounded corners for the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Color of the scrollbar thumb */
+  border-radius: 8px;
+  /* Rounded corners for the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* Color of the scrollbar thumb when hovering */
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: rgb(var(--onyx));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--seasalt))) rgb(var(--silver));
+  height: 100vh;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.main {
+  background: linear-gradient(to bottom, #f1f1f1 0%, white 100%);
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+
+}
+select {
+  background-color: #f8fafc;
+  /* For the default background, similar to text-slate-900 */
+  color: #1e293b;
+  /* For the text color, similar to text-slate-900 */
+  padding: 0.75rem 1rem;
+  /* Similar to px-3 py-2 */
+  border-radius: 0.375rem;
+  /* Similar to rounded-md */
+  font-size: 1rem;
+  /* Similar to text-base */
+  font-weight: 500;
+  /* Similar to font-medium */
+  transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+  /* Similar to transition duration-150 ease-in-out */
+  border: 1px solid #e2e8f0;
+  /* Similar to a standard border color in Tailwind */
+  width: 100%;
+  /* To make it full width as per block display */
+}
+select:hover {
+  background-color: #cbd5e1;
+  color: #1e293b;
+}
+select option {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+select:focus {
+  outline: none;
+  border-color: rgba(var(--foreground-default), 1);
+  box-shadow: 0 0 0 2px rgba(var(--foreground-default), 0.5);
+}
+.toolSelector select,
+.toolOptions select {
+  min-width: 150px;
+  /* Adjust as needed */
+}
+
+.navbar-container {
+  background-image: linear-gradient(to bottom, #f1f1f1, white);
+  width: 100vw;
+  padding: 0.5rem;
+  position: absolute;
+  display: flex;
+  height: 7rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar-content {
+  padding: 0.5rem;
+  display: flex;
+}
+.avatar-button,
+.logo-main,
+.menu-button {
+  position: absolute;
+  top: 4px;
+  width: auto;
+  height: 75px;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  color: #1e293b;
+}
+.avatar-button {
+  right: 4px;
+}
+.logo-main {
+  left: 4px;
+}
+.menu-button {
+  margin-right: 4px;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 500;
+}
+/* Responsive adjustments */
+
+.toolSelector {
+  width: auto;
+}
+
+.toolOptions {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: auto;
+  min-width: 300px;
+  padding: .25rem;
+  display: flex;
+  z-index: 5000;
+}
+.displayResults {
+  width: 90vw;
+  height: 750px;
+}
+.imageSkeleton {
+  width: 100%;
+  height: 50vh;
+  background-color: #e0e0e0;
+  /* Grey background for the skeleton */
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  perspective: 1000px;
+}
+
+@media (min-width: 720px) {
+  .toolOptions {
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    background-color: rgba(211, 211, 211, 0.555);
+    border-top-right-radius: .5rem;
+    border-top-left-radius: .5rem;
+  }
+}
+
+.code {
+  position: absolute;
+  bottom: 5px;
+  font-size: xx-small;
+  border-bottom-left-radius: .2rem;
+  border-color: #374151;
+}
+
+.gallery-container {
+  overflow-y: auto;
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.card-container {
+  padding: 1rem;
+  perspective: 1000px;
+  /* 3D effect */
+}
+.card-container img {
+  transition: transform 0.5s, box-shadow 0.5s;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.card-container img:hover {
+  transform: rotateY(10deg);
+  /* 3D rotate effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.login-buttons {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+  justify-content: space-evenly;
+  padding: .5rem;
+  border: 1px solid (0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+.signin-input {
+  width: 35vw;
+  margin: .5rem;
+  padding: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+
+
+
+.dynamicInput {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  /* 40px */
+  position: fixed;
+  bottom: 1rem;
+  width: 80%;
+  z-index: 1000;
+  padding: .25rem;
+}
+.dynamicInput-upload input[type='file'] {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+.dynamicInput-text {
+  width: 75vw;
+  margin: .5rem;
+  padding: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+.submit-button {
+  padding: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  background-color: var(--btn-background);
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.submit-button:hover {
+  background-color: lightgray;
+  /* Background color on hover */
+}
+.submit-button:active {
+  background-color: darken(lightgray), 5%;
+  /* Slightly darken the color on click */
+}
+
+
+
 
 .animate-in {
   animation: animateIn 0.3s ease 0.15s both;
@@ -112,349 +375,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.body {
-  height: 100vh;
-  overflow-y: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.main {
-  background: linear-gradient(to bottom, #f1f1f1 0%, white 100%);
-
-  border-top-right-radius: 1rem;
-  border-top-left-radius: 1rem;
-  
-}
-
-/* Base styling for all select elements */
-/* Global CSS file */
-
-select {
-  background-color: #f8fafc; /* For the default background, similar to text-slate-900 */
-  color: #1e293b; /* For the text color, similar to text-slate-900 */
-  padding: 0.75rem 1rem; /* Similar to px-3 py-2 */
-  border-radius: 0.375rem; /* Similar to rounded-md */
-  font-size: 1rem; /* Similar to text-base */
-  font-weight: 500; /* Similar to font-medium */
-  transition: background-color 150ms ease-in-out, color 150ms ease-in-out; /* Similar to transition duration-150 ease-in-out */
-  border: 1px solid #e2e8f0; /* Similar to a standard border color in Tailwind */
-  width: 100%; /* To make it full width as per block display */
-}
-
-select:hover {
-  background-color: #cbd5e1; /* Similar to hover:bg-slate-300 */
-  color: #1e293b; /* Similar to hover:text-slate-800 */
-}
-
-/* For the dropdown options */
-select option {
-  background-color: #f8fafc; /* For the default background, similar to text-slate-900 */
-  color: #1e293b; /* For the text color, similar to text-slate-900 */
-}
-
-select:focus {
-  outline: none;
-  border-color: rgba(var(--foreground-default), 1);
-  box-shadow: 0 0 0 2px rgba(var(--foreground-default), 0.5);
-}
-
-/* Styling for toolSelector and toolOptions */
-.toolSelector select, .toolOptions select {
-  min-width: 150px; /* Adjust as needed */
-}
-
-.navbar-container {
-  background-image: linear-grandient(to bottom, #f1f1f1 to white);
-  width: 100vw;
-  padding: .5rem;
-  /* Add media queries for sm:px-6 and lg:px-8 */
-  position: relative;
-  display: flex;
-  height: 7rem; /* h-16 */
-  align-items: center;
-  justify-content: space-between;
-}
-
-.navbar-content {
-   padding: .5rem;
-   display: flex; 
-
-}
-
-
-.avatar-button {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-}
-.navbar-main{
-  top: 4px;
-}
-.logo-main {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: auto;
-  height: 75px;
-}
-.menu-button {
-  margin-top: 4px;
-  margin-right: 4px;
-  height: 75px;
-  width: auto;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.375rem; /* rounded-md */
-  padding: 0.5rem; /* p-2 */
-  color: #1e293b; /* text-slate-900 */
-  /* Add hover and focus styles */
-}
-.nav-link {
-  border-radius: 0.375rem; /* rounded-md */
-  padding-left: 0.75rem; /* px-3 */
-  padding-right: 0.75rem; /* px-3 */
-  padding-top: 0.5rem; /* py-2 */
-  padding-bottom: 0.5rem; /* py-2 */
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500; /* font-medium */
-  color: #1e293b; /* text-slate-900 */
-  /* Add hover styles */
-}
-/* Dark mode styling */
-@media (prefers-color-scheme: dark) {
-  select {
-    background-color: rgba(var(--background-dark), 1);
-    color: rgba(var(--foreground-dark), 1);
-    border: 1px solid rgba(var(--foreground-dark), 0.5);
-  }
-
-  select:hover {
-    border-color: rgba(var(--foreground-dark), 0.75);
-  }
-
-  select:focus {
-    border-color: rgba(var(--foreground-dark), 1);
-    box-shadow: 0 0 0 2px rgba(var(--foreground-dark), 0.5);
-  }
-}
-/* Responsive adjustments */
-@media (min-width: 640px) {
-  .toolSelector select, .toolOptions select {
-    min-width: 300px; /* Adjust as needed */
-  }
-}
-.toolOptions {
-  width: auto;
-  padding: .25rem;
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 2rem
-    /* 32px */
-  ;
-  --tw-bg-opacity: 1;
-  background-color: rgba(211, 211, 211, 0.555);
-  border-radius: .25rem;
-}
-.displayResults{
-  width: 90vw;
-  height: 750px;
-}
-/* styles/globals.css or any other global stylesheet */
-.imageSkeleton {
-  width: 80vw;
-  height: 50vh;
-  background-color: #e0e0e0;
-  /* Grey background for the skeleton */
-  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  transform: translateZ(0) scale(1.0, 1.0);
-  transition: transform 0.5s;
-  perspective: 1000px;
-}
-.imageSkeleton:hover {
-  transform: translateZ(0) scale(1.02, 1.02);
-}
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  z-index: 500;
-}
-.logo-icon {
-  position: fixed;
-  top: .5rem;
-  left: .5rem;
-
-  @media screen and (min-width: 1024px) {
-    padding-left: .5rem;
-    /* 2px */
-    padding-right: .5rem;
-    /* 2px */
-  }
-}
-.menu-icon {
-  position: fixed;
-  top: .5rem;
-  right: .5rem;
-  cursor: pointer;
-
-  @media screen and (min-width: 1024px) {
-    padding-left: .5rem;
-    /* 2px */
-    padding-right: .5rem;
-    /* 2px */
-  }
-}
-.code {
-  position: absolute;
-  bottom: 5px;
-  font-size: xx-small;
-  border-bottom-left-radius: .2rem;
-  border-color: #374151;
-}
-.gallery-container {
-
-  overflow-y: auto;
-  text-align: center;
-  padding: 2rem;
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  @media (min-width: 1024px) {
-    flex-direction: row;
-  }
-}
-.gallery-list {
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: 1024px) {
-    flex-direction: row;
-  }
-}
-.gallery-small {
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: 1024px) {
-    flex-direction: row;
-  }
-}
-.card-container {
-  padding: 1rem;
-  perspective: 1000px;
-  /* 3D effect */
-}
-.card-container img {
-  transition: transform 0.5s, box-shadow 0.5s;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.card-container img:hover {
-  transform: rotateY(10deg);
-  /* 3D rotate effect */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-.micro-account {
-  font-size: xx-small;
-}
-.dynamic-input {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: auto;
-  /* 40px */
-  position: fixed;
-  bottom: 1rem;
-  width: 80%;
-  z-index: 1000;
-  padding: .25rem;
-
-  @media screen and (min-width: 640px) {
-    width: 90%;
-  }
-}
-.dynamic-input-upload {
-  position: relative;
-}
-.dynamic-input-upload label {
-  display: none;
-}
-.dynamic-input-upload input[type='file'] {
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  position: absolute;
-  cursor: pointer;
-}
-.login-buttons {
-  display: flex;
-  flex-direction: row;
-  padding: 4px;
-  justify-content: space-evenly;
-}
-.form-input {
-  width: 75vw;
-  margin: .5rem;
-  padding: .25rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  border-radius: 4px;
-}
-.signin-input {
-  width: 35vw;
-  margin: .5rem;
-  padding: .25rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  border-radius: 4px;
-}
-.signin-buttons {
-  display: flex;
-  justify-content: space-evenly;
-  width: auto;
-  padding: .5rem;
-  border: 1px solid (0,0,0,0.5);
-  border-radius: 4px;
-}
-.submit-button {
-
-  padding: .25rem;
-  /* Button padding */
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  /* Border matching the form-input */
-  border-radius: 4px;
-  /* Border radius matching the form-input */
-  background-color: var(--btn-background);
-  /* Initial background color */
-  color: var(--foreground);
-  /* Text color */
-  cursor: pointer;
-  /* Changes the cursor to a pointer */
-  transition: background-color 0.3s, color 0.3s;
-  /* Smooth transition for color changes */
-}
-
-.submit-button:hover {
-  background-color: lightgray;
-  /* Background color on hover */
-}
-
-.submit-button:active {
-  background-color: darken(lightgray), 5%;
-  /* Slightly darken the color on click */
 }

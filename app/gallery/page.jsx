@@ -1,51 +1,33 @@
-"use client";
-
-import { createClient } from "@/utils/supabase/client";
-
-import React, { useState, useEffect } from "react";
+'use client'
+import React, { useEffect, useState } from 'react';
 
 const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
-  const supabase = createClient();
 
   useEffect(() => {
-    const fetchContent = async () => {
-      const { data, error } = await supabase.from("master_content").select("*");
-
-      if (error) {
-        console.error("Error fetching content:", error);
-      } else {
-        setContentItems(data);
-        // Consider logging outside this function to see the updated state
-      }
+    const fetchData = async () => {
+      const response = await fetch('/api/content');
+      const data = await response.json();
+      setContentItems(data || []);
     };
-    fetchContent();
+
+    fetchData();
   }, []);
 
-  const handleDelete = async (contentId) => {
-    const { error } = await supabase
-      .from("master_content")
-      .delete()
-      .match({ content_id: contentId });
-
-    if (error) {
-      console.error("Error deleting content:", error);
-    } else {
-      setContentItems((prevItems) =>
-        prevItems.filter((item) => item.content_id !== contentId)
-      );
-    }
+  const handleDeleteClick = async (contentId) => {
+    await fetch(`/api/content/${contentId}`, { method: 'DELETE' });
+    setContentItems(currentItems => currentItems.filter(item => item.content_id !== contentId));
   };
 
   return (
     <div className="card-container">
       {contentItems.map((item) => (
-        <>
-          <img key={item.content_id} src={item.url} alt={item.content_type} />
-          <button onClick={handleDelete} className="micro-account">
+        <div key={item.content_id}>
+          <img src={item.url} alt={item.content_type} />
+          <button onClick={() => handleDeleteClick(item.content_id)} className="micro-account">
             Delete
           </button>
-        </>
+        </div>
       ))}
     </div>
   );

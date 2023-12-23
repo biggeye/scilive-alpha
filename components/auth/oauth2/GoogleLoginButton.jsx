@@ -1,36 +1,31 @@
-'use client'
-import { useEffect
- } from "react";
 
 const GoogleLoginButton = () => {
-    useEffect(() => {
+  const handleSignInClick = () => {
     window.handleSignInWithGoogle = async (response) => {
-        console.log("Encoded JWT ID token: " + response.credential);
-        // Implement the sign-in logic here or call a function to handle it
+      console.log("Encoded JWT ID token: " + response.credential);
+      // Implement the sign-in logic here or call a function to handle it
     };
 
     // Load the Google sign-in script
     const script = document.createElement('script');
     script.src = 'https://accounts.google.com/gsi/client';
     script.onload = () => {
-        window.google.accounts.id.initialize({
-            client_id: process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_CLIENT_ID,
-            callback: handleSignInWithGoogle,
-        });
-        window.google.accounts.id.renderButton(
-            document.getElementById('buttonDiv'),
-            { theme: 'outline', size: 'large' }
-        );
-        window.google.accounts.id.prompt(); // Display the One Tap dialog
+      window.google.accounts.id.initialize({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_CLIENT_ID,
+        callback: handleSignInWithGoogle,
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById('buttonDiv'),
+        { theme: 'outline', size: 'large' }
+      );
+      window.google.accounts.id.prompt(); // Display the One Tap dialog
     };
     document.body.appendChild(script);
+  };
 
-}, []);
-
-
-    return(
-        <>
-        <div
+  return (
+    <>
+      <div
         id="g_id_onload"
         data-client_id="247295820482-jqoui5no5kfepbqq27q0vrddfq03bjak.apps.googleusercontent.com"
         data-context="signin"
@@ -47,9 +42,10 @@ const GoogleLoginButton = () => {
         data-theme="filled_blue"
         data-text="signin_with"
         data-size="medium"
+        onClick={handleSignInClick} // Add the click event handler here
       ></div>
-      
-      </>
-    )
-}
+    </>
+  );
+};
+
 export default GoogleLoginButton;

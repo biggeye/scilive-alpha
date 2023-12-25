@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import handleImageCreateSubmit from '@/lib/replicate/handleImageCreateSubmit'; // Custom hook for submission logic
+'use client'
+
+import React, { useState } from "react";
+import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 
 const ImageCreateForm = ({ modelId, supabase }) => {
   const [userInput, setUserInput] = useState("");
-  const { isLoading, error, submitImageCreate, newPrediction } = handleImageCreateSubmit(supabase);
+  const { isLoading, error, submitImageCreate, newPrediction } = useImageCreateSubmit(supabase);
 
   const handleInputChange = (e) => setUserInput(e.target.value);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent form from refreshing the page
     await submitImageCreate(userInput, modelId);
   };
 

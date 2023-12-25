@@ -2,11 +2,11 @@
 import { useCallback, useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import SignOut from "../auth/SignOut";
-
-import { useSupabase } from '@/utils/supabase/useSupabase'; // Import useSupabase hook
+import { useSupabase, useUser } from '@/utils/supabase/useSupabase'; // Import the hooks
 
 export default function AccountForm() {
-  const { supabase, user } = useSupabase(); // Use the hook to get Supabase client and user
+  const supabase = useSupabase(); // Use the hook to get Supabase client
+  const user = useUser(); // Use the hook to get the current user
   const [userId, setUserId] = useState(null); // Initialize userId as null
 
   useEffect(() => {

@@ -21,7 +21,12 @@ export const SupabaseProvider = ({ children }) => {
 // Custom hook to use the Supabase client
 export const useSupabase = () => {
   const supabase = useContext(SupabaseContext);
-  const user = supabase.auth.user();
+  return supabase;
+};
 
-  return { supabase, user };
+// Custom hook to get the current user
+export const useUser = () => {
+  const supabase = useSupabase();
+  const user = supabase.auth.user();
+  return user;
 };

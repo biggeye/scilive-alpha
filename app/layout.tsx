@@ -1,6 +1,6 @@
 import { GeistSans } from 'geist/font/sans'
 import './globals.css'
-import SupabaseProvider from './supabase-provider';
+import SupabaseProvider from '../lib/supabase-provider';
 import Navbar from '@/components/Navbar';
 
 const defaultUrl = process.env.VERCEL_URL

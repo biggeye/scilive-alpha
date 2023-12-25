@@ -84,12 +84,11 @@ export default function LoginPage() {
   
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="login-page">
       <div className="login-buttons">
-
           <GitHubLoginButton />
           <GoogleLoginButton />
-        </div>
+          </div>
          <form className="flex flex-col">
           <input
           className="signin-input"
@@ -118,6 +117,7 @@ export default function LoginPage() {
           </button>
           </div>
         </form>
+
       </div>
  
   );

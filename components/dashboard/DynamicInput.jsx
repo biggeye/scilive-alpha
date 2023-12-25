@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { handleImageEditSubmit } from "@/lib/replicate/handleImageEditSubmit";
+import { handleImageEditSubmit } from "@/lib/replicate/useImageEditSubmit";
 import ImageCreateForm from "../replicate/ImageCreateForm";
 import ImageEditForm from "../replicate/ImageEditForm";
 

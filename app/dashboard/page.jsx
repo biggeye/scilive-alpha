@@ -7,6 +7,7 @@ import DynamicInput from "@/components/dashboard/DynamicInput";
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import { createClient } from "@/utils/supabase/client";
 
+
 const DashboardPage = () => {
   const [modelName, setModelName] = useState("");
   const [prompt, setPrompt] = useState("");

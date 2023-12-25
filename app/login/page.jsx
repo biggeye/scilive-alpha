@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client"; // Ensure this path is correct
 import GitHubLoginButton from "@/components/auth/oauth2/GitHubLoginButton";
 import GoogleLoginButton from "@/components/auth/oauth2/GoogleLoginButton";
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [tikTokLogin, setTikTokLogin] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -62,7 +64,7 @@ export default function LoginPage() {
       console.error("Signup error:", error.message);
     } else {
       console.log("Signup success:", data);
-      // Redirect or handle successful signup
+      router.push("/dashboard")
     }
   }
 
@@ -78,7 +80,7 @@ export default function LoginPage() {
       console.error("Login error:", error.message);
     } else {
       console.log("Login success:", data);
-      // Redirect or handle successful login
+      router.push("/dashboard")
     }
   }
   

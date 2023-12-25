@@ -25,8 +25,3 @@ export const useSupabase = () => {
 };
 
 // Custom hook to get the current user
-export const useUser = () => {
-  const supabase = useSupabase();
-  const user = supabase.auth.user();
-  return user;
-};

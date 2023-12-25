@@ -120,9 +120,6 @@ export const handleSignInWithGoogle = async () => {
   }
 };
 
-
-
-
 /*
 export async function getSubscription() {
   const supabase = createServerSupabaseClient();

@@ -1,16 +1,36 @@
-// pages/api/content.js
+// app/api/content/route.js
 
 import { fetchUserContent } from '@/lib/supabase-server';
 
-export default async function (req, res) {
-  if (req.method === 'GET') {
+export const config = {
+  runtime: 'experimental-edge',
+};
+
+export default {
+  async GET(req, res) {
     const data = await fetchUserContent();
     if (!data) {
-      res.status(500).json({ error: 'Failed to fetch content' });
+      return new Response(JSON.stringify({ error: 'Failed to fetch content' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     } else {
-      res.status(200).json(data);
+      return new Response(JSON.stringify(data), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
-  }
-}
+  },
+  ALL(req, res) {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  },
+};

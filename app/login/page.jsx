@@ -44,7 +44,7 @@ export default function LoginPage() {
   
     // Cleanup the listener when the component is unmounted.
     return () => {
-      authListener;
+      authListener.subscription.unsubscribe;
     };
   }, []);
   
@@ -56,7 +56,7 @@ export default function LoginPage() {
       email: email,
       password: password,
       options: {
-        emailRedirectTo: "https://scilive.cloud/dashboard",
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`,
       },
     });
 
@@ -64,7 +64,7 @@ export default function LoginPage() {
       console.error("Signup error:", error.message);
     } else {
       console.log("Signup success:", data);
-      router.push("/dashboard")
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`)
     }
   }
 
@@ -80,7 +80,7 @@ export default function LoginPage() {
       console.error("Login error:", error.message);
     } else {
       console.log("Login success:", data);
-      router.push("/dashboard")
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`)
     }
   }
   

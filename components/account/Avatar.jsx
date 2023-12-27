@@ -1,12 +1,9 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import useSupabase from '@/utils/supabase/useSupabase'; // Import useSupabase hook
 
-export default function Avatar({ uid, url, size, onUpload }) {
-  const { supabase } = useSupabase();
+export default function Avatar({ uid, url, size, onUpload, supabase }) {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const user = supabase.auth.getUser();
 
   useEffect(() => {
     async function downloadImage(path) {

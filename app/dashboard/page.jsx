@@ -9,8 +9,6 @@ import { createClient } from "@/utils/supabase/client";
 
 
 const DashboardPage = () => {
-  const [modelName, setModelName] = useState("");
-  const [prompt, setPrompt] = useState("");
   const [userInFile, setUserInFile] = useState(null);
   const [selectedVoice, setSelectedVoice] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
@@ -22,7 +20,6 @@ const DashboardPage = () => {
   const [newPrediction, setNewPrediction] = useState(null);
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState({});
   const supabase = createClient();
 

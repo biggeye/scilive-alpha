@@ -2,21 +2,13 @@
 import { useCallback, useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import SignOut from "../auth/SignOut";
-import { useSupabase, useUser } from '@/utils/supabase/useSupabase'; // Import the hooks
+import { useSupabase } from "@/lib/supabase-provider"; // Import supabase
+import { useUserId } from "@/lib/supabase-provider"; // Import the hooks
 
 export default function AccountForm() {
-  const supabase = useSupabase(); // Use the hook to get Supabase client
-  const user = useUser(); // Use the hook to get the current user
-  const [userId, setUserId] = useState(null); // Initialize userId as null
-
-  useEffect(() => {
-    if (user) {
-      setUserId(user.id); // Set userId when user data is available
-    }
-  }, [user]);
-
-
-  const [loading, setLoading] = useState(false);
+  const supabase = useSupabase();
+ const [userId, setUserId] = useState(null);
+   const [loading, setLoading] = useState(false);
   const [profileDetails, setProfileDetails] = useState({
     first_name: "",
     last_name: "",
@@ -27,11 +19,13 @@ export default function AccountForm() {
 
   const { first_name, last_name, email, username, avatar_url } = profileDetails;
 
-  const getProfile = useCallback(async () => {
-    if (userId) {
-      // Check if userId is not null
+  const getProfile = async () => {
+    if (useUserId) {
+       const hookId = useUserId();
+       setUserId(hookId);      // Check if userId is not null
       try {
         setLoading(true);
+
         const { data, error } = await supabase
           .from("profiles")
           .select(`first_name, last_name, email, username, avatar_url`)
@@ -43,27 +37,44 @@ export default function AccountForm() {
         }
 
         if (data) {
+          console.log("profileDetails (via AccountForm):", data);
           setProfileDetails(data);
         }
-        
       } catch (error) {
         alert("Error loading user data!");
       } finally {
         setLoading(false);
       }
     }
-  }, [userId, supabase]);
+  };
 
   useEffect(() => {
     getProfile();
-    console.log(userId);
-  }, [getProfile, userId]);
+  }, []);
 
   async function updateProfile(e) {
+    e.preventDefault();
+    if (!userId) {
+      alert("User ID is not available!");
+      return;
+    }
     try {
       setLoading(true);
-
+      console.log(
+        "profileDetails (via updateProfile): ",
+        first_name,
+        last_name,
+        username,
+        email,
+        avatar_url
+      );
+      alert(        first_name,
+        last_name,
+        username,
+        email,
+        avatar_url);
       const { error } = await supabase.from("profiles").upsert({
+        id: userId,
         first_name,
         last_name,
         username,
@@ -80,6 +91,7 @@ export default function AccountForm() {
     } catch (error) {
       alert("Error updating the data!");
     } finally {
+      getProfile();
       setLoading(false);
     }
   }
@@ -92,7 +104,6 @@ export default function AccountForm() {
   return (
     <div className="p-4">
       <Avatar
-        supabase={supabase}
         uid={userId}
         url={avatar_url}
         size={150}
@@ -100,6 +111,7 @@ export default function AccountForm() {
           setProfileDetails({ ...profileDetails, avatar_url: url });
           updateProfile();
         }}
+        supabase={supabase}
       />
       <form onSubmit={updateProfile}>
         <div className="mt-4">

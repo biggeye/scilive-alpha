@@ -2,9 +2,7 @@
 
 import { fetchUserContent } from '@/lib/supabase-server';
 
-export const config = {
-  runtime: 'experimental-edge',
-};
+export const runtime = 'experimental-edge';
 
 export default {
   async GET(req, res) {

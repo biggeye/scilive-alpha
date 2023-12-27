@@ -7,10 +7,8 @@ import { useUser } from "@/lib/supabase-provider"; // Import the hooks
 
 export default function AccountForm() {
   const supabase = useSupabase();
-  const user = useUser(); // Use the hook at the top level
-  
-  const userId = user.id;
-
+  const user = useUser();
+  const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [profileDetails, setProfileDetails] = useState({
     first_name: "",
@@ -24,38 +22,37 @@ export default function AccountForm() {
   const { first_name, last_name, email, username, avatar_url } = profileDetails;
 
   const getProfile = async () => {
-    if (userId) { // Check if userId is not null
+    if (user) { // Check if userId is not null
       try {
         setLoading(true);
-
+        console.log("user (via AccountForm): ", user);
+        if (userId){
         const { data, error } = await supabase
           .from("profiles")
           .select(`first_name, last_name, email, username, avatar_url`)
           .eq("id", userId)
           .single();
-
-        if (error) {
-          throw error;
-        }
-
         if (data) {
           setProfileDetails(data);
+      
         }
-      } catch (error) {
-        alert("Error loading user data!");
+      }}
+      catch (error) {
+        alert("Error loading user data!", error);
       } finally {
         setLoading(false);
       }
-    }
+  }
   };
-
   useEffect(() => {
     getProfile();
-  }, [userId]); // Add userId as a dependency
-
-
+  }, []);
   async function updateProfile(e) {
     e.preventDefault();
+    const { userId } = await supabase
+    .from("profiles")
+    .select("id");
+    setUserId(userId);
     if (!userId) {
       alert("User ID is not available!");
       return;
@@ -102,7 +99,7 @@ export default function AccountForm() {
     const { name, value } = event.target;
     setProfileDetails({ ...profileDetails, [name]: value });
   };
-
+  
   return (
     <div className="p-4">
       <Avatar
@@ -186,4 +183,5 @@ export default function AccountForm() {
       <SignOut />
     </div>
   );
+
 }

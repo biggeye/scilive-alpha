@@ -1,6 +1,7 @@
+
 import { fetchUserContent } from '@/lib/supabase-server';
 
-export default async function handler(req, res) {
+export default async function getHandler(req, res) {
   if (req.method === 'GET') {
     const content = await fetchUserContent();
     res.status(200).json(content);

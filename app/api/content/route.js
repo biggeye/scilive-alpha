@@ -1,8 +1,6 @@
-// app/api/content/route.js
-
 import { fetchUserContent } from '@/lib/supabase-server';
 
-export const runtime = 'experimental-edge';
+export const runtime = 'edge';
 
 export default {
   async GET(req, res) {

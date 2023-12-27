@@ -14,11 +14,6 @@ const Gallery = () => {
     fetchData();
   }, []);
 
-  const handleDeleteClick = async (contentId) => {
-    await fetch(`/api/content/${contentId}`, { method: 'DELETE' });
-    setContentItems(currentItems => currentItems.filter(item => item.content_id !== contentId));
-  };
-
   return (
     <div className="card-container">
       {contentItems.map((item) => (

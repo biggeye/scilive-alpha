@@ -1,12 +1,14 @@
-
 import { fetchUserContent } from '@/lib/supabase-server';
 
-export default async function getHandler(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const content = await fetchUserContent();
-    res.status(200).json(content);
+    const data = await fetchUserContent();
+    if (!data) {
+      res.status(500).json({ error: 'Failed to fetch content' });
+    } else {
+      res.status(200).json(data);
+    }
   } else {
-    // Handle other HTTP methods or return an error
-    res.status(405).end();
+    res.status(405).json({ error: 'Method not allowed' });
   }
 }

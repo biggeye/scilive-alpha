@@ -99,9 +99,7 @@ body {
 
 body {
   color: rgb(var(--onyx));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--seasalt))) rgb(var(--silver));
+  background: linear-gradient(to bottom, #dbdbdb 50%, #7e7e7e54 95%);
   height: 100vh;
   overflow-y: hidden;
   display: flex;
@@ -116,7 +114,6 @@ a {
 }
 
 .main {
-  background: linear-gradient(to bottom, #f1f1f1 0%, white 100%);
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
 
@@ -161,12 +158,11 @@ select:focus {
 }
 
 .navbar-container {
-  background-image: linear-gradient(to bottom, #f1f1f1, white);
+  background-image: linear-gradient(to bottom, #f1f1f1 50%, #dbdbdb 95%);
   width: 100vw;
   padding: 0.5rem;
   position: absolute;
   display: flex;
-  height: 7rem;
   align-items: center;
   justify-content: space-between;
 }

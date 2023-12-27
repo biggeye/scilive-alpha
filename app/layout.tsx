@@ -20,15 +20,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+              <SupabaseProvider>
       <body className="body">
-        <SupabaseProvider>
+
         <Navbar />
         <main className="main">
           {children}
         </main>
         <script src="https://tikapi.io/assets/js/popup.js"></script>
-        </SupabaseProvider>
+   
       </body>
+      </SupabaseProvider>
     </html>
   )
 }

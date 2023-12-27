@@ -1,14 +1,17 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import SignOut from "../auth/SignOut";
 import { useSupabase } from "@/lib/supabase-provider"; // Import supabase
-import { useUserId } from "@/lib/supabase-provider"; // Import the hooks
+import { useUser } from "@/lib/supabase-provider"; // Import the hooks
 
 export default function AccountForm() {
   const supabase = useSupabase();
- const [userId, setUserId] = useState(null);
-   const [loading, setLoading] = useState(false);
+  const user = useUser(); // Use the hook at the top level
+  
+  const userId = user.id;
+
+  const [loading, setLoading] = useState(false);
   const [profileDetails, setProfileDetails] = useState({
     first_name: "",
     last_name: "",
@@ -17,12 +20,11 @@ export default function AccountForm() {
     avatar_url: "",
   });
 
+  // Destructure for convenience
   const { first_name, last_name, email, username, avatar_url } = profileDetails;
 
   const getProfile = async () => {
-    if (useUserId) {
-       const hookId = useUserId();
-       setUserId(hookId);      // Check if userId is not null
+    if (userId) { // Check if userId is not null
       try {
         setLoading(true);
 
@@ -37,7 +39,6 @@ export default function AccountForm() {
         }
 
         if (data) {
-          console.log("profileDetails (via AccountForm):", data);
           setProfileDetails(data);
         }
       } catch (error) {
@@ -50,7 +51,8 @@ export default function AccountForm() {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [userId]); // Add userId as a dependency
+
 
   async function updateProfile(e) {
     e.preventDefault();

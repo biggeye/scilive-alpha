@@ -1,11 +1,7 @@
 import { Database } from '@/types_db';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { cache } from 'react';
+import { createClient } from '@/utils/supabase/server';
 
-export const createServerSupabaseClient = cache(() =>
-  createServerComponentClient<Database>({ cookies })
-);
+const createServerSupabaseClient = createClient();
 
 export async function getSession() {
   const supabase = createServerSupabaseClient();
@@ -40,14 +36,17 @@ export async function fetchUserContent() {
     const { data: masterContent, error } = await supabase
       .from("master_content")
       .select("*");
-    return masterContent;
+
+    // Assuming masterContent is an array of objects, this will format it as a JSON string
+    return JSON.stringify(masterContent);
   } catch (error) {
     console.error("Error fetching content:", error);
     return null;
   }
 };
 
-export async function handleDelete(contentId: string) {
+
+export async function handleDelete(contentId) {
   const supabase = createServerSupabaseClient();
 
   const { error } = await supabase
@@ -72,7 +71,7 @@ export const handleSignOut = async () => {
   }
 };
 
-export const handleSignInWithPassword = async (email: string, password: string) => {
+export const handleSignInWithPassword = async (email, password) => {
   const supabase = createServerSupabaseClient();
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
@@ -84,7 +83,7 @@ export const handleSignInWithPassword = async (email: string, password: string) 
   return data;
 };
 
-export const handleOAuthLogin = async (provider: any) => {
+export const handleOAuthLogin = async (provider) => {
   const supabase = createServerSupabaseClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,

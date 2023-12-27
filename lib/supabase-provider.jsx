@@ -7,32 +7,49 @@ const UserContext = createContext();
 
 export default function SupabaseProvider({ children }) {
   const [supabase] = useState(() => createClient());
-  const [user, setUser] = useState(supabase.auth.getUser());
+  const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
 
-useEffect(() => {
-  supabase.auth.onAuthStateChange(() => {
-    const user = supabase.auth.getUser();
-    if (user) {
-      setUser(user);
-      setUserId(user.id);
-      console.log("user (via onAuthStateChange): ", user);
-    }})
-}, []);
+  useEffect(() => {
+    const checkUser = async () => {
+      const userResponse = await supabase.auth.getUser();
+      if (userResponse.data) {
+        setUser(userResponse.data);
+        setUserId(userResponse.data.id);
+      }
+    };
 
-const exposed = {
-  user,
-  userId,
-}
+    checkUser();
+
+    const subscription = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        setUser(session.user);
+        setUserId(session.user.id);
+      } else {
+        setUser(null);
+        setUserId(null);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase.auth]);
+
+  const exposed = {
+    user,
+    userId,
+  };
 
   return (
     <SupabaseContext.Provider value={{ supabase }}>
       <UserContext.Provider value={exposed}>
-      {children}
+        {children}
       </UserContext.Provider>
     </SupabaseContext.Provider>
   );
 }
+
 
 export const useSupabase = () => {
   const supabaseClientContext = useContext(SupabaseContext);
@@ -52,10 +69,3 @@ export const useUser = () => {
   return userClientContext.user;
 };
 
-export const useUserId = () => {
-  const { userId } = useContext(UserContext);
-  if (!userId) {
-    throw new Error('useUserId must be used within a SupabaseProvider');
-  }
-  return userId;
-}

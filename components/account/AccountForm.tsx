@@ -1,16 +1,28 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
 import Avatar from "./Avatar";
 import SignOut from "../auth/SignOut";
-import { useSupabase } from "@/lib/supabase-provider"; // Import supabase
-import { useUser } from "@/lib/supabase-provider"; // Import the hooks
+import { createClient } from "@/utils/supabase/client"; // Import supabase
+import { Database } from "@/types_db"; // Import your database types
+
+// Define the structure of profile details
+interface ProfileDetails {
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  username: string | null;
+  avatar_url: string | null;
+}
 
 export default function AccountForm() {
-  const supabase = useSupabase();
-  const user = useUser();
-  const [userId, setUserId] = useState(null);
+  const supabase = createClient();
+  const user = supabase ? supabase.auth.getUser() : null;
+  const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [profileDetails, setProfileDetails] = useState({
+  // rest of the code
+
+
+  const [profileDetails, setProfileDetails] = useState<ProfileDetails>({
     first_name: "",
     last_name: "",
     email: "",
@@ -22,56 +34,41 @@ export default function AccountForm() {
   const { first_name, last_name, email, username, avatar_url } = profileDetails;
 
   const getProfile = async () => {
-    if (user) { // Check if userId is not null
+    if (user && userId) {
       try {
         setLoading(true);
-        console.log("user (via AccountForm): ", user);
-        if (userId){
         const { data, error } = await supabase
           .from("profiles")
           .select(`first_name, last_name, email, username, avatar_url`)
           .eq("id", userId)
-          .single();
-        if (data) {
-          setProfileDetails(data);
+          .single() as { data: Database['public']['Tables']['profiles']['Row'], error: Error | null };
       
+        if (data) {
+          setProfileDetails(data); // Correctly setting the data
         }
-      }}
-      catch (error) {
-        alert("Error loading user data!", error);
+        if (error) throw error;
+      } catch (error) {
+        alert("Error loading user data: " + error);
       } finally {
         setLoading(false);
       }
-  }
+    }
   };
+  
   useEffect(() => {
     getProfile();
-  }, []);
-  async function updateProfile(e) {
+  }, [userId]);
+
+  const updateProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { userId } = await supabase
-    .from("profiles")
-    .select("id");
-    setUserId(userId);
+
     if (!userId) {
       alert("User ID is not available!");
       return;
     }
+
     try {
       setLoading(true);
-      console.log(
-        "profileDetails (via updateProfile): ",
-        first_name,
-        last_name,
-        username,
-        email,
-        avatar_url
-      );
-      alert(        first_name,
-        last_name,
-        username,
-        email,
-        avatar_url);
       const { error } = await supabase.from("profiles").upsert({
         id: userId,
         first_name,
@@ -93,22 +90,54 @@ export default function AccountForm() {
       getProfile();
       setLoading(false);
     }
-  }
+  };
 
-  const handleInputChange = (event) => {
+  const updateProfileFromUpload = async (avatar_url: string) => {
+    if (!userId) {
+      alert("User ID is not available!");
+      return;
+    }
+  
+    try {
+      setLoading(true);
+      const { error } = await supabase.from("profiles").upsert({
+        id: userId,
+        first_name,
+        last_name,
+        username,
+        email,
+        avatar_url,
+        updated_at: new Date().toISOString(),
+      });
+  
+      if (error) {
+        throw error;
+      }
+  
+      alert("Profile updated!");
+    } catch (error) {
+      alert("Error updating the data!");
+    } finally {
+      getProfile();
+      setLoading(false);
+    }
+  };
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setProfileDetails({ ...profileDetails, [name]: value });
   };
-  
+
   return (
+
     <div className="p-4">
       <Avatar
         uid={userId}
         url={avatar_url}
         size={150}
-        onUpload={(url) => {
+        onUpload={(url: string) => {
           setProfileDetails({ ...profileDetails, avatar_url: url });
-          updateProfile();
+          updateProfileFromUpload(url);
         }}
         supabase={supabase}
       />

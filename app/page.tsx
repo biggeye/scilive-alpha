@@ -1,13 +1,9 @@
-import Code from "@/components/Code";
-
-const Index = () => {
+const Home = () => {
   const apiResults = "API call results will be displayed here.";
   
-  <Code code={"unleashYourInnerCyborg"} />
   
   return (
     <div className="flex-1 w-full flex flex-col items-center justify-center">
-
     <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
       <p>
         Powered by{' '}
@@ -20,4 +16,4 @@ const Index = () => {
   )
 }
 
-export default Index;
+export default Home;

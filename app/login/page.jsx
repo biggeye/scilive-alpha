@@ -80,7 +80,7 @@ export default function LoginPage() {
       console.error("Login error:", error.message);
     } else {
       console.log("Login success:", data);
-      router.push(`${process.env.DEFAULT_URL}/dashboard`)
+      router.push(`${process.env.DEFAULT_URL}`)
     }
   }
   

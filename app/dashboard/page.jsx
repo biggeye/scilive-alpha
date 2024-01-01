@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ToolSelector from "@/components/dashboard/ToolSelector";
 import ToolOptions from "@/components/dashboard/ToolOptions";
 import DynamicInput from "@/components/dashboard/DynamicInput";
@@ -22,6 +22,29 @@ const DashboardPage = () => {
   const [userId, setUserId] = useState(null);
   const [selectedModel, setSelectedModel] = useState({});
   const supabase = createClient();
+
+  const [userData, setUserData] = useState(null);
+  const [sessionData, setSessionData] = useState(null);
+  
+
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const supabase = createClient();
+      const user = await supabase.auth.getUser();
+      const session = await supabase.auth.getSession();
+      console.log("User data:", user);
+      console.log("Session data:", session);
+      setUserData(user);
+      setSessionData(session);
+      
+      const uuid = session?.data?.session?.user?.id || 'No User ID Found';
+      setUserId(uuid);
+    };
+  
+    fetchData();
+  }, []);
+  
 
   const convertToDataURI = (file) =>
     new Promise((resolve, reject) => {

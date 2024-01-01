@@ -1,12 +1,8 @@
 'use client'
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-
-const navigation = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Gallery", href: "/gallery" },
-];
+import { createClient } from "@/utils/supabase/client";
 
 const MenuItem = ({ title, onClick, href }) => (
   <Menu.Item>
@@ -55,7 +51,7 @@ const UserMenu = ({ userImageUrl }) => (
   <Menu as="div">
     <Menu.Button>
       <img
-        className="h-10 w-auto"
+        className="h-12 w-auto"
         src={userImageUrl}
         alt="User Avatar"
       />
@@ -103,8 +99,36 @@ const MobileMenu = ({ navigation, open }) => (
     </div>
   </Disclosure.Panel>
 );
+   
 
 const Navbar = () => {
+  const [userData, setUserData] = useState(null);
+  const [sessionData, setSessionData] = useState(null);
+  
+
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const supabase = createClient();
+      const user = await supabase.auth.getUser();
+      const session = await supabase.auth.getSession();
+      console.log("User data:", user);
+      console.log("Session data:", session);
+      setUserData(user);
+      setSessionData(session);
+    };
+  
+    fetchData();
+  }, []);
+
+  const email = userData?.data?.user?.identities?.[0]?.email || 'No Email Found';
+
+   
+  const navigation = [
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Email: " + email, href: "#" }
+  ];
 
   return (
     <Disclosure as="nav" className="navbar-container">
@@ -116,7 +140,7 @@ const Navbar = () => {
                   position: "absolute",
                   insetY: "0",
                   left: "0",
-                  padding: "8px",
+                  padding: "8px"
                 }}
               >
                 <span className="sr-only">Open main menu</span>
@@ -133,7 +157,7 @@ const Navbar = () => {
                   <img
                     src="/sciLive.svg"
                     alt="sciLive"
-                    style={{ height: "32px" }}
+                    style={{ height: "60px" }}
                   />
                 </Menu.Button>
                 <DropdownMenu items={navigation} />

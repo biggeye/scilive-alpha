@@ -23,10 +23,10 @@ const DynamicInput = ({
   return (
     <>
       {tool === "imageCreation" && (
-        <ImageCreateForm modelId={modelId} supabase={supabase} />
+        <ImageCreateForm modelId={modelId} supabase={supabase} userId={userId}/>
       )}
       {tool === "imageEditing" && (
-        <ImageEditForm modelId={modelId} supabase={supabase} />
+        <ImageEditForm modelId={modelId} supabase={supabase} userId={userId}/>
       )}
     </>
   );

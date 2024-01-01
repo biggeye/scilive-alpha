@@ -1,36 +1,43 @@
-import { GeistSans } from 'geist/font/sans'
-import './globals.css'
-import { SupabaseProvider } from '@/lib/supabase-provider';
+import { Inter, Roboto_Mono } from 'next/font/google';
+import './globals.css';
 import Navbar from '@/components/Navbar';
+import { ClientLayout } from './ClientLayout';
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000'
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const roboto_mono = Roboto_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto-mono',
+});
 
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: 'SciLive (alpha)',
+  title: 'SciLive',
   description: 'powered by SciFiction.com',
-}
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <SupabaseProvider>
-        <body className="body">
 
-          <Navbar />
-          <main className="main">
-            {children}
-          </main>
-          <script src="https://tikapi.io/assets/js/popup.js"></script>
+      <body className="body">
 
-        </body>
-      </SupabaseProvider>
+        <Navbar />
+        <ClientLayout>
+          {children}
+        </ClientLayout>
+        <script src="https://tikapi.io/assets/js/popup.js"></script>
+
+      </body>
+
     </html>
   )
 }

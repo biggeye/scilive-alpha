@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/utils/supabase/legacy'
+import { createClient } from '@/utils/supabase/route'
 
 export async function POST(req) {
-  const session = await supabase.auth.getSession()
+  const supabase = createClient(req);
+  const session = await supabase.auth.getSession();
 
   if (!session) {
     return new Response(JSON.stringify({
@@ -14,11 +15,12 @@ export async function POST(req) {
   try {
     // Retrieve request body
     const bodyData = await req.json()
-    const { version, image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path } = bodyData
+    const { version, image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path, stream } = bodyData
 
     const payload = {
       version,
       input: {
+        ...(stream && { stream }),
         ...(image && { image }),
         ...(input_image && { input_image }),
         ...(prompt && { prompt }),
@@ -38,7 +40,7 @@ export async function POST(req) {
     const response = await fetch('https://api.replicate.com/v1/predictions', {
       method: 'POST',
       headers: {
-        'Authorization': process.env.NEXT_PUBLIC_REPLICATE_API_KEY,
+        'Authorization': `Token ${process.env.REPLICATE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),

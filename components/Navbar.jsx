@@ -1,19 +1,24 @@
-'use client'
+"use client";
 import React, { Fragment, useState, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { createClient } from "@/utils/supabase/client";
+import { Link } from '@chakra-ui/next-js'
+
+    
+
 
 const MenuItem = ({ title, onClick, href }) => (
   <Menu.Item>
     {({ active }) => (
-      <a
-        href={href}
+      <Link 
+      href={href} 
+      color='blue.400' 
+      _hover={{ color: 'blue.500' }}
         onClick={onClick}
-        className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-slate-900 w-full text-left`}
-      >
+     >
         {title}
-      </a>
+      </Link>
     )}
   </Menu.Item>
 );
@@ -28,14 +33,14 @@ const DropdownMenu = ({ items }) => (
     leaveFrom="transform opacity-100 scale-100"
     leaveTo="transform opacity-0 scale-95"
   >
-    <Menu.Items className="absolute left-2 w-56 mt-2 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-      {items.map((item) => (
+    <Menu.Items className="mobile-menu-items">
+     {items.map((item) => (
         <Menu.Item key={item.name}>
           {({ active }) => (
             <a
               href={item.href}
               className={`${
-                active ? 'bg-gray-100' : ''
+                active ? "bg-gray-100" : ""
               } block px-4 py-2 text-sm text-slate-900 w-full text-left`}
             >
               {item.name}
@@ -50,11 +55,7 @@ const DropdownMenu = ({ items }) => (
 const UserMenu = ({ userImageUrl }) => (
   <Menu as="div">
     <Menu.Button>
-      <img
-        className="h-12 w-auto"
-        src={userImageUrl}
-        alt="User Avatar"
-      />
+      <img className="avatar-button" src={userImageUrl} alt="User Avatar" />
     </Menu.Button>
     <Transition
       as={Fragment}
@@ -65,7 +66,7 @@ const UserMenu = ({ userImageUrl }) => (
       leaveFrom="transform opacity-100 scale-100"
       leaveTo="transform opacity-0 scale-95"
     >
-      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="profile-menu-items">
         <MenuItem title="Your Profile" href="/account" />
         <MenuItem title="Settings" href="#" />
         <MenuItem title="Login" href="/login" />
@@ -99,14 +100,19 @@ const MobileMenu = ({ navigation, open }) => (
     </div>
   </Disclosure.Panel>
 );
-   
+
+const UserInfo = ({ email, provider, avatar_url }) => {
+  return (
+    <div className="status-display">
+      email: {email} | provider: {provider}
+    </div>
+  );
+};
 
 const Navbar = () => {
   const [userData, setUserData] = useState(null);
   const [sessionData, setSessionData] = useState(null);
-  
 
-  
   useEffect(() => {
     const fetchData = async () => {
       const supabase = createClient();
@@ -117,67 +123,67 @@ const Navbar = () => {
       setUserData(user);
       setSessionData(session);
     };
-  
+
     fetchData();
   }, []);
 
-  const email = userData?.data?.user?.identities?.[0]?.email || 'No Email Found';
+  const email =
+    userData?.data?.user?.identities?.[0]?.email || "No Email Found";
+  const provider =
+    sessionData?.data?.session?.user.app_metadata.provider ||
+    "No Provider Found";
+  const avatar_url = userData?.data?.user?.user_metadata.avatar_url;
 
-   
   const navigation = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Gallery", href: "/gallery" },
-    { name: "Email: " + email, href: "#" }
+    { name: "Email: " + email, href: "#" },
   ];
 
   return (
     <Disclosure as="nav" className="navbar-container">
       {({ open }) => (
         <>
-                      {/* Mobile menu button */}
-              <Disclosure.Button
-                style={{
-                  position: "absolute",
-                  insetY: "0",
-                  left: "0",
-                  padding: "8px"
-                }}
-              >
-                <span className="sr-only">Open main menu</span>
-                {open ? (
-                  <XMarkIcon className="icon" aria-hidden="true" />
-                ) : (
-                  <Bars3Icon className="icon" aria-hidden="true" />
-                )}
-              </Disclosure.Button>
+          {/* Mobile menu button */}
+          <Disclosure.Button
+            className="logo-main"
+          >
+            <span className="sr-only">Open main menu</span>
+            {open ? (
+              <XMarkIcon className="icon" aria-hidden="true" />
+            ) : (
+              <Bars3Icon className="icon" aria-hidden="true" />
+            )}
+          </Disclosure.Button>
 
-              {/* Logo */}
-              <Menu as="div" className="relative inline-block text-left">
-                <Menu.Button>
-                  <img
-                    src="/sciLive.svg"
-                    alt="sciLive"
-                    style={{ height: "60px" }}
-                  />
-                </Menu.Button>
-                <DropdownMenu items={navigation} />
-              </Menu>
-
-              {/* Right-side elements */}
-              <UserMenu
-                userImageUrl="/avatartech2.svg"
+          {/* Logo */}
+          <Menu as="div" className="logo-main">
+            <Menu.Button>
+              <img
+                src="/sciLive.svg"
+                alt="sciLive"
+                style={{ height: "60px" }}
               />
-      
+            </Menu.Button>
+            <DropdownMenu items={navigation} />
+          </Menu>
 
-            {/* Mobile menu panel */}
-            <MobileMenu navigation={navigation} open={open} />
-         
+          <UserInfo
+            className="status-display"
+            email={email}
+            provider={provider}
+            avatar_url={avatar_url}
+          />
+
+          {/* Right-side elements */}
+          <UserMenu userImageUrl={avatar_url} />
+
+          {/* Mobile menu panel */}
+          <MobileMenu navigation={navigation} open={open} />
         </>
       )}
     </Disclosure>
   );
 };
-
-
 
 export default Navbar;

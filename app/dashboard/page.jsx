@@ -1,33 +1,44 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
-import ToolSelector from "@/components/dashboard/ToolSelector";
-import ToolOptions from "@/components/dashboard/ToolOptions";
-import DynamicInput from "@/components/dashboard/DynamicInput";
-import DisplayResults from "@/components/dashboard/DisplayResults";
 import { createClient } from "@/utils/supabase/client";
-
+import {
+  Grid,
+  GridItem,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from "@chakra-ui/react";
+import ToolOptions from "@/components/dashboard/ToolOptions";
+import DisplayResults from "@/components/dashboard/DisplayResults";
+import ImageCreateForm from "@/components/replicate/ImageCreateForm";
+import ImageEditForm from "@/components/replicate/ImageEditForm";
 
 const DashboardPage = () => {
-  const [userInFile, setUserInFile] = useState(null);
-  const [selectedVoice, setSelectedVoice] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
-  const [prediction, setPrediction] = useState(null);
-  const [selectedTool, setSelectedTool] = useState("imageCreation");
-  const [results, setResults] = useState({});
-  const [predictionProgress, setPredictionProgress] = useState(0);
-  const [exampleImage, setExampleImage] = useState(null);
-  const [newPrediction, setNewPrediction] = useState(null);
-  const [error, setError] = useState(null);
+  // User related state
   const [userId, setUserId] = useState(null);
-  const [selectedModel, setSelectedModel] = useState({});
-  const supabase = createClient();
-
   const [userData, setUserData] = useState(null);
   const [sessionData, setSessionData] = useState(null);
-  
 
-  
+  // Tool selection and settings
+  const [selectedTool, setSelectedTool] = useState("imageCreation");
+  const [selectedModel, setSelectedModel] = useState({});
+  const [selectedVoice, setSelectedVoice] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
+  const [exampleImage, setExampleImage] = useState(null);
+
+  // Prediction and results data
+  const [prediction, setPrediction] = useState(null);
+  const [newPrediction, setNewPrediction] = useState(null);
+  const [predictionProgress, setPredictionProgress] = useState(0);
+  const [results, setResults] = useState({});
+  const [error, setError] = useState(null);
+  const [userInFile, setUserInFile] = useState(null);
+
+  const supabase = createClient();
+  const modelId = selectedModel ? selectedModel.modelId : null;
+
   useEffect(() => {
     const fetchData = async () => {
       const supabase = createClient();
@@ -37,14 +48,13 @@ const DashboardPage = () => {
       console.log("Session data:", session);
       setUserData(user);
       setSessionData(session);
-      
-      const uuid = session?.data?.session?.user?.id || 'No User ID Found';
+
+      const uuid = session?.data?.session?.user?.id || "No User ID Found";
       setUserId(uuid);
     };
-  
+
     fetchData();
   }, []);
-  
 
   const convertToDataURI = (file) =>
     new Promise((resolve, reject) => {
@@ -74,7 +84,8 @@ const DashboardPage = () => {
     }
   };
 
-  const handleToolChange = (tool) => {
+  const handleTabsChange = (index) => {
+    const tool = index === 0 ? "imageCreation" : "imageEditing";
     setSelectedTool(tool);
   };
 
@@ -88,16 +99,37 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-start p-4">
-      <div className="toolOptions">
-        <ToolSelector onToolChange={handleToolChange} />
-        <ToolOptions
-          tool={selectedTool}
-          handleModelChange={handleModelChange}
-          onExampleImageChange={handleExampleImageChange}
-        />
-      </div>
-      <div className="displayResults">
+    <Grid mt="2rem">
+      <GridItem>
+        <Tabs isFitted variant="enclosed" onChange={handleTabsChange}>
+          <TabList>
+            <Tab>Image Creation</Tab>
+            <Tab>Image Editing</Tab>
+          </TabList>
+          <ToolOptions
+            tool={selectedTool}
+            handleModelChange={handleModelChange}
+            onExampleImageChange={handleExampleImageChange}
+          />
+          <TabPanels>
+            <TabPanel>
+              <ImageCreateForm
+                modelId={modelId}
+                supabase={supabase}
+                userId={userId}
+              />
+            </TabPanel>
+            <TabPanel>
+              <ImageEditForm
+                modelId={modelId}
+                supabase={supabase}
+                userId={userId}
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </GridItem>
+      <GridItem>
         <DisplayResults
           tool={selectedTool}
           prediction={prediction}
@@ -106,24 +138,8 @@ const DashboardPage = () => {
           exampleImage={exampleImage}
           newPrediction={newPrediction}
         />
-      </div>
-      <div className="dynamicInput">
-        <DynamicInput
-          userId={userId}
-          tool={selectedTool}
-          selectedModel={selectedModel}
-          userInFile={userInFile}
-          onImageChange={handleImageChange}
-          setNewPrediction={setNewPrediction}
-          setPrediction={setPrediction}
-          supabase={supabase} // 'supabase' is not defined in the provided code
-          onResultsChange={(newResults) => setResults(newResults)}
-          onPredictionProgressChange={(progress) =>
-            setPredictionProgress(progress)
-          }
-        />
-      </div>
-    </div>
+      </GridItem>
+    </Grid>
   );
 };
 

@@ -3,6 +3,7 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
+import { Input, InputGroup } from "@chakra-ui/react";
 
 // TypeScript interface for props
 interface ImageCreateFormProps {
@@ -38,15 +39,17 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase, us
   };
 
   return (
-    <form className="dynamic-input" onSubmit={handleSubmit}>
-      <textarea
-        className="form-input"
-        placeholder="Enter text for image creation"
-        aria-label="Text for image creation"
-        value={userInput}
-        onChange={handleInputChange}
-        disabled={isLoading}
-      />
+    <form className="form-input" onSubmit={handleSubmit}>
+     <InputGroup>
+     <Input
+     width="80%"
+     placeholder="Enter text for image creation"
+     aria-label="Text for image creation"
+value={userInput}
+     disabled={isLoading}
+   />
+     </InputGroup>
+        
       <button type="submit" className="submit-button" disabled={isLoading}>
         {isLoading ? "Processing..." : "Submit"}
       </button>

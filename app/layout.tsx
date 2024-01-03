@@ -1,19 +1,9 @@
-import { Inter, Roboto_Mono } from 'next/font/google';
+
 import './globals.css';
+import { fonts } from './fonts';
 import Navbar from '@/components/Navbar';
 import { ClientLayout } from './ClientLayout';
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
-
-const roboto_mono = Roboto_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto-mono',
-});
 
 export const metadata = {
   title: 'SciLive',
@@ -26,8 +16,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-
+    <html lang='en' className={fonts.roboto_mono.variable}>
       <body className="body">
 
         <Navbar />

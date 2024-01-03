@@ -26,7 +26,7 @@ const DisplayResults = ({
   
 
   return (
-    <div className="displayResults utility-padding">
+    <div className="displayResults">
    {displayedImage ? (
         <div className="imageSkeleton">
           <img src={displayedImage} alt="Selected or Processed" />

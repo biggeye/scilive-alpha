@@ -34,15 +34,14 @@ export default function AccountForm() {
         setLoading(true);
         const { data, error } = await supabase
           .from("users")
-          .select(`first_name, last_name, avatar_url`)
+          .select(`full_name, avatar_url`)
           .eq("id", userId)
-          .single() as { data: Database['public']['Tables']['profiles']['Row'], error: Error | null };
+          .single() as { data: Database['public']['Tables']['users']['Row'], error: Error | null };
 
         if (data) {
           // Construct full_name from first_name and last_name
-          const full_name = `${data.first_name || ''} ${data.last_name || ''}`.trim();
           setProfileDetails({
-            full_name,
+            full_name: data.full_name,
             avatar_url: data.avatar_url,
           });
         }

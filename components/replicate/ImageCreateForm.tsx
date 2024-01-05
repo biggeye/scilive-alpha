@@ -5,6 +5,8 @@ import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 import { Input, InputGroup } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
 
+
+
 // TypeScript interface for props
 interface ImageCreateFormProps {
   modelId: string;
@@ -13,11 +15,11 @@ interface ImageCreateFormProps {
 }
 
 const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase }) => {
-  const { userProfile } = useUserContext();
+ const { userProfile } = useUserContext();
   const userId = userProfile.id;
   console.log("userId: ", userId);
   const [userInput, setUserInput] = useState<string>("");
-  const { isLoading, error, submitImageCreate, newPrediction } = useImageCreateSubmit(supabase);
+  const { isLoading, error, submitImageCreate, prediction } = useImageCreateSubmit(supabase);
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevents the default form submission action
@@ -48,7 +50,7 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase }) 
         {isLoading ? "Processing..." : "Submit"}
       </button>
       {error && <div className="error">{error}</div>}
-      {newPrediction && <div>New Prediction: {newPrediction}</div>}
+      {prediction && <div>New Prediction: {prediction}</div>}
     </form>
   );
 };

@@ -5,11 +5,13 @@ import { Box, ChakraProvider } from '@chakra-ui/react'
 import { UserProvider } from "@/lib/UserProvider";
 import Navbar from "@/components/Navbar";
 import { createClient } from "@/utils/supabase/client";
+import { RecoilRoot } from "recoil";
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
 const supabase = createClient();
 
   return (
+    <RecoilRoot>
       <SupabaseProvider>
         <ChakraProvider>
           <UserProvider supabase={supabase}>
@@ -23,5 +25,6 @@ const supabase = createClient();
           </UserProvider>
         </ChakraProvider>
       </SupabaseProvider>
+      </RecoilRoot>
   );
 };

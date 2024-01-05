@@ -1,6 +1,18 @@
+'use client'
 import { atom } from 'recoil';
 
-export const promptState = atom({
-    key: 'promptState', // unique ID (with respect to other atoms/selectors)
-    default: '""', // default value (aka initial value)
-  });
+export const predictionState = atom({
+  key: 'predictionState',
+  default: null,
+});
+
+export const predictionErrorState = atom({
+  key: 'predictionErrorState',
+  default: null,
+});
+
+export const predictionResultState = atom({
+  key: 'predictionResultState',
+  default: null,
+});
+

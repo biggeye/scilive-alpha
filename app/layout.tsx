@@ -15,6 +15,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+
     <html lang='en' className={fonts.roboto_mono.variable}>
       <body className="body">
         <ClientLayout>

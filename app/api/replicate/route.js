@@ -13,7 +13,6 @@ export async function POST(req) {
   }
 
   try {
-    // Retrieve request body
     const bodyData = await req.json()
     const { version, image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path, stream } = bodyData
 
@@ -31,6 +30,7 @@ export async function POST(req) {
         ...(img && { img }),
         ...(video_path && { video_path }),
       },
+      webhook: "https://scilive.cloud/api/replicate/webhook",
     };
 
     if (Object.keys(payload.input).length === 0) {

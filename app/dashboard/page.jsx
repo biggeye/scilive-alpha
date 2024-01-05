@@ -39,22 +39,6 @@ const DashboardPage = () => {
   const supabase = createClient();
   const modelId = selectedModel ? selectedModel.modelId : null;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const supabase = createClient();
-      const user = await supabase.auth.getUser();
-      const session = await supabase.auth.getSession();
-      console.log("User data:", user);
-      console.log("Session data:", session);
-      setUserData(user);
-      setSessionData(session);
-
-      const uuid = session?.data?.session?.user?.id || "No User ID Found";
-      setUserId(uuid);
-    };
-
-    fetchData();
-  }, []);
 
   const convertToDataURI = (file) =>
     new Promise((resolve, reject) => {

@@ -1,7 +1,6 @@
 
 import './globals.css';
 import { fonts } from './fonts';
-import Navbar from '@/components/Navbar';
 import { ClientLayout } from './ClientLayout';
 
 
@@ -18,15 +17,11 @@ export default async function RootLayout({
   return (
     <html lang='en' className={fonts.roboto_mono.variable}>
       <body className="body">
-  <ClientLayout>
-        <Navbar />
-      
+        <ClientLayout>
           {children}
         </ClientLayout>
         <script src="https://tikapi.io/assets/js/popup.js"></script>
-
       </body>
-
     </html>
   )
 }

@@ -1,14 +1,15 @@
-'use client'
 import React, { useEffect, useState } from "react";
+import { Box, Image, Button, Input, Spinner, Center } from "@chakra-ui/react";
 
-export default function Avatar({ uid, url, size, onUpload, supabase }) {
-  const [avatarUrl, setAvatarUrl] = useState(null);
+export default function Avatar({ uid, url, size, onUpload, supabase, setProfileDetails }) {
+  const [avatarUrl, setAvatarUrl] = useState(url); // Start with the provided URL
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
+    // Function to download image from Supabase storage
     async function downloadImage(path) {
       try {
-        const { data, error } = await supabase.storage.from("user_avatars").download(path);
+        const { data, error } = await supabase.storage.from("avatars").download(path);
         if (error) {
           throw error;
         }
@@ -19,9 +20,10 @@ export default function Avatar({ uid, url, size, onUpload, supabase }) {
         console.log("Error downloading image: ", error);
       }
     }
-
-    if (url) {
-      downloadImage(url);
+    if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+      setAvatarUrl(url); // It's an external URL, use it as is
+    } else if (url) {
+      downloadImage(url); // It's a Supabase URL, download the image
     }
   }, [url, supabase]);
 
@@ -37,7 +39,7 @@ export default function Avatar({ uid, url, size, onUpload, supabase }) {
       const fileExt = file.name.split(".").pop();
       const filePath = `${uid}-${Math.random()}.${fileExt}`;
 
-      let { error: uploadError } = await supabase.storage.from("user_avatars").upload(filePath, file);
+      let { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, file);
 
       if (uploadError) {
         throw uploadError;
@@ -52,30 +54,37 @@ export default function Avatar({ uid, url, size, onUpload, supabase }) {
   };
 
   return (
-    <div className="flex flex-col">
+    <Box>
       {avatarUrl ? (
-        <img className={`h-${size} w-${size} object-cover`} src={avatarUrl} alt="Avatar" />
+        <Image  borderRadius={"10px"} padding={"5px"} boxSize={size} src={avatarUrl} alt="Avatar" />
       ) : (
-        <div className={`h-${size} w-${size} bg-brand-200`}></div>
+        <Box boxSize={size} bg="brand.600" />
       )}
-      <div className={`w-${size}`}>
-        <input
+
+      <Box w={size}>
+        <Input
           type="file"
           id="avatar-input"
           accept="image/*"
           onChange={uploadAvatar}
-          disabled={uploading}
-          className="dynamic-input-upload"
+          isDisabled={uploading}
+          visibility="hidden"
+          position="absolute"
         />
-        <label htmlFor="avatar-input" className={`block mt-2 text-sm font-medium text-gray-700`}>
-          <button
-            className={`py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 disabled:bg-gray-300 disabled:cursor-not-allowed ${uploading ? 'opacity-50' : ''}`}
-            disabled={uploading}
-          >
-            {uploading ? "Uploading..." : "Upload"}
-          </button>
-        </label>
-      </div>
-    </div>
+        <Center>
+        <Button
+          as="label"
+          htmlFor="avatar-input"
+          size="sm"
+          colorScheme="teal"
+          isLoading={uploading}
+          loadingText="Uploading..."
+          variant="outline"
+        >
+          Upload
+        </Button>
+        </Center>
+      </Box>
+    </Box>
   );
 }

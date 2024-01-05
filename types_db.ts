@@ -157,12 +157,13 @@ export interface Database {
           currency: string | null
           description: string | null
           id: string
-          interval: Database["public"]["Enums"]["pricing_plan_interval"] | null
+          interval: Database["public"]["Enums"]["pricing_plan_interval"] 
+| null
           interval_count: number | null
           metadata: Json | null
           product_id: string | null
           trial_period_days: number | null
-          type: Database["public"]["Enums"]["pricing_type"] | null
+          type: Database["public"]["Enums"]["pricing_type"] | null       
           unit_amount: number | null
         }
         Insert: {
@@ -175,7 +176,7 @@ export interface Database {
           metadata?: Json | null
           product_id?: string | null
           trial_period_days?: number | null
-          type?: Database["public"]["Enums"]["pricing_type"] | null
+          type?: Database["public"]["Enums"]["pricing_type"] | null      
           unit_amount?: number | null
         }
         Update: {
@@ -188,7 +189,7 @@ export interface Database {
           metadata?: Json | null
           product_id?: string | null
           trial_period_days?: number | null
-          type?: Database["public"]["Enums"]["pricing_type"] | null
+          type?: Database["public"]["Enums"]["pricing_type"] | null      
           unit_amount?: number | null
         }
         Relationships: [
@@ -304,6 +305,8 @@ export interface Database {
           full_name: string | null
           id: string
           payment_method: Json | null
+          username: string | null
+          website: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -311,6 +314,8 @@ export interface Database {
           full_name?: string | null
           id: string
           payment_method?: Json | null
+          username?: string | null
+          website?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -318,6 +323,8 @@ export interface Database {
           full_name?: string | null
           id?: string
           payment_method?: Json | null
+          username?: string | null
+          website?: string | null
         }
         Relationships: [
           {
@@ -536,10 +543,10 @@ export interface Database {
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"]) 
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &    
         Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
@@ -549,10 +556,11 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] 
+&
       Database["public"]["Views"])
   ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {   
       Row: infer R
     }
     ? R
@@ -564,7 +572,7 @@ export type TablesInsert<
     | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]       
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
@@ -572,8 +580,8 @@ export type TablesInsert<
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]  
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {     
       Insert: infer I
     }
     ? I
@@ -585,7 +593,7 @@ export type TablesUpdate<
     | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]       
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
@@ -593,8 +601,8 @@ export type TablesUpdate<
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]  
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {     
       Update: infer U
     }
     ? U
@@ -609,7 +617,7 @@ export type Enums<
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]       
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]    
   ? Database["public"]["Enums"][PublicEnumNameOrOptions]
   : never

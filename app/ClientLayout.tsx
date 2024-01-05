@@ -1,16 +1,27 @@
 'use client';
 import { SupabaseProvider } from "@/lib/supabase-provider";
 import { Toaster } from 'react-hot-toast';
-import { ChakraProvider } from '@chakra-ui/react'
-
+import { Box, ChakraProvider } from '@chakra-ui/react'
+import { UserProvider } from "@/lib/UserProvider";
+import Navbar from "@/components/Navbar";
+import { createClient } from "@/utils/supabase/client";
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
+const supabase = createClient();
+
   return (
-    <div className="px-2 lg:px-8 max-w-8xl mx-auto">
       <SupabaseProvider>
-        <ChakraProvider>{children}</ChakraProvider>
+        <ChakraProvider>
+          <UserProvider supabase={supabase}>
+            <Box width="100vw">
+              <main>
+          <Navbar />
+            {children}
+            </main>
+            </Box>
+          <Toaster />
+          </UserProvider>
+        </ChakraProvider>
       </SupabaseProvider>
-      <Toaster />
-    </div>
   );
 };

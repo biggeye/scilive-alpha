@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { Button } from '@chakra-ui/react';
 
 export default function SignOut() {
   const [isMounted, setIsMounted] = useState(false);
@@ -22,8 +23,13 @@ export default function SignOut() {
   }
 
   return (
-    <button onClick={handleSignOut}>
+    <Button
+    padding={".5px"}
+    mt={2}
+    colorScheme="red"
+    type="submit"
+    onClick={handleSignOut}>
       Sign Out
-    </button>
+    </Button>
   )
 }

@@ -1,125 +1,96 @@
-"use client";
-import React, { Fragment, useState, useEffect } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Link,
+  Collapse,
+  IconButton,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useDisclosure,
+  Spacer,
+  Flex,
+  Text,
+  Center,
+} from "@chakra-ui/react";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { createClient } from "@/utils/supabase/client";
-import { Link } from '@chakra-ui/next-js'
 
-    
+const DropdownMenu = ({ items }) => {
+  const { isOpen, onToggle } = useDisclosure();
 
-
-const MenuItem = ({ title, onClick, href }) => (
-  <Menu.Item>
-    {({ active }) => (
-      <Link 
-      href={href} 
-      color='blue.400' 
-      _hover={{ color: 'blue.500' }}
-        onClick={onClick}
-     >
-        {title}
-      </Link>
-    )}
-  </Menu.Item>
-);
-
-const DropdownMenu = ({ items }) => (
-  <Transition
-    as={Fragment}
-    enter="transition ease-out duration-100"
-    enterFrom="transform opacity-0 scale-95"
-    enterTo="transform opacity-100 scale-100"
-    leave="transition ease-in duration-75"
-    leaveFrom="transform opacity-100 scale-100"
-    leaveTo="transform opacity-0 scale-95"
-  >
-    <Menu.Items className="mobile-menu-items">
-     {items.map((item) => (
-        <Menu.Item key={item.name}>
-          {({ active }) => (
-            <a
-              href={item.href}
-              className={`${
-                active ? "bg-gray-100" : ""
-              } block px-4 py-2 text-sm text-slate-900 w-full text-left`}
-            >
-              {item.name}
-            </a>
-          )}
-        </Menu.Item>
-      ))}
-    </Menu.Items>
-  </Transition>
-);
-
-const UserMenu = ({ userImageUrl }) => (
-  <Menu as="div">
-    <Menu.Button>
-      <img className="avatar-button" src={userImageUrl} alt="User Avatar" />
-    </Menu.Button>
-    <Transition
-      as={Fragment}
-      enter="transition ease-out duration-100"
-      enterFrom="transform opacity-0 scale-95"
-      enterTo="transform opacity-100 scale-100"
-      leave="transition ease-in duration-75"
-      leaveFrom="transform opacity-100 scale-100"
-      leaveTo="transform opacity-0 scale-95"
-    >
-      <Menu.Items className="profile-menu-items">
-        <MenuItem title="Your Profile" href="/account" />
-        <MenuItem title="Settings" href="#" />
-        <MenuItem title="Login" href="/login" />
-      </Menu.Items>
-    </Transition>
-  </Menu>
-);
-
-const MobileMenu = ({ navigation, open }) => (
-  <Disclosure.Panel
-    className="mobile-menu"
-    style={{ display: open ? "block" : "none" }}
-  >
-    <div style={{ padding: "8px" }}>
-      {navigation.map((item) => (
-        <Disclosure.Button
-          key={item.name}
-          as="a"
-          href={item.href}
-          style={{
-            display: "block",
-            padding: "8px 12px",
-            textDecoration: "none",
-            color: "black",
-          }}
-          aria-current={item.current ? "page" : undefined}
-        >
-          {item.name}
-        </Disclosure.Button>
-      ))}
-    </div>
-  </Disclosure.Panel>
-);
-
-const UserInfo = ({ email, provider, avatar_url }) => {
   return (
-    <div className="status-display">
-      email: {email} | provider: {provider}
-    </div>
+    <Menu isOpen={isOpen} onClose={onToggle}>
+      <MenuButton as={IconButton} onClick={onToggle}
+      boxSize="40px" // Adjust the size as needed for your navbar
+      objectFit="cover" // Ensures the image covers the box area
+      boxShadow="md"
+      >
+      <Image src="/sciLive.svg" width={50} />
+      </MenuButton>
+      <MenuList>
+        {items.map((item) => (
+          <MenuItem key={item.name} as={Link} href={item.href}>
+            {item.name}
+          </MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
+  );
+};
+
+const UserMenu = ({ userImageUrl }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <Menu isOpen={isOpen} onClose={onClose}>
+      <MenuButton as={Button} onClick={onOpen}>
+        <Image
+          src={userImageUrl}
+          alt="User Avatar"
+          borderRadius="full" // Makes the image round
+          boxSize="40px" // Adjust the size as needed for your navbar
+          objectFit="cover" // Ensures the image covers the box area
+          boxShadow="md" // Adds a medium drop shadow, you can adjust the shadow as needed
+        />
+      </MenuButton>
+      <MenuList>
+        <MenuItem as={Link} href="/account">
+          Your Profile
+        </MenuItem>
+        <MenuItem as={Link} href="#">
+          Settings
+        </MenuItem>
+        <MenuItem as={Link} href="/login">
+          Login
+        </MenuItem>
+      </MenuList>
+    </Menu>
+  );
+};
+const UserInfo = ({ email, provider }) => {
+  return (
+    <Flex direction="column" alignItems="center">
+      <Text fontSize={"xx-small"}>Email: {email}</Text>
+      <Spacer />
+      <Text fontSize={"xx-small"}>Provider: {provider}</Text>
+    </Flex>
   );
 };
 
 const Navbar = () => {
   const [userData, setUserData] = useState(null);
   const [sessionData, setSessionData] = useState(null);
+  const { isOpen, onToggle } = useDisclosure();
 
   useEffect(() => {
     const fetchData = async () => {
       const supabase = createClient();
       const user = await supabase.auth.getUser();
       const session = await supabase.auth.getSession();
-      console.log("User data:", user);
-      console.log("Session data:", session);
       setUserData(user);
       setSessionData(session);
     };
@@ -141,48 +112,11 @@ const Navbar = () => {
   ];
 
   return (
-    <Disclosure as="nav" className="navbar-container">
-      {({ open }) => (
-        <>
-          {/* Mobile menu button */}
-          <Disclosure.Button
-            className="logo-main"
-          >
-            <span className="sr-only">Open main menu</span>
-            {open ? (
-              <XMarkIcon className="icon" aria-hidden="true" />
-            ) : (
-              <Bars3Icon className="icon" aria-hidden="true" />
-            )}
-          </Disclosure.Button>
-
-          {/* Logo */}
-          <Menu as="div" className="logo-main">
-            <Menu.Button>
-              <img
-                src="/sciLive.svg"
-                alt="sciLive"
-                style={{ height: "60px" }}
-              />
-            </Menu.Button>
-            <DropdownMenu items={navigation} />
-          </Menu>
-
-          <UserInfo
-            className="status-display"
-            email={email}
-            provider={provider}
-            avatar_url={avatar_url}
-          />
-
-          {/* Right-side elements */}
-          <UserMenu userImageUrl={avatar_url} />
-
-          {/* Mobile menu panel */}
-          <MobileMenu navigation={navigation} open={open} />
-        </>
-      )}
-    </Disclosure>
+    <Flex direction="row" justifyContent="space-between" as="nav" bg="gray.100" p={1}>
+      <DropdownMenu items={navigation} />
+      <Spacer />
+      <UserMenu userImageUrl={avatar_url} />
+    </Flex>
   );
 };
 

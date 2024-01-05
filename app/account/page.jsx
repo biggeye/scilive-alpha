@@ -1,4 +1,4 @@
-import AccountForm from "@/components/account/AccountForm"
+import { AccountForm } from "@/components/account/AccountForm"
 
 const Account = () => {
 

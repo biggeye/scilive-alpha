@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
+import { Card, CardBody, CardHeader, CardFooter, Center, Box } from "@chakra-ui/react";
 
 const DisplayResults = ({
   tool,
@@ -26,7 +27,13 @@ const DisplayResults = ({
   
 
   return (
-    <div className="displayResults">
+
+    <Card>
+      <CardHeader>
+
+      </CardHeader>
+      <CardBody>
+        <Center>
    {displayedImage ? (
         <div className="imageSkeleton">
           <img src={displayedImage} alt="Selected or Processed" />
@@ -34,7 +41,13 @@ const DisplayResults = ({
       ) : (
         <div className="imageSkeleton"></div>
       )}
-      </div>
+        </Center>
+      </CardBody>
+    
+      <CardFooter>
+
+      </CardFooter>
+      </Card>
 )}
 
 export default DisplayResults;

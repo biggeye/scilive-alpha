@@ -20,7 +20,8 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase, us
   const { isLoading, error, submitImageCreate, newPrediction } = useImageCreateSubmit(supabase);
 
   // Handler for input change with event type annotation
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => setUserInput(e.target.value);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
+
 
   // Handler for form submission with event type annotation
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -45,8 +46,9 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase, us
      width="80%"
      placeholder="Enter text for image creation"
      aria-label="Text for image creation"
-value={userInput}
+     value={userInput}
      disabled={isLoading}
+     onChange={handleInputChange}
    />
      </InputGroup>
         

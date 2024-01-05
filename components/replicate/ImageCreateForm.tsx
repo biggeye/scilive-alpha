@@ -1,9 +1,9 @@
 'use client';
-
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 import { Input, InputGroup } from "@chakra-ui/react";
+import { useUserContext } from "@/lib/UserProvider";
 
 // TypeScript interface for props
 interface ImageCreateFormProps {
@@ -12,25 +12,17 @@ interface ImageCreateFormProps {
   userId: string;
 }
 
-const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase, userId }) => {
-  // State for storing user input with type string
+const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase }) => {
+  const { userProfile } = useUserContext();
+  const userId = userProfile.id;
+  console.log("userId: ", userId);
   const [userInput, setUserInput] = useState<string>("");
-
-  // Custom hook for image creation submission
   const { isLoading, error, submitImageCreate, newPrediction } = useImageCreateSubmit(supabase);
-
-  // Handler for input change with event type annotation
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
-
-
-  // Handler for form submission with event type annotation
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevents the default form submission action
-
     console.log("ImageCreateForm (userInput): ", userInput);
-
     console.log("ImageCreateForm (modelId): ", modelId);
-
     console.log("ImageCreateForm (userId): ", userId);
     if (!modelId || !userId) {
       console.error("No model selected or user not found");

@@ -9,6 +9,7 @@ import {
   Tab,
   TabPanels,
   TabPanel,
+  Center
 } from "@chakra-ui/react";
 import ToolOptions from "@/components/dashboard/ToolOptions";
 import DisplayResults from "@/components/dashboard/DisplayResults";
@@ -84,35 +85,42 @@ const DashboardPage = () => {
 
   return (
     <Grid mt="2rem">
-      <GridItem>
-        <Tabs isFitted variant="enclosed" onChange={handleTabsChange}>
-          <TabList>
-            <Tab>Image Creation</Tab>
-            <Tab>Image Editing</Tab>
-          </TabList>
-          <ToolOptions
-            tool={selectedTool}
-            handleModelChange={handleModelChange}
-            onExampleImageChange={handleExampleImageChange}
+ <GridItem display="flex" direction="column" alignItems="center" justifyContent="center">
+  <Tabs isFitted variant="enclosed" onChange={handleTabsChange}>
+    <TabList>
+      <Tab>Image Creation</Tab>
+      <Tab>Image Editing</Tab>
+    </TabList>
+    <Center>
+    <ToolOptions
+      tool={selectedTool}
+      handleModelChange={handleModelChange}
+      onExampleImageChange={handleExampleImageChange}
+    />
+    </Center>
+    <TabPanels>
+      <TabPanel>
+        <Center>
+          <ImageCreateForm
+            modelId={modelId}
+            supabase={supabase}
+            userId={userId}
           />
-          <TabPanels>
-            <TabPanel>
-              <ImageCreateForm
-                modelId={modelId}
-                supabase={supabase}
-                userId={userId}
-              />
-            </TabPanel>
-            <TabPanel>
-              <ImageEditForm
-                modelId={modelId}
-                supabase={supabase}
-                userId={userId}
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </GridItem>
+        </Center>
+      </TabPanel>
+      <TabPanel>
+        <Center>
+          <ImageEditForm
+            modelId={modelId}
+            supabase={supabase}
+            userId={userId}
+          />
+        </Center>
+      </TabPanel>
+    </TabPanels>
+  </Tabs>
+</GridItem>
+
       <GridItem>
         <DisplayResults
           tool={selectedTool}

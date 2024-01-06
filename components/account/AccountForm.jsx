@@ -1,46 +1,35 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import Avatar from "./Avatar";
-import SignOut from "../Auth/SignOut";
-import {
-  Image,
-  Box,
-  Button,
-  Center,
-  FormControl,
-  FormLabel,
-  Input,
-  Flex,
-  Spacer,
-} from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
+import { Box, Center, Flex, FormControl, FormLabel, Input, Button, Spacer } from '@chakra-ui/react';
 
 export const AccountForm = () => {
-  const { userState } = useUserContext();
-  const { userProfile } = useUserContext();
-  const { setUserProfile } = useUserContext();
+  const { userState, userProfile, setUserProfile } = useUserContext();
   const router = useRouter();
-
   function handleCancel() {
     router.push("/dashboard");
   }
 
-  function handleInputChange() {
-    // INSERT APPROPRIATE LOGIC
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setUserProfile(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    // Add the logic to handle form submission
+  }
   if (userState.loading) return <Center>Loading...</Center>;
   if (userState.error) return <Center>Error: {userState.error}</Center>;
 
   return (
-    <Box>
-      <Flex
-        direction="column"
-        alignItems="center"
-        justifyContent="space-evenly"
-      >
-        <form onSubmit={setUserProfile}>
+    
+      <Flex direction="column" alignItems="center" justifyContent="space-evenly">
+        <form onSubmit={handleSubmit}>
           <FormControl id="fullName">
             <FormLabel>Full Name</FormLabel>
             <Input
@@ -57,11 +46,11 @@ export const AccountForm = () => {
               type="text"
               name="username"
               value={userProfile.username || ""}
+
               onChange={handleInputChange}
             />
           </FormControl>
-
-          <FormControl id="fullName">
+          <FormControl id="website">
             <FormLabel>Website</FormLabel>
             <Input
               type="text"
@@ -78,10 +67,10 @@ export const AccountForm = () => {
             <Button padding={".5px"} mt={2} colorScheme="gray" onClick={handleCancel}>
               Cancel
             </Button>
-            <SignOut />
           </Flex>
         </form>
       </Flex>
-    </Box>
+
   );
 };
+

@@ -2,7 +2,7 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
-import { Input, InputGroup } from "@chakra-ui/react";
+import { Input, InputGroup, Alert, Button } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
 
 
@@ -37,20 +37,21 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId, supabase }) 
     <form className="form-input" onSubmit={handleSubmit}>
      <InputGroup>
      <Input
-     width="80%"
+     width="80vw"
      placeholder="Enter text for image creation"
      aria-label="Text for image creation"
      value={userInput}
      disabled={isLoading}
      onChange={handleInputChange}
    />
-     </InputGroup>
+   
         
-      <button type="submit" className="submit-button" disabled={isLoading}>
+      <Button type="submit" className="submit-button" disabled={isLoading}>
         {isLoading ? "Processing..." : "Submit"}
-      </button>
-      {error && <div className="error">{error}</div>}
-      {prediction && <div>New Prediction: {prediction}</div>}
+      </Button>
+      </InputGroup>
+      {error && <Alert>{error}</Alert>}
+      {prediction && {prediction}}
     </form>
   );
 };

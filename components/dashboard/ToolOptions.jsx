@@ -5,6 +5,7 @@ import ModelSelect from "@/components/replicate/ModelSelect";
 import txt2img from "@/data/replicate/txt2img";
 import img2img from "@/data/replicate/img2img";
 import deployments from "@/data/replicate/deployments";
+import { Box } from "@chakra-ui/react";
 
 const ToolOptions = ({ 
   tool, 
@@ -31,7 +32,9 @@ const ToolOptions = ({
 
    if (models) {
     return (
+      <Box width="75%">
       <ModelSelect className="toolOptions" models={models} handleModelChange={handleModelChange} />
+      </Box>
     );
   } else {
     return null;

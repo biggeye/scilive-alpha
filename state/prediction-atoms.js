@@ -16,3 +16,7 @@ export const predictionResultState = atom({
   default: null,
 });
 
+export const predictionProgressState = atom({
+  key: 'predictionProgressState',
+  default: 0, // Default progress is 0
+});

@@ -29,7 +29,7 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export const UserProvider = ({ children, supabase }: { children: React.ReactNode, supabase: any }) => {
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    id: "",
+    id: null,
     full_name: "",
     username: "",
     avatar_url: "",

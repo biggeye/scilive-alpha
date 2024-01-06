@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ChangeEvent } from "react";
-
+import { Select, Flex } from "@chakra-ui/react";
 // TypeScript interface for a model
 interface Model {
   id: string;
@@ -29,15 +29,15 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ handleModelChange, models }) 
   };
 
   return (
-    <div className="flex flex-col">
-      <select onChange={handleSelectionChange}>
+    <Flex width="70vw">
+      <Select width="100%" onChange={handleSelectionChange}>
         {models.map((model) => (
           <option key={model.id} value={model.id}>
             {model.friendlyName}
           </option>
         ))}
-      </select>
-    </div>
+      </Select>
+      </Flex>
   );
 };
 

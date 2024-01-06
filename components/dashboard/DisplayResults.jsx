@@ -17,15 +17,10 @@ import {
   Spacer,
   Text,
   Progress,
-  Tag
+  Tag,
 } from "@chakra-ui/react";
 
-const DisplayResults = ({
-  tool,
-  selectedImage,
-  exampleImage,
-  }) => {
-  
+const DisplayResults = ({ tool, selectedImage, exampleImage }) => {
   const [displayedImage, setDisplayedImage] = useState(
     exampleImage || selectedImage
   );
@@ -60,15 +55,18 @@ const DisplayResults = ({
       </CardBody>
 
       <CardFooter>
-        <Flex justifyContent="space-evenly">
-        <Text size="xs">{predictionResult}{" "}</Text>
-        <Spacer />
-        <Flex direction="column" bgColor="gray" borderColor="darkgrey" borderWidth={.5}>
-        
-           {progress &&     <Progress value={progress} />}
-      {predictionResult &&  <Tag size="xs">{predictionResult}</Tag>}
+        <Flex justifyContent="space-evenly" direction="column">
+          {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
+          <Spacer />
+          <Flex
+            direction="column"
+            bgColor="gray"
+            borderColor="darkgrey"
+            borderWidth={0.5}
+          >
+            {progress && <Progress value={progress} />}
           </Flex>
-      </Flex>
+        </Flex>
       </CardFooter>
     </Card>
   );

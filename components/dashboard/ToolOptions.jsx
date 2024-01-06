@@ -32,7 +32,7 @@ const ToolOptions = ({
 
    if (models) {
     return (
-      <Box width="75%">
+      <Box width="70vw">
       <ModelSelect className="toolOptions" models={models} handleModelChange={handleModelChange} />
       </Box>
     );

@@ -1,5 +1,6 @@
 'use client'
 import { useAVToggle } from "@100mslive/react-sdk";
+import { Flex, Button } from "@chakra-ui/react";
 
 function Footer() {
   const {
@@ -9,14 +10,14 @@ function Footer() {
     toggleVideo
   } = useAVToggle();
   return (
-    <div className="control-bar">
-      <button className="btn-control" onClick={toggleAudio}>
+    <Flex className="control-bar" position="fixed" bottom={0} w="full" p={4} justifyContent="center">
+      <Button className="btn-control" onClick={toggleAudio}>
         {isLocalAudioEnabled ? "Mute" : "Unmute"}
-      </button>
-      <button className="btn-control" onClick={toggleVideo}>
+      </Button>
+      <Button className="btn-control" onClick={toggleVideo}>
         {isLocalVideoEnabled ? "Hide" : "Unhide"}
-      </button>
-    </div>
+      </Button>
+    </Flex>
   );
 }
 

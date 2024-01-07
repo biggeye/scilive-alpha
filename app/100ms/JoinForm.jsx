@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useHMSActions } from "@100mslive/react-sdk";
 
+import { FormControl, FormLabel, Input, Button, Heading, VStack, Box, Text } from "@chakra-ui/react";
+
 function JoinForm() {
   const hmsActions = useHMSActions();
   const [inputValues, setInputValues] = useState({
@@ -32,39 +34,49 @@ function JoinForm() {
       console.error(e)
     }
   };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Join Room</h2>
-      <div>Invitee: vmr-kokb-srb</div>
-      <div>Viewer: duj-klus-stx</div>
-      <div>Stage: ssy-tuqm-lbg</div>
-      <div>Backstage: ken-rwky-cqh</div>
-
-      <div className="input-container">
-
-        <input
-          required
-          value={inputValues.name}
-          onChange={handleInputChange}
-          id="name"
-          type="text"
-          name="name"
-          placeholder="Your name"
-        />
-      </div>
-      <div className="input-container">
-        <input
-          id="room-code"
-          type="text"
-          name="roomCode"
-          placeholder="Room code"
-          onChange={handleInputChange}
-        />
-      </div>
-      <button className="btn-primary">Join</button>
-    </form>
+    <FormControl as="form" onSubmit={handleSubmit} maxW="450px" m="30px auto" boxShadow="0 20px 40px rgba(0, 0, 0, 0.4)" borderRadius="8px" p={4}>
+      <Heading as="h2" size="lg" mb="20px">Join Room</Heading>
+      <VStack spacing={4} align="stretch">
+        <Text>Invitee: vmr-kokb-srb</Text>
+        <Text>Viewer: duj-klus-stx</Text>
+        <Text>Stage: ssy-tuqm-lbg</Text>
+        <Text>Backstage: ken-rwky-cqh</Text>
+        <Box>
+          <Input
+            isRequired
+            value={inputValues.name}
+            onChange={handleInputChange}
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Your name"
+            borderRadius="8px"
+            bg="#37474f"
+            color="white"
+            mb="20px"
+          />
+        </Box>
+        <Box>
+          <Input
+            id="room-code"
+            type="text"
+            name="roomCode"
+            placeholder="Room code"
+            onChange={handleInputChange}
+            borderRadius="8px"
+            bg="#37474f"
+            color="white"
+            mb="20px"
+          />
+        </Box>
+        <Button onClick={handleSubmit} type="submit" colorScheme="blue">Join</Button>
+      </VStack>
+    </FormControl>  
   );
 }
+
+
+
 
 export default JoinForm;

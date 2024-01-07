@@ -8,10 +8,7 @@ function Conference() {
   return (
     <div className="conference-section">
       <h2>Conference</h2>
-      <div>Invitee: vmr-kokb-srb</div>
-      <div>Viewer: duj-klus-stx</div>
-      <div>Stage: ssy-tuqm-lbg</div>
-      <div>Backstage: ken-rwky-cqh</div>
+
       <div className="peers-container">
         {peers.map((peer) => (
           <Peer key={peer.id} peer={peer} />

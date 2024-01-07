@@ -37,11 +37,13 @@ function JoinForm() {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Join Room</h2>
-      <div className="input-container">
       <div>Invitee: vmr-kokb-srb</div>
       <div>Viewer: duj-klus-stx</div>
       <div>Stage: ssy-tuqm-lbg</div>
       <div>Backstage: ken-rwky-cqh</div>
+
+      <div className="input-container">
+
         <input
           required
           value={inputValues.name}

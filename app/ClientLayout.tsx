@@ -6,6 +6,8 @@ import { UserProvider } from "@/lib/UserProvider";
 import Navbar from "@/components/Navbar";
 import { createClient } from "@/utils/supabase/client";
 import { RecoilRoot } from "recoil";
+import { HMSRoomProvider } from '@100mslive/react-sdk';
+
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
 const supabase = createClient();
@@ -15,6 +17,7 @@ const supabase = createClient();
       <SupabaseProvider>
         <ChakraProvider>
           <UserProvider supabase={supabase}>
+            <HMSRoomProvider>
             <Box width="100vw">
               <main>
           <Navbar />
@@ -22,6 +25,7 @@ const supabase = createClient();
             </main>
             </Box>
           <Toaster />
+          </HMSRoomProvider>
           </UserProvider>
         </ChakraProvider>
       </SupabaseProvider>

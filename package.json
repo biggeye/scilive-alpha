@@ -9,6 +9,10 @@
     "node-gyp-build": "4.6.1"
   },
   "dependencies": {
+    "@100mslive/hms-video": "^0.0.73",
+    "@100mslive/hms-video-react": "^0.2.5001",
+    "@100mslive/hms-video-store": "^0.10.28",
+    "@100mslive/react-sdk": "^0.8.28",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
@@ -24,6 +28,7 @@
     "geist": "^1.0.0",
     "headlessui": "^0.0.0",
     "heroicons": "^2.0.18",
+    "lucide-react": "^0.307.0",
     "next": "latest",
     "postcss": "^8.4.32",
     "react": "18.2.0",

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageEditSubmit } from '@/lib/replicate/useImageEditSubmit';
-import { InputGroup, Input, Button, FormControl, Alert } from '@chakra-ui/react';
+import { InputGroup, Input, Button, FormControl, Alert, Flex, Spacer } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
 import { createClient } from '@/utils/supabase/client';
 
@@ -43,6 +43,7 @@ const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
     <FormControl>
     <form onSubmit={handleUserImageEditSubmit}>
       <InputGroup>
+     <Flex direction="column">
      <Input
      width="auto"
      placeholder="Enter text for image creation"
@@ -51,12 +52,14 @@ const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
      disabled={isLoading}
      onChange={handleTextInputChange}
    />
+   <Spacer />
       <Input
         className="dynamic-input-upload"
         type="file"
         accept="image/*"
         onChange={onImageChange}
       />
+      <Spacer />
       <Button
         type="submit"
         disabled={isLoading}
@@ -64,6 +67,7 @@ const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
       >
         {isLoading ? "Processing..." : "Submit"}
       </Button>
+      </Flex>
       </InputGroup>
       {error && <Alert>{error}</Alert>}
     </form>

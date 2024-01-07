@@ -22,6 +22,8 @@ const ToolOptions = ({
     models = txt2img;
   } else if (tool === "deployments") {
     models = deployments;
+  } else if (tool === "100ms") {
+    models = null;
   }
 
   useEffect(() => {

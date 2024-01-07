@@ -87,6 +87,7 @@ const Navbar = () => {
   const navigation = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Gallery", href: "/gallery" },
+    { name: "100ms", href: "/100ms" },
     { name: "Account", href: "/account" },
   ];
 

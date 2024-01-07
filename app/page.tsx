@@ -3,7 +3,7 @@
 import { Card, CardFooter } from "@chakra-ui/react";
 
 const Home = () => {
-  const apiResults = "API call results will be displayed here.";
+  
   
   
   return (

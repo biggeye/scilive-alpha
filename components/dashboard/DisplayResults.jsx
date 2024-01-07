@@ -18,7 +18,10 @@ import {
   Text,
   Progress,
   Tag,
+  Image, 
+  Skeleton
 } from "@chakra-ui/react";
+import Canvas from "../Canvas";
 
 const DisplayResults = ({ tool, selectedImage, exampleImage }) => {
   const [displayedImage, setDisplayedImage] = useState(
@@ -45,12 +48,11 @@ const DisplayResults = ({ tool, selectedImage, exampleImage }) => {
       <CardBody>
         <Center>
           {displayedImage ? (
-            <div className="imageSkeleton">
-              <img src={displayedImage} alt="Selected or Processed" />
-            </div>
+            
+              <Image src={displayedImage} alt="Selected or Processed" />
+            
           ) : (
-            <div className="imageSkeleton"></div>
-          )}
+  <Skeleton />        )}
         </Center>
       </CardBody>
 

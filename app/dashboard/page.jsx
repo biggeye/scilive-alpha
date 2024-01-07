@@ -9,7 +9,8 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-  Center
+  Center,
+  Text
 } from "@chakra-ui/react";
 import ToolOptions from "@/components/dashboard/ToolOptions";
 import DisplayResults from "@/components/dashboard/DisplayResults";
@@ -70,7 +71,14 @@ const DashboardPage = () => {
   };
 
   const handleTabsChange = (index) => {
-    const tool = index === 0 ? "imageCreation" : "imageEditing";
+    let tool;
+    if(index === 0) {
+      tool = "imageCreation";
+    } else if(index === 1) {
+      tool = "imageEditing";
+    } else {
+      tool = "100ms";
+    }
     setSelectedTool(tool);
   };
 
@@ -90,6 +98,7 @@ const DashboardPage = () => {
     <TabList>
       <Tab>Image Creation</Tab>
       <Tab>Image Editing</Tab>
+      <Tab>Video Conference</Tab>
     </TabList>
     <Center>
     <ToolOptions
@@ -115,6 +124,11 @@ const DashboardPage = () => {
             supabase={supabase}
             userId={userId}
           />
+        </Center>
+      </TabPanel>
+      <TabPanel>
+        <Center>
+       <Text>Coming Soon</Text>
         </Center>
       </TabPanel>
     </TabPanels>

@@ -1,5 +1,4 @@
 'use client'
-import './styles.css';
 import { useState } from "react";
 import { useHMSActions } from "@100mslive/react-sdk";
 

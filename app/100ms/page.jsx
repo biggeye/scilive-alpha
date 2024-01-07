@@ -1,5 +1,4 @@
 'use client'
-import "./styles.css";
 import JoinForm from "./JoinForm";
 import Conference from "./Conference";
 import Footer from "./Footer";

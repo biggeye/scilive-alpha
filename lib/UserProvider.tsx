@@ -73,6 +73,7 @@ export const UserProvider = ({ children, supabase }: UserProviderProps) => {
             website: userDetails.profile?.website || "",
             email: userDetails.profile?.email || "",
           });
+          console.log(userDetails);
         }
       } catch (error) {
         console.error("Error fetching user details:", error);

@@ -1,6 +1,5 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
 import GetUserDetails from './GetUserDetails'; // Ensure this is the correct path
 
 interface UserProfile {
@@ -26,11 +25,17 @@ interface UserContextType {
   supabase: any;
 }
 
-export const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const supabase = createClient();
+export const UserContext = createContext<UserContextType | undefined>(undefined);
+type UserProviderProps = {
+  children: React.ReactNode;
+  supabase: any; // replace any with the actual type of supabase
+};
+
+export const UserProvider = ({ children, supabase }: UserProviderProps) => {
+
   const [currentUser, setCurrentUser] = useState(null);
+
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: null,
     full_name: "",
@@ -77,7 +82,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     // Auth state listener
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event: any, session: any) => {
       if (session) {
         await GetUserDetails();
       } else {

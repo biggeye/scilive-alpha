@@ -60,13 +60,13 @@ select {
   /* For the default background, similar to text-slate-900 */
   color: #1e293b;
   /* For the text color, similar to text-slate-900 */
-  padding: 0.75rem 1rem;
+
   /* Similar to px-3 py-2 */
   border-radius: 0.375rem;
   /* Similar to rounded-md */
-  font-size: 1rem;
+
   /* Similar to text-base */
-  font-weight: 500;
+
   /* Similar to font-medium */
   transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
   /* Similar to transition duration-150 ease-in-out */
@@ -114,7 +114,6 @@ body {
   color: rgb(var(--onyx));
   background: linear-gradient(to bottom, #dbdbdb 50%, #7e7e7e54 95%);
   height: 100vh;
-  overflow-y: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -440,20 +439,15 @@ header {
 }
 
 form {
-  max-width: 450px;
-  margin: 30px auto;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  max-width: 640px;
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.4);
   border-radius: 8px;
-  padding: 20px;
 }
 
 input {
-  display: block;
-  width: 100%;
-  border-radius: 8px;
+  border-radius: 4px;
   border: 2px solid transparent;
-  height: 34px;
-  padding: 5px;
+
   background: #37474f;
   color: inherit;
   font-family: inherit;
@@ -463,12 +457,6 @@ input::placeholder {
   color: #aaa;
 }
 
-.input-container {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
-}
 
 .btn-primary {
   border: 1px solid transparent;

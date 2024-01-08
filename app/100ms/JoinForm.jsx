@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHMSActions } from "@100mslive/react-sdk";
 
 import { FormControl, FormLabel, Input, Button, Heading, VStack, Box, Text } from "@chakra-ui/react";
+import { VirtualBackground } from "@/components/100ms/plugins/VirtualBackground";
 
 function JoinForm() {
   const hmsActions = useHMSActions();
@@ -72,6 +73,8 @@ function JoinForm() {
         </Box>
         <Button onClick={handleSubmit} type="submit" colorScheme="blue">Join</Button>
       </VStack>
+
+    <VirtualBackground />
     </FormControl>  
   );
 }

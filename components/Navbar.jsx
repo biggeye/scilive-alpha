@@ -25,13 +25,14 @@ import { useUserContext } from "@/lib/UserProvider";
 const DropdownMenu = ({ items }) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
-    <Menu isOpen={isOpen} onClose={onToggle}>
+    <Menu isOpen={isOpen} onClose={onToggle} >
       <MenuButton
         as={IconButton}
         onClick={onToggle}
         boxSize="40px" // Adjust the size as needed for your navbar
         objectFit="cover" // Ensures the image covers the box area
         boxShadow="md"
+      
       >
         <Image src="/sciLive.svg" width={50} />
       </MenuButton>
@@ -102,7 +103,7 @@ const Navbar = () => {
       bg="gray.100"
       p={1}
     >
-      <DropdownMenu items={navigation} />
+      <DropdownMenu items={navigation} mt={5} />
       <Spacer />
       <UserMenu userImageUrl={avatar_url} />
     </Flex>

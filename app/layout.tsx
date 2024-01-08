@@ -17,7 +17,7 @@ export default async function RootLayout({
   return (
 
     <html lang='en' className={fonts.roboto_mono.variable}>
-      <body className="body">
+      <body>
         <ClientLayout>
           {children}
         </ClientLayout>

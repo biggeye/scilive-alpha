@@ -6,13 +6,15 @@ import txt2img from "@/data/replicate/txt2img";
 import img2img from "@/data/replicate/img2img";
 import deployments from "@/data/replicate/deployments";
 import { Box } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { exampleImageState } from "@/state/prediction-atoms";
 
 const ToolOptions = ({ 
   tool, 
-  handleModelChange, 
-  onExampleImageChange 
+  handleModelChange
 }) => {
   const [selectedModel, setSelectedModel] = useState(null);
+  const [exampleImage, setExampleImage] = useRecoilState(exampleImageState);
 
   // Define models here in a scope accessible by the handleSelectionChange function
   let models;
@@ -20,21 +22,17 @@ const ToolOptions = ({
     models = img2img;
   } else if (tool === "imageCreation") {
     models = txt2img;
-  } else if (tool === "deployments") {
-    models = deployments;
-  } else if (tool === "100ms") {
-    models = null;
-  }
+  } 
 
   useEffect(() => {
     if (selectedModel) {
-      onExampleImageChange(selectedModel.example);
+      setExampleImage(selectedModel.example);
     }
-  }, [selectedModel, onExampleImageChange]);
+  }, [selectedModel]);
 
    if (models) {
     return (
-      <Box width="70vw">
+      <Box maxWidth="640px" p="5px">
       <ModelSelect className="toolOptions" models={models} handleModelChange={handleModelChange} />
       </Box>
     );

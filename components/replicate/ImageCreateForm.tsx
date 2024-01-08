@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
-import { FormControl, Input, InputGroup, Alert, Button } from "@chakra-ui/react";
+import { FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
 import { createClient } from "@/utils/supabase/client";
 
@@ -32,22 +32,24 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId }) => {
   };
 
   return (
+    
     <FormControl>
     <form onSubmit={handleSubmit}>
      <InputGroup>
      <Input
-     width="auto"
+     size="sm"
+
      placeholder="Enter text for image creation"
      aria-label="Text for image creation"
      value={userInput}
      disabled={isLoading}
      onChange={handleInputChange}
    />
-   
-        
-      <Button type="submit" className="submit-button" disabled={isLoading}>
+   <InputRightAddon> <Button type="submit" disabled={isLoading} size="sm">
         {isLoading ? "Processing..." : "Submit"}
-      </Button>
+      </Button></InputRightAddon>
+        
+     
       </InputGroup>
       {error && <Alert>{error}</Alert>}
     </form>

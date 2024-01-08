@@ -7,15 +7,16 @@ import Navbar from "@/components/Navbar";
 import { createClient } from "@/utils/supabase/client";
 import { RecoilRoot } from "recoil";
 import { HMSRoomProvider } from '@100mslive/react-sdk';
-
+import { sciLiveTheme } from "./theme";
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
+
 const supabase = createClient();
 
   return (
     <RecoilRoot>
       <SupabaseProvider>
-        <ChakraProvider>
+        <ChakraProvider theme={sciLiveTheme}>
           <UserProvider supabase={supabase}>
             <HMSRoomProvider>
             <Box width="100vw">

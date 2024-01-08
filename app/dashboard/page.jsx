@@ -10,7 +10,8 @@ import {
   TabPanels,
   TabPanel,
   Center,
-  Text
+  Text,
+  Flex,
 } from "@chakra-ui/react";
 import ToolOptions from "@/components/dashboard/ToolOptions";
 import DisplayResults from "@/components/dashboard/DisplayResults";
@@ -40,7 +41,6 @@ const DashboardPage = () => {
 
   const supabase = createClient();
   const modelId = selectedModel ? selectedModel.modelId : null;
-
 
   const convertToDataURI = (file) =>
     new Promise((resolve, reject) => {
@@ -72,14 +72,13 @@ const DashboardPage = () => {
 
   const handleTabsChange = (index) => {
     let tool;
-    if(index === 0) {
+    if (index === 0) {
       tool = "imageCreation";
-    } else if(index === 1) {
+    } else if (index === 1) {
       tool = "imageEditing";
-    } else {
-      tool = "100ms";
     }
     setSelectedTool(tool);
+    setExampleImage(null);
   };
 
   const handleModelChange = (modelId, friendlyName, shortDesc, example) => {
@@ -91,60 +90,63 @@ const DashboardPage = () => {
     console.log("exampleImage: ", exampleImage);
   };
 
-  return (
-    <Grid mt="2rem">
- <GridItem display="flex" direction="column" alignItems="center" justifyContent="center">
-  <Tabs isFitted variant="enclosed" onChange={handleTabsChange}>
-    <TabList>
-      <Tab>Image Creation</Tab>
-      <Tab>Image Editing</Tab>
-      <Tab>Video Conference</Tab>
-    </TabList>
-    <Center>
-    <ToolOptions
-      tool={selectedTool}
-      handleModelChange={handleModelChange}
-      onExampleImageChange={handleExampleImageChange}
-    />
-    </Center>
-    <TabPanels>
-      <TabPanel>
-        <Center>
-          <ImageCreateForm
-            modelId={modelId}
-            supabase={supabase}
-            userId={userId}
-          />
-        </Center>
-      </TabPanel>
-      <TabPanel>
-        <Center>
-          <ImageEditForm
-            modelId={modelId}
-            supabase={supabase}
-            userId={userId}
-          />
-        </Center>
-      </TabPanel>
-      <TabPanel>
-        <Center>
-       <Text>Coming Soon</Text>
-        </Center>
-      </TabPanel>
-    </TabPanels>
-  </Tabs>
-</GridItem>
+  const handleUserImageUpload = (newUserImage) => {
+    setExampleImage(newUserImage);
+  };
 
-      <GridItem>
-        <DisplayResults
-          tool={selectedTool}
-          prediction={prediction}
-          predictionProgress={predictionProgress}
-          selectedImage={selectedImage}
-          exampleImage={exampleImage}
-          newPrediction={newPrediction}
-        />
-      </GridItem>
+  return (
+    <Grid
+      templateRows="3"
+      templateColumns="1"
+      gap={4}
+      mt=".25rem"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Tabs align="center" size="sm" onChange={handleTabsChange}>
+        <GridItem>
+          <TabList>
+            <Tab>Image Creation</Tab>
+            <Tab>Image Editing</Tab>
+        
+          </TabList>
+          <ToolOptions
+            tool={selectedTool}
+            handleModelChange={handleModelChange}
+            onExampleImageChange={handleExampleImageChange}
+          />
+        </GridItem>
+        <GridItem overflowY="auto">
+          <DisplayResults 
+            tool={selectedTool}
+          />
+        </GridItem>
+        <GridItem position="fixed" marginRight="auto" left="0" bottom="0" width="full">
+          <TabPanels>
+            <TabPanel>
+     
+                <ImageCreateForm
+                  modelId={modelId}
+                  supabase={supabase}
+                  userId={userId}
+                />
+            
+            </TabPanel>
+            <TabPanel>
+           
+                <ImageEditForm
+                  modelId={modelId}
+                  supabase={supabase}
+                  userId={userId}
+                  handleUserImageUpload={handleUserImageUpload}
+                />
+       
+            </TabPanel>
+  
+          </TabPanels>
+        </GridItem>
+      </Tabs>
     </Grid>
   );
 };

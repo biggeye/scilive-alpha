@@ -7,29 +7,29 @@
     "description": "A cutting-edge platform for scientific collaboration and discovery.",
     "icons": [
       {
-        "src": "/sciLive_x512.png",
+        "src": "https://scilive.cloud/sciLive_x512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/sciLive_384.png",
+        "src": "https://scilive.cloud/sciLive_384.png",
         "sizes": "384x384",
         "type": "image/png",
         "purpose": "any"
       },   {
-        "src": "/sciLive_x192.png",
+        "src": "https://scilive.cloud/sciLive_x192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
       },   {
-        "src": "/sciLive_x96.png",
+        "src": "https://scilive.cloud/sciLive_x96.png",
         "sizes": "96x96",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/sciLive_x512_sq.png",
+        "src": "https://scilive.cloud/sciLive_x512_sq.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any"

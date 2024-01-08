@@ -1,7 +1,7 @@
 'use client'
 import { useAVToggle } from "@100mslive/react-sdk";
 import { Flex, Button } from "@chakra-ui/react";
-import { VirtualBackground } from "@/components/100ms/plugins/VirtualBackground";
+
 function Footer() {
   const {
     isLocalAudioEnabled,
@@ -17,8 +17,7 @@ function Footer() {
       <Button className="btn-control" onClick={toggleVideo}>
         {isLocalVideoEnabled ? "Hide" : "Unhide"}
       </Button>
-      <VirtualBackground />
-    </Flex>
+      </Flex>
   );
 }
 

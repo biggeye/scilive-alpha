@@ -20,7 +20,6 @@ import {
   Image,
   Skeleton,
 } from "@chakra-ui/react";
-import Canvas from "../Canvas";
 import { useRecoilValue } from "recoil";
 import { userImageUploadState } from "@/state/prediction-atoms";
 import { exampleImageState } from "@/state/prediction-atoms"

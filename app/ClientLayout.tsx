@@ -1,6 +1,5 @@
 'use client';
 import { SupabaseProvider } from "@/lib/supabase-provider";
-import { Toaster } from 'react-hot-toast';
 import { Box, ChakraProvider } from '@chakra-ui/react'
 import { UserProvider } from "@/lib/UserProvider";
 import Navbar from "@/components/Navbar";
@@ -25,7 +24,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
                 {children}
               </main>
             </Box>
-            <Toaster />
+     
           </HMSRoomProvider>
         </ChakraProvider>
       </RecoilRoot>

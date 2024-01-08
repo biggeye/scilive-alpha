@@ -11,25 +11,26 @@ import { sciLiveTheme } from "./theme";
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
 
-const supabase = createClient();
+  const supabase = createClient();
 
   return (
-    <RecoilRoot>
-      <SupabaseProvider>
+<SupabaseProvider>
+    <UserProvider supabase={supabase}>
+      <RecoilRoot>
         <ChakraProvider theme={sciLiveTheme}>
-          <UserProvider supabase={supabase}>
-            <HMSRoomProvider>
+          <HMSRoomProvider>
             <Box width="100vw">
               <main>
-          <Navbar />
-            {children}
-            </main>
+                <Navbar />
+                {children}
+              </main>
             </Box>
-          <Toaster />
+            <Toaster />
           </HMSRoomProvider>
-          </UserProvider>
         </ChakraProvider>
-      </SupabaseProvider>
       </RecoilRoot>
+    </UserProvider>
+    </SupabaseProvider>
+
   );
 };

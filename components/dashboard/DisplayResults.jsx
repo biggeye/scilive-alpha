@@ -54,6 +54,7 @@ const DisplayResults = ({ tool, selectedImage }) => {
       return () => URL.revokeObjectURL(objectURL);
     }
   }, [userImageUpload]);
+  
   useEffect(() => {
     if (exampleImage) {
       setDisplayedImage(exampleImage);
@@ -63,19 +64,27 @@ const DisplayResults = ({ tool, selectedImage }) => {
   return (
     <Card>
       <CardBody>
-      {displayedImage ? (
-            <Image height="50vh" src={displayedImage} alt="Selected or Processed"   boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)" borderRadius=".2rem" />
-          ) : (
-            <Skeleton width={640} height={480}   boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"/>
-          )}
+        {displayedImage 
+          ? <Image 
+              height="50vh" 
+              src={displayedImage} 
+              alt="Selected or Processed"   
+              boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)" 
+              borderRadius=".2rem" 
+            />
+          : <Skeleton 
+              width={640} 
+              height={480}   
+              boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
+            />
+        }
         <Flex justifyContent="space-evenly" direction="column">
           {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
           <Spacer />
         </Flex>
       </CardBody>
-
-      <CardFooter>
     
+      <CardFooter>
         <Flex
             direction="column"
             bgColor="gray"
@@ -83,8 +92,6 @@ const DisplayResults = ({ tool, selectedImage }) => {
             borderWidth={0.5}
           >
             {progress && <Progress value={progress} />}
-        
-        
           </Flex>
       </CardFooter>
     </Card>

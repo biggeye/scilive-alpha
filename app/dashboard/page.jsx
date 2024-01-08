@@ -119,7 +119,6 @@ const DashboardPage = () => {
         </GridItem>
         <GridItem overflowY="auto">
           <DisplayResults 
-            tool={selectedTool}
           />
         </GridItem>
         <GridItem position="fixed" marginRight="auto" left="0" bottom="0" width="full">

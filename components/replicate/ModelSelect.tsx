@@ -33,7 +33,7 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ handleModelChange, models }) 
       <Select variant="flushed" width="100%" onChange={handleSelectionChange} size="xs">
         {models.map((model) => (
           <option key={model.id} value={model.id}>
-           <Text size="xs"> {model.friendlyName}</Text>
+     {model.friendlyName}
           </option>
         ))}
       </Select>

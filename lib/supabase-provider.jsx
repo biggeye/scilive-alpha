@@ -1,20 +1,20 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { createClient } from '../utils/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 
 export const SupabaseContext = createContext(null);
 
 export const SupabaseProvider = ({ children }) => {
-  const supabaseClient = createClient();
+  const supabase = createClient();
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     // Set the initial user
-    const user = supabaseClient.auth.getUser();
+    const user = supabase.auth.getUser();
     setCurrentUser(user);
 
     // Auth state listener
-    const { data: authListener } = supabaseClient.auth.onAuthStateChange((event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         // When the user logs in or the session is refreshed
         setCurrentUser(session.user);
@@ -27,10 +27,10 @@ export const SupabaseProvider = ({ children }) => {
     return () => {
       authListener.subscription.unsubscribe(); // Clean up the listener on unmount
     };
-  }, [supabaseClient]);
+  }, [supabase]);
 
   return (
-    <SupabaseContext.Provider value={{ supabaseClient, currentUser }}>
+    <SupabaseContext.Provider value={{ supabase, currentUser }}>
       {children}
     </SupabaseContext.Provider>
   );

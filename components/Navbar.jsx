@@ -25,16 +25,15 @@ import { useUserContext } from "@/lib/UserProvider";
 const DropdownMenu = ({ items }) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
-    <Menu isOpen={isOpen} onClose={onToggle} >
+    <Menu isOpen={isOpen} onClose={onToggle}>
       <MenuButton
         as={IconButton}
         onClick={onToggle}
-        boxSize="40px" // Adjust the size as needed for your navbar
+        boxSize="50px" // Adjust the size as needed for your navbar
         objectFit="cover" // Ensures the image covers the box area
         boxShadow="md"
-      
       >
-        <Image src="/sciLive.svg" width={50} />
+        <Image src="/sciLive.svg" width={40} />
       </MenuButton>
       <MenuList>
         {items.map((item) => (
@@ -59,14 +58,16 @@ const UserMenu = ({ userImageUrl }) => {
     router.push("/login");
   }
 
+  const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg"; // Replace with your actual fallback image URL
+
   return (
     <Menu isOpen={isOpen} onClose={onClose}>
       <MenuButton as={Button} onClick={onOpen}>
         <Image
-          src={userImageUrl}
+          src={userImageUrl || fallbackImageUrl}
           alt="User Avatar"
           borderRadius="full" // Makes the image round
-          boxSize="40px" // Adjust the size as needed for your navbar
+          boxSize="50px" // Adjust the size as needed for your navbar
           objectFit="cover" // Ensures the image covers the box area
           boxShadow="md" // Adds a medium drop shadow, you can adjust the shadow as needed
         />
@@ -97,16 +98,17 @@ const Navbar = () => {
 
   return (
     <Flex
-      direction="row"
-      justifyContent="space-between"
-      as="nav"
-      bg="gray.100"
-      p={1}
-    >
-      <DropdownMenu items={navigation} mt={5} />
-      <Spacer />
-      <UserMenu userImageUrl={avatar_url} />
-    </Flex>
+    direction="row"
+    justifyContent="space-between"
+    alignItems="center" // Add this to align items vertically in the center
+    as="nav"
+    bg="gray.100"
+    p={1}
+  >
+    <DropdownMenu items={navigation} />
+    <Spacer />
+    <UserMenu userImageUrl={avatar_url} />
+  </Flex>
   );
 };
 

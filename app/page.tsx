@@ -1,42 +1,118 @@
-'use client'
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { Card, CardFooter } from '@chakra-ui/react';
-import { useUserContext } from '@/lib/UserProvider';
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Ensure this path is correct
+import {
+  Flex,
+  VStack,
+  InputGroup,
+  Spacer,
+  Button,
+  FormControl,
+  Input,
+} from "@chakra-ui/react";
+import { createClient } from "@/utils/supabase/client";
+import { GitHubLogo, GoogleLogo } from "@/public/logos";
 
-const Home = () => {
+function Home() {
+  const supabase = createClient();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
-  const { userProfile } = useUserContext();
 
-  useEffect(() => {
-    // Redirect to /login if the user is not logged in
-    if (!userProfile?.id) {
-      router.push('/login');
+  const handleGitHubLogin = async (event: { preventDefault: any; }) => {
+    event.preventDefault;
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "github",
+      });
+    } catch (error) {
+      console.error("GitHub login error:", error);
     }
-  }, [userProfile, router]);
+  };
+  
+  const handleGoogleLogin = async (event: { preventDefault: any; }) => {
+    event.preventDefault;
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+      });
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
+  };
 
-  // Render placeholder or loader while userProfile is being determined
-  if (!userProfile) {
-    return <div>Loading...</div>; // Or any other placeholder
+  async function handleSignUp(event: { preventDefault: () => void; }) {
+    event.preventDefault(); 
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`,
+      },
+    });
+
+    if (error) {
+      console.error("Signup error:", error.message);
+    } else {
+      console.log("Signup success:", data);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`);
+    }
+  }
+
+  async function handleLogIn(event: { preventDefault: () => void; }) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      console.error("Login error:", error.message);
+    } else {
+      console.log("Login success:", data);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`);
+    }
   }
 
   return (
-    <Card>
-      <CardFooter className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{' '}
-          <a
-            href="https://www.scifiction.com"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            <img src="/scifiction.png" alt="SciFiction" width="70px" />
-          </a>
-        </p>
-      </CardFooter>
-    </Card>
+    <Flex direction="column" alignItems="center">
+      <FormControl>
+        <VStack>
+          <Input
+            size="xs"
+            w="50%"
+            mt="3"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="E-mail"
+          />
+          <Input
+            size="xs"
+            w="50%"
+            mb="3"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </VStack>
+        <Flex direction="row" justifyContent="space-evenly">
+          <Button size="xs" onClick={handleSignUp} type="submit">
+            Sign-Up
+          </Button>
+          <Button size="xs" onClick={handleLogIn} type="submit">
+            Log In
+          </Button>
+        </Flex>
+        <Flex justifyContent="center" direction="row" alignItems="center" mt="4">
+          <Button size="xs" p="5" leftIcon=<GitHubLogo /> onClick={handleGitHubLogin} />
+          <Button size="xs" p="5" leftIcon=<GoogleLogo /> onClick={handleGoogleLogin} />
+        </Flex>
+      </FormControl>
+    </Flex>
   );
-};
-
+}
 export default Home;

@@ -33,7 +33,7 @@ function Home() {
     }
   };
 
-  
+ 
   const handleGoogleLogin = async (event: { preventDefault: any; }) => {
     event.preventDefault;
     try {

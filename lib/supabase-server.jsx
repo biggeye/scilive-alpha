@@ -91,7 +91,7 @@ export const handleOAuthLogin = async (provider) => {
         access_type: "offline",
         prompt: "consent",
       },
-      redirectTo: `${process.env.DEFAULT_URL}/api/auth/callback`,
+      redirectTo: `${process.env.DEFAULT_URL}/auth/callback`,
     },
   });
   if (error) {

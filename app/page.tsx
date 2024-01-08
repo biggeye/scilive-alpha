@@ -25,7 +25,7 @@ function Home() {
       await supabase.auth.signInWithOAuth({
         provider: "github",
         options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/callback`,
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/callback`,
         },
       });
     } catch (error) {
@@ -39,7 +39,7 @@ function Home() {
     try {
       await supabase.auth.signInWithOAuth({
         provider: "google",    options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/callback`,
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/callback`,
         },
       });
     } catch (error) {

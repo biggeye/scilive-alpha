@@ -10,7 +10,7 @@
         "src": "https://scilive.cloud/sciLive_x512.png",
         "sizes": "512x512",
         "type": "image/png",
-        "purpose": "any"
+        "purpose": "maskable"
       },
       {
         "src": "https://scilive.cloud/sciLive_384.png",
@@ -31,6 +31,12 @@
       {
         "src": "https://scilive.cloud/sciLive_x512_sq.png",
         "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "https://scilive.cloud/sciLive_x512_sq.png",
+        "sizes": "144x144",
         "type": "image/png",
         "purpose": "any"
       }

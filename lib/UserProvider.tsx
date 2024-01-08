@@ -45,6 +45,9 @@ export const UserProvider = ({ children, supabase }: { children: React.ReactNode
 
   const handleSessionAndAvatar = async (session: any) => {
     const expiresAt = new Date(session.expires_at * 1000);
+    if (!session) {
+      return null;
+    } else {
     const { data, error } = await supabase.from("oauth2tokens").insert([
       {
         user_id: session.user.id,
@@ -75,7 +78,7 @@ export const UserProvider = ({ children, supabase }: { children: React.ReactNode
       } else {
         console.log("User avatar updated successfully");
       }
-    }
+    }}
   };
   
 

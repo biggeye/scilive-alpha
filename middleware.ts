@@ -41,8 +41,11 @@ export async function middleware(request: NextRequest) {
         }
       }
     }
-
+if (response) {
     return response;
+} else {
+  return null;
+}
   } catch (e) {
     return NextResponse.next({
       request: {

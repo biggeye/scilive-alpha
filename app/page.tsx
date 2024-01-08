@@ -24,17 +24,23 @@ function Home() {
     try {
       await supabase.auth.signInWithOAuth({
         provider: "github",
+        options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/callback`,
+        },
       });
     } catch (error) {
       console.error("GitHub login error:", error);
     }
   };
+
   
   const handleGoogleLogin = async (event: { preventDefault: any; }) => {
     event.preventDefault;
     try {
       await supabase.auth.signInWithOAuth({
-        provider: "google",
+        provider: "google",    options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/callback`,
+        },
       });
     } catch (error) {
       console.error("Google login error:", error);

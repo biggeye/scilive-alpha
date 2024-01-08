@@ -55,7 +55,7 @@ const UserMenu = ({ userImageUrl }) => {
 
   async function signOut() {
     await supabase.auth.signOut();
-    router.push("/login");
+    router.push("/");
   }
 
   const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg"; // Replace with your actual fallback image URL

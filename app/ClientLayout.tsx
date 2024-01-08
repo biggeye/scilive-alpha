@@ -14,7 +14,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
 <SupabaseProvider>
-    <UserProvider supabase={supabase}>
+    <UserProvider>
       <RecoilRoot>
         <ChakraProvider theme={sciLiveTheme}>
           <HMSRoomProvider>

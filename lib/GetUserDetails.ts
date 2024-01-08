@@ -30,7 +30,7 @@ if (sessionError || !session) {
   try {
 
     const userId = session.session?.user.id;
-    
+    console.log(userId);
     if (!userId) {
       return { error: "Can't find User ID"};
     }

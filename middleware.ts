@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { Database } from './types_db'
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -55,7 +56,7 @@ export async function middleware(request: NextRequest) {
   )
 
   await supabase.auth.getSession()
-
+  console.log("middleware (getSession): ", response);
   return response
 }
 

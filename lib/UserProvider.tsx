@@ -2,29 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import GetUserDetails from './GetUserDetails'; // Ensure this is the correct path
-
-interface UserProfile {
-  id: string | null;
-  full_name: string | null;
-  username: string | null;
-  avatar_url: string | null;
-  website: string | null;
-  email: string | null;
-}
-
-interface UserState {
-  profile: boolean;
-  loading: boolean;
-  error: string | null;
-}
-
-interface UserContextType {
-  userState: UserState;
-  setUserState: React.Dispatch<React.SetStateAction<UserState>>;
-  userProfile: UserProfile;
-  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
-  supabase: any;
-}
+import { UserContextType, UserState, UserProfile } from '@/types_db';
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 

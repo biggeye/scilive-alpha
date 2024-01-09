@@ -29,13 +29,12 @@ export default async function POST(req: any, res: any) {
             },
             stream: true,
         })
-      const response = await prediction.output();
-      res.status(200).json({ output: response.output });
+       if (prediction) {
+        return new Response(JSON.stringify(prediction), { status: 201 });
+      }
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+        return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+      }
     }
-  } else {
-    res.status(405).json({ error: "Method Not Allowed" });
-  }
-}
     
+  }

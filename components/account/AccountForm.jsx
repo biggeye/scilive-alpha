@@ -67,6 +67,7 @@ export const AccountForm = () => {
             <Button padding={".5px"} mt={2} colorScheme="teal" type="submit">
               Update
             </Button>
+            <Spacer />
             <Button padding={".5px"} mt={2} colorScheme="gray" onClick={handleCancel}>
               Cancel
             </Button>

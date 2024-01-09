@@ -76,7 +76,7 @@ const UserMenu = ({ userImageUrl }) => {
         {userId ? (
           <MenuItem onClick={signOut}>Sign-Out</MenuItem>
         ) : (
-          <MenuItem as={Link} href="/">
+          <MenuItem as={Link} href="/login">
             Login
           </MenuItem>
         )}

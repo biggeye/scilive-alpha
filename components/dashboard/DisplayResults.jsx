@@ -92,7 +92,7 @@ const DisplayResults = ({ tool, selectedImage }) => {
     
       <CardFooter>
         <Flex
-        width="100%"
+            width="100%"
             direction="column"
             bgColor="gray"
             borderColor="darkgrey"

@@ -23,7 +23,7 @@ export const predictionResultState = atom({
 
 export const predictionProgressState = atom({
   key: 'predictionProgressState',
-  default: 0, // Default progress is 0
+  default: null, // Default progress is 0
 });
 
 export const exampleImageState = atom({

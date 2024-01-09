@@ -1,4 +1,4 @@
-import AuthButton from "@/components/Auth/AuthButton";
+
 import './globals.css';
 import { fonts } from './fonts';
 import { ClientLayout } from './ClientLayout';
@@ -20,7 +20,7 @@ export default async function RootLayout({
       <meta name="theme-color" content="#f0f0f0" />
       <body>
         <ClientLayout>
-           <AuthButton />
+      
           {children}
           <Analytics />
          

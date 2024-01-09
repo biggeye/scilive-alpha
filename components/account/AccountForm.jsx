@@ -2,7 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/lib/UserProvider";
-import { Box, Center, Flex, FormControl, FormLabel, Input, Button, Spacer } from '@chakra-ui/react';
+import { Card, CardBody, CardFooter, Box, Center, Flex, FormControl, FormLabel, Input, Button, Spacer } from '@chakra-ui/react';
 
 export const AccountForm = () => {
   const { userState, userProfile, setUserProfile } = useUserContext();
@@ -27,9 +27,11 @@ export const AccountForm = () => {
   if (userState.error) return <Center>Error: {userState.error}</Center>;
 
   return (
-    
+    <Card>
+      
       <Flex direction="column" alignItems="center" justifyContent="space-evenly">
         <form onSubmit={handleSubmit}>
+        <CardBody>
           <FormControl id="fullName">
             <FormLabel>Full Name</FormLabel>
             <Input
@@ -59,7 +61,8 @@ export const AccountForm = () => {
               onChange={handleInputChange}
             />
           </FormControl>
-          <Spacer />
+          </CardBody>
+          <CardFooter>
           <Flex direction="row" justifyContent="space-evenly">
             <Button padding={".5px"} mt={2} colorScheme="teal" type="submit">
               Update
@@ -68,9 +71,10 @@ export const AccountForm = () => {
               Cancel
             </Button>
           </Flex>
+          </CardFooter>
         </form>
       </Flex>
-
+      </Card>
   );
 };
 

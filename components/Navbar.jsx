@@ -32,6 +32,8 @@ const DropdownMenu = ({ items }) => {
         boxSize="50px" // Adjust the size as needed for your navbar
         objectFit="cover" // Ensures the image covers the box area
         boxShadow="md"
+        bgGradient="radial(white 5%, silver 50%)"
+        marginLeft="7px"
       >
         <Image src="/sciLive.svg" width={40} />
       </MenuButton>
@@ -61,16 +63,17 @@ const UserMenu = ({ userImageUrl }) => {
   const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg"; // Replace with your actual fallback image URL
 
   return (
-    <Menu isOpen={isOpen} onClose={onClose}>
-      <MenuButton as={Button} onClick={onOpen}>
+     <Menu isOpen={isOpen} onClose={onClose}>
+      <MenuButton as={IconButton} onClick={onOpen} 
+      boxSize="50px" // Adjust the size as needed for your navbar
+      objectFit="fill" // Ensures the image covers the box area
+      boxShadow="md"
+      bgGradient="radial(white 5%, silver 50%)"
+        marginRight="7px">
         <Image
           src={userImageUrl || fallbackImageUrl}
-          alt="User Avatar"
-          borderRadius="full" // Makes the image round
-          boxSize="50px" // Adjust the size as needed for your navbar
-          objectFit="cover" // Ensures the image covers the box area
-          boxShadow="md" // Adds a medium drop shadow, you can adjust the shadow as needed
-        />
+          width="100%"
+                 />
       </MenuButton>
       <MenuList>
         {userId ? (
@@ -102,7 +105,7 @@ const Navbar = () => {
     justifyContent="space-between"
     alignItems="center" // Add this to align items vertically in the center
     as="nav"
-    bg="gray.100"
+    bgColor="silver"
     p={1}
   >
     <DropdownMenu items={navigation} />

@@ -49,41 +49,44 @@ const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
     <FormControl>
       <form onSubmit={handleUserImageEditSubmit}>
         <Grid templateRows="2">
-        <GridItem>        
+          <GridItem>
+            <Input
+              padding=".5"
+              size="xs"
+              className="dynamic-input-upload"
+              type="file"
+              accept="image/*"
+              onChange={onImageChange}
+              width="50%"
+            />
+
+
+          </GridItem>
           <InputGroup>
-          <Input
-       
-          size="sm"
+            <Input
+
+              size="sm"
 
               placeholder="Enter text for image creation"
               aria-label="Text for image creation"
               value={userInput}
               disabled={isLoading}
               onChange={handleTextInputChange}
-  
-            />
-         
-          <InputRightAddon>
-            <Button
-               size='sm'
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? "Processing..." : "Submit"}
-            </Button>
-          </InputRightAddon>
-        </InputGroup>
-        </GridItem>
 
-        <GridItem>
-        <Input
-          size="xs"
-            className="dynamic-input-upload"
-            type="file"
-            accept="image/*"
-            onChange={onImageChange}
-          />
-        </GridItem>
+            />
+
+            <InputRightAddon>
+              <Button
+                size="sm"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? "Processing..." : "Submit"}
+              </Button>
+            </InputRightAddon>
+          </InputGroup>
+
+
         </Grid>
         {error && <Alert>{error}</Alert>}
       </form>

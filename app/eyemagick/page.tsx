@@ -22,27 +22,35 @@ function EyeMagick() {
 
     const handleReplicate = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const replicate = new Replicate({
-            auth: process.env.REPLICATE_API_TOKEN,
-        });
-
-        let prediction = await replicate.deployments.predictions.create(
-            "biggeye",
-            "minigpt-4",
-            {
-                input: {
-                    image: eyeMagickUpload,
-                    prompt: eyeMagickPrompt,
-                },
-                stream: true,
-                webhook: 'https://scilive.cloud/webhooks/eyemagick'
+    
+        // Create a new FormData object
+        const formData = new FormData();
+    
+        // Check if eyeMagickUpload is not null before appending
+        if (eyeMagickUpload) {
+            formData.append("eyeMagickUpload", eyeMagickUpload);
+        }
+        
+        // Append eyeMagickPrompt as a string
+        formData.append("eyeMagickPrompt", eyeMagickPrompt);
+    
+        try {
+            const response = await fetch('/api/eyeMagick', {
+                method: 'POST',
+                body: formData
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        );
-
-        const response = await prediction.output();
-        setDisplayedResponse(response.output);
+    
+            const result = await response.json();
+            setDisplayedResponse(result.output);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
+    
 
     return (
         <Card>

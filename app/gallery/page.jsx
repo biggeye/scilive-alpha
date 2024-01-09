@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import { Card, CardBody, CardFooter, CardHeader, Button } from '@chakra-ui/react';
 
 const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
@@ -42,16 +43,22 @@ const Gallery = () => {
   };
 
   return (
-    <div className="card-container">
+    <Card>
       {contentItems.map((item) => (
-        <div key={item.content_id}>
-          <img src={item.url} alt={item.content_type} />
-          <button onClick={() => handleDeleteClick(item.content_id)} className="micro-account">
-            Delete
-          </button>
-        </div>
+        <React.Fragment key={item.content_id}>
+          <CardHeader></CardHeader> 
+          <CardBody>
+            <img src={item.url} alt={item.content_type} />
+          </CardBody>
+          <CardFooter>
+            <Button onClick={() => handleDeleteClick(item.content_id)} className="micro-account">
+              Delete
+            </Button>
+          </CardFooter>
+        </React.Fragment>
       ))}
-    </div>
+    </Card>
+ 
   );
 };
 

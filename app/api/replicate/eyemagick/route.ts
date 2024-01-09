@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/route'
 import Replicate from 'replicate';
 
 
-export default async function POST(req: any, res: any) {
+export async function POST(req: any, res: any) {
 
     const supabase = createClient(req);
     const session = await supabase.auth.getSession();

@@ -7,11 +7,11 @@ function Home() {
   const { userProfile } = useUserContext();
   return(
     <Center>
-     userProfile ? (
+     {!!userProfile ? (
       <Text>Hello {userProfile.id}</Text>
      )  : (
       <Text>Click <Link href="/login">here</Link> to login.</Text>
-     )
+     )}
      </Center>
   )
 }

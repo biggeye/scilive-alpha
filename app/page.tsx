@@ -54,7 +54,7 @@ function Home() {
       email: email,
       password: password,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/confirm`,
       },
     });
 
@@ -62,7 +62,7 @@ function Home() {
       console.error("Signup error:", error.message);
     } else {
       console.log("Signup success:", data);
-      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/confirm`);
     }
   }
 
@@ -78,7 +78,7 @@ function Home() {
       console.error("Login error:", error.message);
     } else {
       console.log("Login success:", data);
-      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/dashboard`);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/confirm`);
     }
   }
 

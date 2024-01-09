@@ -6,6 +6,7 @@ import { UserContextType, UserState, UserProfile } from '@/types_db';
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
+
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
   const [currentUser, setCurrentUser] = useState(null);

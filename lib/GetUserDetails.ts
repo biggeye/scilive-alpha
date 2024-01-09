@@ -30,7 +30,7 @@ if (sessionError || !session) {
   try {
 
     const userId = session.session?.user.id;
-    console.log(userId);
+    console.log("GetUserDetails (session.session?.user.id): ", userId);
     if (!userId) {
       return { error: "Can't find User ID"};
     }
@@ -42,7 +42,7 @@ if (sessionError || !session) {
       .single();
 
     if (error) throw error;
-    console.log("Data fetched: ", data);
+    console.log("Data fetched with errors: ", error, data);
     return {
       userId: data.id,
       profile: {

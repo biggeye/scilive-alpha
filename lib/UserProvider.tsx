@@ -24,7 +24,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
       try {
         const userDetails = await GetUserDetails();
         if (userDetails.error) {
@@ -51,28 +54,27 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         console.error("Error fetching user details:", error);
         setUserState({ profile: false, error: `Error fetching user details: ${error}`, loading: false });
       }
-   fetchUserDetails();}}, []);
+  };
 
 
     // Auth state listener
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session) {
-        await GetUserDetails();
-      } else {
+    useEffect(() => {
+      const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+        if (session) {
+          await fetchUserDetails();
+          } else {
         setCurrentUser(null);
         setUserProfile(prevProfile => ({ ...prevProfile, id: null }));
         setUserState(prevState => ({ ...prevState, profile: false, loading: false }));
       }
     });
-    
-    // Cleanup the subscription when the component unmounts
-    useEffect(() => {
-      return () => {
-        if (authListener && authListener.subscription) {
-          authListener.subscription.unsubscribe();
-        }
-      };
-    }, [authListener]);
+
+    return () => {
+      if (authListener && authListener.subscription) {
+        authListener.subscription.unsubscribe();
+      }
+    };
+  }, []); 
     
 
   return (
@@ -80,8 +82,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </UserContext.Provider>
   );
-};
-
+  };
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

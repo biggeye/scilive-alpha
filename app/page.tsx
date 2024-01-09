@@ -25,7 +25,7 @@ function Home() {
       await supabase.auth.signInWithOAuth({
         provider: "github",
         options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/callback`,
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/callback`,
         },
       });
     } catch (error) {
@@ -39,7 +39,7 @@ function Home() {
     try {
       await supabase.auth.signInWithOAuth({
         provider: "google",    options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/callback`,
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/callback`,
         },
       });
     } catch (error) {
@@ -54,7 +54,7 @@ function Home() {
       email: email,
       password: password,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/confirm`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/confirm`,
       },
     });
 
@@ -62,7 +62,7 @@ function Home() {
       console.error("Signup error:", error.message);
     } else {
       console.log("Signup success:", data);
-      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/confirm`);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/confirm`);
     }
   }
 
@@ -78,7 +78,7 @@ function Home() {
       console.error("Login error:", error.message);
     } else {
       console.log("Login success:", data);
-      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/auth/confirm`);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/confirm`);
     }
   }
 

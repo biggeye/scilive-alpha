@@ -42,7 +42,7 @@ if (sessionError || !session) {
       .single();
 
     if (error) throw error;
-    console.log("Data fetched with errors: ", error, data);
+    console.log("Errors: ", error, "Data: ", data);
     return {
       userId: data.id,
       profile: {

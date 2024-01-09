@@ -61,21 +61,22 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     // Auth state listener
     useEffect(() => {
       const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-        if (session) {
+        if (event === 'SIGNED_IN') {
           await fetchUserDetails();
-          } else {
-        setCurrentUser(null);
-        setUserProfile(prevProfile => ({ ...prevProfile, id: null }));
-        setUserState(prevState => ({ ...prevState, profile: false, loading: false }));
-      }
-    });
-
-    return () => {
-      if (authListener && authListener.subscription) {
-        authListener.subscription.unsubscribe();
-      }
-    };
-  }, []); 
+        } else if (event === 'SIGNED_OUT') {
+          setCurrentUser(null);
+          setUserProfile(prevProfile => ({ ...prevProfile, id: null }));
+          setUserState(prevState => ({ ...prevState, profile: false, loading: false }));
+        }
+      });
+  
+      return () => {
+        if (authListener && authListener.subscription) {
+          authListener.subscription.unsubscribe();
+        }
+      };
+    }, []);
+  
     
 
   return (

@@ -40,15 +40,13 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const exampleImage = useRecoilValue(exampleImageState);
 
   useEffect(() => {
-    if (prediction) {
-      alert(prediction);
-      setDisplayedImage(prediction);
-    } else if (prediction && prediction.imageURL) {
-      setDisplayedImage(prediction.imageURL);
+    if (finalPrediction) {
+ 
+      setDisplayedImage(finalPrediction);
     } else {
       setDisplayedImage(selectedImage || exampleImage);
     }
-  }, [prediction, selectedImage, exampleImage]);
+  }, [finalPrediction, selectedImage, exampleImage]);
 
   useEffect(() => {
     if (userImageUpload) {

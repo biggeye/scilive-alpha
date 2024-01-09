@@ -95,6 +95,7 @@ const Navbar = () => {
     { name: "Dashboard", href: "/dashboard" },
     { name: "Gallery", href: "/gallery" },
     { name: "100ms", href: "/100ms" },
+    { name: "eyeMagick", href: "/eyemagick" },
     { name: "Account", href: "/account" },
   ];
 

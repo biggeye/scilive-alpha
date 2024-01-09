@@ -20,15 +20,6 @@ const deployments = [
     }
 },
   {
-    modelName: "upscale-res",
-    type: "img2img",
-    inputExample: "",
-    outputExample: "https://replicate.delivery/pbxt/Ing7Fa4YMk6YtcoG1YZnaK3UwbgDB5guRc5M2dEjV6ODNLMl/cat.jpg",
-    input: {
-      image: "imgUrl"
-    }
-  },
-  {
     modelName: "video-llava",
     type: "video2txt",
     inputExample: "https://replicate.delivery/pbxt/JvUeO366GYGoMEHxfSwn39LYgScZh6hKNj2EuJ17SXO6aGER/archery.mp4",
@@ -44,9 +35,27 @@ const deployments = [
     inputExample: "https://replicate.delivery/pbxt/Io5RPgJuXv0NrYiefJ6mW7jadKLxebgsaZo0iyGJngHR93cv/fishfeet.webp",
     outputExample: "...",
     input: {
+      required: {
       prompt: ""
+      }
     }
-  }
+  },
+   {
+    modelName: "minigpt-4",
+    type: "multi2txt",
+    input: {
+      required: {
+      image: "file",
+      prompt: "string",
+                },
+      num_beams: "integer",
+      temperature: "number", // default 1 (lower = more predictable) 
+      repetition_penalty: "number", // default 1 (greater than 1, discourage repitition, less than 1 encourage)
+      max_new_tokens: "integer", //default 3000
+      max_length: "integer", //default 4000
+    }
+   },
 ];
+
 
 export default deployments;

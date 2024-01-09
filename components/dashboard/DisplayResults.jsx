@@ -6,6 +6,7 @@ import {
   predictionIdState,
   predictionProgressState,
   userImageUploadState,
+  exampleImageState,
   finalPredictionState
 } from "@/state/prediction-atoms";
 

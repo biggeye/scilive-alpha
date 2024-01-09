@@ -2,6 +2,7 @@
 import './globals.css';
 import { fonts } from './fonts';
 import { ClientLayout } from './ClientLayout';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'SciLive',
@@ -22,6 +23,7 @@ export default async function RootLayout({
       <body>
         <ClientLayout>
           {children}
+          <Analytics />
         </ClientLayout>
        
       </body>

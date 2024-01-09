@@ -2,8 +2,12 @@
 import {
   predictionState,
   predictionResultState,
+  predictionErrorState,
+  predictionIdState,
+  predictionProgressState,
+  finalPredictionState
 } from "@/state/prediction-atoms";
-import { predictionProgressState } from "@/state/prediction-atoms";
+
 import React, { useState, useEffect } from "react";
 import {
   Flex,
@@ -21,14 +25,17 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
-import { userImageUploadState } from "@/state/prediction-atoms";
-import { exampleImageState } from "@/state/prediction-atoms"
+
 
 const DisplayResults = ({ tool, selectedImage }) => {
   const [displayedImage, setDisplayedImage] = useState(null);
+
+
   const predictionResult = useRecoilValue(predictionResultState);
   const prediction = useRecoilValue(predictionState);
   const progress = useRecoilValue(predictionProgressState);
+  const error = useRecoilValue(predictionErrorState);
+  const finalPrediction = useRecoilValue(finalPredictionState);
   const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
@@ -65,16 +72,18 @@ const DisplayResults = ({ tool, selectedImage }) => {
       <CardBody>
         {displayedImage 
           ? <Image 
-              height="50vh" 
-              width="80vw"
+              height="auto"
+              minHeight="50vh" 
+              width="75vw"
               src={displayedImage} 
               alt="Selected or Processed"   
               boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)" 
               borderRadius=".2rem" 
             />
-          : <Skeleton 
-              width="80vw" 
-              height="50vh"   
+          : <Skeleton
+              minHeight="50vh" 
+              width="75vw" 
+              height="auto"   
               boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
             />
         }
@@ -83,15 +92,18 @@ const DisplayResults = ({ tool, selectedImage }) => {
     
       <CardFooter>
         <Flex
+        width="100%"
             direction="column"
             bgColor="gray"
             borderColor="darkgrey"
             borderWidth={0.5}
+            justifyContent="space-around"
           >
+            <Spacer />
             {progress && <Progress value={progress} />}
         <Spacer />
           {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
-       
+       <Spacer />
           </Flex>
       </CardFooter>
     </Card>

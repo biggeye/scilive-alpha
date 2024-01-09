@@ -29,5 +29,15 @@ export const predictionProgressState = atom({
 export const exampleImageState = atom({
   key: 'exampleImageState',
   default: null,
+});
+
+export const predictionIdState = atom({
+  key: 'predictionIdState',
+  default: null,
+});
+
+export const finalPredictionState = atom({
+  key: 'finalPredictionState',
+  default: null,
 })
 

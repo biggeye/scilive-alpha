@@ -28,8 +28,13 @@
 
 /* Custom Code Style */
 .code {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  bottom: 5px;
+  top: 5px;
+  left: 40%;
   font-size: xx-small;
   border-bottom-left-radius: .2rem;
   border-color: #374151;

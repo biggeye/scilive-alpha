@@ -69,9 +69,11 @@ const UserMenu = ({ userImageUrl }) => {
       objectFit="fill" // Ensures the image covers the box area
       boxShadow="md"
       bgGradient="radial(white 5%, silver 50%)"
-        marginRight="7px">
+        marginRight="7px"
+        borderRadius="5px">
         <Image
           src={userImageUrl || fallbackImageUrl}
+          borderRadius="5px"
           width="100%"
                  />
       </MenuButton>

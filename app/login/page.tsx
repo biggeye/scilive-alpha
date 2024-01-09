@@ -1,118 +1,124 @@
-import Link from 'next/link'
-import { headers, cookies } from 'next/headers'
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Ensure this path is correct
+import {
+  Flex,
+  VStack,
+  InputGroup,
+  Spacer,
+  Button,
+  FormControl,
+  Input,
+} from "@chakra-ui/react";
+import { createClient } from "@/utils/supabase/client";
+import { GitHubLogo, GoogleLogo } from "@/public/logos";
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string }
-}) {
-  const signIn = async (formData: FormData) => {
-    'use server'
+function Login() {
+  const supabase = createClient();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
 
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+  const handleGitHubLogin = async (event: { preventDefault: any; }) => {
+    event.preventDefault;
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/callback`,
+        },
+      });
+    } catch (error) {
+      console.error("GitHub login error:", error);
+    }
+  };
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+ 
+  const handleGoogleLogin = async (event: { preventDefault: any; }) => {
+    event.preventDefault;
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "google",    options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/callback`,
+        },
+      });
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
+  };
+
+  async function handleSignUp(event: { preventDefault: () => void; }) {
+    event.preventDefault(); 
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/confirm`,
+      },
+    });
 
     if (error) {
-      return redirect('/login?message=Could not authenticate user')
+      console.error("Signup error:", error.message);
+    } else {
+      console.log("Signup success:", data);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/confirm`);
     }
-
-    return redirect('/')
   }
 
-  const signUp = async (formData: FormData) => {
-    'use server'
+  async function handleLogIn(event: { preventDefault: () => void; }) {
+    event.preventDefault(); // Prevent default form submission behavior
 
-    const origin = headers().get('origin')
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-      },
-    })
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
 
     if (error) {
-      return redirect('/login?message=Could not authenticate user')
+      console.error("Login error:", error.message);
+    } else {
+      console.log("Login success:", data);
+      router.push(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/confirm`);
     }
-
-    return redirect('/login?message=Check email to continue sign in process')
   }
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <Link
-        href="/"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>{' '}
-        Back
-      </Link>
-
-      <form
-        className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-        action={signIn}
-      >
-        <label className="text-md" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          name="email"
-          placeholder="you@example.com"
-          required
-        />
-        <label className="text-md" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
-        <button className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2">
-          Sign In
-        </button>
-        <button
-          formAction={signUp}
-          className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
-        >
-          Sign Up
-        </button>
-        {searchParams?.message && (
-          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
-            {searchParams.message}
-          </p>
-        )}
-      </form>
-    </div>
-  )
+    <Flex direction="column" alignItems="center">
+      <FormControl>
+        <VStack>
+          <Input
+            size="xs"
+            w="50%"
+            mt="3"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="E-mail"
+          />
+          <Input
+            size="xs"
+            w="50%"
+            mb="3"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </VStack>
+        <Flex direction="row" justifyContent="space-evenly">
+          <Button size="xs" onClick={handleSignUp} type="submit">
+            Sign-Up
+          </Button>
+          <Button size="xs" onClick={handleLogIn} type="submit">
+            Log In
+          </Button>
+        </Flex>
+        <Flex justifyContent="center" direction="row" alignItems="center" mt="4">
+          <Button size="xs" p="5" leftIcon=<GitHubLogo /> onClick={handleGitHubLogin} />
+          <Button size="xs" p="5" leftIcon=<GoogleLogo /> onClick={handleGoogleLogin} />
+        </Flex>
+      </FormControl>
+    </Flex>
+  );
 }
+export default Login;

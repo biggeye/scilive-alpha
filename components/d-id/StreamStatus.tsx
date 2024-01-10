@@ -45,7 +45,7 @@ function StreamStatus() {
     };
 
     return (
-        <Table variant="simple">
+        <Table size="xs" variant="simple">
             <Thead>
                 <Tr>
                     <Th>Parameter</Th>

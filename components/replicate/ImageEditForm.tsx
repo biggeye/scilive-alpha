@@ -1,11 +1,12 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageEditSubmit } from '@/lib/replicate/useImageEditSubmit';
-import { InputGroup, Input, Button, FormControl, Alert, Flex, Spacer, InputLeftAddon, InputRightAddon, Grid, GridItem } from '@chakra-ui/react';
+import { Card, InputGroup, Input, Button, FormControl, Alert, Flex, Spacer, InputLeftAddon, InputRightAddon, Grid, GridItem } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
 import { createClient } from '@/utils/supabase/client';
 import { userImageUploadState } from '@/state/prediction-atoms';
 import { atom, useRecoilState } from 'recoil';
+
 
 interface ImageEditFormProps {
   modelId: string;
@@ -14,9 +15,10 @@ interface ImageEditFormProps {
   handleUserImageUpload: any;
 }
 
-const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId, supabase, userId }) => {
- // const { userProfile } = useUserContext();
- // const userId = userProfile.id;
+const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
+  const supabase = createClient();
+  const { userProfile } = useUserContext();
+  const userId = userProfile.id;
   const [userInput, setUserInput] = useState<string>("");
   const [userInFile, setUserInFile] = useState<File | null>(null);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
@@ -41,11 +43,12 @@ const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId, supabase, userId
       console.error("No model selected or user not found");
       return;
     }
-    await handleImageEditSubmit(userInput, userInFile, modelId, userId);
+    await handleImageEditSubmit(userInput, modelId, userId);
   };
 
   return (
     <FormControl>
+  
       <form onSubmit={handleUserImageEditSubmit}>
         <Grid templateRows="2">
           <GridItem>

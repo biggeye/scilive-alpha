@@ -40,7 +40,7 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ handleModelChange, models }) 
 
   return (
     <Flex>
-      <Select variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
+      <Select variant="flushed" width="100%" onChange={handleSelectionChange} size="xs">
         {models.map((model) => (
           <option key={model.id} value={model.id}>
             {model.friendlyName}

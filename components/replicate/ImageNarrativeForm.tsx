@@ -4,15 +4,14 @@ import { Alert, Card, CardHeader, CardBody, CardFooter, FormControl, Grid, GridI
 import { useState, ChangeEvent } from "react";
 import { useRecoilState } from "recoil";
 import { imageNarrativesPromptState, imageNarrativesUploadState } from "@/state/prediction-atoms";
+import { useImageNarrativeSubmit } from "@/lib/replicate/useImageNarrativeSubmit";
 
 function ImageNarrativeForm () {
-    const [displayedResponse, setDisplayedResponse] = useState("");
+    const { isLoading, error, submitImageNarrative, displayedResponse } = useImageNarrativeSubmit();
     const [imageNarrativesUpload, setImageNarrativesUpload] = useRecoilState(imageNarrativesUploadState);
     const [imageNarrativesPrompt, setImageNarrativesPrompt] = useRecoilState(imageNarrativesPromptState);
     const [userInput, setUserInput] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    
+   
     const handleUserInFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setImageNarrativesUpload(e.target.files[0]);
@@ -25,37 +24,14 @@ function ImageNarrativeForm () {
 
     const handleUserImageNarrativeSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsLoading(true);
-        const formData = new FormData();
-        if (imageNarrativesUpload) {
-            formData.append("imageNarrativesUpload", imageNarrativesUpload);
-        }
-        formData.append("imageNarrativesPrompt", imageNarrativesPrompt);
-    
-        try {
-            const response = await fetch('/api/narratives', {
-                method: 'POST',
-                body: formData
-            });
-    
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-    
-            const result = await response.json();
-            setDisplayedResponse(result.output);
-        } catch (error) {
-            setError(displayedResponse);
-            
-        } finally {
-            setIsLoading(false);
-}
+       await submitImageNarrative(imageNarrativesUpload, imageNarrativesPrompt)
+
     };
     
 
     return (
         <FormControl>
-            <Card>
+
                 <form onSubmit={handleUserImageNarrativeSubmit}>
                     <Grid templateRows="2">
                         <GridItem>
@@ -90,8 +66,8 @@ function ImageNarrativeForm () {
                     </Grid>
                     {error && <Alert>{error}</Alert>}
                 </form>
-            </Card>
+   
         </FormControl>
     )
-}
+    };
 export default ImageNarrativeForm;

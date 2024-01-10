@@ -34,7 +34,6 @@ const DashboardPage = () => {
 
   // Prediction and results data
   const [prediction, setPrediction] = useState(null);
-  const [newPrediction, setNewPrediction] = useState(null);
   const [predictionProgress, setPredictionProgress] = useState(0);
   const [results, setResults] = useState({});
   const [error, setError] = useState(null);
@@ -135,23 +134,17 @@ const DashboardPage = () => {
             <TabPanel>
               <ImageCreateForm
                 modelId={modelId}
-                supabase={supabase}
-                userId={userId}
-              />
+                />
             </TabPanel>
             <TabPanel>
               <ImageEditForm
                 modelId={modelId}
-                supabase={supabase}
-                userId={userId}
-                handleUserImageUpload={handleUserImageUpload}
+               handleUserImageUpload={handleUserImageUpload}
               />
             </TabPanel>
             <TabPanel>
                <ImageNarratives 
                 modelId={modelId}
-                supabase={supabase}
-                userId={userId}
                 handleUserImageUpload={handleUserImageUpload}
                />
             </TabPanel>

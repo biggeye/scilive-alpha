@@ -77,7 +77,9 @@ const DashboardPage = () => {
       tool = "imageCreation";
     } else if (index === 1) {
       tool = "imageEditing";
-    }
+    } else if (index === 2) {
+      tool = "imageNarratives"
+    };
     setSelectedTool(tool);
     setExampleImage(null);
   };
@@ -146,7 +148,12 @@ const DashboardPage = () => {
               />
             </TabPanel>
             <TabPanel>
-               <ImageNarratives />
+               <ImageNarratives 
+                modelId={modelId}
+                supabase={supabase}
+                userId={userId}
+                handleUserImageUpload={handleUserImageUpload}
+               />
             </TabPanel>
           </TabPanels>
         </GridItem>

@@ -1,40 +1,39 @@
 'use client'
-import { Card, CardHeader, CardBody, CardFooter, Text, InputGroup, Input, Button } from "@chakra-ui/react";
+
+import { Alert, Card, CardHeader, CardBody, CardFooter, FormControl, Grid, GridItem, Input, InputGroup, Text, InputRightAddon, Button } from "@chakra-ui/react";
 import { useState, ChangeEvent } from "react";
 import { useRecoilState } from "recoil";
-import { eyeMagickPromptState, eyeMagickUploadState } from "@/state/eyemagick-atoms";
+import { imageNarrativesPromptState, imageNarrativesUploadState } from "@/state/prediction-atoms";
 
-function ImageNarrativeForm() {
+function ImageNarrativeForm () {
     const [displayedResponse, setDisplayedResponse] = useState("");
-    const [eyeMagickUpload, setEyeMagickUpload] = useRecoilState(eyeMagickUploadState);
-    const [eyeMagickPrompt, setEyeMagickPrompt] = useRecoilState(eyeMagickPromptState);
-
+    const [imageNarrativesUpload, setImageNarrativesUpload] = useRecoilState(imageNarrativesUploadState);
+    const [imageNarrativesPrompt, setImageNarrativesPrompt] = useRecoilState(imageNarrativesPromptState);
+    const [userInput, setUserInput] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    
     const handleUserInFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setEyeMagickUpload(e.target.files[0]);
+            setImageNarrativesUpload(e.target.files[0]);
         }
     };
 
-    const handleUserPrompt = (e: ChangeEvent<HTMLInputElement>) => {
-        setEyeMagickPrompt(e.target.value);
+    const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setImageNarrativesPrompt(e.target.value);
     };
 
-    const handleReplicate = async (e: React.FormEvent) => {
+    const handleUserImageNarrativeSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-    
-        // Create a new FormData object
+        setIsLoading(true);
         const formData = new FormData();
-    
-        // Check if eyeMagickUpload is not null before appending
-        if (eyeMagickUpload) {
-            formData.append("eyeMagickUpload", eyeMagickUpload);
+        if (imageNarrativesUpload) {
+            formData.append("imageNarrativesUpload", imageNarrativesUpload);
         }
-        
-        // Append eyeMagickPrompt as a string
-        formData.append("eyeMagickPrompt", eyeMagickPrompt);
+        formData.append("imageNarrativesPrompt", imageNarrativesPrompt);
     
         try {
-            const response = await fetch('/api/eyeMagick', {
+            const response = await fetch('/api/narratives', {
                 method: 'POST',
                 body: formData
             });
@@ -46,45 +45,53 @@ function ImageNarrativeForm() {
             const result = await response.json();
             setDisplayedResponse(result.output);
         } catch (error) {
-            console.error('Error:', error);
-        }
+            setError(displayedResponse);
+            
+        } finally {
+            setIsLoading(false);
+}
     };
     
 
     return (
-        <Card>
-            <form onSubmit={handleReplicate}>
-                <CardHeader>
-                    <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleUserInFile}
-                        placeholder="Upload an image"
-                    />
-                </CardHeader>
-                <CardBody>
-                    <Text>
-                        {displayedResponse}
-                    </Text>
-                </CardBody>
-                <CardFooter>
-                    <InputGroup>
-                        <Input
-                            type="text"
-                            onChange={handleUserPrompt}
-                            value={eyeMagickPrompt || ""}
-                            placeholder="Describe something"
-                        />
-                        <Button
-                            type="submit"
-                        >
-                            Submit
-                        </Button>
-                    </InputGroup>
-                </CardFooter>
-            </form>
-        </Card>
-    );
+        <FormControl>
+            <Card>
+                <form onSubmit={handleUserImageNarrativeSubmit}>
+                    <Grid templateRows="2">
+                        <GridItem>
+                            <Input
+                                padding=".5"
+                                size="xs"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleUserInFile}
+                                width="50%"
+                            />
+                        </GridItem>
+                        <InputGroup>
+                            <Input
+                                size="sm"
+                                placeholder="Enter text for image creation"
+                                aria-label="Text for image creation"
+                                value={imageNarrativesPrompt}
+                                disabled={isLoading}
+                                onChange={handleTextInputChange}
+                            />
+                            <InputRightAddon>
+                                <Button
+                                    size="sm"
+                                    type="submit"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? "Processing..." : "Submit"}
+                                </Button>
+                            </InputRightAddon>
+                        </InputGroup>
+                    </Grid>
+                    {error && <Alert>{error}</Alert>}
+                </form>
+            </Card>
+        </FormControl>
+    )
 }
-
 export default ImageNarrativeForm;

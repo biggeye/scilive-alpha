@@ -7,7 +7,8 @@ import {
   predictionProgressState,
   userImageUploadState,
   exampleImageState,
-  finalPredictionState
+  finalPredictionState,
+  imageNarra
 } from "@/state/prediction-atoms";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, CircularProgress, useDisclosure } from "@chakra-ui/react";
 import { fetchQuotes } from "@/lib/openai/fetchQuotes";

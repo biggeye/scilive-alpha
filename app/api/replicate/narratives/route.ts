@@ -15,7 +15,7 @@ export async function POST(req: any, res: any) {
   }
   if (req.method === 'POST') {
     try {
-      const { eyeMagickUpload, eyeMagickPrompt } = req.body;
+      const { imageNarrativesUpload, imageNarrativesPrompt } = req.body;
       const replicate = new Replicate({
           auth: process.env.REPLICATE_API_TOKEN,
       });
@@ -24,8 +24,8 @@ export async function POST(req: any, res: any) {
         "minigpt-4",
         {
             input: {
-                image: eyeMagickUpload,
-                prompt: eyeMagickPrompt,
+                image: imageNarrativesUpload,
+                prompt: imageNarrativesPrompt,
             },
             stream: true,
         })

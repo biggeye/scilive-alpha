@@ -41,3 +41,12 @@ export const finalPredictionState = atom({
   default: null,
 })
 
+export const imageNarrativesUploadState = atom<File | null>({
+  key: 'imageNarrativesUploadState',
+  default: null,
+});
+
+export const imageNarrativesPromptState = atom({
+  key: 'imageNarrativesPromptState',
+  default: "",
+});

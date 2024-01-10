@@ -85,6 +85,9 @@ const UserMenu = ({ userImageUrl }) => {
             Login
           </MenuItem>
         )}
+        <MenuItem as={Link} href="/account">
+            Account
+        </MenuItem>
       </MenuList>
     </Menu>
   );
@@ -92,12 +95,9 @@ const UserMenu = ({ userImageUrl }) => {
 
 const Navbar = () => {
   const navigation = [
-    { name: "", href: "/dashboard" },
+    { name: "sciGenerate", href: "/dashboard" },
     { name: "sciLive", href: "/100ms" },
-    { name: "eyeMagick", href: "/eyemagick" },
-    { name: "Gallery", href: "/gallery" },
-    {name: <hr />, href: ""},
-    { name: "Account", href: "/account" },
+    { name: "sciGallery", href: "/gallery" },
   ];
 
   const { userProfile } = useUserContext();

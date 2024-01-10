@@ -14,13 +14,12 @@ interface ImageEditFormProps {
   handleUserImageUpload: any;
 }
 
-const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
-  const { userProfile } = useUserContext();
-  const userId = userProfile.id;
+const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId, supabase, userId }) => {
+ // const { userProfile } = useUserContext();
+ // const userId = userProfile.id;
   const [userInput, setUserInput] = useState<string>("");
   const [userInFile, setUserInFile] = useState<File | null>(null);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
-  const supabase = createClient();
   const { isLoading, error, handleImageEditSubmit } = useImageEditSubmit(supabase);
 
 

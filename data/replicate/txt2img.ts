@@ -1,4 +1,6 @@
- const txt2img = [
+import { Txt2ImgItem } from "@/types_db";
+
+ const txt2img: Txt2ImgItem[] = [
     {
         name: "cjwbw/magifactory-t-shirt-diffusion",
         id: "8d24b92f902aef5df3133aa6fce518d1f86580e5cdf1adecc18693f1f3ba6bcb",

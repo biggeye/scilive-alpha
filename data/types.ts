@@ -23,23 +23,6 @@ export interface Deployment {
 }
 
   // Define the structure for each item in the img2img array
-  export interface Img2ImgItem {
-    name: string;
-    id: string;
-    shortDesc: string;
-    input: Input;
-    outputIndex: string;
-    friendlyName: string;
-    example: string;
-  }
-  
-  export interface Txt2ImgItem {
-    name: string;
-    id: string;
-    shortDesc: string;
-    friendlyName: string;
-    example: string;
-}
 
 
 // /data/types.ts

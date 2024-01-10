@@ -12,15 +12,15 @@ interface ImageCreateFormProps {
 }
 
 const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId }) => {
- const { userProfile } = useUserContext();
+  const { userProfile } = useUserContext();
   const userId = userProfile.id;
-   const [userInput, setUserInput] = useState<string>("");
+  const [userInput, setUserInput] = useState<string>("");
   const supabase = createClient();
-   const { isLoading, error, submitImageCreate } = useImageCreateSubmit(supabase);
-  
+  const { isLoading, error, submitImageCreate } = useImageCreateSubmit(supabase);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
-  
-  
+
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevents the default form submission action
 
@@ -32,27 +32,27 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId }) => {
   };
 
   return (
-    
-    <FormControl>
-    <form onSubmit={handleSubmit}>
-     <InputGroup>
-     <Input
-     size="sm"
 
-     placeholder="Enter text for image creation"
-     aria-label="Text for image creation"
-     value={userInput}
-     disabled={isLoading}
-     onChange={handleInputChange}
-   />
-   <InputRightAddon> <Button type="submit" disabled={isLoading} size="sm">
-        {isLoading ? "Processing..." : "Submit"}
-      </Button></InputRightAddon>
-        
-     
-      </InputGroup>
-      {error && <Alert>{error}</Alert>}
-    </form>
+    <FormControl>
+      <form onSubmit={handleSubmit}>
+        <InputGroup>
+          <Input
+            size="sm"
+
+            placeholder="Enter text for image creation"
+            aria-label="Text for image creation"
+            value={userInput}
+            disabled={isLoading}
+            onChange={handleInputChange}
+          />
+          <InputRightAddon> <Button type="submit" disabled={isLoading} size="sm">
+            {isLoading ? "Processing..." : "Submit"}
+          </Button></InputRightAddon>
+
+
+        </InputGroup>
+        {error && <Alert>{error}</Alert>}
+      </form>
     </FormControl>
   );
 };

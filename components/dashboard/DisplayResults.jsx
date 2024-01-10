@@ -9,7 +9,8 @@ import {
   exampleImageState,
   finalPredictionState
 } from "@/state/prediction-atoms";
-
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, CircularProgress, useDisclosure } from "@chakra-ui/react";
+import { fetchQuotes } from "@/lib/openai/fetchQuotes";
 import React, { useState, useEffect } from "react";
 import {
   Flex,
@@ -28,11 +29,10 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 
-
 const DisplayResults = ({ tool, selectedImage }) => {
   const [displayedImage, setDisplayedImage] = useState(null);
 
-
+  const predictionProgress = useRecoilValue(predictionProgressState);
   const predictionResult = useRecoilValue(predictionResultState);
   const prediction = useRecoilValue(predictionState);
   const progress = useRecoilValue(predictionProgressState);
@@ -41,21 +41,35 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
+// modal state & quote fetching
+const { isModalOpen, onModalOpen, onModalClose } = useDisclosure();
+const [quotes, setQuotes] = useState([]);
+const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
+
+
+
+useEffect(() => {
+  if (predictionResult>="1") {
+    fetchQuotes( setIsLoadingQuotes, setQuotes );
+    setIsModalOpen(true);
+  };
+}, [predictionResult]);
+
   useEffect(() => {
     if (finalPrediction) {
- 
       setDisplayedImage(finalPrediction);
+      onModalClose();
     } else {
       setDisplayedImage(selectedImage || exampleImage);
     }
-  }, [finalPrediction, selectedImage, exampleImage]);
+  }, [finalPrediction]);
 
   useEffect(() => {
     if (userImageUpload) {
       // Create a URL for the File object
       const objectURL = URL.createObjectURL(userImageUpload);
       setDisplayedImage(objectURL);
-
+      
       // Clean up the object URL on component unmount
       return () => URL.revokeObjectURL(objectURL);
     }
@@ -91,6 +105,7 @@ const DisplayResults = ({ tool, selectedImage }) => {
       </CardBody>
     
       <CardFooter>
+      
         <Flex
             width="100%"
             direction="column"
@@ -106,6 +121,21 @@ const DisplayResults = ({ tool, selectedImage }) => {
        <Spacer />
           </Flex>
       </CardFooter>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Random Quotes</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {isLoadingQuotes ? (
+            <Center><CircularProgress isIndeterminate color="green.300" /></Center>
+          ) : (
+            quotes.map((quote, index) => <Text key={index}>{quote}</Text>)
+          )}
+        </ModalBody>
+      </ModalContent>
+    </Modal>
     </Card>
   );
 };

@@ -647,3 +647,26 @@ export type Enums<
     setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
     supabase: any;
   }
+
+  export interface Input {
+    image: File | string;
+    prompt?: string; // `prompt` is optional since some objects don't have it
+  }
+
+  export interface Img2ImgItem {
+    name: string;
+    id: string;
+    shortDesc: string;
+    input: Input;
+    outputIndex: string;
+    friendlyName: string;
+    example: string;
+  }
+  
+  export interface Txt2ImgItem {
+    name: string;
+    id: string;
+    shortDesc: string;
+    friendlyName: string;
+    example: string;
+}

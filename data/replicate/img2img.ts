@@ -1,10 +1,12 @@
-const img2img = [
+import { Img2ImgItem, Input } from "@/types_db";
+
+const img2img: Img2ImgItem[] = [
     {
         name: "mv-lab/swin2sr",
         id: "a01b0512004918ca55d02e554914a9eca63909fa83a29ff0f115c78a7045574f",
         shortDesc: "AI Photorealistic Image Super-Resolution and Restoration",
         input: {
-            image:  "input_image",
+            image: "user_upload",
         },
         outputIndex: "0",
         friendlyName: "Super Resolution & Restoration",
@@ -15,7 +17,7 @@ const img2img = [
         id: "c75db81db6cbd809d93cc3b7e7a088a351a3349c9fa02b6d393e35e0d51ba799",
         shortDesc: "Bringing Old Photos Back to Life",
         input: {
-            image:  "input_image",
+            image: "user_upload",
         },
         outputIndex: "0",
         friendlyName: "Restore Old Photo",
@@ -26,7 +28,7 @@ const img2img = [
         id: "0da600fab0c45a66211339f1c16b71345d22f26ef5fea3dca1bb90bb5711e950",
         shortDesc: "Add colours to old images",
         input: {
-            image:  "input_image",
+            image: "user_upload",
         },
         outputIndex: "0",
         friendlyName: "Colorize",
@@ -37,7 +39,7 @@ const img2img = [
         id: "aff48af9c68d162388d230a2ab003f68d2638d88307bdaf1c2f1ac95079c9613",
         shortDesc: "Modify images using canny edge detection", 
         input: {
-            image:  "image",
+            image: "user_upload",
             prompt:  "prompt",
         },
         outputIndex: "1",
@@ -49,7 +51,7 @@ const img2img = [
         id: "922c7bb67b87ec32cbc2fd11b1d5f94f0ba4f5519c4dbd02856376444127cc60",
         shortDesc: "Modify images using depth maps", 
         input: {
-            image:  "image",
+            image: "user_upload",
             prompt:  "prompt",
         },
         outputIndex: "1",
@@ -61,7 +63,7 @@ const img2img = [
         id: "854e8727697a057c525cdb45ab037f64ecca770a1769cc52287c2e56472a247b",
         shortDesc: "Modify images using M-LSD line detection", 
         input: {
-            image:  "image",
+            image: "user_upload",
             prompt:  "prompt",
         },
         outputIndex: "1",
@@ -73,7 +75,7 @@ const img2img = [
         id: "fb8af171cfa1616ddcf1242c093f9c46bcada5ad4cf6f2fbe8b81b330ec5c003",
         shortDesc: "Remove image's background", 
         input: {
-            image:  "image",
+            image: "user_upload",
             prompt:  "prompt",
         },
         outputIndex: "0",
@@ -85,7 +87,7 @@ const img2img = [
         id: "0304f7f774ba7341ef754231f794b1ba3d129e3c46af3022241325ae0c50fb99",
         shortDesc: "Modify images with humans using pose detection", 
         input: {
-            image:  "image",
+            image: "user_upload",
             prompt:  "prompt",
         },
         outputIndex: "1",
@@ -97,7 +99,7 @@ const img2img = [
         id: "f967b165f4cd2e151d11e7450a8214e5d22ad2007f042f2f891ca3981dbfba0d",
         shortDesc: "Modify images using semantic segmenetation", 
         input: {
-            image:  "image",
+            image: "user_upload",
             prompt:  "prompt",
         },
         outputIndex: "1",
@@ -109,7 +111,7 @@ const img2img = [
         id: "7de2ea26c616d5bf2245ad0d5e24f0ff9a6204578a5c876db53142edd9d2cd56",
         shortDesc: "", 
         input: {
-            image:  "image",
+            image: "user_upload",
             prompt:  "prompt",
         },
         outputIndex: "0",
@@ -121,7 +123,7 @@ const img2img = [
         id: "30c1d0b916a6f8efce20493f5d61ee27491ab2a60437c13c588468b9810ec23f",
         shortDesc: "Edit images with human instructions",
         input: {
-            image: "image",
+            image: "user_upload",
             prompt: "prompt",
         },
         outputIndex: "0",
@@ -133,7 +135,7 @@ const img2img = [
         id: "660d922d33153019e8c263a3bba265de882e7f4f70396546b6c9c8f9d47a021a",
         shortDesc: "Image Restoration Using Swin Transformer",
         input: {
-            image: "image",
+            image: "user_upload",
         },
         outputIndex: "0",
         friendlyName: "Upscale / Super-Resolution",

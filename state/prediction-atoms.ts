@@ -28,7 +28,7 @@ export const predictionProgressState = atom({
 
 export const exampleImageState = atom({
   key: 'exampleImageState',
-  default: null,
+  default: "",
 });
 
 export const predictionIdState = atom({

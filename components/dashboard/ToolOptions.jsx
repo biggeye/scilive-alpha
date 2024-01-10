@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ModelSelect from "@/components/replicate/ModelSelect";
 import txt2img from "@/data/replicate/txt2img";
 import img2img from "@/data/replicate/img2img";
-import deployments from "@/data/replicate/deployments";
+import img2txt from "@/data/replicate/img2txt";
 import { Box } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { exampleImageState } from "@/state/prediction-atoms";
@@ -22,7 +22,9 @@ const ToolOptions = ({
     models = img2img;
   } else if (tool === "imageCreation") {
     models = txt2img;
-  } 
+  } else if (tool === "imageNarratives") {
+    models = img2txt;
+  }
 
   useEffect(() => {
     if (selectedModel) {

@@ -1,11 +1,10 @@
 'use client'
 import { Card, CardHeader, CardBody, CardFooter, Text, InputGroup, Input, Button } from "@chakra-ui/react";
 import { useState, ChangeEvent } from "react";
-import Replicate from "replicate";
 import { useRecoilState } from "recoil";
 import { eyeMagickPromptState, eyeMagickUploadState } from "@/state/eyemagick-atoms";
 
-function EyeMagick() {
+function ImageNarrativeForm() {
     const [displayedResponse, setDisplayedResponse] = useState("");
     const [eyeMagickUpload, setEyeMagickUpload] = useRecoilState(eyeMagickUploadState);
     const [eyeMagickPrompt, setEyeMagickPrompt] = useRecoilState(eyeMagickPromptState);
@@ -88,4 +87,4 @@ function EyeMagick() {
     );
 }
 
-export default EyeMagick;
+export default ImageNarrativeForm;

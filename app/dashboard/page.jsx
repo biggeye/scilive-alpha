@@ -17,6 +17,7 @@ import ToolOptions from "@/components/dashboard/ToolOptions";
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/replicate/ImageCreateForm";
 import ImageEditForm from "@/components/replicate/ImageEditForm";
+import ImageNarratives from "../../components/replicate/ImageNarrativeForm";
 
 const DashboardPage = () => {
   // User related state
@@ -109,7 +110,7 @@ const DashboardPage = () => {
           <TabList>
             <Tab>Image Creation</Tab>
             <Tab>Image Editing</Tab>
-        
+            <Tab>Image Narratives</Tab>
           </TabList>
           <ToolOptions
             tool={selectedTool}
@@ -118,38 +119,35 @@ const DashboardPage = () => {
           />
         </GridItem>
         <GridItem overflowY="auto">
-          <DisplayResults 
-          />
-        </GridItem><GridItem 
-  position="fixed" 
-  marginRight="auto" 
-  left="0" 
-  bottom="0" 
-  width="full" 
-  bgGradient="linear(to-t, silver 50%, transparent)"
->
-
+          <DisplayResults />
+        </GridItem>
+        <GridItem
+          position="fixed"
+          marginRight="auto"
+          left="0"
+          bottom="0"
+          width="full"
+          bgGradient="linear(to-t, silver 50%, transparent)"
+        >
           <TabPanels>
             <TabPanel>
-     
-                <ImageCreateForm
-                  modelId={modelId}
-                  supabase={supabase}
-                  userId={userId}
-                />
-            
+              <ImageCreateForm
+                modelId={modelId}
+                supabase={supabase}
+                userId={userId}
+              />
             </TabPanel>
             <TabPanel>
-           
-                <ImageEditForm
-                  modelId={modelId}
-                  supabase={supabase}
-                  userId={userId}
-                  handleUserImageUpload={handleUserImageUpload}
-                />
-       
+              <ImageEditForm
+                modelId={modelId}
+                supabase={supabase}
+                userId={userId}
+                handleUserImageUpload={handleUserImageUpload}
+              />
             </TabPanel>
-  
+            <TabPanel>
+               <ImageNarratives />
+            </TabPanel>
           </TabPanels>
         </GridItem>
       </Tabs>

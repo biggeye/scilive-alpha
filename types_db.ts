@@ -670,3 +670,21 @@ export type Enums<
     friendlyName: string;
     example: string;
 }
+
+export interface Img2TxtItem {
+  name: string;
+  id: string;
+  type: string;
+  input: Input;
+  example: string;
+  mode?: string;
+  temperature?: string;
+  repetition_penalty?: string;
+  max_new_tokens?: string;
+  max_length?: string;
+}
+
+export interface Img2TxtResponse {
+  type: string;
+  title: string;
+}

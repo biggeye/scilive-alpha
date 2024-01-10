@@ -671,10 +671,19 @@ export type Enums<
     example: string;
 }
 
+export interface AvatarItem {
+  name: string;
+  id: string;
+  friendlyName: string;
+  shortDesc: string;
+  example: string;
+}
+
 export interface Img2TxtItem {
   name: string;
   id: string;
   type: string;
+  friendlyName: string;
   input: Input;
   example: string;
   mode?: string;
@@ -688,3 +697,18 @@ export interface Img2TxtResponse {
   type: string;
   title: string;
 }
+
+export interface IceServer {
+  urls: string[];
+  // Other properties if there are any
+}
+
+// Assuming these are the data types for each state
+export type StreamId = string;
+export type SessionId = string;
+export type SdpOffer = string; // or an object if it's more complex
+export type IceServers = IceServer[]; // Array of IceServer objects
+export type SessionClientAnswer = string; // or an object if it's more complex
+export type Candidate = string; // or an object if it's more complex
+export type SdpMid = string;
+export type SdpMLineIndex = number; // Assuming it's a number

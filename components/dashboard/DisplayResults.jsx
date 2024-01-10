@@ -42,19 +42,19 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
-// modal state & quote fetching
-const { isModalOpen, onModalOpen, onModalClose } = useDisclosure();
+  const { isOpen: Open, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
 const [quotes, setQuotes] = useState([]);
 const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
 
-
-
 useEffect(() => {
-  if (predictionResult>="1") {
-    fetchQuotes( setIsLoadingQuotes, setQuotes );
-    setIsModalOpen(true);
-  };
-}, [predictionResult]);
+    if (predictionResult >= 1) {
+      fetchQuotes().then((quotes) => {
+        setQuotes(quotes);
+        setIsLoadingQuotes(false);
+      });
+      onModalOpen();
+    }
+  }, [predictionResult]);
 
   useEffect(() => {
     if (finalPrediction) {
@@ -67,76 +67,74 @@ useEffect(() => {
 
   useEffect(() => {
     if (userImageUpload) {
-      // Create a URL for the File object
       const objectURL = URL.createObjectURL(userImageUpload);
       setDisplayedImage(objectURL);
-      
-      // Clean up the object URL on component unmount
       return () => URL.revokeObjectURL(objectURL);
     }
   }, [userImageUpload]);
-  
+
   useEffect(() => {
     if (exampleImage) {
       setDisplayedImage(exampleImage);
     }
-  }, [exampleImage])
+  }, [exampleImage]);
 
   return (
     <Card>
       <CardBody>
-        {displayedImage 
-          ? <Image 
-              height="auto"
-              minHeight="50vh" 
-              width="75vw"
-              src={displayedImage} 
-              alt="Selected or Processed"   
-              boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)" 
-              borderRadius=".2rem" 
-            />
-          : <Skeleton
-              minHeight="50vh" 
-              width="75vw" 
-              height="auto"   
-              boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
-            />
-        }
-       
+        {displayedImage ? (
+          <Image
+            height="auto"
+            minHeight="50vh"
+            width="75vw"
+            src={displayedImage}
+            alt="Selected or Processed"
+            boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
+            borderRadius=".2rem"
+          />
+        ) : (
+          <Skeleton
+            minHeight="50vh"
+            width="75vw"
+            height="auto"
+            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
+          />
+        )}
       </CardBody>
-    
+
       <CardFooter>
-      
         <Flex
-            width="100%"
-            direction="column"
-            bgColor="gray"
-            borderColor="darkgrey"
-            borderWidth={0.5}
-            justifyContent="space-around"
-          >
-            <Spacer />
-            {progress && <Progress value={progress} />}
-        <Spacer />
+          width="100%"
+          direction="column"
+          bgColor="gray"
+          borderColor="darkgrey"
+          borderWidth={0.5}
+          justifyContent="space-around"
+        >
+          <Spacer />
+          {progress && <Progress value={progress} />}
+          <Spacer />
           {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
-       <Spacer />
-          </Flex>
+          <Spacer />
+        </Flex>
       </CardFooter>
 
-      <Modal isOpen={isModalOpen} onClose={() => {onModalClose}}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Random Quotes</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          {isLoadingQuotes ? (
-            <Center><CircularProgress isIndeterminate color="green.300" /></Center>
-          ) : (
-            quotes.map((quote, index) => <Text key={index}>{quote}</Text>)
-          )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+      <Modal isOpen={Open} onClose={onModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Random Quotes</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {isLoadingQuotes ? (
+              <Center>
+                <CircularProgress isIndeterminate color="green.300" />
+              </Center>
+            ) : (
+              quotes.map((quote, index) => <Text key={index}>{quote}</Text>)
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Card>
   );
 };

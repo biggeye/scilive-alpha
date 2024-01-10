@@ -51,7 +51,7 @@ export interface NewPrediction {
   // Define structure for new predictions
 }
 
-export type ToolType = 'imageCreation' | 'voiceCreation' | string; // Add other tool types as needed
+export type ToolType = 'imageCreation' | 'imageEditing' | 'imageNarratives' | 'avatarStreaming' | string; // Add other tool types as needed
 
 export interface SelectedModel {
   modelId: string;

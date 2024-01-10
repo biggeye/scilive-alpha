@@ -18,6 +18,7 @@ import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/replicate/ImageCreateForm";
 import ImageEditForm from "@/components/replicate/ImageEditForm";
 import ImageNarratives from "../../components/replicate/ImageNarrativeForm";
+import CreateStreamForm from "@/components/d-id/CreateStreamForm";
 
 const DashboardPage = () => {
   // User related state
@@ -78,6 +79,8 @@ const DashboardPage = () => {
       tool = "imageEditing";
     } else if (index === 2) {
       tool = "imageNarratives"
+    } else if (index === 3) {
+      tool = "avatarStreaming"
     };
     setSelectedTool(tool);
     setExampleImage(null);
@@ -112,6 +115,7 @@ const DashboardPage = () => {
             <Tab>Image Creation</Tab>
             <Tab>Image Editing</Tab>
             <Tab>Image Narratives</Tab>
+            <Tab>Avatar Streaming</Tab>
           </TabList>
           <ToolOptions
             tool={selectedTool}
@@ -147,6 +151,9 @@ const DashboardPage = () => {
                 modelId={modelId}
                 handleUserImageUpload={handleUserImageUpload}
                />
+            </TabPanel>
+            <TabPanel>
+              <CreateStreamForm />
             </TabPanel>
           </TabPanels>
         </GridItem>

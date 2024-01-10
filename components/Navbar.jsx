@@ -66,15 +66,15 @@ const UserMenu = ({ userImageUrl }) => {
      <Menu isOpen={isOpen} onClose={onClose}>
       <MenuButton as={IconButton} onClick={onOpen} 
       boxSize="50px" // Adjust the size as needed for your navbar
-      objectFit="fill" // Ensures the image covers the box area
+      objectFit="cover" // Ensures the image covers the box area
       boxShadow="md"
       bgGradient="radial(white 5%, silver 50%)"
         marginRight="7px"
-        borderRadius="5px">
+        borderRadius="full">
         <Image
           src={userImageUrl || fallbackImageUrl}
-          borderRadius="5px"
-          width="100%"
+          borderRadius="full"
+          width="90%"
                  />
       </MenuButton>
       <MenuList>
@@ -92,10 +92,11 @@ const UserMenu = ({ userImageUrl }) => {
 
 const Navbar = () => {
   const navigation = [
-    { name: "Dashboard", href: "/dashboard" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "100ms", href: "/100ms" },
+    { name: "", href: "/dashboard" },
+    { name: "sciLive", href: "/100ms" },
     { name: "eyeMagick", href: "/eyemagick" },
+    { name: "Gallery", href: "/gallery" },
+    {name: <hr />, href: ""},
     { name: "Account", href: "/account" },
   ];
 

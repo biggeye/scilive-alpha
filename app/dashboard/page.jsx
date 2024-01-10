@@ -120,8 +120,15 @@ const DashboardPage = () => {
         <GridItem overflowY="auto">
           <DisplayResults 
           />
-        </GridItem>
-        <GridItem position="fixed" marginRight="auto" left="0" bottom="0" width="full">
+        </GridItem><GridItem 
+  position="fixed" 
+  marginRight="auto" 
+  left="0" 
+  bottom="0" 
+  width="full" 
+  bgGradient="linear(to-t, silver 50%, transparent)"
+>
+
           <TabPanels>
             <TabPanel>
      

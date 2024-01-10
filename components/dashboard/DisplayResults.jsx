@@ -122,7 +122,7 @@ useEffect(() => {
           </Flex>
       </CardFooter>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} onClose={() => {onModalClose}}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Random Quotes</ModalHeader>

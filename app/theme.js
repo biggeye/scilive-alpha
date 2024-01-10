@@ -28,6 +28,11 @@ export const sciLiveTheme = extendTheme({
         bgGradient: "linear(to-b, silver 50%, white 75%)",
       
       },
+      input: {
+        borderRadius: '1rem',
+        borderColor: 'onyx',
+        color: 'black',
+      },
       'a': {
         color: 'inherit',
         textDecoration: 'none',

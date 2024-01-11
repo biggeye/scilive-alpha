@@ -82,7 +82,5 @@ const StatusTable = () => {
     </Table>
   );
 }
-    );
-}
 
 export default StreamStatus;

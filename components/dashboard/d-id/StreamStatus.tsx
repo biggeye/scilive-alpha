@@ -21,7 +21,7 @@ import {
     Tooltip
 } from "@chakra-ui/react";
 
-import { IceServer, IceServers, StreamId, SessionId, SdpOffer, SessionClientAnswer, Candidate, SdpMid, SdpMLineIndex } from "@/types_db";
+import type { IceServer, IceServers, StreamId, SessionId, SdpOffer, SessionClientAnswer, Candidate, SdpMid, SdpMLineIndex } from "@/types";
 
 function StreamStatus() {
     const streamId = useRecoilValue(streamIdState);
@@ -33,22 +33,13 @@ function StreamStatus() {
     const sdpMid = useRecoilValue(sdpMidState);
     const sdpMLineIndex = useRecoilValue(sdpMLineIndexState);
 
-    const statusCircle = (value: 
-        StreamId | 
-        SessionId | 
-        SdpOffer | 
-        IceServers | 
-        SessionClientAnswer | 
-        Candidate | 
-        SdpMid | 
-        SdpMLineIndex | null): JSX.Element => {
+    const statusCircle = (value: StreamId | SessionId | SdpOffer | IceServers | SessionClientAnswer | Candidate | SdpMid | SdpMLineIndex | null): JSX.Element => {
+      return <Circle size="10px" bg={value ? "green.500" : "red.500"} />;
+  };
 
-        return <Circle size="10px" bg={value ? "green.500" : "red.500"} />;
-    };
-
-// Your Table Component
-const StatusTable = () => {
-  return (
+  // Your Table Component
+  const StatusTable = () => {
+      return (
     <Table size="xs" variant="simple">
       <Thead>
         <Tr>
@@ -80,5 +71,12 @@ const StatusTable = () => {
       </Thead>
     </Table>
   );
-}}
+}
+return (
+  <div>
+      <StatusTable />
+  </div>
+);
+}
+
 export default StreamStatus;

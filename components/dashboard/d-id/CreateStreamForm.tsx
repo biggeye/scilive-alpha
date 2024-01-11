@@ -7,7 +7,7 @@ import { createPeerConnection } from "@/lib/d-id/createPeerConnection";
 import { getSdpReply } from "@/lib/d-id/getSdpReply";
 import { createTalkStream } from "@/lib/d-id/createTalkStream";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { exampleImageState } from "@/state/prediction-atoms";
+import { exampleImageState } from "@/state/selected_model-atoms";
 
 export default function CreateStreamForm() 
 {

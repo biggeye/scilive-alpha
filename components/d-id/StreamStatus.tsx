@@ -17,7 +17,8 @@ import {
     Tr,
     Th,
     Td,
-    Circle
+    Circle,
+    ToolTip
 } from "@chakra-ui/react";
 
 import { IceServer, IceServers, StreamId, SessionId, SdpOffer, SessionClientAnswer, Candidate, SdpMid, SdpMLineIndex } from "@/types_db";
@@ -41,11 +42,9 @@ function StreamStatus() {
         Candidate | 
         SdpMid | 
         SdpMLineIndex | null): JSX.Element => {
-        return <Circle size="10px" bg={value ? "green.500" : "red.500"} />;
-    };
 
-    return (
-    import { Table, Thead, Tr, Td, Tooltip } from '@chakra-ui/react';
+        <Circle size="10px" bg={value ? "green.500" : "red.500"} />
+    );
 
 // Your Table Component
 const StatusTable = () => {

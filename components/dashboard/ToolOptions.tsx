@@ -30,7 +30,7 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
           break;
       }
       if (response && response.ok) {
-        const data = await response.json();
+        const { data } = await response.json();
         setModelsData(data);
       } else {
         console.error("ToolOptions: no data fetched or error in response.");

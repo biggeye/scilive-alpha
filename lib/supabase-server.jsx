@@ -114,7 +114,7 @@ export const handleSignInWithGoogle = async () => {
 
 export async function getImg2TxtModels() {
   try {
-    const [ data ] = await supabase.from('content_management.img2txt').select('*')
+    const [ data ] = await supabase.from('img2txt').select('*')
     return data;
   } catch (error) {
     console.error("Error fetching models: ", error);
@@ -124,7 +124,7 @@ export async function getImg2TxtModels() {
 
 export async function getTxt2ImgModels() {
   try {
-    const [ data ] = await supabase.from('content_management.txt2img').select('*');
+    const [ data ] = await supabase.from('txt2img').select('*');
     return data;
   } catch (error) {
     console.error("Error fetching models: ", error);
@@ -135,7 +135,7 @@ export async function getTxt2ImgModels() {
 
 export async function getImg2ImgModels() {
   try {
-    const [ data ] = await supabase.from('content_management.img2img').select('*');
+    const [ data ] = await supabase.from('img2img').select('*');
     return data;
   } catch (error) {
     console.error("Error fetching models: ", error);

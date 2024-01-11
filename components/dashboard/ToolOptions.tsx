@@ -17,22 +17,29 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
 
   const getModels = async () => { 
     let response;
-  switch(tool) {
-    case "imageEditing":
-      response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`)
-      break;
-    case "imageCreation":
-      response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`)
-      break;
-    case "imageNarratives":
-      response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`)
-      break;
+    try {
+      switch(tool) {
+        case "imageEditing":
+          response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
+          break;
+        case "imageCreation":
+          response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
+          break;
+        case "imageNarratives":
+          response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
+          break;
       }
-      if (response) {
+      if (response && response.ok) {
         const data = await response.json();
         setModelsData(data);
+      } else {
+        console.error("ToolOptions: no data fetched or error in response.");
       }
+    } catch (error) {
+      console.error("Error fetching models: ", error);
+    }
   }
+  
 useEffect(() => {
   getModels();
 }, [tool]);

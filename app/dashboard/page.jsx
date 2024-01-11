@@ -20,42 +20,9 @@ import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
 import ImageNarratives from "../../components/dashboard/replicate/ImageNarrativeForm";
 import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
 
-import { useRecoilValue, useRecoilState } from "recoil";
-import {
-  userImageUploadState,
-  userInFileState,
-} from "@/state/prediction-atoms";
-import {
-  exampleImageState,
-  selectedModelState,
-} from "@/state/selected_model-atoms";
-
-const convertToDataURI = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-
 const DashboardPage = () => {
-  const supabase = createClient();
   const [selectedTab, setSelectedTab] = useState([0]);
-  const [userInFile, setUserInFile] = useRecoilState(userInFileState);
-  const userImageUpload = useRecoilValue(userImageUploadState);
-  const exampleImage = useRecoilValue(exampleImageState);
 
-  const handleImageChange = async (event) => {
-    if (userImageUpload) {
-      const imagePreview = URL.createObjectURL(userImageUpload);
-      setDisplayedImage(imagePreview);
-      const URI = await convertToDataURI(file);
-      setUserInFile(URI);
-      return;
-    } else {
-      setDisplayedImage(exampleImage);
-    }
-  };
 
   const handleTabsChange = (index) => {
     let tool;
@@ -69,7 +36,6 @@ const DashboardPage = () => {
       tool = "avatarStreaming";
     }
     setSelectedTab(tool);
-    handleImageChange();
   };
 
   return (

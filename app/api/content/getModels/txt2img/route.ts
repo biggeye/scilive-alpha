@@ -1,24 +1,21 @@
-
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import { getTxt2ImgModels } from "@/lib/supabase-server";
 
-export default async function GET(req: Request) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/...`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+export async function GET(req: Request) {
+  if (req.method !== 'GET') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+  }
 
+  try {
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
     const session = await supabase.auth.getSession();
+    // Assuming you want to use the session for something
 
-    if(req.method === 'GET'){
-      const modelsData = await getTxt2ImgModels();
-      return Response.json([ modelsData ])
-   }
-   else{
-    return Response.json({error: 'Method not allowed'});
-   }
+    const modelsData = await supabase.from('content_management.txt2img').select('*');
+    return new Response(JSON.stringify(modelsData), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  } catch (error) {
+    console.error("Error fetching models: ", error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+  }
 }

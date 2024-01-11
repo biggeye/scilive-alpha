@@ -45,48 +45,32 @@ function StreamStatus() {
     };
 
     return (
-        <Table size="xs" variant="simple">
-            <Thead>
-                <Tr>
-                    <Th>Parameter</Th>
-                    <Th>Status</Th>
-                </Tr>
-            </Thead>
-            <Tbody>
-                <Tr>
-                    <Td>Stream ID</Td>
-                    <Td>{statusCircle(streamId)}</Td>
-                </Tr>
-                <Tr>
-                    <Td>Session ID</Td>
-                    <Td>{statusCircle(sessionId)}</Td>
-                </Tr>
-                <Tr>
-                    <Td>SDP Offer</Td>
-                    <Td>{statusCircle(sdpOffer)}</Td>
-                </Tr>
-                <Tr>
-                    <Td>ICE Servers</Td>
-                    <Td>{statusCircle(iceServers)}</Td>
-                </Tr>
-                <Tr>
-                    <Td>Session Client Answer</Td>
-                    <Td>{statusCircle(sessionClientAnswer)}</Td>
-                </Tr>
-                <Tr>
-                    <Td>Candidate</Td>
-                    <Td>{statusCircle(candidate)}</Td>
-                </Tr>
-                <Tr>
-                    <Td>sdpMid</Td>
-                    <Td>{statusCircle(sdpMid)}</Td>
-                </Tr>
-                <Tr>
-                    <Td>sdpMLineIndex</Td>
-                    <Td>{statusCircle(sdpMLineIndex)}</Td>
-                </Tr>
-            </Tbody>
-        </Table>
+      <Table size="xs" variant="simple">
+    <Thead>
+        <Tr>
+            <Th>Stream</Th>
+            <Th>Session</Th>
+            <Th>Offer</Th>
+            <Th>ICE</Th>
+            <Th>SCA</Th>
+            <Th>Candidate</Th>
+            <Th>sdpMid</Th>
+            <Th>sdpMLI</Th>
+        </Tr>
+    </Thead>
+    <Tbody>
+        <Tr>
+            <Td>{statusCircle(streamId)}</Td>
+            <Td>{statusCircle(sessionId)}</Td>
+            <Td>{statusCircle(sdpOffer)}</Td>
+            <Td>{statusCircle(iceServers)}</Td>
+            <Td>{statusCircle(sessionClientAnswer)}</Td>
+            <Td>{statusCircle(candidate)}</Td>
+            <Td>{statusCircle(sdpMid)}</Td>
+            <Td>{statusCircle(sdpMLineIndex)}</Td>
+        </Tr>
+    </Tbody>
+</Table>
     );
 }
 

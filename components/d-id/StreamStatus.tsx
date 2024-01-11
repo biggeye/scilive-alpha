@@ -45,32 +45,43 @@ function StreamStatus() {
     };
 
     return (
-      <Table size="xs" variant="simple">
-    <Thead>
+    import { Table, Thead, Tr, Td, Tooltip } from '@chakra-ui/react';
+
+// Your Table Component
+const StatusTable = () => {
+  return (
+    <Table size="xs" variant="simple">
+      <Thead>
         <Tr>
-            <Th>Stream</Th>
-            <Th>Session</Th>
-            <Th>Offer</Th>
-            <Th>ICE</Th>
-            <Th>SCA</Th>
-            <Th>Candidate</Th>
-            <Th>sdpMid</Th>
-            <Th>sdpMLI</Th>
-        </Tr>
-    </Thead>
-    <Tbody>
-        <Tr>
+          <Tooltip label="Stream ID" placement="top">
             <Td>{statusCircle(streamId)}</Td>
+          </Tooltip>
+          <Tooltip label="Session ID" placement="top">
             <Td>{statusCircle(sessionId)}</Td>
+          </Tooltip>
+          <Tooltip label="SDP Offer" placement="top">
             <Td>{statusCircle(sdpOffer)}</Td>
+          </Tooltip>
+          <Tooltip label="ICE Servers" placement="top">
             <Td>{statusCircle(iceServers)}</Td>
+          </Tooltip>
+          <Tooltip label="Session Client Answer" placement="top">
             <Td>{statusCircle(sessionClientAnswer)}</Td>
+          </Tooltip>
+          <Tooltip label="Candidate" placement="top">
             <Td>{statusCircle(candidate)}</Td>
+          </Tooltip>
+          <Tooltip label="sdpMid" placement="top">
             <Td>{statusCircle(sdpMid)}</Td>
+          </Tooltip>
+          <Tooltip label="sdpMLineIndex" placement="top">
             <Td>{statusCircle(sdpMLineIndex)}</Td>
+          </Tooltip>
         </Tr>
-    </Tbody>
-</Table>
+      </Thead>
+    </Table>
+  );
+}
     );
 }
 

@@ -35,3 +35,7 @@ export const sdpMLineIndexState = atom({
     key: 'sdpMLineIndexState',
     default: null,
 });
+export const sdpResponseState = atom({
+    key: 'sdpResponseState',
+    default: null,
+});

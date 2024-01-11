@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import GetUserDetails from './GetUserDetails'; // Ensure this is the correct path
-import { UserContextType, UserState, UserProfile } from '@/types_db';
+import { UserContextType, UserState, UserProfile } from '@/types';
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 

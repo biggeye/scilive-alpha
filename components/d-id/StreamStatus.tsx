@@ -44,7 +44,7 @@ function StreamStatus() {
         SdpMLineIndex | null): JSX.Element => {
 
         <Circle size="10px" bg={value ? "green.500" : "red.500"} />
-    );
+    };
 
 // Your Table Component
 const StatusTable = () => {

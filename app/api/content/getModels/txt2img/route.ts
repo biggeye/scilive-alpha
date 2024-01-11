@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { getTxt2ImgModels } from "@/lib/supabase-server";
 
-export default async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
 
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);

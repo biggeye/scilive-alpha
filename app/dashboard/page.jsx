@@ -15,59 +15,45 @@ import {
 } from "@chakra-ui/react";
 import ToolOptions from "@/components/dashboard/ToolOptions";
 import DisplayResults from "@/components/dashboard/DisplayResults";
-import ImageCreateForm from "@/components/replicate/ImageCreateForm";
-import ImageEditForm from "@/components/replicate/ImageEditForm";
-import ImageNarratives from "../../components/replicate/ImageNarrativeForm";
-import CreateStreamForm from "@/components/d-id/CreateStreamForm";
+import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
+import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
+import ImageNarratives from "../../components/dashboard/replicate/ImageNarrativeForm";
+import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
+
+import { useRecoilValue, useRecoilState } from "recoil";
+import {
+  userImageUploadState,
+  userInFileState,
+} from "@/state/prediction-atoms";
+import {
+  exampleImageState,
+  selectedModelState,
+} from "@/state/selected_model-atoms";
+
+const convertToDataURI = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 const DashboardPage = () => {
-  // User related state
-  const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState(null);
-  const [sessionData, setSessionData] = useState(null);
-
-  // Tool selection and settings
-  const [selectedTool, setSelectedTool] = useState("imageCreation");
-  const [selectedModel, setSelectedModel] = useState({});
-  const [selectedVoice, setSelectedVoice] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
-  const [exampleImage, setExampleImage] = useState(null);
-
-  // Prediction and results data
-  const [prediction, setPrediction] = useState(null);
-  const [predictionProgress, setPredictionProgress] = useState(0);
-  const [results, setResults] = useState({});
-  const [error, setError] = useState(null);
-  const [userInFile, setUserInFile] = useState(null);
-
   const supabase = createClient();
-  const modelId = selectedModel ? selectedModel.modelId : null;
-
-  const convertToDataURI = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
+  const [selectedTab, setSelectedTab] = useState([0]);
+  const [userInFile, setUserInFile] = useRecoilState(userInFileState);
+  const userImageUpload = useRecoilValue(userImageUploadState);
+  const exampleImage = useRecoilValue(exampleImageState);
 
   const handleImageChange = async (event) => {
-    const file = event.target.files ? event.target.files[0] : null;
-    if (file) {
-      const imagePreview = URL.createObjectURL(file);
-      setSelectedImage(imagePreview);
+    if (userImageUpload) {
+      const imagePreview = URL.createObjectURL(userImageUpload);
+      setDisplayedImage(imagePreview);
       const URI = await convertToDataURI(file);
       setUserInFile(URI);
-    }
-  };
-
-  const handleVoiceChange = async (event) => {
-    const file = event.target.files ? event.target.files[0] : null;
-    if (file) {
-      const voicePreview = URL.createObjectURL(file);
-      setSelectedVoice(voicePreview);
-      const URI = await convertToDataURI(file);
-      setUserInFile(URI);
+      return;
+    } else {
+      setDisplayedImage(exampleImage);
     }
   };
 
@@ -78,25 +64,12 @@ const DashboardPage = () => {
     } else if (index === 1) {
       tool = "imageEditing";
     } else if (index === 2) {
-      tool = "imageNarratives"
+      tool = "imageNarratives";
     } else if (index === 3) {
-      tool = "avatarStreaming"
-    };
-    setSelectedTool(tool);
-    setExampleImage(null);
-  };
-
-  const handleModelChange = (modelId, friendlyName, shortDesc, example) => {
-    setSelectedModel({ modelId, friendlyName, shortDesc, example });
-  };
-
-  const handleExampleImageChange = (newExampleImage) => {
-    setExampleImage(newExampleImage);
-    console.log("exampleImage: ", exampleImage);
-  };
-
-  const handleUserImageUpload = (newUserImage) => {
-    setExampleImage(newUserImage);
+      tool = "avatarStreaming";
+    }
+    setSelectedTab(tool);
+    handleImageChange();
   };
 
   return (
@@ -117,11 +90,7 @@ const DashboardPage = () => {
             <Tab>Image Narratives</Tab>
             <Tab>Avatar Streaming</Tab>
           </TabList>
-          <ToolOptions
-            tool={selectedTool}
-            handleModelChange={handleModelChange}
-            onExampleImageChange={handleExampleImageChange}
-          />
+          <ToolOptions tool={selectedTab} />
         </GridItem>
         <GridItem overflowY="auto">
           <DisplayResults />
@@ -136,21 +105,13 @@ const DashboardPage = () => {
         >
           <TabPanels>
             <TabPanel>
-              <ImageCreateForm
-                modelId={modelId}
-                />
+              <ImageCreateForm />
             </TabPanel>
             <TabPanel>
-              <ImageEditForm
-                modelId={modelId}
-               handleUserImageUpload={handleUserImageUpload}
-              />
+              <ImageEditForm />
             </TabPanel>
             <TabPanel>
-               <ImageNarratives 
-                modelId={modelId}
-                handleUserImageUpload={handleUserImageUpload}
-               />
+              <ImageNarratives />
             </TabPanel>
             <TabPanel>
               <CreateStreamForm />

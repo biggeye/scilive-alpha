@@ -6,6 +6,11 @@ export const userImageUploadState = atom<File | null>({
   default: null,
 });
 
+export const userInFileState = atom<File | null>({
+  key: 'userInFileState',
+  default: null,
+})
+
 export const predictionState = atom({
   key: 'predictionState',
   default: null,
@@ -26,10 +31,7 @@ export const predictionProgressState = atom({
   default: null, // Default progress is 0
 });
 
-export const exampleImageState = atom({
-  key: 'exampleImageState',
-  default: "",
-});
+
 
 export const predictionIdState = atom({
   key: 'predictionIdState',

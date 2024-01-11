@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
-import Conference from "./conference";
+import Conference from "../../lib/100ms/conference";
 
 const ConferencePage = () => {
         return (

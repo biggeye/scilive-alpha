@@ -1,9 +1,7 @@
-import exp from "constants"
-
 export type Json =
-  | string
-  | number
-  | boolean
+  | string        
+  | number        
+  | boolean       
   | null
   | { [key: string]: Json | undefined }
   | Json[]
@@ -59,56 +57,6 @@ export interface Database {
           }
         ]
       }
-      master_content: {
-        Row: {
-          content: string | null
-          content_id: string
-          content_type: string
-          created_at: string | null
-          created_by: string
-          modelid: string | null
-          name: string | null
-          predictionid: string | null
-          prompt: string | null
-          title: string | null
-          url: string | null
-        }
-        Insert: {
-          content?: string | null
-          content_id?: string
-          content_type: string
-          created_at?: string | null
-          created_by: string
-          modelid?: string | null
-          name?: string | null
-          predictionid?: string | null
-          prompt?: string | null
-          title?: string | null
-          url?: string | null
-        }
-        Update: {
-          content?: string | null
-          content_id?: string
-          content_type?: string
-          created_at?: string | null
-          created_by?: string
-          modelid?: string | null
-          name?: string | null
-          predictionid?: string | null
-          prompt?: string | null
-          title?: string | null
-          url?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "master_content_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       oauth2tokens: {
         Row: {
           access_token: string | null
@@ -159,13 +107,12 @@ export interface Database {
           currency: string | null
           description: string | null
           id: string
-          interval: Database["public"]["Enums"]["pricing_plan_interval"] 
-| null
+          interval: Database["public"]["Enums"]["pricing_plan_interval"] | null
           interval_count: number | null
           metadata: Json | null
           product_id: string | null
           trial_period_days: number | null
-          type: Database["public"]["Enums"]["pricing_type"] | null       
+          type: Database["public"]["Enums"]["pricing_type"] | null
           unit_amount: number | null
         }
         Insert: {
@@ -178,7 +125,7 @@ export interface Database {
           metadata?: Json | null
           product_id?: string | null
           trial_period_days?: number | null
-          type?: Database["public"]["Enums"]["pricing_type"] | null      
+          type?: Database["public"]["Enums"]["pricing_type"] | null
           unit_amount?: number | null
         }
         Update: {
@@ -191,7 +138,7 @@ export interface Database {
           metadata?: Json | null
           product_id?: string | null
           trial_period_days?: number | null
-          type?: Database["public"]["Enums"]["pricing_type"] | null      
+          type?: Database["public"]["Enums"]["pricing_type"] | null
           unit_amount?: number | null
         }
         Relationships: [
@@ -304,6 +251,7 @@ export interface Database {
         Row: {
           avatar_url: string | null
           billing_address: Json | null
+          email: string | null
           full_name: string | null
           id: string
           payment_method: Json | null
@@ -313,6 +261,7 @@ export interface Database {
         Insert: {
           avatar_url?: string | null
           billing_address?: Json | null
+          email?: string | null
           full_name?: string | null
           id: string
           payment_method?: Json | null
@@ -322,6 +271,7 @@ export interface Database {
         Update: {
           avatar_url?: string | null
           billing_address?: Json | null
+          email?: string | null
           full_name?: string | null
           id?: string
           payment_method?: Json | null
@@ -343,7 +293,10 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      clean_expired_tokens: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
     }
     Enums: {
       pricing_plan_interval: "day" | "week" | "month" | "year"
@@ -545,10 +498,10 @@ export interface Database {
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"]) 
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &    
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
@@ -558,11 +511,10 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] 
-&
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
       Database["public"]["Views"])
   ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {   
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
       Row: infer R
     }
     ? R
@@ -574,7 +526,7 @@ export type TablesInsert<
     | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]       
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
@@ -582,8 +534,8 @@ export type TablesInsert<
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]  
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {     
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
       Insert: infer I
     }
     ? I
@@ -595,7 +547,7 @@ export type TablesUpdate<
     | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]       
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
@@ -603,8 +555,8 @@ export type TablesUpdate<
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]  
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {     
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
       Update: infer U
     }
     ? U
@@ -619,96 +571,11 @@ export type Enums<
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]       
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]    
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
   ? Database["public"]["Enums"][PublicEnumNameOrOptions]
   : never
 
 
-  export interface UserProfile {
-    id: string | null;
-    full_name: string | null;
-    username: string | null;
-    avatar_url: string | null;
-    website: string | null;
-    email: string | null;
-  }
+
   
-  export interface UserState {
-    profile: boolean;
-    loading: boolean;
-    error: string | null;
-  }
-  
-  export interface UserContextType {
-    userState: UserState;
-    setUserState: React.Dispatch<React.SetStateAction<UserState>>;
-    userProfile: UserProfile;
-    setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
-    supabase: any;
-  }
-
-  export interface Input {
-    image: File | string;
-    prompt?: string; // `prompt` is optional since some objects don't have it
-  }
-
-  export interface Img2ImgItem {
-    name: string;
-    id: string;
-    shortDesc: string;
-    input: Input;
-    outputIndex: string;
-    friendlyName: string;
-    example: string;
-  }
-  
-  export interface Txt2ImgItem {
-    name: string;
-    id: string;
-    shortDesc: string;
-    friendlyName: string;
-    example: string;
-}
-
-export interface AvatarItem {
-  name: string;
-  id: string;
-  friendlyName: string;
-  shortDesc: string;
-  example: string;
-}
-
-export interface Img2TxtItem {
-  name: string;
-  id: string;
-  type: string;
-  friendlyName: string;
-  input: Input;
-  example: string;
-  mode?: string;
-  temperature?: string;
-  repetition_penalty?: string;
-  max_new_tokens?: string;
-  max_length?: string;
-}
-
-export interface Img2TxtResponse {
-  type: string;
-  title: string;
-}
-
-export interface IceServer {
-  urls: string[];
-  // Other properties if there are any
-}
-
-// Assuming these are the data types for each state
-export type StreamId = string;
-export type SessionId = string;
-export type SdpOffer = string; // or an object if it's more complex
-export type IceServers = IceServer[]; // Array of IceServer objects
-export type SessionClientAnswer = string; // or an object if it's more complex
-export type Candidate = string; // or an object if it's more complex
-export type SdpMid = string;
-export type SdpMLineIndex = number; // Assuming it's a number

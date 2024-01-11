@@ -1,9 +1,10 @@
 import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
 
-const createServerSupabaseClient = createClient();
+const cookieStore = cookies();
+const createServerSupabaseClient = createClient(cookieStore);
 
 export async function getSession() {
-  const supabase = createServerSupabaseClient();
   try {
     const {
       data: { session }
@@ -15,8 +16,7 @@ export async function getSession() {
   }
 }
 
-export async function getUserDetails() {
-  const supabase = createServerSupabaseClient();
+export async function getUserDetails() {;
   try {
     const { data: userDetails } = await supabase
       .from('profiles')
@@ -30,7 +30,6 @@ export async function getUserDetails() {
 }
 
 export async function fetchUserContent() {
-  const supabase = createServerSupabaseClient();
   try {
     const { data: masterContent, error } = await supabase
       .from("master_content")
@@ -46,8 +45,6 @@ export async function fetchUserContent() {
 
 
 export async function handleDelete(contentId) {
-  const supabase = createServerSupabaseClient();
-
   const { error } = await supabase
     .from("master_content")
     .delete()
@@ -59,7 +56,6 @@ export async function handleDelete(contentId) {
 };
 
 export const handleSignOut = async () => {
-  const supabase = createServerSupabaseClient();
   const { error } = await supabase.auth.signOut();
   console.log("Signing out...");
 
@@ -71,7 +67,6 @@ export const handleSignOut = async () => {
 };
 
 export const handleSignInWithPassword = async (email, password) => {
-  const supabase = createServerSupabaseClient();
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,
@@ -83,7 +78,6 @@ export const handleSignInWithPassword = async (email, password) => {
 };
 
 export const handleOAuthLogin = async (provider) => {
-  const supabase = createServerSupabaseClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
@@ -100,7 +94,6 @@ export const handleOAuthLogin = async (provider) => {
 };
 
 export const handleSignInWithGoogle = async () => {
-  const supabase = createServerSupabaseClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
@@ -118,9 +111,41 @@ export const handleSignInWithGoogle = async () => {
   }
 };
 
+
+export async function getImg2TxtModels() {
+  try {
+    const [ data ] = await supabase.from('content_management.img2txt').select('*')
+    return data;
+  } catch (error) {
+    console.error("Error fetching models: ", error);
+    return null;
+  }
+}
+
+export async function getTxt2ImgModels() {
+  try {
+    const [ data ] = await supabase.from('content_management.txt2img').select('*');
+    return data;
+  } catch (error) {
+    console.error("Error fetching models: ", error);
+    return null;
+  }
+}
+
+
+export async function getImg2ImgModels() {
+  try {
+    const [ data ] = await supabase.from('content_management.img2img').select('*');
+    return data;
+  } catch (error) {
+    console.error("Error fetching models: ", error);
+    return null;
+  }
+}
+
 /*
 export async function getSubscription() {
-  const supabase = createServerSupabaseClient();
+
   try {
     const { data: subscription } = await supabase
       .from('subscriptions')
@@ -139,7 +164,7 @@ export async function getSubscription() {
 
 /*
 export const getActiveProductsWithPrices = async () => {
-  const supabase = createServerSupabaseClient();
+
   const { data, error } = await supabase
     .from('products')
     .select('*, prices(*)')

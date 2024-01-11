@@ -39,12 +39,13 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const progress = useRecoilValue(predictionProgressState);
   const error = useRecoilValue(predictionErrorState);
   const finalPrediction = useRecoilValue(finalPredictionState);
+
   const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
   const { isOpen: Open, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
-const [quotes, setQuotes] = useState([]);
-const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
+  const [quotes, setQuotes] = useState([]);
+  const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
 
 useEffect(() => {
     if (predictionResult >= 1) {

@@ -7,6 +7,7 @@ export async function GET(req: Request) {
   }
 
   try {
+    'use server'
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
     const session = await supabase.auth.getSession();

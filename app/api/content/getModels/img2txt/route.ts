@@ -1,5 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/client";
 
 export async function GET(req: Request) {
   if (req.method !== 'GET') {
@@ -7,9 +6,8 @@ export async function GET(req: Request) {
   }
 
   try {
-    'use server'
-    const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
+
+    const supabase = createClient();
     const session = await supabase.auth.getSession();
     // Assuming you want to use the session for something
 

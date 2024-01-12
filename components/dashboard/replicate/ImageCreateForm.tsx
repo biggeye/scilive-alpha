@@ -30,7 +30,7 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = () => {
       console.error("No model selected or user not found");
       return;
     }
-    await submitImageCreate(userInput, modelId, userId);
+    await submitImageCreate(userInput, userId);
   };
 
   return (

@@ -54,11 +54,11 @@ const DashboardPage = () => {
     <Grid
       templateRows="3"
       templateColumns="1"
-      gap={4}
-      mt=".25rem"
-      display="flex"
+       display="flex"
       alignItems="center"
       justifyContent="center"
+      width="100vw"
+      overflowX="hidden"
     >
       <Tabs align="center" size="sm" onChange={handleTabsChange}>
         <GridItem>
@@ -70,7 +70,7 @@ const DashboardPage = () => {
           </TabList>
           <ToolOptions tool={selectedTab} />
         </GridItem>
-        <GridItem overflowY="auto">
+        <GridItem overflowY="auto" >
           <DisplayResults />
         </GridItem>
         <GridItem
@@ -80,6 +80,7 @@ const DashboardPage = () => {
           bottom="0"
           width="full"
           bgGradient="linear(to-t, silver 50%, transparent)"
+          
         >
           <TabPanels>
             <TabPanel>

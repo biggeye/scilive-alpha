@@ -24,14 +24,13 @@ export const sciLiveTheme = extendTheme({
   styles: {
     global: {
         main: {
-        height: '100vh',
-        bgGradient: "linear(to-b, silver 50%, white 75%)",
-      
-      },
+          height: '90vh',
+          bgGradient: "linear(to-b, silver 50%, white 75%)",
+            },
       input: {
         borderRadius: '1rem',
         borderColor: 'onyx',
-        color: 'black',
+        color: 'onyx',
       },
       'a': {
         color: 'inherit',

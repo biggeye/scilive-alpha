@@ -13,12 +13,11 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
       <RecoilRoot>
         <ChakraProvider theme={sciLiveTheme}>
           <HMSRoomProvider>
-            <Box width="100vw">
-              <main className="main">
-                <Navbar />
-                {children}
-              </main>
-            </Box>
+              
+              <Navbar />
+              <Box as="main" className="main">
+              {children}
+              </Box>
           </HMSRoomProvider>
         </ChakraProvider>
       </RecoilRoot>

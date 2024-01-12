@@ -111,6 +111,7 @@ const Navbar = () => {
     as="nav"
     bgColor="silver"
     p={1}
+    className="navbar"
   >
     <DropdownMenu items={navigation} />
     <Spacer />

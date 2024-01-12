@@ -1,15 +1,14 @@
 "use client";
 import {
-  predictionState,
   predictionResultState,
   predictionErrorState,
-  predictionIdState,
+  predictionStatusState,
   predictionProgressState,
   userImageUploadState,
   finalPredictionState,
   imageNarra,
   modelBootProgressState,
-  modelBootResultState
+  modelBootResultState,
 } from "@/state/prediction-atoms";
 import { exampleImageState } from "@/state/selected_model-atoms";
 import {
@@ -18,7 +17,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
   ModalBody,
   CircularProgress,
   useDisclosure,
@@ -48,9 +46,9 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
 
+  const predictionStatus = useRecoilValue(predictionStatusState);
   const predictionProgress = useRecoilValue(predictionProgressState);
   const predictionResult = useRecoilValue(predictionResultState);
-  const prediction = useRecoilValue(predictionState);
   const error = useRecoilValue(predictionErrorState);
   const finalPrediction = useRecoilValue(finalPredictionState);
 
@@ -62,11 +60,11 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
 
   useEffect(() => {
-    if (predictionResult) {
+    if (predictionStatus==="starting") {
       onOpen(); // Open the modal when prediction results are available
       setDisplayedImage(null);
     }
-  }, [predictionResult]);
+  }, [predictionStatus]);
 
   useEffect(() => {
     if (finalPrediction) {
@@ -104,17 +102,21 @@ const DisplayResults = ({ tool, selectedImage }) => {
         {displayedImage ? (
           <Image
             height="auto"
+            minWidth="350px"
             minHeight="50vh"
             width="75vw"
             src={displayedImage}
+            maxWidth="1080px"
             alt="Selected or Processed"
             boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
             borderRadius=".2rem"
           />
         ) : (
           <Skeleton
+            minWidth="350px"
             minHeight="50vh"
             width="75vw"
+            maxWidth="1080px"
             height="auto"
             boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
           />
@@ -127,14 +129,20 @@ const DisplayResults = ({ tool, selectedImage }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {" "}
-            {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
+            <Flex display="row" justifyContent="space-between">
+              {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
+              <Spacer />
+              {predictionStatus}
+            </Flex>
           </ModalHeader>
 
           <ModalBody>
             <Center>
-              {" "}
-              <CircularProgress isIndeterminate color="green.300" />
+              <CircularProgress
+                value={predictionProgress}
+                isIndeterminate
+                color="green.300"
+              />
             </Center>
 
             <ModalFooter>
@@ -147,12 +155,20 @@ const DisplayResults = ({ tool, selectedImage }) => {
                 borderWidth={0.5}
                 justifyContent="space-around"
               >
+                {modelBootProgress && (
+                  <Center>
+                    {modelBootResult}
+                    <Progress value={modelBootProgress} />
+                  </Center>
+                )}
                 <Spacer />
-                {modelBootResult}
-                {modelBootProgress && <Progress value={modelBootProgress} />}
-                <Spacer />
-                {predictionResult}
-                {predictionProgress && <Progress value={predictionProgress} />}
+
+                {predictionProgress && (
+                  <Center>
+                    {predictionResult}
+                    <Progress value={predictionProgress} />
+                  </Center>
+                )}
                 <Spacer />
               </Flex>
             </ModalFooter>

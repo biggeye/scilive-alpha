@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Card, CardBody, CardFooter, CardHeader, Button } from '@chakra-ui/react';
+import { Image, Box, Card, CardBody, CardFooter, CardHeader, Button } from '@chakra-ui/react';
 
 const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
@@ -23,7 +23,7 @@ const Gallery = () => {
     fetchData();
   }, []);
 
-  const handleDeleteClick = async (contentId) => {
+  const handleDeleteClick = async (content_id) => {
     const confirmation = window.confirm("Are you sure you want to delete this item?");
     if (!confirmation) return;
 
@@ -32,7 +32,7 @@ const Gallery = () => {
       const { error } = await supabase
         .from("master_content")
         .delete()
-        .match({ content_id: contentId });
+        .match({ content_id: content_id });
       if (error) throw error;
 
       // Remove the item from the state to update the UI
@@ -43,22 +43,15 @@ const Gallery = () => {
   };
 
   return (
-    <Card>
+    <Box display="flex" flexWrap="wrap" justifyContent="center" gap="20px">
       {contentItems.map((item) => (
-        <React.Fragment key={item.content_id}>
-          <CardHeader></CardHeader> 
-          <CardBody>
-            <img src={item.url} alt={item.content_type} />
-          </CardBody>
-          <CardFooter>
-            <Button onClick={() => handleDeleteClick(item.content_id)} className="micro-account">
-              Delete
-            </Button>
-          </CardFooter>
-        </React.Fragment>
+        <Box bgColor="white" borderRadius="5px" padding="5px" key={item.content_id} maxWidth="100px">
+      
+              <Image borderRadius="4px" src={item.url} alt={item.content_type} width="100" height="100" />
+              <Button bgColor="orange" onClick={handleDeleteClick} size="xxs">del</Button>
+        </Box>
       ))}
-    </Card>
- 
+    </Box>
   );
 };
 

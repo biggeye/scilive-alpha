@@ -6,6 +6,7 @@ import { useUserContext } from "@/lib/UserProvider";
 import { createClient } from "@/utils/supabase/client";
 import { useRecoilValue } from "recoil";
 import { selectedModelIdState } from "@/state/selected_model-atoms";
+
 interface ImageCreateFormProps {
   modelId: string;
   supabase: any;
@@ -13,12 +14,15 @@ interface ImageCreateFormProps {
 }
 
 const ImageCreateForm: React.FC<ImageCreateFormProps> = () => {
+  const supabase = createClient();
+  
   const { userProfile } = useUserContext();
   const userId = userProfile.id;
   const [userInput, setUserInput] = useState<string>("");
-  const supabase = createClient();
+
   const { isLoading, error, submitImageCreate } = useImageCreateSubmit(supabase);
   const modelId = useRecoilValue(selectedModelIdState);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -29,7 +33,7 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = () => {
       console.error("No model selected or user not found");
       return;
     }
-    await submitImageCreate(userInput, userId);
+    await submitImageCreate(userInput, userId, modelId);
   };
 
   return (

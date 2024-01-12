@@ -18,14 +18,14 @@ export default async function RootLayout({
     <html lang='en' className={fonts.roboto_mono.variable}>
       <link rel="manifest" href="https://scilive.cloud/manifest.json" />
       <meta name="theme-color" content="#f0f0f0" />
-      <body>
+      <body className="body">
         <ClientLayout>
-      
-          {children}
-          <Analytics />
          
+            {children}
+            <Analytics />
+
         </ClientLayout>
-        </body>
+      </body>
     </html>
   )
 }

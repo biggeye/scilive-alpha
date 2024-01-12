@@ -5,8 +5,8 @@ import { Card, InputGroup, Input, Button, FormControl, Alert, Flex, Spacer, Inpu
 import { useUserContext } from '@/lib/UserProvider';
 import { createClient } from '@/utils/supabase/client';
 import { userImageUploadState } from '@/state/prediction-atoms';
-import { atom, useRecoilState } from 'recoil';
-
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { selectedModelIdState } from '@/state/selected_model-atoms';
 
 interface ImageEditFormProps {
   modelId: string;
@@ -15,7 +15,7 @@ interface ImageEditFormProps {
   handleUserImageUpload: any;
 }
 
-const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
+const ImageEditForm: React.FC<ImageEditFormProps> = () => {
   const supabase = createClient();
   const { userProfile } = useUserContext();
   const userId = userProfile.id;
@@ -23,7 +23,7 @@ const ImageEditForm: React.FC<ImageEditFormProps> = ({ modelId }) => {
   const [userInFile, setUserInFile] = useState<File | null>(null);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
   const { isLoading, error, handleImageEditSubmit } = useImageEditSubmit(supabase);
-
+  const modelId = useRecoilValue(selectedModelIdState);
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);

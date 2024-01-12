@@ -11,37 +11,52 @@ export const userInFileState = atom<File | null>({
   default: null,
 })
 
+
+export const modelBootProgressState = atom({
+  key: 'modelBootProgressState',
+  default: '0',
+})
+export const modelBootResultState = atom({
+  key: 'modelBootResultState',
+  default: '',
+})
+
+
 export const predictionState = atom({
   key: 'predictionState',
   default: null,
 });
-
+export const predictionIdState = atom({
+  key: 'predictionIdState',
+  default: null,
+});
 export const predictionErrorState = atom({
   key: 'predictionErrorState',
   default: null,
 });
 
-export const predictionResultState = atom({
-  key: 'predictionResultState',
-  default: null,
-});
+
 
 export const predictionProgressState = atom({
   key: 'predictionProgressState',
   default: null, // Default progress is 0
 });
-
-
-
-export const predictionIdState = atom({
-  key: 'predictionIdState',
+export const predictionResultState = atom({
+  key: 'predictionResultState',
   default: null,
 });
+
+
+
 
 export const finalPredictionState = atom({
   key: 'finalPredictionState',
   default: null,
 })
+
+
+
+
 
 export const imageNarrativesUploadState = atom<File | null>({
   key: 'imageNarrativesUploadState',
@@ -52,3 +67,4 @@ export const imageNarrativesPromptState = atom({
   key: 'imageNarrativesPromptState',
   default: "",
 });
+

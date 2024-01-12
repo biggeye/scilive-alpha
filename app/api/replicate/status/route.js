@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/route'
 
 export async function POST(req) {
@@ -16,7 +15,7 @@ export async function POST(req) {
     // Properly parse the JSON body
     const body = await req.json();
     const id = body.id;
-    console.log("/api/status: ", id);
+    console.log("/api/replicate/status: ", id);
 
     const response = await fetch(`https://api.replicate.com/v1/predictions/${id}`, {
       headers: {

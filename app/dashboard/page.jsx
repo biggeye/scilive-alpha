@@ -21,19 +21,31 @@ import ImageNarratives from "../../components/dashboard/replicate/ImageNarrative
 import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
 
 const DashboardPage = () => {
-  const [selectedTab, setSelectedTab] = useState([0]);
+  const [selectedTab, setSelectedTab] = useState("imageCreation");
+
+  useEffect(() => {
+    // Call handleTabsChange with the default index
+    handleTabsChange(0); // Assuming index 0 corresponds to "imageCreation"
+  }, []);
 
 
   const handleTabsChange = (index) => {
     let tool;
-    if (index === 0) {
-      tool = "imageCreation";
-    } else if (index === 1) {
-      tool = "imageEditing";
-    } else if (index === 2) {
-      tool = "imageNarratives";
-    } else if (index === 3) {
-      tool = "avatarStreaming";
+    switch(index) {
+      case 0:
+        tool = "imageCreation";
+        break;
+      case 1:
+        tool = "imageEditing";
+        break;
+      case 2:
+        tool = "imageNarratives";
+        break;
+      case 3:
+        tool = "avatarStreaming";
+        break;
+      default:
+        tool = "imageCreation"; // Default tool if no index matches
     }
     setSelectedTab(tool);
   };

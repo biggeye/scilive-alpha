@@ -1,34 +1,29 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Box, Select, Flex, Text } from "@chakra-ui/react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { exampleImageState, selectedModelState } from "@/state/selected_model-atoms";
+import { Box, Select, Flex } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState } from "@/state/selected_model-atoms";
 import type { SelectedModel } from "@/types";
 
 type ToolOptionsProps = {
-  tool: string; // Assuming tool is a string. Adjust the type as needed.
+  tool: string;
 };
 
 const ToolOptions = ({ tool }: ToolOptionsProps) => {
-  const [selectedModel, setSelectedModel] = useRecoilState(selectedModelState);
+  const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
+  const [selectedModelFriendlyName, setSelectedModelFriendlyName] = useRecoilState(selectedModelFriendlyNameState);
   const [exampleImage, setExampleImage] = useRecoilState(exampleImageState);
-  const [modelsData, setModelsData] = useState<SelectedModel[]>([]); // Initialize with an appropriate type
+  const [modelsData, setModelsData] = useState<SelectedModel[]>([]);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setLoading(true);
+    getModels();
+  }, [tool]);
 
   const getModels = async () => { 
-    let response;
     try {
-      switch(tool) {
-        case "imageEditing":
-          response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
-          break;
-        case "imageCreation":
-          response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
-          break;
-        case "imageNarratives":
-          response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
-          break;
-      }
+      const response = await fetchModelData(tool);
       if (response && response.ok) {
         const { data } = await response.json();
         setModelsData(data);
@@ -37,37 +32,48 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
       }
     } catch (error) {
       console.error("Error fetching models: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchModelData = async (tool: string) => {
+    switch(tool) {
+      case "imageEditing":
+        return fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
+      
+        case "imageCreation":
+        return fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
+      
+        case "imageNarratives":
+        return fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
+      
+        default:
+        return Promise.reject("Invalid tool type");
     }
   }
-  
-useEffect(() => {
-  getModels();
-}, [tool]);
 
-const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  const selectedModelId = event.target.value;
-  const selection = modelsData.find((model: any) => model.id === selectedModelId);
-
-  if (selection) {
-    setSelectedModel({ 
-      id: selection.id, 
-      friendlyName: selection.friendlyName || "", 
-      shortDesc: selection.shortDesc || "", 
-      example: selection.example || ""
-    });
-    setExampleImage(selection.example || "");
-  } else {
-    console.log(`No model found with id: ${selectedModelId}`);
+  const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSelectedModelId = event.target.value;
+    setSelectedModelId(newSelectedModelId);
+    const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
+    if (selectedModel) {
+      setExampleImage(selectedModel.example || "");
+      setSelectedModelFriendlyName(selectedModel.friendlyName);
+    console.log("handleSelectionChange: ", selectedModelFriendlyName, selectedModelId)
   }
 };
 
 
+  if (loading) {
+    return <div>Loading...</div>; // Or any loading indicator
+  }
 
-  return modelsData ? (
+  return (
     <Box maxWidth="640px" p="5px">
       <Flex>
         <Select variant="flushed" width="100%" onChange={handleSelectionChange} size="xs">
-        {modelsData.map((model: SelectedModel) => (
+          {modelsData.map(model => (
             <option key={model.id} value={model.id}>
               {model.friendlyName}
             </option>
@@ -75,7 +81,7 @@ const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         </Select>
       </Flex>
     </Box>
-  ) : null;
+  );
 };
 
 export default ToolOptions;

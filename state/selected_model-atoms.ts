@@ -1,17 +1,17 @@
 import { atom } from "recoil";
 
-export const selectedModelState = atom({
-    key: "selectedModelState",
-    default: {
-      id: "",
-      friendlyName: "",
-      shortDesc: "",
-      example: "", // or example?: string if it's optional
-    },
+export const selectedModelFriendlyNameState = atom({
+    key: "selectedModelFriendlyNameState",
+    default: "",
   });
   
 
 export const exampleImageState = atom({
     key: 'exampleImageState',
+    default: "",
+  });
+
+  export const selectedModelIdState = atom ({
+    key: "selectedModelIdState",
     default: "",
   });

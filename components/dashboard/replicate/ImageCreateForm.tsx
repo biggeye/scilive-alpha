@@ -4,26 +4,28 @@ import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 import { FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
 import { createClient } from "@/utils/supabase/client";
-
+import { useRecoilValue } from "recoil";
+import { selectedModelIdState } from "@/state/selected_model-atoms";
 interface ImageCreateFormProps {
   modelId: string;
   supabase: any;
   userId: string;
 }
 
-const ImageCreateForm: React.FC<ImageCreateFormProps> = ({ modelId }) => {
+const ImageCreateForm: React.FC<ImageCreateFormProps> = () => {
   const { userProfile } = useUserContext();
   const userId = userProfile.id;
   const [userInput, setUserInput] = useState<string>("");
   const supabase = createClient();
   const { isLoading, error, submitImageCreate } = useImageCreateSubmit(supabase);
-
+  const modelId = useRecoilValue(selectedModelIdState);
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevents the default form submission action
-
+    console.log("userId: ", userId);
+    console.log("modelId: ", modelId);
     if (!modelId || !userId) {
       console.error("No model selected or user not found");
       return;

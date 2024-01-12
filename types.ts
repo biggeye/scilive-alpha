@@ -27,10 +27,10 @@ export interface UserProfile {
 
 export interface SelectedModel {
   id: string,
-  name?: string | "",
-  friendlyName?: string | "",
-  example?: string | "",
-  shortDesc?: string | "",
+  name: string,
+  friendlyName: string,
+  example: string,
+  shortDesc: string,
 }
 
 

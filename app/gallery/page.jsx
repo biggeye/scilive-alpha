@@ -36,7 +36,7 @@ const Gallery = () => {
       if (error) throw error;
 
       // Remove the item from the state to update the UI
-      setContentItems(prevItems => prevItems.filter(item => item.content_id !== contentId));
+      setContentItems(prevItems => prevItems.filter(item => item.content_id !== content_id));
     } catch (error) {
       console.error("Error deleting content:", error);
     }
@@ -48,7 +48,7 @@ const Gallery = () => {
         <Box bgColor="white" borderRadius="5px" padding="5px" key={item.content_id} maxWidth="100px">
       
               <Image borderRadius="4px" src={item.url} alt={item.content_type} width="100" height="100" />
-              <Button bgColor="orange" onClick={handleDeleteClick} size="xxs">del</Button>
+              <Button bgColor="orange" onClick={() => handleDeleteClick(item.content_id)} size="xxs">del</Button>
         </Box>
       ))}
     </Box>

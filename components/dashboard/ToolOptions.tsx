@@ -26,6 +26,7 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
       const response = await fetchModelData(tool);
       if (response && response.ok) {
         const { data } = await response.json();
+        setSelectedModelFriendlyName(data.friendlyName);
         setModelsData(data);
       } else {
         console.error("ToolOptions: no data fetched or error in response.");
@@ -39,18 +40,26 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
 
   const fetchModelData = async (tool: string) => {
     switch(tool) {
-      case "imageEditing":
-        return fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
-      
+        
+        case "imageEditing":
+        const img2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
+        console.log("ToolOptions (fetch models): ", img2imgResponse)
+        return img2imgResponse;
+
         case "imageCreation":
-        return fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
-      
+        const txt2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
+        console.log("ToolOptions (fetch models): ", txt2imgResponse)
+        return txt2imgResponse;
+        
         case "imageNarratives":
-        return fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
-      
+        const img2txtResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
+        console.log("ToolOptions (fetch models): ", img2txtResponse)
+        return img2txtResponse;
+        
         default:
         return Promise.reject("Invalid tool type");
     }
+
   }
 
   const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -59,7 +68,6 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
     if (selectedModel) {
       setExampleImage(selectedModel.example || "");
-      setSelectedModelFriendlyName(selectedModel.friendlyName);
     console.log("handleSelectionChange: ", selectedModelFriendlyName, selectedModelId)
   }
 };
@@ -75,7 +83,7 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
         <Select variant="flushed" width="100%" onChange={handleSelectionChange} size="xs">
           {modelsData.map(model => (
             <option key={model.id} value={model.id}>
-              {model.friendlyName}
+              {selectedModelFriendlyName}
             </option>
           ))}
         </Select>

@@ -11,7 +11,7 @@ import {
   imageNarra
 } from "@/state/prediction-atoms";
 import { exampleImageState } from "@/state/selected_model-atoms";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, CircularProgress, useDisclosure } from "@chakra-ui/react";
+import { Modal, ModalFooter, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, CircularProgress, useDisclosure } from "@chakra-ui/react";
 import { fetchQuotes } from "@/lib/openai/fetchQuotes";
 import React, { useState, useEffect } from "react";
 import {
@@ -37,24 +37,20 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const predictionProgress = useRecoilValue(predictionProgressState);
   const predictionResult = useRecoilValue(predictionResultState);
   const prediction = useRecoilValue(predictionState);
-  const progress = useRecoilValue(predictionProgressState);
   const error = useRecoilValue(predictionErrorState);
   const finalPrediction = useRecoilValue(finalPredictionState);
 
   const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
-  const { isOpen: Open, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [quotes, setQuotes] = useState([]);
   const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
 
-useEffect(() => {
-    if (predictionResult >= 1) {
-      fetchQuotes().then((quotes) => {
-        setQuotes(quotes);
-        setIsLoadingQuotes(false);
-      });
-      onModalOpen();
+  useEffect(() => {
+    if (predictionResult) {
+      onOpen(); // Open the modal when prediction results are available
+      setDisplayedImage(null);
     }
   }, [predictionResult]);
 
@@ -81,6 +77,12 @@ useEffect(() => {
     }
   }, [exampleImage]);
 
+  const handleCloseModal = () => {
+    if (finalPrediction || error) { // Replace this condition with your process completion condition
+      onClose(); // Close the modal only if the process is complete
+    }
+  };
+
   return (
     <Card>
       <CardBody>
@@ -105,38 +107,42 @@ useEffect(() => {
       </CardBody>
 
       <CardFooter>
-        <Flex
+        
+      </CardFooter>
+
+      <Modal isOpen={isOpen} onClose={handleCloseModal} isClosable={false}>
+     
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>    {predictionResult && <Tag size="xs">{predictionResult}</Tag>}</ModalHeader>
+ 
+        <ModalBody>
+       <Center>        <CircularProgress isIndeterminate color="green.300" />
+        </Center>
+      
+           
+    <ModalFooter>
+    <Flex
           width="100%"
-          direction="column"
           bgColor="gray"
+          direction="column"
+          borderRadius="md"
           borderColor="darkgrey"
           borderWidth={0.5}
           justifyContent="space-around"
         >
-          <Spacer />
-          {progress && <Progress value={progress} />}
-          <Spacer />
-          {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
-          <Spacer />
-        </Flex>
-      </CardFooter>
+       
 
-      <Modal isOpen={Open} onClose={onModalClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Random Quotes</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {isLoadingQuotes ? (
-              <Center>
-                <CircularProgress isIndeterminate color="green.300" />
-              </Center>
-            ) : (
-              quotes.map((quote, index) => <Text key={index}>{quote}</Text>)
-            )}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          <Spacer />
+          {predictionProgress && <Progress value={predictionProgress} />}
+          <Spacer />
+      
+  
+        </Flex>
+    </ModalFooter>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
     </Card>
   );
 };

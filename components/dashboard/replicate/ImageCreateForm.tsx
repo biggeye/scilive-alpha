@@ -21,7 +21,6 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = () => {
   const modelId = useRecoilValue(selectedModelIdState);
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevents the default form submission action
     console.log("userId: ", userId);

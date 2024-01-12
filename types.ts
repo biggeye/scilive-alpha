@@ -28,7 +28,7 @@ export interface UserProfile {
 export interface SelectedModel {
   id: string,
   name: string,
-  friendlyName: string,
+  friendlyname: string,
   example: string,
   shortDesc: string,
 }

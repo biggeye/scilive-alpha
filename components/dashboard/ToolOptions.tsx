@@ -5,9 +5,9 @@ import { useRecoilState } from "recoil";
 import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState } from "@/state/selected_model-atoms";
 import type { SelectedModel } from "@/types";
 
-type ToolOptionsProps = {
+interface ToolOptionsProps {
   tool: string;
-};
+}
 
 const ToolOptions = ({ tool }: ToolOptionsProps) => {
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
@@ -18,16 +18,32 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
 
   useEffect(() => {
     setLoading(true);
-    getModels();
+    getModels({ tool });
   }, [tool]);
 
-  const getModels = async () => { 
+  useEffect(() => {
+    if (modelsData.length > 0) {
+      setExampleImage("");
+      const firstModel = modelsData[0];
+      setSelectedModelId(firstModel.id);
+      setSelectedModelFriendlyName(firstModel.friendlyname);
+      setExampleImage(firstModel.example || "");
+    }
+  }, [modelsData, setSelectedModelId, setSelectedModelFriendlyName, setExampleImage]);
+  
+
+  const getModels = async ({ tool }: ToolOptionsProps) => {
     try {
       const response = await fetchModelData(tool);
+
       if (response && response.ok) {
-        const { data } = await response.json();
-        setSelectedModelFriendlyName(data.friendlyName);
-        setModelsData(data);
+        const responseBody = await response.json();
+        if (Array.isArray(responseBody.data)) { // Extracting the array from the 'data' key
+          setModelsData(responseBody.data);
+          console.log(modelsData);
+        } else {
+          console.error("Unexpected data format:", responseBody);
+        }
       } else {
         console.error("ToolOptions: no data fetched or error in response.");
       }
@@ -38,28 +54,28 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
     }
   };
 
+
   const fetchModelData = async (tool: string) => {
-    switch(tool) {
-        
-        case "imageEditing":
+    switch (tool) {
+
+      case "imageCreation":
+        const txt2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
+        return txt2imgResponse;
+
+      case "imageEditing":
         const img2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
-        console.log("ToolOptions (fetch models): ", img2imgResponse)
         return img2imgResponse;
 
-        case "imageCreation":
-        const txt2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
-        console.log("ToolOptions (fetch models): ", txt2imgResponse)
-        return txt2imgResponse;
-        
-        case "imageNarratives":
+      case "imageNarratives":
         const img2txtResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
-        console.log("ToolOptions (fetch models): ", img2txtResponse)
         return img2txtResponse;
-        
-        default:
+
+      case "avatarStreaming":
+        const avatarsResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/avatars`);
+        return avatarsResponse;
+      default:
         return Promise.reject("Invalid tool type");
     }
-
   }
 
   const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -67,11 +83,10 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
     setSelectedModelId(newSelectedModelId);
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
     if (selectedModel) {
+      setSelectedModelFriendlyName(selectedModel.friendlyname); // Assuming each model has a 'friendlyName' property
       setExampleImage(selectedModel.example || "");
-    console.log("handleSelectionChange: ", selectedModelFriendlyName, selectedModelId)
-  }
-};
-
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>; // Or any loading indicator
@@ -81,15 +96,16 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
     <Box maxWidth="640px" p="5px">
       <Flex>
         <Select variant="flushed" width="100%" onChange={handleSelectionChange} size="xs">
-          {modelsData.map(model => (
+          {modelsData?.map(model => (
             <option key={model.id} value={model.id}>
-              {selectedModelFriendlyName}
+              {model.friendlyname} {/* Updated to match the property name */}
             </option>
-          ))}
+          )) ?? <option>Loading models...</option>}
         </Select>
       </Flex>
     </Box>
   );
+
 };
 
 export default ToolOptions;

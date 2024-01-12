@@ -48,6 +48,7 @@ const DashboardPage = () => {
         tool = "imageCreation"; // Default tool if no index matches
     }
     setSelectedTab(tool);
+    console.log("handleTabsChange: ", tool)
   };
 
   return (

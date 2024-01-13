@@ -2,7 +2,7 @@
 import { Grid, GridItem, Card, CardHeader, CardBody, CardFooter, FormControl, InputGroup, Input, InputRightAddon, Button, Alert, Text, Center, Box } from "@chakra-ui/react";
 import StreamStatus from "./StreamStatus";
 import { ChangeEvent, FormEvent, useState } from "react";
-import CreateNewStream from "@/lib/d-id/CreateNewStream";
+import { createNewStream } from "@/lib/d-id/createNewStream";
 import { createPeerConnection } from "@/lib/d-id/createPeerConnection";
 import { getSdpReply } from "@/lib/d-id/getSdpReply";
 import { createTalkStream } from "@/lib/d-id/createTalkStream";
@@ -34,7 +34,7 @@ export default function CreateStreamForm()
         console.error("No model selected or user not found");
         return;
       }
-      await CreateNewStream(avatar_url);
+      await createNewStream(avatar_url);
       await createPeerConnection();
       await getSdpReply();
       await createTalkStream();

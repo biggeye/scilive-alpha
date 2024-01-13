@@ -4,7 +4,6 @@ export const selectedModelFriendlyNameState = atom({
     key: "selectedModelFriendlyNameState",
     default: "",
   });
-  
 
 export const exampleImageState = atom({
     key: 'exampleImageState',

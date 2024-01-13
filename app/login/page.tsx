@@ -10,11 +10,12 @@ import {
   FormControl,
   Input,
 } from "@chakra-ui/react";
-import { createClient } from "@/utils/supabase/client";
+import { useUserContext } from "@/lib/UserProvider";
 import { GitHubLogo, GoogleLogo } from "@/public/logos";
 
 function Login() {
-  const supabase = createClient();
+  const { supabase } = useUserContext();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();

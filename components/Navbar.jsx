@@ -19,7 +19,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { createClient } from "@/utils/supabase/client";
 import { useUserContext } from "@/lib/UserProvider";
 
 const DropdownMenu = ({ items }) => {
@@ -49,7 +48,7 @@ const DropdownMenu = ({ items }) => {
 };
 
 const UserMenu = ({ userImageUrl }) => {
-  const supabase = createClient();
+  const { supabase } = useUserContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { userProfile } = useUserContext();
   const userId = userProfile.id;

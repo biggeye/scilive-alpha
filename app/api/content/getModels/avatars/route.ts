@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/route";
 
 
 export async function GET(req: Request) {
@@ -8,7 +8,7 @@ export async function GET(req: Request) {
 
   try {
 
-    const supabase = createClient();
+    const supabase = createClient(req);
     const session = await supabase.auth.getSession();
     // Assuming you want to use the session for something
 

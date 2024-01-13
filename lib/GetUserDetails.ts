@@ -1,5 +1,3 @@
-import { Database } from "@/types_db";
-import { createClient } from "@/utils/supabase/client";
 
 interface UserProfile {
   id: string;
@@ -16,9 +14,8 @@ interface UserDetailsResponse {
   error?: string;
 }
 
-export default async function GetUserDetails(): Promise<UserDetailsResponse> {
 
-const supabase = createClient();
+export default async function GetUserDetails(supabase: any): Promise<UserDetailsResponse> {
 
 const { data: session, error: sessionError } = await supabase.auth.getSession();
 
@@ -33,7 +30,6 @@ if (sessionError || !session) {
     if (!userId) {
       return { error: "Can't find User ID"};
     }
-
     const { data, error } = await supabase
       .from('users') // Removed the generic type argument
       .select(`id, full_name, username, avatar_url, website, email`)
@@ -51,7 +47,7 @@ if (sessionError || !session) {
         avatar_url: data.avatar_url,
         website: data.website,
         email: data.email,
-      }
+      },
     }
   } catch (error) {
     console.error("Error fetching user profile:", error);

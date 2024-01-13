@@ -1,12 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/lib/UserProvider";
 import { Card, CardBody, CardFooter, Box, Center, Flex, FormControl, FormLabel, Input, Button, Spacer } from '@chakra-ui/react';
 
 export const AccountForm = () => {
   const { userState, userProfile, setUserProfile } = useUserContext();
+  const [ isLoading, setIsLoading ] = useState(false);
   const router = useRouter();
+
+
   function handleCancel() {
     router.push("/dashboard");
   }
@@ -19,17 +22,45 @@ export const AccountForm = () => {
     }));
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    // Add the logic to handle form submission
-  }
-  if (userState.loading) return <Center>Loading...</Center>;
-  if (userState.error) return <Center>Error: {userState.error}</Center>;
+    setIsLoading(true);
+    const { supabase } = useUserContext(); 
+  
+    try {
 
+      const { data, error } = await supabase
+        .from('users')
+        .update({
+          full_name: userProfile.full_name,
+          username: userProfile.username,
+          website: userProfile.website,
+
+        })
+        .eq('id', userProfile.id);
+  
+      if (error) {
+        setIsLoading(false);
+        throw error;
+      }
+  
+      console.log('User updated:', data);
+      if (data) {
+        Alert("Profile updated");
+      }
+      setUserProfile(data[0]);
+      setIsLoading(false);
+      router.push('/dashboard'); 
+    } catch (err) {
+      console.error('Error updating user:', err.message);
+      setIsLoading(false);
+    }
+  }
+  
   return (
     <Card>
       
-      <Flex direction="column" alignItems="center" justifyContent="space-evenly">
+      <Flex direction="column" alignItems="center" justifyContent="space-evenly" minWidth="300px">
         <form onSubmit={handleSubmit}>
         <CardBody>
           <FormControl id="fullName">
@@ -64,14 +95,10 @@ export const AccountForm = () => {
           </CardBody>
           <CardFooter>
           <Flex direction="row" justifyContent="space-evenly">
-            <Button padding={".5px"} mt={2} colorScheme="teal" type="submit">
+            <Button size="xxs" padding={".5px"} mt={2} p={2} colorScheme="teal" type="submit" disabled={isLoading}>
               Update
             </Button>
-            <Spacer />
-            <Button padding={".5px"} mt={2} colorScheme="gray" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </Flex>
+           </Flex>
           </CardFooter>
         </form>
       </Flex>

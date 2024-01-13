@@ -1,14 +1,14 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useUserContext } from '@/lib/UserProvider';
 import { Image, Box, Card, CardBody, CardFooter, CardHeader, Button } from '@chakra-ui/react';
 
 const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
+  const { supabase } = useUserContext(supabase);
 
   useEffect(() => {
     const fetchData = async () => {
-      const supabase = createClient();
       try {
         const { data, error } = await supabase
           .from("master_content")
@@ -27,7 +27,6 @@ const Gallery = () => {
     const confirmation = window.confirm("Are you sure you want to delete this item?");
     if (!confirmation) return;
 
-    const supabase = createClient();
     try {
       const { error } = await supabase
         .from("master_content")

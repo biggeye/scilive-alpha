@@ -3,7 +3,6 @@ import React, { useState, FormEvent, ChangeEvent } from "react";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 import { FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
-import { createClient } from "@/utils/supabase/client";
 import { useRecoilValue } from "recoil";
 import { selectedModelIdState } from "@/state/selected_model-atoms";
 
@@ -14,7 +13,7 @@ interface ImageCreateFormProps {
 }
 
 const ImageCreateForm: React.FC<ImageCreateFormProps> = () => {
-  const supabase = createClient();
+  const { supabase } = useUserContext();
   
   const { userProfile } = useUserContext();
   const userId = userProfile.id;
@@ -33,7 +32,7 @@ const ImageCreateForm: React.FC<ImageCreateFormProps> = () => {
       console.error("No model selected or user not found");
       return;
     }
-    await submitImageCreate(userInput, userId, modelId);
+    await submitImageCreate(userInput, userId);
   };
 
   return (

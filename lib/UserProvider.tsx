@@ -6,7 +6,6 @@ import { UserContextType, UserState, UserProfile } from '@/types';
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
-
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
   const [currentUser, setCurrentUser] = useState(null);
@@ -30,7 +29,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchUserDetails = async () => {
       try {
-        const userDetails = await GetUserDetails();
+        const userDetails = await GetUserDetails(supabase);
         if (userDetails.error) {
           setUserState({ profile: false, error: userDetails.error, loading: false });
           return;
@@ -85,6 +84,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     </UserContext.Provider>
   );
   };
+  
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

@@ -1,8 +1,8 @@
 'use client'
-import { createClient } from "@/utils/supabase/client";
+import { useUserContext } from "@/lib/UserProvider";
 
 export default function GitHubLoginButton() {
-    const supabase = createClient();
+    const { supabase } = useUserContext();
 
     const handleGitHubLogin = async () => {
         await supabase.auth.signInWithOAuth({

@@ -3,7 +3,6 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageEditSubmit } from '@/lib/replicate/useImageEditSubmit';
 import { Card, InputGroup, Input, Button, FormControl, Alert, Flex, Spacer, InputLeftAddon, InputRightAddon, Grid, GridItem } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
-import { createClient } from '@/utils/supabase/client';
 import { userImageUploadState } from '@/state/prediction-atoms';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { selectedModelIdState } from '@/state/selected_model-atoms';
@@ -16,7 +15,7 @@ interface ImageEditFormProps {
 }
 
 const ImageEditForm: React.FC<ImageEditFormProps> = () => {
-  const supabase = createClient();
+  const { supabase } = useUserContext();
   const { userProfile } = useUserContext();
   const userId = userProfile.id;
   const [userInput, setUserInput] = useState<string>("");

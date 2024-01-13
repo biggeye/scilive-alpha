@@ -5,7 +5,7 @@ import { Image, Box, Card, CardBody, CardFooter, CardHeader, Button } from '@cha
 
 const Gallery = () => {
   const [contentItems, setContentItems] = useState([]);
-  const { supabase } = useUserContext(supabase);
+  const { supabase } = useUserContext();
 
   useEffect(() => {
     const fetchData = async () => {

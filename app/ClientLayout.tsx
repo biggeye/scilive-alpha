@@ -18,8 +18,6 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
             <Navbar />
             <Box as="main" className="main">
               {children}
-              <Button className="chatButton" onClick={() => setChatOpen(true)}>Open Chat</Button>
-              <ChatAssistant isOpen={isChatOpen} onClose={() => setChatOpen(false)} />
             </Box>
           </HMSRoomProvider>
         </ChakraProvider>

@@ -1,5 +1,5 @@
 'use client'
-import { Card, CardHeader, CardBody, CardFooter, FormControl, InputGroup, Input, InputRightAddon, Button, Alert, Text, Center, Box } from "@chakra-ui/react";
+import { Grid, GridItem, Card, CardHeader, CardBody, CardFooter, FormControl, InputGroup, Input, InputRightAddon, Button, Alert, Text, Center, Box } from "@chakra-ui/react";
 import StreamStatus from "./StreamStatus";
 import { ChangeEvent, FormEvent, useState } from "react";
 import CreateNewStream from "@/lib/d-id/CreateNewStream";
@@ -8,6 +8,7 @@ import { getSdpReply } from "@/lib/d-id/getSdpReply";
 import { createTalkStream } from "@/lib/d-id/createTalkStream";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { exampleImageState } from "@/state/selected_model-atoms";
+import { userImageUploadState } from "@/state/prediction-atoms";
 
 export default function CreateStreamForm() 
 {
@@ -15,11 +16,18 @@ export default function CreateStreamForm()
     const [error, setError] = useState(null);
     const [avatarInput, setAvatarInput] = useState("");
     const avatar_url = useRecoilValue(exampleImageState);
-
+    const [userInFile, setUserInFile] = useState<File | null>(null);
+    const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
+   
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setAvatarInput(e.target.value);
+    const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        setUserInFile(e.target.files[0]);
+        setUserImageUpload(e.target.files[0]);
+      }
+    };
 
-
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleAvatarSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault(); // Prevents the default form submission action
   
       if (!avatar_url) {
@@ -33,9 +41,22 @@ export default function CreateStreamForm()
     };
 
     return(
-        <>
-        <FormControl>
-        <form onSubmit={handleSubmit}>
+      <>
+      <FormControl>
+  
+      <form onSubmit={handleAvatarSubmit}>
+        <Grid templateRows="2">
+          <GridItem>
+        <Input
+              padding=".5"
+              size="xs"
+              className="dynamic-input-upload"
+              type="file"
+              accept="image/*"
+              onChange={onImageChange}
+              width="50%"
+            />
+</GridItem>
           <InputGroup>
             <Input
               size="sm"
@@ -45,6 +66,7 @@ export default function CreateStreamForm()
               disabled={isLoading}
               onChange={handleInputChange}
             />
+
             <InputRightAddon> <Button type="submit" disabled={isLoading} size="sm">
               {isLoading ? "Processing..." : "Submit"}
             </Button></InputRightAddon>
@@ -52,6 +74,7 @@ export default function CreateStreamForm()
   
           </InputGroup>
           {error && <Alert>{error}</Alert>}
+        </Grid>
         </form>
       </FormControl>
       <StreamStatus />

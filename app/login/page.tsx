@@ -87,6 +87,7 @@ function Login() {
       <FormControl>
         <VStack>
           <Input
+            id={`email-input`}
             size="xs"
             w="50%"
             mt="3"
@@ -96,6 +97,7 @@ function Login() {
             placeholder="E-mail"
           />
           <Input
+            id={`pw-input`}
             size="xs"
             w="50%"
             mb="3"

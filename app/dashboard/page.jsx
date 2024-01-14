@@ -1,17 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  GridItem,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  Center,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
+import React, { useState, useEffect } from 'react';
+import { Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
+import GalleryThumbnail from '@/components/GalleryThumbnail'; // New Component for Gallery Thumbnail
 import ToolOptions from "@/components/dashboard/ToolOptions";
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
@@ -23,9 +13,8 @@ const DashboardPage = () => {
   const [selectedTab, setSelectedTab] = useState("imageCreation");
 
   useEffect(() => {
-    // Call handleTabsChange with the default index
-    handleTabsChange(0); // Assuming index 0 corresponds to "imageCreation"
-  }, []);
+      handleTabsChange(0);
+      }, []);
 
 
   const handleTabsChange = (index) => {
@@ -47,10 +36,11 @@ const DashboardPage = () => {
         tool = "imageCreation"; // Default tool if no index matches
     }
     setSelectedTab(tool);
-    console.log("handleTabsChange: ", tool)
   };
 
   return (
+    <Box border="2px solid" borderColor="techBorder" h="100vh" w="100vw" position="relative">
+   
     <Grid
       templateRows="3"
       templateColumns="1"
@@ -70,35 +60,29 @@ const DashboardPage = () => {
           </TabList>
           <ToolOptions tool={selectedTab} />
         </GridItem>
-        <GridItem overflowY="auto" >
-          <DisplayResults />
-        </GridItem>
-        <GridItem
-          position="fixed"
-          marginRight="auto"
-          left="0"
-          bottom="0"
-          width="full"
-          bgGradient="linear(to-t, silver 50%, transparent)"
-          
-        >
-          <TabPanels>
-            <TabPanel>
-              <ImageCreateForm />
-            </TabPanel>
-            <TabPanel>
-              <ImageEditForm />
-            </TabPanel>
-            <TabPanel>
-              <ImageNarratives />
-            </TabPanel>
-            <TabPanel>
-              <CreateStreamForm />
-            </TabPanel>
-          </TabPanels>
-        </GridItem>
-      </Tabs>
-    </Grid>
+        <GridItem overflowY="auto">
+            <DisplayResults />
+          </GridItem>
+          <GridItem>
+            <TabPanels>
+              <TabPanel>
+                <ImageCreateForm />
+              </TabPanel>
+              <TabPanel>
+                <ImageEditForm />
+              </TabPanel>
+              <TabPanel>
+                <ImageNarratives />
+              </TabPanel>
+              <TabPanel>
+                <CreateStreamForm />
+              </TabPanel>
+            </TabPanels>
+          </GridItem>
+        </Tabs>
+      </Grid>
+      <GalleryThumbnail position="fixed" bottom="0" right="0" /> {/* New Gallery Thumbnail */}
+    </Box>
   );
 };
 

@@ -24,7 +24,6 @@ export const sciLiveTheme = extendTheme({
   styles: {
     global: {
         main: {
-          height: '90vh',
           bgGradient: "linear(to-b, silver 50%, white 75%)",
             },
       input: {

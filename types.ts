@@ -50,3 +50,23 @@ export type SessionClientAnswer = string; // or an object if it's more complex
 export type Candidate = string; // or an object if it's more complex
 export type SdpMid = string;
 export type SdpMLineIndex = number; // Assuming it's a number
+
+
+
+export type AuthProvider =
+  | 'apple'
+  | 'azure'
+  | 'bitbucket'
+  | 'discord'
+  | 'facebook'
+  | 'github'
+  | 'gitlab'
+  | 'google'
+  | 'keycloak'
+  | 'linkedin'
+  | 'notion'
+  | 'slack'
+  | 'spotify'
+  | 'twitch'
+  | 'twitter'
+  | 'workos';

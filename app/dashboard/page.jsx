@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
-import GalleryThumbnail from '@/components/GalleryThumbnail'; // New Component for Gallery Thumbnail
 import ToolOptions from "@/components/dashboard/ToolOptions";
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
@@ -39,7 +38,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <Box border="2px solid" borderColor="techBorder" h="100vh" w="100vw" position="relative">
+
    
     <Grid
       templateRows="3"
@@ -81,8 +80,6 @@ const DashboardPage = () => {
           </GridItem>
         </Tabs>
       </Grid>
-      <GalleryThumbnail position="fixed" bottom="0" right="0" /> {/* New Gallery Thumbnail */}
-    </Box>
   );
 };
 

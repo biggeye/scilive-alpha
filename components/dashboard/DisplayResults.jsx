@@ -101,23 +101,17 @@ const DisplayResults = ({ tool, selectedImage }) => {
       <CardBody>
         {displayedImage ? (
           <Image
-            height="auto"
-            minWidth="350px"
-            minHeight="50vh"
-            width="75vw"
+            maxHeight="50vh"
+            width="auto"
             src={displayedImage}
-            maxWidth="1080px"
             alt="Selected or Processed"
             boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
             borderRadius=".2rem"
           />
         ) : (
           <Skeleton
-            minWidth="350px"
-            minHeight="50vh"
-            width="75vw"
-            maxWidth="1080px"
-            height="auto"
+            maxHeight="50vh"
+            width="auto"
             boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
           />
         )}

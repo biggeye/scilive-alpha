@@ -58,7 +58,7 @@ const DisplayResults = () => {
     }
   }, [
     finalPrediction,
-    userImageUpload,
+    userImagePreview,
     exampleImage
   ]);
 

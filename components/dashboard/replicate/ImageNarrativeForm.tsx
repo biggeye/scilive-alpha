@@ -2,16 +2,17 @@
 
 import { Alert, Card, CardHeader, CardBody, CardFooter, FormControl, Grid, GridItem, Input, InputGroup, Text, InputRightAddon, Button } from "@chakra-ui/react";
 import { useState, ChangeEvent } from "react";
-import { useRecoilState } from "recoil";
-import { imageNarrativesPromptState, imageNarrativesUploadState } from "@/state/prediction-atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { imageNarrativesPromptState, imageNarrativesUploadState, predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
 import { useImageNarrativeSubmit } from "@/lib/replicate/useImageNarrativeSubmit";
 
 function ImageNarrativeForm () {
-    const { isLoading, error, submitImageNarrative, displayedResponse } = useImageNarrativeSubmit();
+    const { submitImageNarrative, displayedResponse } = useImageNarrativeSubmit();
     const [imageNarrativesUpload, setImageNarrativesUpload] = useRecoilState(imageNarrativesUploadState);
     const [imageNarrativesPrompt, setImageNarrativesPrompt] = useRecoilState(imageNarrativesPromptState);
     const [userInput, setUserInput] = useState<string>("");
-   
+    const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+    const predictionError = useRecoilValue(predictionErrorState);
     const handleUserInFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setImageNarrativesUpload(e.target.files[0]);
@@ -64,7 +65,7 @@ function ImageNarrativeForm () {
                             </InputRightAddon>
                         </InputGroup>
                     </Grid>
-                    {error && <Alert>{error}</Alert>}
+                    {predictionError && <Alert>{predictionError}</Alert>}
                 </form>
    
         </FormControl>

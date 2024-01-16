@@ -93,3 +93,5 @@ const ImageEditForm = () => {
     </FormControl>
   );
 }
+
+export default ImageEditForm;

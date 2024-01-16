@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from '@/lib/UserProvider';
-import { Image, Box, Button, Switch, FormControl, FormLabel } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalBody, ModalContent, Image, Box, Button, Switch, FormControl, FormLabel } from '@chakra-ui/react';
 import GalleryThumbnail from '@/components/GalleryThumbnail';
 
 // Define the type for each content item

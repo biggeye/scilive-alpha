@@ -33,7 +33,7 @@ const Gallery = () => {
     fetchData();
   }, []);
 
-  const handleDeleteClick = async (content_id) => {
+  const handleDeleteClick = async (content_id: any) => {
     // ... existing delete logic ...
   };
 

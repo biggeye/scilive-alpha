@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
+predictionIsLoadingState,
   predictionResultState,
   predictionErrorState,
   predictionStatusState,
@@ -36,7 +37,7 @@ const DisplayResults = () => {
   const setUserImageUpload = useSetRecoilState(userImageUploadState);
 
   const [displayedImage, setDisplayedImage] = useState(null);
-
+  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionStatus = useRecoilValue(predictionStatusState);
@@ -69,8 +70,16 @@ const DisplayResults = () => {
       </CardHeader>
 
       <CardBody>
-        {displayedImage ? (
-          <Image
+        {predictionIsLoading ? (
+                    <Skeleton
+
+            maxHeight="50vh"
+            width="auto"
+            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
+          />
+       
+        ) : (
+   <Image
 
             maxHeight="50vh"
             width="auto"
@@ -78,13 +87,6 @@ const DisplayResults = () => {
             alt="Selected or Processed"
             boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
             borderRadius=".2rem"
-          />
-        ) : (
-          <Skeleton
-
-            maxHeight="50vh"
-            width="auto"
-            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
           />
         )}
       </CardBody>

@@ -81,8 +81,7 @@ const DashboardPage = () => {
 
         {/* New Gallery Thumbnail */}
       </Grid>
-      <GalleryThumbnail position="fixed" bottom="0" right="0" /> {/* New Gallery Thumbnail */}
-    </Box>
+ 
   );
 };
 

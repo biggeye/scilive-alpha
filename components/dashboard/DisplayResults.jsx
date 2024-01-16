@@ -1,15 +1,4 @@
 "use client";
-import {
-  predictionResultState,
-  predictionErrorState,
-  predictionStatusState,
-  predictionProgressState,
-  userImageUploadState,
-  finalPredictionState,
-  modelBootProgressState,
-  modelBootResultState,
-} from "@/state/prediction-atoms";
-import { exampleImageState } from "@/state/selected_model-atoms";
 import React, { useState, useEffect } from "react";
 import {
   useTheme,
@@ -28,45 +17,48 @@ import {
   Skeleton,
   CircularProgress,
 } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  predictionResultState,
+  predictionErrorState,
+  predictionStatusState,
+  predictionProgressState,
+  userImageUploadState,
+  finalPredictionState,
+  modelBootProgressState,
+  modelBootResultState,
+} from "@/state/prediction-atoms";
+import { exampleImageState } from "@/state/selected_model-atoms";
 
 const DisplayResults = ({ tool, selectedImage }) => {
   const theme = useTheme();
+  const setExampleImage = useSetRecoilState(exampleImageState);
+  const setUserImageUpload = useSetRecoilState(userImageUploadState);
 
- 
   const [displayedImage, setDisplayedImage] = useState(null);
 
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
-
   const predictionStatus = useRecoilValue(predictionStatusState);
   const predictionProgress = useRecoilValue(predictionProgressState);
   const predictionResult = useRecoilValue(predictionResultState);
-  const error = useRecoilValue(predictionErrorState);
   const finalPrediction = useRecoilValue(finalPredictionState);
-
   const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
   useEffect(() => {
     if (finalPrediction) {
       setDisplayedImage(finalPrediction);
-    }
-  }, [finalPrediction]);
-
-  useEffect(() => {
-    if (userImageUpload) {
+      setExampleImage(null);
+      setUserImageUpload(null);
+    } else if (userImageUpload) {
       const objectURL = URL.createObjectURL(userImageUpload);
       setDisplayedImage(objectURL);
       return () => URL.revokeObjectURL(objectURL);
-    }
-  }, [userImageUpload]);
-
-  useEffect(() => {
-    if (exampleImage) {
+    } else if (exampleImage) {
       setDisplayedImage(exampleImage);
     }
-  }, [exampleImage]);
+  }, [finalPrediction, userImageUpload, exampleImage, setExampleImage, setUserImageUpload]);
 
   return (
     <Card>
@@ -80,8 +72,8 @@ const DisplayResults = ({ tool, selectedImage }) => {
 
       <CardBody>
         {displayedImage ? (
-          <Image 
-          animation={theme.animations.fadeIn || 'none'} 
+          <Image
+            animation={theme.animations.fadeIn || 'none'} 
             maxHeight="50vh"
             width="auto"
             src={displayedImage}
@@ -90,7 +82,8 @@ const DisplayResults = ({ tool, selectedImage }) => {
             borderRadius=".2rem"
           />
         ) : (
-          <Skeleton   animation={theme.animations.fadeIn || 'none'} 
+          <Skeleton
+            animation={theme.animations.fadeIn || 'none'} 
             maxHeight="50vh"
             width="auto"
             boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
@@ -109,7 +102,7 @@ const DisplayResults = ({ tool, selectedImage }) => {
           justifyContent="space-around"
         >
           {modelBootProgress && (
-            <Center  animation={theme.animations.fadeIn || 'none'} >
+            <Center animation={theme.animations.fadeIn || 'none'}>
               {modelBootResult}
               <Progress value={modelBootProgress} />
             </Center>
@@ -117,7 +110,7 @@ const DisplayResults = ({ tool, selectedImage }) => {
           <Spacer />
           {predictionProgress >= 1 && (
             <Center>
-              <Box animation={theme.animations.fadeIn || 'none'} >
+              <Box animation={theme.animations.fadeIn || 'none'}>
                 <CircularProgress
                   value={predictionProgress}
                   isIndeterminate={predictionProgress === null}

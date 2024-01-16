@@ -41,6 +41,11 @@ export const sciLiveTheme = extendTheme({
         borderColor: 'onyx',
         color: 'onyx',
       },
+      link: {
+        color: 'onyx',
+        padding: '5px',
+        margin: '5px',
+           },
       'a': {
         color: 'inherit',
         textDecoration: 'none',

@@ -2,8 +2,9 @@
 
 import React, { useState, FormEvent } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Image, Center, FormControl, FormLabel, Input, Button, Box, Text, Link } from '@chakra-ui/react';
+import { Switch, CardHeader, Card, CardBody, CardFooter, Flex, InputGroup, InputRightAddon, Image, Center, FormControl, FormLabel, Input, Button, Box, Text, Link, Spacer } from '@chakra-ui/react';
 import { github, google } from '@/components/Auth/Icons';
+import { Router } from 'next/router';
 
 interface FormData {
   email: string;
@@ -12,19 +13,36 @@ interface FormData {
 
 const Login: React.FC = () => {
   const supabase = createClient();
-  const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
+  const [isLoginMode, setIsLoginMode] = useState(true); // New state for toggling between Login and Signup
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const toggleMode = () => {
+    setIsLoginMode(!isLoginMode);
+    setErrorMsg(null); // Reset error message on mode change
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
-    });
+    let error;
+
+    if (isLoginMode) {
+      const response = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+      error = response.error;
+    } else {
+      const response = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+      });
+      error = response.error;
+    }
 
     if (error) {
       setErrorMsg(error.message);
@@ -41,51 +59,73 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Center>
-      <Text className="w-full text-center" fontSize="2xl">Sign In</Text>
-      <form className="column w-full" onSubmit={handleSubmit}>
-        <FormControl id="email">
-          <FormLabel>Email</FormLabel>
-          <Input
-            name="email"
-            placeholder="jane@acme.com"
-            type="email"
-            onChange={handleChange}
-            value={formData.email}
-          />
-        </FormControl>
+    <Card m="3rem" width="90%">
+       <CardHeader display="flex">
+        {isLoginMode ? 'Login' : 'Signup'}
+        <Spacer />
+        <Switch isChecked={!isLoginMode} onChange={toggleMode}>Sign-up</Switch>
+      </CardHeader>
+   <CardBody>
+    <Flex alignItems="center" direction="column">
+      <form onSubmit={handleSubmit}>
+        <Flex direction="row" justifyContent="space-between">
+          <InputGroup>
+            <FormControl id="email">
 
-        <FormControl id="password">
-          <FormLabel>Password</FormLabel>
-          <Input
-            name="password"
-            type="password"
-            onChange={handleChange}
-            value={formData.password}
-          />
-        </FormControl>
+              <Input
+       
+              borderColor="onyx"
+                name="email"
+                placeholder="username@domain.com"
+                type="email"
+                onChange={handleChange}
+                value={formData.email}
+              />
+            </FormControl>
 
-        <Link href="/reset-password" className="link w-full">
-          Forgot your password?
+            <FormControl id="password">
+
+              <Input
+          
+              borderColor="onyx"
+              placeholder="password"
+                name="password"
+                type="password"
+                onChange={handleChange}
+                value={formData.password}
+              />
+            </FormControl>
+            <InputRightAddon>
+              <Button type="submit" width="100%">
+                {isLoginMode ? 'Login' : 'Signup'}
+              </Button>
+            </InputRightAddon>
+          </InputGroup>
+        </Flex>
+
+
+<Center>
+
+ 
+<Link size="sm" href="/reset-password" className="link w-full">
+          Reset Password
         </Link>
-
-        <Button mt={4} colorScheme="blue" type="submit">
-          Submit
-        </Button>
+      
+        </Center>
       </form>
       {errorMsg && <Text color="red.600">{errorMsg}</Text>}
-      <Link href="/sign-up" className="link w-full">
-        Don&apos;t have an account? Sign Up.
-      </Link>
-      <Box mt={4}>
-        <Button leftIcon={google} colorScheme="red" onClick={() => handleOAuthLogin('google')}>
-          Sign in with Google
-        </Button>
-        <Button leftIcon={github} colorScheme="gray" onClick={() => handleOAuthLogin('github')}>
-          Sign in with GitHub
-        </Button>
-      </Box>
-    </Center>
+      </Flex>
+      </CardBody>
+<CardFooter display="flex" justifyContent="space-around">
+      <Spacer />
+        <Button leftIcon={google()} colorScheme="gray" onClick={() => handleOAuthLogin('google')} />
+        <Spacer />
+        <Button leftIcon={github()} colorScheme="gray" onClick={() => handleOAuthLogin('github')} />
+     
+<Spacer />
+      </CardFooter>
+
+    </Card>
   );
 };
 

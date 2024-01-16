@@ -1,3 +1,4 @@
+import { Text } from "@chakra-ui/react";
 const PrivacyPolicy = () => {
     return (
       <div>

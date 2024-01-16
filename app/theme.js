@@ -1,5 +1,15 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, keyframes } from "@chakra-ui/react";
 import { fonts } from './fonts';
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: scale(1); }
+`;
+
+const fadeOut = keyframes`
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0); }
+`;
 
 export const sciLiveTheme = extendTheme({
   fonts: {
@@ -50,5 +60,9 @@ export const sciLiveTheme = extendTheme({
     md: "sm",
     lg: "md",
     xl: "lg"
+  },
+  animations: {
+    fadeIn: `${fadeIn} 0.3s ease-in-out`,
+    fadeOut: `${fadeOut} 0.3s ease-in-out`
   }
 });

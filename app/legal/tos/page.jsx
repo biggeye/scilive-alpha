@@ -1,9 +1,9 @@
-import { Center, Card, CardHeader, CardBody, CardFooter, Box, Center } from "@chakra-ui/react"; 
+import { Center, Card, CardHeader, CardBody, CardFooter, Box } from "@chakra-ui/react"; 
 
 const TermsOfService = () => {
   return (
     <Center>
-<Text size="xl">Terms of Service for Scilive.Cloud</Text>
+      <Text size="xl">Terms of Service for Scilive.Cloud</Text>
       <Text size="md">Free Account Usage</Text>
       <Text>Introduction to Free Account</Text>
       <Text>Scilive.Cloud offers a free account option designed for individual users engaging in creative and non-commercial activities. By signing up for a free account, users agree to adhere to these specific terms in addition to the general Terms of Service of Scilive.Cloud.</Text>

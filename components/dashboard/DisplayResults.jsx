@@ -6,24 +6,13 @@ import {
   predictionProgressState,
   userImageUploadState,
   finalPredictionState,
-  imageNarra,
   modelBootProgressState,
   modelBootResultState,
 } from "@/state/prediction-atoms";
 import { exampleImageState } from "@/state/selected_model-atoms";
-import {
-  Modal,
-  ModalFooter,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  CircularProgress,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { fetchQuotes } from "@/lib/openai/fetchQuotes";
 import React, { useState, useEffect } from "react";
 import {
+  useTheme,
   Flex,
   Card,
   CardBody,
@@ -37,10 +26,14 @@ import {
   Tag,
   Image,
   Skeleton,
+  CircularProgress,
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 
 const DisplayResults = ({ tool, selectedImage }) => {
+  const theme = useTheme();
+
+ 
   const [displayedImage, setDisplayedImage] = useState(null);
 
   const modelBootProgress = useRecoilValue(modelBootProgressState);
@@ -55,23 +48,9 @@ const DisplayResults = ({ tool, selectedImage }) => {
   const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [quotes, setQuotes] = useState([]);
-  const [isLoadingQuotes, setIsLoadingQuotes] = useState(false);
-
-  useEffect(() => {
-    if (predictionStatus==="starting") {
-      onOpen(); // Open the modal when prediction results are available
-      setDisplayedImage(null);
-    }
-  }, [predictionStatus]);
-
   useEffect(() => {
     if (finalPrediction) {
       setDisplayedImage(finalPrediction);
-      onModalClose();
-    } else {
-      setDisplayedImage(selectedImage || exampleImage);
     }
   }, [finalPrediction]);
 
@@ -89,18 +68,20 @@ const DisplayResults = ({ tool, selectedImage }) => {
     }
   }, [exampleImage]);
 
-  const handleCloseModal = () => {
-    if (finalPrediction || error) {
-      // Replace this condition with your process completion condition
-      onClose(); // Close the modal only if the process is complete
-    }
-  };
-
   return (
     <Card>
+      <CardHeader>
+        <Flex display="row" justifyContent="space-between">
+          {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
+          <Spacer />
+          {predictionStatus && <Tag size="xs">Model Status: {predictionStatus}</Tag>}
+        </Flex>
+      </CardHeader>
+
       <CardBody>
         {displayedImage ? (
-          <Image
+          <Image 
+          animation={theme.animations.fadeIn || 'none'} 
             maxHeight="50vh"
             width="auto"
             src={displayedImage}
@@ -109,7 +90,7 @@ const DisplayResults = ({ tool, selectedImage }) => {
             borderRadius=".2rem"
           />
         ) : (
-          <Skeleton
+          <Skeleton   animation={theme.animations.fadeIn || 'none'} 
             maxHeight="50vh"
             width="auto"
             boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
@@ -117,58 +98,37 @@ const DisplayResults = ({ tool, selectedImage }) => {
         )}
       </CardBody>
 
-      <CardFooter></CardFooter>
-
-      <Modal isOpen={isOpen} onClose={handleCloseModal} isClosable={false}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Flex display="row" justifyContent="space-between">
-              {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
-              <Spacer />
-              {predictionStatus}
-            </Flex>
-          </ModalHeader>
-
-          <ModalBody>
-            <Center>
-              <CircularProgress
-                value={predictionProgress}
-                isIndeterminate
-                color="green.300"
-              />
+      <CardFooter>
+        <Flex
+          width="100%"
+          bgColor="gray"
+          direction="column"
+          borderRadius="md"
+          borderColor="darkgrey"
+          borderWidth={0.5}
+          justifyContent="space-around"
+        >
+          {modelBootProgress && (
+            <Center  animation={theme.animations.fadeIn || 'none'} >
+              {modelBootResult}
+              <Progress value={modelBootProgress} />
             </Center>
-
-            <ModalFooter>
-              <Flex
-                width="100%"
-                bgColor="gray"
-                direction="column"
-                borderRadius="md"
-                borderColor="darkgrey"
-                borderWidth={0.5}
-                justifyContent="space-around"
-              >
-                {modelBootProgress && (
-                  <Center>
-                    {modelBootResult}
-                    <Progress value={modelBootProgress} />
-                  </Center>
-                )}
-                <Spacer />
-
-                {predictionProgress && (
-                  <Center>
-                    {predictionResult}
-                    <Progress value={predictionProgress} />
-                  </Center>
-                )}
-                <Spacer />
-              </Flex>
-            </ModalFooter>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          )}
+          <Spacer />
+          {predictionProgress >= 1 && (
+            <Center>
+              <Box animation={theme.animations.fadeIn || 'none'} >
+                <CircularProgress
+                  value={predictionProgress}
+                  isIndeterminate={predictionProgress === null}
+                  color="green.300"
+                />
+                <Text ml={2}>{predictionResult}</Text>
+              </Box>
+            </Center>
+          )}
+        </Flex>
+      </CardFooter>
     </Card>
   );
 };

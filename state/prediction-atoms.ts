@@ -31,7 +31,7 @@ export const predictionErrorState = atom({
 });
 export const predictionProgressState = atom({
   key: 'predictionProgressState',
-  default: null, // Default progress is 0
+  default: 0, // Default progress is 0
 });
 export const predictionResultState = atom({
   key: 'predictionResultState',

@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from '@/lib/UserProvider';
-import { Modal, ModalOverlay, ModalBody, ModalContent, Image, Box, Button, Switch, FormControl, FormLabel } from '@chakra-ui/react';
+import { Center, Modal, ModalOverlay, ModalBody, ModalContent, Image, Box, Button, Switch, FormControl, FormLabel } from '@chakra-ui/react';
 import GalleryThumbnail from '@/components/GalleryThumbnail';
 
 interface ContentItem {
@@ -57,9 +57,11 @@ const Gallery = () => {
             <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
             <ModalContent>
               <ModalBody>
+<Center>
                 {currentIndex !== null && (
                   <Image src={contentItems[currentIndex]?.url} alt={contentItems[currentIndex]?.content_type} />
                 )}
+</Center>
               </ModalBody>
             </ModalContent>
           </Modal>

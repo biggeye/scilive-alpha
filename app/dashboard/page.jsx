@@ -12,13 +12,12 @@ const DashboardPage = () => {
   const [selectedTab, setSelectedTab] = useState("imageCreation");
 
   useEffect(() => {
-      handleTabsChange(0);
-      }, []);
-
+    handleTabsChange(0);
+  }, []);
 
   const handleTabsChange = (index) => {
     let tool;
-    switch(index) {
+    switch (index) {
       case 0:
         tool = "imageCreation";
         break;
@@ -79,7 +78,11 @@ const DashboardPage = () => {
             </TabPanels>
           </GridItem>
         </Tabs>
+
+        {/* New Gallery Thumbnail */}
       </Grid>
+      <GalleryThumbnail position="fixed" bottom="0" right="0" /> {/* New Gallery Thumbnail */}
+    </Box>
   );
 };
 

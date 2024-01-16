@@ -64,8 +64,7 @@ const DisplayResults = () => {
     <Card>
       <CardHeader>
         <Flex display="row" justifyContent="space-between">
-  <Tag size="xs">{predictionResult}</Tag>
-        
+{predictionResult && <Tag size="xs">{predictionResult}</Tag>}
         </Flex>
       </CardHeader>
 
@@ -91,35 +90,21 @@ const DisplayResults = () => {
       </CardBody>
 
       <CardFooter>
-        <Flex
-          width="100%"
-          bgColor="gray"
-          direction="column"
-          borderRadius="md"
-          borderColor="darkgrey"
-          borderWidth={0.5}
-          justifyContent="space-around"
-        >
-
-            <Center animation={theme.animations.fadeIn || 'none'}>
-              {modelBootResult}
-              <Progress value={modelBootProgress} />
-            </Center>
-          
-          <Spacer />
-  
-            <Center>
+              {predictionProgress && 
               <Box animation={theme.animations.fadeIn || 'none'}>
+                   <Center>
+                       {modelBootResult}
+              <Progress value={modelBootProgress} />
                 <CircularProgress
                   value={predictionProgress}
                   isIndeterminate={predictionProgress === null}
                   color="green.300"
                   marginBottom=".25rem"
                 />
+                  </Center>
               </Box>
-            </Center>
-          
-        </Flex>
+              }
+      
       </CardFooter>
     </Card>
   );

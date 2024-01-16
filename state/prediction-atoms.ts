@@ -1,17 +1,21 @@
 'use client'
 import { atom } from 'recoil';
 
-export const predictionIsLoadingState = atom({
-   key: 'predictionIsLoadingState',
-   default: 'false',
+export const userImagePreviewState = atom<string | null>({
+  key: 'userImagePreviewState',
+  default: null,
 });
-
 export const userImageUploadState = atom<File | null>({
   key: 'userImageUploadState',
   default: null,
 });
 export const userInFileState = atom<File | null>({
   key: 'userInFileState',
+  default: null,
+});
+
+export const userImageDataUriState = atom<string | null>({
+  key: 'userImageDataUriState',
   default: null,
 });
 
@@ -42,14 +46,18 @@ export const predictionResultState = atom({
   key: 'predictionResultState',
   default: null,
 });
-
+export const predictionIsLoadingState = atom({
+  key: 'predictionIsLoadingState',
+  default: false,
+})
 
 
 
 export const finalPredictionState = atom({
   key: 'finalPredictionState',
   default: null,
-});
+})
+
 
 
 

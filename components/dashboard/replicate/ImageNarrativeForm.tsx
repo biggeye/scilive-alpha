@@ -50,16 +50,16 @@ function ImageNarrativeForm () {
                                 placeholder="Enter text for image creation"
                                 aria-label="Text for image creation"
                                 value={imageNarrativesPrompt}
-                                disabled={isLoading}
+                                disabled={predictionIsLoading}
                                 onChange={handleTextInputChange}
                             />
                             <InputRightAddon>
                                 <Button
                                     size="sm"
                                     type="submit"
-                                    disabled={isLoading}
+                                    disabled={predictionIsLoading}
                                 >
-                                    {isLoading ? "Processing..." : "Submit"}
+                                    {predictionIsLoading ? "Processing..." : "Submit"}
                                 </Button>
                             </InputRightAddon>
                         </InputGroup>

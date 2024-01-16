@@ -19,12 +19,12 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
-predictionIsLoadingState,
   predictionResultState,
   predictionErrorState,
   predictionStatusState,
   predictionProgressState,
   userImageUploadState,
+  userImagePreviewState,
   finalPredictionState,
   modelBootProgressState,
   modelBootResultState,
@@ -33,54 +33,46 @@ import { exampleImageState } from "@/state/selected_model-atoms";
 
 const DisplayResults = () => {
   const theme = useTheme();
-  const setExampleImage = useSetRecoilState(exampleImageState);
-  const setUserImageUpload = useSetRecoilState(userImageUploadState);
 
   const [displayedImage, setDisplayedImage] = useState(null);
-  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+
+  const userImagePreview = useRecoilValue(userImagePreviewState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
+  const predictionError = useRecoilValue(predictionErrorState);
   const predictionStatus = useRecoilValue(predictionStatusState);
   const predictionProgress = useRecoilValue(predictionProgressState);
   const predictionResult = useRecoilValue(predictionResultState);
   const finalPrediction = useRecoilValue(finalPredictionState);
-  const userImageUpload = useRecoilValue(userImageUploadState);
   const exampleImage = useRecoilValue(exampleImageState);
 
   useEffect(() => {
     if (finalPrediction) {
       setDisplayedImage(finalPrediction);
-      setExampleImage(null);
-      setUserImageUpload(null);
-    } else if (userImageUpload) {
-      const objectURL = URL.createObjectURL(userImageUpload);
-      setDisplayedImage(objectURL);
-      return () => URL.revokeObjectURL(objectURL);
+      return;
+    } else if (userImagePreview) {
+      setDisplayedImage(userImagePreview);
+      return;
     } else if (exampleImage) {
       setDisplayedImage(exampleImage);
     }
-  }, [finalPrediction, userImageUpload, exampleImage, setExampleImage, setUserImageUpload]);
+  }, [
+    finalPrediction,
+    userImageUpload,
+    exampleImage
+  ]);
 
   return (
     <Card>
       <CardHeader>
         <Flex display="row" justifyContent="space-between">
-{predictionResult && <Tag size="xs">{predictionResult}</Tag>}
+          <Tag size="xs">{predictionResult}</Tag>
         </Flex>
       </CardHeader>
 
       <CardBody>
-        {predictionIsLoading ? (
-                    <Skeleton
-
-            maxHeight="50vh"
-            width="auto"
-            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
-          />
-       
-        ) : (
-   <Image
-
+        {displayedImage ? (
+          <Image
             maxHeight="50vh"
             width="auto"
             src={displayedImage}
@@ -88,25 +80,43 @@ const DisplayResults = () => {
             boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
             borderRadius=".2rem"
           />
+        ) : (
+          <Skeleton
+            maxHeight="50vh"
+            width="auto"
+            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
+          />
         )}
       </CardBody>
 
       <CardFooter>
-              {predictionProgress && 
-              <Box animation={theme.animations.fadeIn || 'none'}>
-                   <Center>
-                       {modelBootResult}
-              <Progress value={modelBootProgress} />
-                <CircularProgress
-                  value={predictionProgress}
-                  isIndeterminate={predictionProgress === null}
-                  color="green.300"
-                  marginBottom=".25rem"
-                />
-                  </Center>
-              </Box>
-              }
-      
+        <Flex
+          width="100%"
+          bgColor="gray"
+          direction="column"
+          borderRadius="md"
+          borderColor="darkgrey"
+          borderWidth={0.5}
+          justifyContent="space-around"
+        >
+          <Center animation={theme.animations.fadeIn || "none"}>
+            {modelBootResult}
+            <Progress value={modelBootProgress} />
+          </Center>
+
+          <Spacer />
+
+          <Center>
+            <Box animation={theme.animations.fadeIn || "none"}>
+              <CircularProgress
+                value={predictionProgress}
+                isIndeterminate={predictionProgress === null}
+                color="green.300"
+                marginBottom=".25rem"
+              />
+            </Box>
+          </Center>
+        </Flex>
       </CardFooter>
     </Card>
   );

@@ -30,7 +30,7 @@ import {
 } from "@/state/prediction-atoms";
 import { exampleImageState } from "@/state/selected_model-atoms";
 
-const DisplayResults = ({ tool, selectedImage }) => {
+const DisplayResults = () => {
   const theme = useTheme();
   const setExampleImage = useSetRecoilState(exampleImageState);
   const setUserImageUpload = useSetRecoilState(userImageUploadState);
@@ -64,16 +64,15 @@ const DisplayResults = ({ tool, selectedImage }) => {
     <Card>
       <CardHeader>
         <Flex display="row" justifyContent="space-between">
-          {predictionResult && <Tag size="xs">{predictionResult}</Tag>}
-          <Spacer />
-          {predictionStatus && <Tag size="xs">Model Status: {predictionStatus}</Tag>}
+  <Tag size="xs">{predictionResult}</Tag>
+        
         </Flex>
       </CardHeader>
 
       <CardBody>
         {displayedImage ? (
           <Image
-            animation={theme.animations.fadeIn || 'none'} 
+
             maxHeight="50vh"
             width="auto"
             src={displayedImage}
@@ -83,7 +82,7 @@ const DisplayResults = ({ tool, selectedImage }) => {
           />
         ) : (
           <Skeleton
-            animation={theme.animations.fadeIn || 'none'} 
+
             maxHeight="50vh"
             width="auto"
             boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
@@ -101,25 +100,25 @@ const DisplayResults = ({ tool, selectedImage }) => {
           borderWidth={0.5}
           justifyContent="space-around"
         >
-          {modelBootProgress && (
+
             <Center animation={theme.animations.fadeIn || 'none'}>
               {modelBootResult}
               <Progress value={modelBootProgress} />
             </Center>
-          )}
+          
           <Spacer />
-          {predictionProgress >= 1 && (
+  
             <Center>
               <Box animation={theme.animations.fadeIn || 'none'}>
                 <CircularProgress
                   value={predictionProgress}
                   isIndeterminate={predictionProgress === null}
                   color="green.300"
+                  marginBottom=".25rem"
                 />
-                <Text ml={2}>{predictionResult}</Text>
               </Box>
             </Center>
-          )}
+          
         </Flex>
       </CardFooter>
     </Card>

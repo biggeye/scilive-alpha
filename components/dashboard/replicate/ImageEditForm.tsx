@@ -7,14 +7,7 @@ import { userImageUploadState } from '@/state/prediction-atoms';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { selectedModelIdState } from '@/state/selected_model-atoms';
 
-interface ImageEditFormProps {
-  modelId: string;
-  supabase: any;
-  userId: string;
-  handleUserImageUpload: any;
-}
-
-const ImageEditForm: React.FC<ImageEditFormProps> = () => {
+const ImageEditForm: React.FC = () => {
   const { supabase } = useUserContext();
   const { userProfile } = useUserContext();
   const userId = userProfile.id;

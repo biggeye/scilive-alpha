@@ -48,9 +48,9 @@ const Gallery = () => {
       {isThumbnailView ? (
         <Box display="flex" flexWrap="wrap" justifyContent="center" gap="20px">
           {contentItems.map((item, index) => (
-            <Box bgColor="white" borderRadius="5px" padding="5px" key={item.content_id} maxWidth="100px">
+            <Box bgColor="white" borderRadius="5px" padding="8px" key={item.content_id} maxWidth="100px">
               <Image borderRadius="4px" src={item.url} alt={item.content_type} width="100" height="100" onClick={() => handleImageClick(index)}/>
-              <Button bgColor="orange" onClick={() => handleDeleteClick(item.content_id)} size="xxs">del</Button>
+            
             </Box>
           ))}
           <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} size="4xl">

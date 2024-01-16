@@ -1,6 +1,11 @@
 'use client'
 import { atom } from 'recoil';
 
+export const predictionIsLoadingState = atom({
+   key: 'predictionIsLoadingState',
+   default: 'false',
+});
+
 export const userImageUploadState = atom<File | null>({
   key: 'userImageUploadState',
   default: null,
@@ -44,8 +49,7 @@ export const predictionResultState = atom({
 export const finalPredictionState = atom({
   key: 'finalPredictionState',
   default: null,
-})
-
+});
 
 
 

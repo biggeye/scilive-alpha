@@ -1,5 +1,5 @@
 import { extendTheme, keyframes } from "@chakra-ui/react";
-import { fonts } from './fonts';
+import { fonts } from "./fonts";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: scale(0); }
@@ -18,59 +18,64 @@ export const sciLiveTheme = extendTheme({
     mono: fonts.roboto_mono.variable,
   },
   fontSizes: {
-    md: "16px",  // Base size for 'md'
-    lg: "18px",  // Base size for 'lg'
-    xl: "20px",  // Base size for 'xl'
+    md: "16px", // Base size for 'md'
+    lg: "18px", // Base size for 'lg'
+    xl: "20px", // Base size for 'xl'
     // Add more sizes if needed
   },
   colors: {
-    black: '#070708ff',
-    onyx: '#454545ff',
-    orange: 'rgb(255, 166, 93)',
-    lightBlue: 'rgb(75, 108, 255)',
-    silver: '#f0f0f0',
-    seasalt: '#F6F6F6ff',
+    black: "#070708ff",
+    onyx: "#454545ff",
+    orange: "rgb(255, 166, 93)",
+    lightBlue: "rgb(75, 108, 255)",
+    silver: "#f0f0f0",
+    seasalt: "#F6F6F6ff",
   },
   styles: {
     global: {
-        main: {
-          bgGradient: "linear(to-b, silver 50%, white 75%)",
-            },
-          fixedInputForm: {
-            bgGradient: "linear(to-t, silver 50%, white 75%)",
-          },
+      body: {
+        width: "100vw",
+        overflowX: "hidden",
+      },
+      
+      main: {
+        width: "100vw",
+        overflowY: "scroll",
+        overflowX: "hidden",
+        bgGradient: "linear(to-b, silver 50%, white 75%)",
+      },
+      fixedInputForm: {
+        position: "fixed",
+        bottom: "0",
+        bgGradient: "linear(to-t, silver 50%, transparent 75%)",
+      },
       input: {
-        borderRadius: '1rem',
-        borderColor: 'onyx',
-        color: 'onyx',
+        borderRadius: "1rem",
       },
-      link: {
-        color: 'onyx',
-        padding: '5px',
-        margin: '5px',
-           },
-      'a': {
-        color: 'inherit',
-        textDecoration: 'none',
+      a: {
+        color: "inherit",
+        textDecoration: "none",
         _hover: {
-          color: 'orange', // Use your defined color here
-          transition: 'color 0.3s', // Transition time for the hover effect
+          color: "orange", // Use your defined color here
+          transition: "color 0.3s", // Transition time for the hover effect
         },
       },
-      '*': {
-        margin: 0,
-        padding: 0,
-        boxSizing: 'border-box',
+      fixedInputForm: {
+        position: "fixed",
+        width: "80vw",
+        bottom: "5px",
+        margin: "1rem",
+        color: "orange",
       },
-        },
+    },
   },
   tabs: {
     md: "sm",
     lg: "md",
-    xl: "lg"
+    xl: "lg",
   },
   animations: {
     fadeIn: `${fadeIn} 0.3s ease-in-out`,
-    fadeOut: `${fadeOut} 0.3s ease-in-out`
-  }
+    fadeOut: `${fadeOut} 0.3s ease-in-out`,
+  },
 });

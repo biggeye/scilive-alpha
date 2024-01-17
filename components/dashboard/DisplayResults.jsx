@@ -70,7 +70,7 @@ const DisplayResults = () => {
         </Flex>
         )} else {
           return null;
-            
+  }};
   
   console.log('displayedImage:', displayedImage);
 
@@ -94,6 +94,6 @@ const DisplayResults = () => {
 
     </Card>
   );
-};
+}
 
 export default DisplayResults;

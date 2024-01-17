@@ -31,7 +31,7 @@ const ImageCreateForm: React.FC = () => {
   };
 
   return (
-    <Box className="fixed-input-form">
+    <Box className="fixedInputForm">
     <FormControl>
       <form onSubmit={handleSubmit}>
         <InputGroup>

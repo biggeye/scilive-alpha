@@ -55,7 +55,7 @@ const ImageEditForm = () => {
   };
 
   return (
-    <Box className="fixed-input-form">
+    <Box className="fixedInputForm">
     <FormControl>
       <form onSubmit={handleUserImageEditSubmit}>
         <Grid templateRows="2">

@@ -31,7 +31,7 @@ function ImageNarrativeForm () {
     
 
     return (
-        <Box className="fixed-input-form">
+        <Box className="fixedInputForm">
         <FormControl>
 
                 <form onSubmit={handleUserImageNarrativeSubmit}>

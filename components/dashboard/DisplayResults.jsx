@@ -43,7 +43,8 @@ const DisplayResults = () => {
   const predictionProgress = useRecoilValue(predictionProgressState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
-  
+  const predictionStatus = useRecoilValue(predictionStatusState);
+  const predictionResult = useRecoilValue(predictionResultState);
   
   useEffect(() => {
     console.log("finalPrediction:", finalPrediction);

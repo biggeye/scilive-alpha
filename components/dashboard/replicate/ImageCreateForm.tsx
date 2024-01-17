@@ -5,16 +5,17 @@ import { Box, CircularProgress, FormControl, Input, InputGroup, Alert, Button, I
 import { useUserContext } from "@/lib/UserProvider";
 import { useRecoilValue } from "recoil";
 import { selectedModelIdState } from "@/state/selected_model-atoms";
-import { predictionProgressState, predictionIsLoadingState, predictionErrorState  } from "@/state/prediction-atoms";
+import { predictionStatusState, predictionIsLoadingState, predictionErrorState  } from "@/state/prediction-atoms";
 
 const ImageCreateForm: React.FC = () => {
-  const { supabase } = useUserContext();
-  const { userProfile } = useUserContext();
+  const { supabase, userProfile } = useUserContext();
   const userId = userProfile.id;
+
   const [userInput, setUserInput] = useState<string>("");
   const { submitImageCreate } = useImageCreateSubmit(supabase);
+
   const modelId = useRecoilValue(selectedModelIdState);
-  const predictionProgress = useRecoilValue(predictionProgressState);
+  const predictionStatus = useRecoilValue(predictionStatusState);
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const predictionError = useRecoilValue(predictionErrorState);
 
@@ -44,7 +45,7 @@ const ImageCreateForm: React.FC = () => {
           />
           <InputRightAddon>
             <Button type="submit" disabled={predictionIsLoading}>
-              {predictionIsLoading ? <CircularProgress size="20px" value={predictionProgress} /> : "Submit"}
+               Submit
             </Button>
           </InputRightAddon>
         </InputGroup>

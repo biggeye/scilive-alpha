@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageEditSubmit } from '@/lib/replicate/useImageEditSubmit';
 import { Box, Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridItem, InputRightAddon } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
-import { userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
+import { predictionStatusState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { selectedModelIdState } from '@/state/selected_model-atoms';
 
@@ -18,15 +18,18 @@ const convertToDataURI = (file: File): Promise<string> =>
 const ImageEditForm = () => {
   const { supabase, userProfile } = useUserContext();
   const userId = userProfile?.id;
+
+  const [userInput, setUserInput] = useState<string>('');
+  const { handleImageEditSubmit } = useImageEditSubmit(supabase);
+
+  const modelId = useRecoilValue(selectedModelIdState);
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const predictionError = useRecoilValue(predictionErrorState);
-  const [userInput, setUserInput] = useState<string>('');
+  const predictionStatus = useRecoilValue(predictionStatusState);
+
   const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
   const [userImageDataUri, setUserImageDataUri] = useRecoilState(userImageDataUriState);
-
-  const { handleImageEditSubmit } = useImageEditSubmit(supabase);
-  const modelId = useRecoilValue(selectedModelIdState);
 
   const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
@@ -48,7 +51,7 @@ const ImageEditForm = () => {
       console.error("No model selected or user not found");
       return;
     }
-    await handleImageEditSubmit(userInput, modelId, userId);
+    await handleImageEditSubmit(userInput);
   };
 
   return (
@@ -82,7 +85,7 @@ const ImageEditForm = () => {
                 type="submit"
                 disabled={predictionIsLoading}
               >
-                {predictionIsLoading ? "Processing..." : "Submit"}
+            Submit
               </Button>
             </InputRightAddon>
           </InputGroup>

@@ -10,17 +10,13 @@ import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
 import { predictionIsLoadingState } from "@/state/prediction-atoms";
 import { useRecoilValue } from "recoil";
 
-// Define a type for the possible values of selectedTab
 type ToolType = string
-
 const DashboardPage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<ToolType>("imageCreation");
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
-  
   useEffect(() => {
     handleTabsChange(0);
   }, []);
-
   const handleTabsChange = (index: number) => {
     let tool: ToolType;
     switch (index) {
@@ -41,7 +37,6 @@ const DashboardPage: React.FC = () => {
     }
     setSelectedTab(tool);
   };
-
   return (
     <Grid
       templateRows="2"
@@ -65,7 +60,6 @@ const DashboardPage: React.FC = () => {
         <GridItem overflowY="auto">
           <DisplayResults />
         </GridItem>
-
           <TabPanels>
             <TabPanel>
               <ImageCreateForm />
@@ -80,7 +74,6 @@ const DashboardPage: React.FC = () => {
               <CreateStreamForm />
             </TabPanel>
           </TabPanels>
-
       </Tabs>
     </Grid>
   );

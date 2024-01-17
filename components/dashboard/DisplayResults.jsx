@@ -71,31 +71,33 @@ const DisplayResults = () => {
       </CardHeader>
 
       <CardBody>
-        {displayedImage ? (
-          <Image
-            maxHeight="50vh"
-            width="auto"
-            src={displayedImage}
-            alt="Selected or Processed"
-            boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
-            borderRadius=".2rem"
-          />
-        ) : (
-          <Skeleton
-            maxHeight="50vh"
-            width="auto"
-            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
-          />
-        )}
+        {
+  predictionIsLoading ? (
+    <Skeleton
+      maxHeight="50vh"
+      width="auto"
+      boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
+    />
+  ) : (
+    <Image
+      maxHeight="50vh"
+      width="auto"
+      src={displayedImage}
+      alt="Selected or Processed"
+      boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
+      borderRadius=".2rem"
+    />
+  )
+}
       </CardBody>
 
       <CardFooter>
         <Flex
           width="100%"
-          bgColor="gray"
+          bgColor="seasalt"
           direction="column"
           borderRadius="md"
-          borderColor="darkgrey"
+          borderColor="silver"
           borderWidth={0.5}
           justifyContent="space-around"
         >
@@ -107,14 +109,15 @@ const DisplayResults = () => {
           <Spacer />
 
           <Center>
-            <Box animation={theme.animations.fadeIn || "none"}>
+            {predictionProgress ? (       <Box animation={theme.animations.fadeIn || "none"}>
               <CircularProgress
                 value={predictionProgress}
                 isIndeterminate={predictionProgress === null}
                 color="green.300"
                 marginBottom=".25rem"
               />
-            </Box>
+            </Box> ) : (
+          <></> )}
           </Center>
         </Flex>
       </CardFooter>

@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert, Card, CardHeader, CardBody, CardFooter, FormControl, Grid, GridItem, Input, InputGroup, Text, InputRightAddon, Button } from "@chakra-ui/react";
+import { Box, Alert, Card, CardHeader, CardBody, CardFooter, FormControl, Grid, GridItem, Input, InputGroup, Text, InputRightAddon, Button } from "@chakra-ui/react";
 import { useState, ChangeEvent } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { imageNarrativesPromptState, imageNarrativesUploadState, predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
@@ -31,6 +31,7 @@ function ImageNarrativeForm () {
     
 
     return (
+        <Box className="fixed-input-form">
         <FormControl>
 
                 <form onSubmit={handleUserImageNarrativeSubmit}>
@@ -47,7 +48,7 @@ function ImageNarrativeForm () {
                         </GridItem>
                         <InputGroup>
                             <Input
-                                size="sm"
+                         
                                 placeholder="Enter text for image creation"
                                 aria-label="Text for image creation"
                                 value={imageNarrativesPrompt}
@@ -56,7 +57,7 @@ function ImageNarrativeForm () {
                             />
                             <InputRightAddon>
                                 <Button
-                                    size="sm"
+                           
                                     type="submit"
                                     disabled={predictionIsLoading}
                                 >
@@ -69,6 +70,7 @@ function ImageNarrativeForm () {
                 </form>
    
         </FormControl>
+        </Box>
     )
     };
 export default ImageNarrativeForm;

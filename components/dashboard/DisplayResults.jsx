@@ -28,6 +28,7 @@ import {
   finalPredictionState,
   modelBootProgressState,
   modelBootResultState,
+  predictionIsLoadingState
 } from "@/state/prediction-atoms";
 import { exampleImageState } from "@/state/selected_model-atoms";
 
@@ -36,6 +37,7 @@ const DisplayResults = () => {
 
   const [displayedImage, setDisplayedImage] = useState(null);
 
+  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const userImagePreview = useRecoilValue(userImagePreviewState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
@@ -47,6 +49,10 @@ const DisplayResults = () => {
   const exampleImage = useRecoilValue(exampleImageState);
 
   useEffect(() => {
+    console.log('finalPrediction:', finalPrediction);
+    console.log('userImagePreview:', userImagePreview);
+    console.log('exampleImage:', exampleImage);
+
     if (finalPrediction) {
       setDisplayedImage(finalPrediction);
       return;
@@ -56,39 +62,29 @@ const DisplayResults = () => {
     } else if (exampleImage) {
       setDisplayedImage(exampleImage);
     }
-  }, [
-    finalPrediction,
-    userImagePreview,
-    exampleImage
-  ]);
+  }, [finalPrediction, userImagePreview, exampleImage]);
+
+  console.log('displayedImage:', displayedImage);
 
   return (
-    <Card>
-      <CardHeader>
-        <Flex display="row" justifyContent="space-between">
-          <Tag size="xs">{predictionResult}</Tag>
-        </Flex>
-      </CardHeader>
-
+    <Card width="80vw">
       <CardBody>
-        {
-  predictionIsLoading ? (
-    <Skeleton
-      maxHeight="50vh"
-      width="auto"
-      boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
-    />
-  ) : (
-    <Image
-      maxHeight="50vh"
-      width="auto"
-      src={displayedImage}
-      alt="Selected or Processed"
-      boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
-      borderRadius=".2rem"
-    />
-  )
-}
+        {predictionIsLoading ? (
+          <Skeleton
+            maxHeight="70vh"
+            width="auto"
+            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
+          />
+        ) : (
+          <Image
+            maxHeight="70vh"
+            width="auto"
+            src={displayedImage}
+            alt="Selected or Processed"
+            boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
+            borderRadius=".2rem"
+          />
+        )}
       </CardBody>
 
       <CardFooter>
@@ -109,15 +105,18 @@ const DisplayResults = () => {
           <Spacer />
 
           <Center>
-            {predictionProgress ? (       <Box animation={theme.animations.fadeIn || "none"}>
-              <CircularProgress
-                value={predictionProgress}
-                isIndeterminate={predictionProgress === null}
-                color="green.300"
-                marginBottom=".25rem"
-              />
-            </Box> ) : (
-          <></> )}
+            {predictionProgress ? (
+              <Box animation={theme.animations.fadeIn || "none"}>
+                <CircularProgress
+                  value={predictionProgress}
+                  isIndeterminate={predictionProgress === null}
+                  color="green.300"
+                  marginBottom=".25rem"
+                />
+              </Box>
+            ) : (
+              <></>
+            )}
           </Center>
         </Flex>
       </CardFooter>

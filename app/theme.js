@@ -36,6 +36,9 @@ export const sciLiveTheme = extendTheme({
         main: {
           bgGradient: "linear(to-b, silver 50%, white 75%)",
             },
+          fixedInputForm: {
+            bgGradient: "linear(to-t, silver 50%, white 75%)",
+          },
       input: {
         borderRadius: '1rem',
         borderColor: 'onyx',

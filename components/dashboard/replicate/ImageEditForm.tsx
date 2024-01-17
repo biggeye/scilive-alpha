@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageEditSubmit } from '@/lib/replicate/useImageEditSubmit';
-import { Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridItem, InputRightAddon } from '@chakra-ui/react';
+import { Box, Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridItem, InputRightAddon } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
 import { userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -52,6 +52,7 @@ const ImageEditForm = () => {
   };
 
   return (
+    <Box className="fixed-input-form">
     <FormControl>
       <form onSubmit={handleUserImageEditSubmit}>
         <Grid templateRows="2">
@@ -68,7 +69,7 @@ const ImageEditForm = () => {
           </GridItem>
           <InputGroup>
             <Input
-              size="sm"
+            
               placeholder="Enter text for image creation"
               aria-label="Text for image creation"
               value={userInput}
@@ -77,7 +78,7 @@ const ImageEditForm = () => {
             />
             <InputRightAddon>
               <Button
-                size="sm"
+              
                 type="submit"
                 disabled={predictionIsLoading}
               >
@@ -91,6 +92,7 @@ const ImageEditForm = () => {
         {predictionError && <Alert>{predictionError}</Alert>}
       </form>
     </FormControl>
+    </Box>
   );
 }
 

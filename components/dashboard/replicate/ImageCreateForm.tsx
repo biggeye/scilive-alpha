@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
-import { CircularProgress, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
+import { Box, CircularProgress, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
 import { useRecoilValue } from "recoil";
 import { selectedModelIdState } from "@/state/selected_model-atoms";
@@ -30,11 +30,12 @@ const ImageCreateForm: React.FC = () => {
   };
 
   return (
+    <Box className="fixed-input-form">
     <FormControl>
       <form onSubmit={handleSubmit}>
         <InputGroup>
           <Input
-            size="sm"
+
             placeholder="Enter text for image creation"
             aria-label="Text for image creation"
             value={userInput}
@@ -42,7 +43,7 @@ const ImageCreateForm: React.FC = () => {
             onChange={handleInputChange}
           />
           <InputRightAddon>
-            <Button type="submit" disabled={predictionIsLoading} size="sm">
+            <Button type="submit" disabled={predictionIsLoading}>
               {predictionIsLoading ? <CircularProgress size="20px" value={predictionProgress} /> : "Submit"}
             </Button>
           </InputRightAddon>
@@ -50,6 +51,7 @@ const ImageCreateForm: React.FC = () => {
         {predictionError && <Alert>{predictionError}</Alert>}
       </form>
     </FormControl>
+    </Box>
   );
 };
 

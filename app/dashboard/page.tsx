@@ -44,7 +44,7 @@ const DashboardPage: React.FC = () => {
 
   return (
     <Grid
-      templateRows="3"
+      templateRows="2"
       templateColumns="1"
       display="flex"
       alignItems="center"
@@ -52,9 +52,9 @@ const DashboardPage: React.FC = () => {
       width="100vw"
       overflowX="hidden"
     >
-      <Tabs align="center" size="sm" onChange={(index) => handleTabsChange(index)}>
+      <Tabs align="center" width="100%" onChange={(index) => handleTabsChange(index)}>
         <GridItem>
-          <TabList>
+          <TabList maxWidth="640px">
             <Tab>Image Creation</Tab>
             <Tab>Image Editing</Tab>
             <Tab>Image Narratives</Tab>
@@ -65,7 +65,7 @@ const DashboardPage: React.FC = () => {
         <GridItem overflowY="auto">
           <DisplayResults />
         </GridItem>
-        <GridItem>
+
           <TabPanels>
             <TabPanel>
               <ImageCreateForm />
@@ -80,7 +80,7 @@ const DashboardPage: React.FC = () => {
               <CreateStreamForm />
             </TabPanel>
           </TabPanels>
-        </GridItem>
+
       </Tabs>
     </Grid>
   );

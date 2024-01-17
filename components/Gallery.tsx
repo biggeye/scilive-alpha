@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { IconButton, Flex, Spacer, Card, Image, Modal, ModalOverlay, ModalContent, ModalBody, Box } from '@chakra-ui/react';
+import { Center, IconButton, Flex, Spacer, Card, Image, Modal, ModalOverlay, ModalContent, ModalBody, Box } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { createClient } from '@/utils/supabase/client';
 
@@ -9,8 +9,7 @@ type ContentItem = {
   content_type: string;
 };
 
-
-const GalleryThumbnail: React.FC = () => {
+const GalleryLg: React.FC = () => {
   const supabase = createClient();
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -28,7 +27,6 @@ const GalleryThumbnail: React.FC = () => {
         console.error("Error fetching content:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -54,8 +52,8 @@ const GalleryThumbnail: React.FC = () => {
 
   return (
     <Flex justifyContent="center" alignItems="center">
-      <Box width="75vw" height="75vh">
-        <Card>
+      <Box borderRadius="lg" width="70vw" height="auto" boxShadow="0px 4px 8px">
+        <Card margin="1rem">
           <Flex direction="row">
             <IconButton
               aria-label="Previous Image"
@@ -66,12 +64,16 @@ const GalleryThumbnail: React.FC = () => {
               top="50%"
               zIndex="2"
               display='block'
+              boxShadow="0px 3px 3px"
             />
             <Spacer />
             <Image
+            margin="2rem"
+              height="80vh"
               src={contentItems[currentIndex]?.url}
               alt={contentItems[currentIndex]?.content_type}
               onClick={handleImageClick}
+              boxShadow="2px 0px 8px"
             />
             <Spacer />
             <IconButton
@@ -83,14 +85,23 @@ const GalleryThumbnail: React.FC = () => {
               top="50%"
               zIndex="2"
               display='block'
+              boxShadow="0px 3px 3px"
             />
           </Flex>
         </Card>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} size="4xl">
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} size="2xl">
           <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
           <ModalContent>
             <ModalBody>
-              <Image src={contentItems[currentIndex]?.url} alt={contentItems[currentIndex]?.content_type} />
+              <Center>
+                <Image 
+                boxShadow="0px 3px 3px"
+              height="80vh"
+              width="auto"
+              src={contentItems[currentIndex]?.url} 
+              alt={contentItems[currentIndex]?.content_type} />
+            </Center>
+              
             </ModalBody>
           </ModalContent>
         </Modal>
@@ -99,4 +110,4 @@ const GalleryThumbnail: React.FC = () => {
   );
 };
 
-export default GalleryThumbnail;
+export default GalleryLg;

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Box, Select, Flex } from "@chakra-ui/react";
+import { Spacer, Box, Select, Flex } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState } from "@/state/selected_model-atoms";
 import type { SelectedModel } from "@/types";
@@ -93,15 +93,17 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
   }
 
   return (
-    <Box maxWidth="640px" p="5px">
+    <Box marginBottom="3px" maxWidth="640px" p="5px">
       <Flex>
-        <Select variant="flushed" width="100%" onChange={handleSelectionChange} size="xs">
+        <Spacer />
+        <Select variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
           {modelsData?.map(model => (
             <option key={model.id} value={model.id}>
               {model.friendlyname} {/* Updated to match the property name */}
             </option>
           )) ?? <option>Loading models...</option>}
         </Select>
+        <Spacer />
       </Flex>
     </Box>
   );

@@ -44,6 +44,7 @@ const DisplayResults = () => {
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
   
+  
   useEffect(() => {
     console.log("finalPrediction:", finalPrediction);
     console.log("userImagePreview:", userImagePreview);
@@ -97,7 +98,7 @@ const DisplayResults = () => {
         />
         <CardFooter>
         <Flex direction="column">
-        {circularProgress && <CircularProgress value={predictionProgress} />}
+        {predictionProgress && <CircularProgress value={predictionProgress} />}
         <Spacer />
         {predictionStatus && {predictionStatus}}
         <Spacer />

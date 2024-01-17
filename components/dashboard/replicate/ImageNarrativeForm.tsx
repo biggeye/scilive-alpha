@@ -1,5 +1,4 @@
 'use client'
-
 import { Box, Alert, Card, CardHeader, CardBody, CardFooter, FormControl, Grid, GridItem, Input, InputGroup, Text, InputRightAddon, Button } from "@chakra-ui/react";
 import { useState, ChangeEvent } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -26,14 +25,12 @@ function ImageNarrativeForm () {
     const handleUserImageNarrativeSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
        await submitImageNarrative(imageNarrativesUpload, imageNarrativesPrompt)
-
     };
     
 
     return (
         <Box className="fixedInputForm">
         <FormControl>
-
                 <form onSubmit={handleUserImageNarrativeSubmit}>
                     <Grid templateRows="2">
                         <GridItem>
@@ -48,7 +45,6 @@ function ImageNarrativeForm () {
                         </GridItem>
                         <InputGroup>
                             <Input
-                         
                                 placeholder="Enter text for image creation"
                                 aria-label="Text for image creation"
                                 value={imageNarrativesPrompt}
@@ -57,7 +53,6 @@ function ImageNarrativeForm () {
                             />
                             <InputRightAddon>
                                 <Button
-                           
                                     type="submit"
                                     disabled={predictionIsLoading}
                                 >

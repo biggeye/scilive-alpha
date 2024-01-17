@@ -36,16 +36,8 @@ const DisplayResults = () => {
   const theme = useTheme();
 
   const [displayedImage, setDisplayedImage] = useState(null);
-
-  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
-  const userImagePreview = useRecoilValue(userImagePreviewState);
-  const modelBootProgress = useRecoilValue(modelBootProgressState);
-  const modelBootResult = useRecoilValue(modelBootResultState);
-  const predictionError = useRecoilValue(predictionErrorState);
-  const predictionStatus = useRecoilValue(predictionStatusState);
-  const predictionProgress = useRecoilValue(predictionProgressState);
-  const predictionResult = useRecoilValue(predictionResultState);
   const finalPrediction = useRecoilValue(finalPredictionState);
+  const userImagePreview = useRecoilValue(userImagePreviewState);
   const exampleImage = useRecoilValue(exampleImageState);
 
   useEffect(() => {
@@ -63,19 +55,12 @@ const DisplayResults = () => {
       setDisplayedImage(exampleImage);
     }
   }, [finalPrediction, userImagePreview, exampleImage]);
-
   console.log('displayedImage:', displayedImage);
 
   return (
     <Card width="80vw">
       <CardBody>
-        {predictionIsLoading ? (
-          <Skeleton
-            maxHeight="70vh"
-            width="auto"
-            boxShadow="0 5px 7px rgba(0, 0, 0, 0.4)"
-          />
-        ) : (
+      
           <Image
             maxHeight="70vh"
             width="auto"
@@ -84,42 +69,9 @@ const DisplayResults = () => {
             boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
             borderRadius=".2rem"
           />
-        )}
+
       </CardBody>
 
-      <CardFooter>
-        <Flex
-          width="100%"
-          bgColor="seasalt"
-          direction="column"
-          borderRadius="md"
-          borderColor="silver"
-          borderWidth={0.5}
-          justifyContent="space-around"
-        >
-          <Center animation={theme.animations.fadeIn || "none"}>
-            {modelBootResult}
-            <Progress value={modelBootProgress} />
-          </Center>
-
-          <Spacer />
-
-          <Center>
-            {predictionProgress ? (
-              <Box animation={theme.animations.fadeIn || "none"}>
-                <CircularProgress
-                  value={predictionProgress}
-                  isIndeterminate={predictionProgress === null}
-                  color="green.300"
-                  marginBottom=".25rem"
-                />
-              </Box>
-            ) : (
-              <></>
-            )}
-          </Center>
-        </Flex>
-      </CardFooter>
     </Card>
   );
 };

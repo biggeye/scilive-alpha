@@ -58,7 +58,7 @@ const DisplayResults = () => {
       setDisplayedImage(exampleImage);
     }
   }, [finalPrediction, userImagePreview, exampleImage]);
- /* 
+  
   const predictionStatusDisplay = async () => {
     if (predictionIsLoading==='true') {
       return (
@@ -71,7 +71,7 @@ const DisplayResults = () => {
         )} else {
           return null;
   }};
-  */
+  
   console.log('displayedImage:', displayedImage);
 
   return (

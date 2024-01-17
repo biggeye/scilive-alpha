@@ -7,13 +7,16 @@ import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
 import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
 import ImageNarratives from "../../components/dashboard/replicate/ImageNarrativeForm";
 import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
+import { predictionIsLoadingState } from "@/state/prediction-atoms";
+import { useRecoilValue } from "recoil";
 
 // Define a type for the possible values of selectedTab
 type ToolType = string
 
 const DashboardPage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<ToolType>("imageCreation");
-
+  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+  
   useEffect(() => {
     handleTabsChange(0);
   }, []);

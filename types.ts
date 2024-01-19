@@ -31,7 +31,7 @@ export interface SelectedModel {
   name: string,
   friendlyname: string,
   example: string,
-  shortDesc: string,
+  shortdesc: string,
 }
 
 

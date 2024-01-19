@@ -2,13 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { Spacer, Box, Select, Flex } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState } from "@/state/config-atoms";
+import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
 import { selectedTabState } from "@/state/config-atoms";
 
 const ToolOptions = () => {
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
   const [selectedModelFriendlyName, setSelectedModelFriendlyName] = useRecoilState(selectedModelFriendlyNameState);
+  const [selectedModelShortDesc, setSelectedModelShortDesc] = useRecoilState(selectedModelShortDescState);
+  const [selectedModelName, setSelectedModelName] = useRecoilState(selectedModelNameState);
   const [exampleImage, setExampleImage] = useRecoilState(exampleImageState);
   const [modelsData, setModelsData] = useState<SelectedModel[]>([]);
   const [loading, setLoading] = useState(false);
@@ -23,11 +25,13 @@ const ToolOptions = () => {
     if (modelsData.length > 0) {
       setExampleImage("");
       const firstModel = modelsData[0];
+      setSelectedModelName(firstModel.name);
       setSelectedModelId(firstModel.id);
       setSelectedModelFriendlyName(firstModel.friendlyname);
       setExampleImage(firstModel.example || "");
+      setSelectedModelShortDesc(firstModel.shortdesc || "");
     }
-  }, [modelsData, setSelectedModelId, setSelectedModelFriendlyName, setExampleImage]);
+  }, [modelsData, setSelectedModelShortDesc, setSelectedModelId, setSelectedModelFriendlyName, setExampleImage]);
   
 
   const getModels = async () => {

@@ -34,6 +34,8 @@ import {
 } from "@/state/prediction-atoms";
 import {
   selectedModelFriendlyNameState,
+  selectedModelShortDescState,
+  selectedModelNameState,
   exampleImageState,
 } from "@/state/config-atoms";
 
@@ -41,7 +43,7 @@ const DisplayResults = () => {
   const theme = useTheme();
 
   const [displayedImage, setDisplayedImage] = useState(null);
-
+  
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const finalPrediction = useRecoilValue(finalPredictionState);
   const userImagePreview = useRecoilValue(userImagePreviewState);
@@ -51,7 +53,9 @@ const DisplayResults = () => {
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionStatus = useRecoilValue(predictionStatusState);
   const predictionResult = useRecoilValue(predictionResultState);
-
+  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
+  const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
+  const selectedModelName = useRecoilValue(selectedModelNameState);
   useEffect(() => {
     console.log("finalPrediction:", finalPrediction);
     console.log("userImagePreview:", userImagePreview);
@@ -73,8 +77,8 @@ const DisplayResults = () => {
   return (
     <Grid
       templateAreas={`"results description"
-                    "results promptExamples"
-                    "results carousel"`}
+                    "results shortDesc"
+                    "carousel carousel"`}
       gridTemplateRows={"50px 1fr 75px"}
       gridTemplateColumns={"60vw 1fr"}
       h="100%"
@@ -88,8 +92,7 @@ const DisplayResults = () => {
         borderTopRightRadius="5"
         area={"results"}
       >
-        <Card width="100%">
-          <CardBody>
+   
             <Image
               height="40vh"
               width="auto"
@@ -98,7 +101,7 @@ const DisplayResults = () => {
               boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
               borderRadius=".5rem"
             />
-            <CardFooter>
+           <Center>
               <Flex
                 direction="column"
                 justifyContent="center"
@@ -110,19 +113,26 @@ const DisplayResults = () => {
                 <Spacer />
                 {predictionStatus && JSON.stringify(predictionStatus)}
               </Flex>
-            </CardFooter>
-          </CardBody>
+              </Center>
+      </GridItem>
+   
+      <GridItem pr="2" area={"description"}>
+        <Card m="1" p=".5">
+        {selectedModelName}
+
         </Card>
       </GridItem>
-      <GridItem pl="2" area={"description"}>
-        {predictionResult}
+      
+      <GridItem pr="2" area={"shortDesc"}>
+        <Card m="1" p=".5">
+       
+        {selectedModelShortDesc}
+        </Card>
       </GridItem>
-      <GridItem pl="2" area={"promptExamples"}>
-        Main
+      <GridItem pr="2" area={"carousel"}>
+        <Card mt="1" p=".5">SMALL CAROUSEL OF THUMBNAIL IMAGES CREATED BY THE MODEL</Card>
       </GridItem>
-      <GridItem pl="2" area={"carousel"}>
-        SMALL CAROUSEL OF THUMBNAIL IMAGES CREATED BY THE MODEL
-      </GridItem>
+      
     </Grid>
   );
 };

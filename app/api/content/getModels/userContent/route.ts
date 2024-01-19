@@ -1,20 +1,24 @@
-import { selectedModelIdState } from "@/state/config-atoms"
-import { useRecoilValue } from "recoil"
 import { createClient } from "@/utils/supabase/route";
 
 export async function POST(req: Request) {
+    const supabase = createClient(req);
 
-  const supabase = createClient(req);
-  const selectedModelId = useRecoilValue(selectedModelIdState);
+    // Parse the request body to get the selectedModelId
+    const { selectedModelId } = await req.json();
 
-  const { data: modelsData, error } = await supabase
-    .from('master_content')
-    .select('url')
-    .eq('model_id', selectedModelId);
+    // Check if the model ID is provided
+    if (!selectedModelId) {
+        return new Response(JSON.stringify({ error: "Model ID is required" }), { status: 400 });
+    }
 
-  if (error) {
-    throw new Error(error.message);
-  }
+    const { data: modelsData, error } = await supabase
+        .from('master_content')
+        .select('url')
+        .eq('model_id', selectedModelId);
 
-  return modelsData;
+    if (error) {
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    }
+
+    return new Response(JSON.stringify(modelsData), { status: 200 });
 }

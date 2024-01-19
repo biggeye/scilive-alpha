@@ -67,6 +67,6 @@ export const imageNarrativesUploadState = atom<File | null>({
 
 export const imageNarrativesPromptState = atom ({
   key: 'imageNarrativesPromptState',
-  default: "Describe the image you've uploaded,
+  default: "Describe the image you've uploaded",
 });
 

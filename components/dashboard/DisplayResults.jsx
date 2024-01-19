@@ -76,7 +76,7 @@ const DisplayResults = () => {
                     "results promptExamples"
                     "results carousel"`}
       gridTemplateRows={"50px 1fr 75px"}
-      gridTemplateColumns={"40vw 1fr"}
+      gridTemplateColumns={"60vw 1fr"}
       h="100%"
       gap="1"
       color="blackAlpha.700"
@@ -115,7 +115,7 @@ const DisplayResults = () => {
         </Card>
       </GridItem>
       <GridItem pl="2" area={"description"}>
-        Nav
+        {predictionResult}
       </GridItem>
       <GridItem pl="2" area={"promptExamples"}>
         Main

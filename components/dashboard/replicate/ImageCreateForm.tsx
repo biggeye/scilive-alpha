@@ -16,15 +16,19 @@ const ImageCreateForm: React.FC = () => {
   const predictionError = useRecoilValue(predictionErrorState);
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
 
+  // Initialize the hook at the top level and get the function
+  const imageCreateSubmit = useImageCreateSubmit(supabase, userInput);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!modelId || !userId) {
       console.error("No model selected or user not found");
       return;
     }
-    await useImageCreateSubmit({supabase}, {userInput});
+    // Call the function returned by useImageCreateSubmit
+    await imageCreateSubmit(userInput);
   };
-
+  
   return (
     <Box>
       <FormControl>

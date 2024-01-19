@@ -39,6 +39,7 @@ import {
   exampleImageState,
   userContentExamplesState
 } from "@/state/config-atoms";
+import { ScrollableThumbnails } from "../ScrollableThumbnails";
 
 const DisplayResults = () => {
   const theme = useTheme();

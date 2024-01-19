@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/route";
 
 export async function GET(req: Request) {
 
-    const supabase = createClient(req);
+  const supabase = createClient(req);
   const selectedModelId = useRecoilValue(selectedModelIdState);
 
   const { data: modelsData, error } = await supabase

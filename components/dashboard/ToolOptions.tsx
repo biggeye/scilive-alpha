@@ -61,7 +61,17 @@ const ToolOptions = () => {
 
   const getUserContentExamples = async () => {
     try {
-      let response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`);
+
+      let response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(selectedModelId)
+      });
+      
+      // Handle the response as per your requirement
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

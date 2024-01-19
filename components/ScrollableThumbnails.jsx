@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Image, HStack, IconButton } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
-const ScrollableThumbnails = ({ images }) => {
+export const ScrollableThumbnails = ({ images }) => {
   const scrollContainer = React.createRef();
 
   const scroll = (direction) => {

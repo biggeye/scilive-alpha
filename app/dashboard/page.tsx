@@ -10,6 +10,7 @@ import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
 import { predictionIsLoadingState } from "@/state/prediction-atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedTabState, dashboardState } from '@/state/config-atoms';
+import { ScrollableThumbnails } from '@/components/ScrollableThumbnails';
 
 type ToolType = string
 const DashboardPage: React.FC = () => {

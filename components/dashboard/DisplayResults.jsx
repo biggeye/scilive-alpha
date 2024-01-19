@@ -37,6 +37,7 @@ import {
   selectedModelShortDescState,
   selectedModelNameState,
   exampleImageState,
+  userContentExamplesState
 } from "@/state/config-atoms";
 
 const DisplayResults = () => {
@@ -56,6 +57,8 @@ const DisplayResults = () => {
   const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
+  const userContentExamples = useRecoilValue(userContentExamplesState);
+
   useEffect(() => {
     console.log("finalPrediction:", finalPrediction);
     console.log("userImagePreview:", userImagePreview);
@@ -78,9 +81,9 @@ const DisplayResults = () => {
     <Grid
       templateAreas={`"results description"
                     "results shortDesc"
-                    "carousel carousel"`}
+                    "results carousel"`}
       gridTemplateRows={"50px 1fr 75px"}
-      gridTemplateColumns={"60vw 1fr"}
+      gridTemplateColumns={"40vw 1fc"}
       h="100%"
       gap="1"
       color="blackAlpha.700"
@@ -115,24 +118,26 @@ const DisplayResults = () => {
               </Flex>
               </Center>
       </GridItem>
-   
+   <Flex direction="column" justifyContent="space-between">
       <GridItem pr="2" area={"description"}>
-        <Card m="1" p=".5">
+        <Card m="1" p=".5" width="100%">
         {selectedModelName}
 
         </Card>
       </GridItem>
       
       <GridItem pr="2" area={"shortDesc"}>
-        <Card m="1" p=".5">
+        <Card m="1" p=".5" width="100%">
        
         {selectedModelShortDesc}
         </Card>
       </GridItem>
       <GridItem pr="2" area={"carousel"}>
-        <Card mt="1" p=".5">SMALL CAROUSEL OF THUMBNAIL IMAGES CREATED BY THE MODEL</Card>
+        <Card mt="1" p=".5">
+          <ScrollableThumbnails images={userContentExamples} />
+        </Card>
       </GridItem>
-      
+      </Flex>
     </Grid>
   );
 };

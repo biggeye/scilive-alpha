@@ -5,6 +5,10 @@ export const selectedModelFriendlyNameState = atom({
     default: "",
   });
 
+  export const userContentExamplesState = atom({
+    key: "userContentExamplesState",
+    default: [],
+  })
 
 export const selectedModelNameState = atom ({
   key: "selectedModelNameState",

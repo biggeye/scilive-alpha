@@ -4,7 +4,7 @@ import { Spacer, Box, Select, Flex } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
-import { selectedTabState } from "@/state/config-atoms";
+import { selectedTabState, userContentExamplesState } from "@/state/config-atoms"
 
 const ToolOptions = () => {
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
@@ -15,7 +15,8 @@ const ToolOptions = () => {
   const [modelsData, setModelsData] = useState<SelectedModel[]>([]);
   const [loading, setLoading] = useState(false);
   const tool = useRecoilValue(selectedTabState);
-
+  const [userContentExamples, setUserContentExamples] = useRecoilState(userContentExamplesState);
+  
   useEffect(() => {
     setLoading(true);
     getModels();
@@ -30,12 +31,14 @@ const ToolOptions = () => {
       setSelectedModelFriendlyName(firstModel.friendlyname);
       setExampleImage(firstModel.example || "");
       setSelectedModelShortDesc(firstModel.shortdesc || "");
+      
     }
   }, [modelsData, setSelectedModelShortDesc, setSelectedModelId, setSelectedModelFriendlyName, setExampleImage]);
   
 
   const getModels = async () => {
     try {
+      const modelGallery = await getUserContentExamples();
       const response = await fetchModelData();
 
       if (response && response.ok) {
@@ -55,6 +58,22 @@ const ToolOptions = () => {
       setLoading(false);
     }
   };
+
+  const getUserContentExamples = async () => {
+    try {
+      let response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      let userContent = await response.json();
+      // Assuming the response contains an array of URLs
+      setUserContentExamples(userContent.urls); // Update this line as per your response structure
+      return userContent;
+    } catch (error) {
+      console.error("Error fetching user content examples: ", error);
+      return []; // Return an empty array or handle error appropriately
+    }
+  }
 
 
   const fetchModelData = async () => {

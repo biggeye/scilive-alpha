@@ -16,9 +16,11 @@ const DashboardPage: React.FC = () => {
   const [dashboardState, setDashboardState] = useRecoilState(selectedTabState);
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+
   useEffect(() => {
     handleTabsChange(0);
   }, []);
+  
   const handleTabsChange = (index: number) => {
     let tool: ToolType;
     switch (index) {

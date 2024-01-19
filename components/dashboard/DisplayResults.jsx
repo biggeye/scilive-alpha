@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardFooter,
   Center,
+  Grid,
+  GridItem,
   Box,
   Spacer,
   Text,
@@ -30,7 +32,10 @@ import {
   modelBootResultState,
   predictionIsLoadingState,
 } from "@/state/prediction-atoms";
-import { exampleImageState } from "@/state/config-atoms";
+import {
+  selectedModelFriendlyNameState,
+  exampleImageState,
+} from "@/state/config-atoms";
 
 const DisplayResults = () => {
   const theme = useTheme();
@@ -66,28 +71,59 @@ const DisplayResults = () => {
   console.log("displayedImage:", displayedImage);
 
   return (
-    <Card width="80vw">
-      <CardBody>
-        <Image
-         height="50vh"
-
-          width="auto"
-          src={displayedImage}
-          alt="Selected or Processed"
-          boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
-          borderRadius=".2rem"
-        />
-        <CardFooter>
-          <Flex direction="column" justifyContent="center" alignItems="center">
-            {predictionProgress && (
-              <CircularProgress value={predictionProgress} />
-            )}
-            <Spacer />
-            {predictionStatus && JSON.stringify(predictionStatus)}
-          </Flex>
-        </CardFooter>
-      </CardBody>
-    </Card>
+    <Grid
+      templateAreas={`"results description"
+                    "results promptExamples"
+                    "results carousel"`}
+      gridTemplateRows={"50px 1fr 75px"}
+      gridTemplateColumns={"40vw 1fr"}
+      h="100%"
+      gap="1"
+      color="blackAlpha.700"
+      fontWeight="bold"
+    >
+      <GridItem
+        pl="2"
+        borderTopLeftRadius="5"
+        borderTopRightRadius="5"
+        area={"results"}
+      >
+        <Card width="100%">
+          <CardBody>
+            <Image
+              height="40vh"
+              width="auto"
+              src={displayedImage}
+              alt="Selected or Processed"
+              boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
+              borderRadius=".5rem"
+            />
+            <CardFooter>
+              <Flex
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                {predictionProgress && (
+                  <CircularProgress value={predictionProgress} />
+                )}
+                <Spacer />
+                {predictionStatus && JSON.stringify(predictionStatus)}
+              </Flex>
+            </CardFooter>
+          </CardBody>
+        </Card>
+      </GridItem>
+      <GridItem pl="2" area={"description"}>
+        Nav
+      </GridItem>
+      <GridItem pl="2" area={"promptExamples"}>
+        Main
+      </GridItem>
+      <GridItem pl="2" area={"carousel"}>
+        SMALL CAROUSEL OF THUMBNAIL IMAGES CREATED BY THE MODEL
+      </GridItem>
+    </Grid>
   );
 };
 

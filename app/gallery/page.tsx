@@ -39,16 +39,15 @@ const Gallery = () => {
 
   return (
     <Box>
-<Flex direction="row" justifyContent="space-between">
-      <FormControl size="xs" display="flex" alignItems="center" marginBottom="1em">
-        <Spacer />
-        <FormLabel size="xs" htmlFor="thumbnail-toggle" mb="0">
-          Thumbnail
-        </FormLabel>
-       
-        <Switch id="thumbnail-toggle" isChecked={isThumbnailView} onChange={toggleView} />
-        <Spacer />
-      </FormControl>
+      <Flex direction="row" justifyContent="space-between">
+        <FormControl size="xs" display="flex" alignItems="center" marginBottom="1em">
+          <Spacer />
+          <FormLabel size="xs" htmlFor="thumbnail-toggle" mb="0">
+            Thumbnail
+          </FormLabel>
+          <Switch id="thumbnail-toggle" isChecked={isThumbnailView} onChange={toggleView} />
+          <Spacer />
+        </FormControl>
       </Flex>
       {isThumbnailView ? (
         <Box display="flex" flexWrap="wrap" justifyContent="center" gap="20px">

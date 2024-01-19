@@ -3,12 +3,15 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import GetUserDetails from './GetUserDetails'; // Ensure this is the correct path
 import { UserContextType, UserState, UserProfile } from '@/types';
+import { useRecoilState } from 'recoil';
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+
   const supabase = createClient();
   const [currentUser, setCurrentUser] = useState(null);
+
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: null,
     full_name: "",
@@ -22,6 +25,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     loading: true,
     error: null,
   });
+
+  
 
   useEffect(() => {
     fetchUserDetails();

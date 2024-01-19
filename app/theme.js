@@ -44,11 +44,7 @@ export const sciLiveTheme = extendTheme({
         overflowX: "hidden",
         bgGradient: "linear(to-b, silver 50%, white 75%)",
       },
-      fixedInputForm: {
-        position: "fixed",
-        bottom: "0",
-        bgGradient: "linear(to-t, silver 50%, transparent 75%)",
-      },
+
       input: {
         borderRadius: "1rem",
       },
@@ -60,14 +56,7 @@ export const sciLiveTheme = extendTheme({
           transition: "color 0.3s", // Transition time for the hover effect
         },
       },
-      fixedInputForm: {
-        position: "fixed",
-        width: "80vw",
-        bottom: "5px",
-        margin: "1rem",
-        color: "orange",
-      },
-    },
+     },
   },
   tabs: {
     md: "sm",

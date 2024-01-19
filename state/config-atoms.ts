@@ -14,3 +14,13 @@ export const exampleImageState = atom({
     key: "selectedModelIdState",
     default: "",
   });
+
+  export const selectedTabState = atom ({
+    key: "selectedTabState",
+    default: "imageCreation",
+  })
+
+  export const dashboardState = atom({
+    key: "dashboardState",
+    default: false,
+  })

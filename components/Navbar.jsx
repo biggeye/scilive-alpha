@@ -114,6 +114,7 @@ const Navbar = () => {
   >
     <DropdownMenu items={navigation} />
     <Spacer />
+    
     <UserMenu userImageUrl={avatar_url} />
   </Flex>
   );

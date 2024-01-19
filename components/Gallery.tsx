@@ -52,7 +52,7 @@ const GalleryLg: React.FC = () => {
 
   return (
     <Flex justifyContent="center" alignItems="center">
-      <Box borderRadius="lg" width="70vw" height="auto" boxShadow="0px 4px 8px">
+      <Box borderRadius="lg" maxWidth="90vw" height="auto" boxShadow="0px 4px 8px">
         <Card margin="1rem">
           <Flex direction="row">
             <IconButton
@@ -68,8 +68,8 @@ const GalleryLg: React.FC = () => {
             />
             <Spacer />
             <Image
-            margin="2rem"
-              height="80vh"
+              margin="2rem"
+              maxWidth="85vh"
               src={contentItems[currentIndex]?.url}
               alt={contentItems[currentIndex]?.content_type}
               onClick={handleImageClick}

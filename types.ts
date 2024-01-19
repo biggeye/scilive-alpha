@@ -24,6 +24,7 @@ export interface UserProfile {
   }
 
 
+// types for Replicate Model State Management
 
 export interface SelectedModel {
   id: string,

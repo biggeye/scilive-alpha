@@ -1,24 +1,22 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { Spacer, Box, Select, Flex } from "@chakra-ui/react";
-import { useRecoilState } from "recoil";
-import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState } from "@/state/selected_model-atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
+import { selectedTabState } from "@/state/config-atoms";
 
-interface ToolOptionsProps {
-  tool: string;
-}
-
-const ToolOptions = ({ tool }: ToolOptionsProps) => {
+const ToolOptions = () => {
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
   const [selectedModelFriendlyName, setSelectedModelFriendlyName] = useRecoilState(selectedModelFriendlyNameState);
   const [exampleImage, setExampleImage] = useRecoilState(exampleImageState);
   const [modelsData, setModelsData] = useState<SelectedModel[]>([]);
   const [loading, setLoading] = useState(false);
+  const tool = useRecoilValue(selectedTabState);
 
   useEffect(() => {
     setLoading(true);
-    getModels({ tool });
+    getModels();
   }, [tool]);
 
   useEffect(() => {
@@ -32,9 +30,9 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
   }, [modelsData, setSelectedModelId, setSelectedModelFriendlyName, setExampleImage]);
   
 
-  const getModels = async ({ tool }: ToolOptionsProps) => {
+  const getModels = async () => {
     try {
-      const response = await fetchModelData(tool);
+      const response = await fetchModelData();
 
       if (response && response.ok) {
         const responseBody = await response.json();
@@ -55,7 +53,7 @@ const ToolOptions = ({ tool }: ToolOptionsProps) => {
   };
 
 
-  const fetchModelData = async (tool: string) => {
+  const fetchModelData = async () => {
     switch (tool) {
 
       case "imageCreation":

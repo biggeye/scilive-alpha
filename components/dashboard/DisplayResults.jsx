@@ -30,13 +30,14 @@ import {
   modelBootResultState,
   predictionIsLoadingState,
 } from "@/state/prediction-atoms";
-import { exampleImageState } from "@/state/selected_model-atoms";
+import { exampleImageState } from "@/state/config-atoms";
 
 const DisplayResults = () => {
   const theme = useTheme();
 
   const [displayedImage, setDisplayedImage] = useState(null);
-  
+
+  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const finalPrediction = useRecoilValue(finalPredictionState);
   const userImagePreview = useRecoilValue(userImagePreviewState);
   const exampleImage = useRecoilValue(exampleImageState);
@@ -45,7 +46,7 @@ const DisplayResults = () => {
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionStatus = useRecoilValue(predictionStatusState);
   const predictionResult = useRecoilValue(predictionResultState);
-  
+
   useEffect(() => {
     console.log("finalPrediction:", finalPrediction);
     console.log("userImagePreview:", userImagePreview);
@@ -61,36 +62,15 @@ const DisplayResults = () => {
       setDisplayedImage(exampleImage);
     }
   }, [finalPrediction, userImagePreview, exampleImage]);
-  
-  const predictionStatusDisplay = async () => {
-    if (predictionIsLoading==='true') {
-      return (
-        <Flex direction="column">
-          {modelBootProgress &&
-        <CircularProgress value={modelBootProgress} />}
-          {predictionProgress &&
-        <Progress width="95%" value={predictionProgress} />}
-        </Flex>
-        )} else {
-          return null;
-  }};
-  
-  console.log('displayedImage:', displayedImage);
+
+  console.log("displayedImage:", displayedImage);
 
   return (
     <Card width="80vw">
-      <CardHeader>
-      <Flex direction="column">
-        {predictionStatusDisplay}
-         <Spacer />
-        {modelBootProgress && { modelBootProgress }}
-         <Spacer />
-        {modelBootResult && { modelBootResult }}
-        </Flex>
-      </CardHeader>
       <CardBody>
         <Image
-          maxHeight="70vh"
+         height="50vh"
+
           width="auto"
           src={displayedImage}
           alt="Selected or Processed"
@@ -98,18 +78,17 @@ const DisplayResults = () => {
           borderRadius=".2rem"
         />
         <CardFooter>
-        <Flex direction="column">
-        {predictionProgress && <CircularProgress value={predictionProgress} />}
-        <Spacer />
-        {predictionStatus && {predictionStatus}}
-        <Spacer />
-        {predictionResult && {predictionResult}}
-        </Flex>
+          <Flex direction="column" justifyContent="center" alignItems="center">
+            {predictionProgress && (
+              <CircularProgress value={predictionProgress} />
+            )}
+            <Spacer />
+            {predictionStatus && JSON.stringify(predictionStatus)}
+          </Flex>
         </CardFooter>
-  
       </CardBody>
     </Card>
   );
-}
+};
 
 export default DisplayResults;

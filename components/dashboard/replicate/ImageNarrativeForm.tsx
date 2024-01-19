@@ -29,7 +29,7 @@ function ImageNarrativeForm () {
     
 
     return (
-        <Box className="fixedInputForm">
+        <Box>
         <FormControl>
                 <form onSubmit={handleUserImageNarrativeSubmit}>
                     <Grid templateRows="2">

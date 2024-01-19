@@ -1,8 +1,6 @@
 'use client'
 import { atom } from 'recoil';
 
-
-// img2img state
 export const userImagePreviewState = atom<string | null>({
   key: 'userImagePreviewState',
   default: null,
@@ -20,19 +18,15 @@ export const userImageDataUriState = atom<string | null>({
   default: null,
 });
 
-
-//pre-processing
 export const modelBootProgressState = atom({
   key: 'modelBootProgressState',
-  default: '0',
+  default: 0,
 });
 export const modelBootResultState = atom({
   key: 'modelBootResultState',
-  default: '',
+  default: null,
 });
 
-
-// 
 export const predictionStatusState = atom({
   key: 'predictionStatusState',
   default: null,
@@ -43,16 +37,18 @@ export const predictionErrorState = atom({
 });
 export const predictionProgressState = atom({
   key: 'predictionProgressState',
-  default: 0, // Default progress is 0
+  default: null, // Default progress is 0
 });
+
 export const predictionResultState = atom({
   key: 'predictionResultState',
   default: null,
 });
+
 export const predictionIsLoadingState = atom({
   key: 'predictionIsLoadingState',
   default: false,
-})
+});
 
 
 
@@ -60,15 +56,17 @@ export const predictionIsLoadingState = atom({
 export const finalPredictionState = atom({
   key: 'finalPredictionState',
   default: null,
-})
+});
+
+
 
 export const imageNarrativesUploadState = atom<File | null>({
   key: 'imageNarrativesUploadState',
   default: null,
 });
 
-export const imageNarrativesPromptState = atom({
+export const imageNarrativesPromptState = atom ({
   key: 'imageNarrativesPromptState',
-  default: "",
+  default: {},
 });
 

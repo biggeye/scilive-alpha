@@ -5,7 +5,7 @@ import { Box, Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridIte
 import { useUserContext } from '@/lib/UserProvider';
 import { predictionStatusState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { selectedModelIdState } from '@/state/selected_model-atoms';
+import { selectedModelIdState } from '@/state/config-atoms';
 
 const convertToDataURI = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ const ImageEditForm = () => {
   };
 
   return (
-    <Box className="fixedInputForm">
+    <Box>
     <FormControl>
       <form onSubmit={handleUserImageEditSubmit}>
         <Grid templateRows="2">

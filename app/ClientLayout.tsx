@@ -11,17 +11,18 @@ import { ChatAssistant } from '@/components/chat/SciChat';
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const [isChatOpen, setChatOpen] = useState(false);
   return (
-    <UserProvider>
-      <RecoilRoot>
-        <ChakraProvider theme={sciLiveTheme}>
+    <ChakraProvider theme={sciLiveTheme}>
+      <UserProvider>
+        <RecoilRoot>
+
           <HMSRoomProvider>
             <Navbar />
             <Box as="main" className="main" overflowX="hidden" >
               {children}
             </Box>
           </HMSRoomProvider>
-        </ChakraProvider>
-      </RecoilRoot>
-    </UserProvider>
+        </RecoilRoot>
+      </UserProvider>
+    </ChakraProvider>
   );
 };

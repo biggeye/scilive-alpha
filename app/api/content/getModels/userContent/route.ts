@@ -2,7 +2,7 @@ import { selectedModelIdState } from "@/state/config-atoms"
 import { useRecoilValue } from "recoil"
 import { createClient } from "@/utils/supabase/route";
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
 
   const supabase = createClient(req);
   const selectedModelId = useRecoilValue(selectedModelIdState);

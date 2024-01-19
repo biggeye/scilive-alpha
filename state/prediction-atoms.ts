@@ -24,7 +24,7 @@ export const modelBootProgressState = atom({
 });
 export const modelBootResultState = atom({
   key: 'modelBootResultState',
-  default: null,
+  default: "Model not started",
 });
 
 export const predictionStatusState = atom({
@@ -67,6 +67,6 @@ export const imageNarrativesUploadState = atom<File | null>({
 
 export const imageNarrativesPromptState = atom ({
   key: 'imageNarrativesPromptState',
-  default: {},
+  default: "Describe the image you've uploaded,
 });
 

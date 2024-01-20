@@ -24,6 +24,8 @@ const ToolOptions = () => {
   const tool = useRecoilValue(selectedTabState);
   const [userContentExamples, setUserContentExamples] = useRecoilState(userContentExamplesState);
   
+
+  
   useEffect(() => {
     setLoading(true);
     getModels();
@@ -116,21 +118,27 @@ const ToolOptions = () => {
         return Promise.reject("Invalid tool type");
     }
   }
-
+  useEffect(() => {
+    if (selectedModelId) {
+      getUserContentExamples();
+    }
+  }, [selectedModelId, getUserContentExamples]);
+  
   const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSelectedModelId = event.target.value;
-    setSelectedModelId(newSelectedModelId);
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
+  
     if (selectedModel) {
-      await getUserContentExamples();
+      // Update model details first
       setSelectedModelName(selectedModel.name);
       setSelectedModelShortDesc(selectedModel.shortdesc);
-      setSelectedModelFriendlyName(selectedModel.friendlyname); // Assuming each model has a 'friendlyName' property
+      setSelectedModelFriendlyName(selectedModel.friendlyname);
       setExampleImage(selectedModel.example || "");
-      
+      // Update selectedModelId last
+      setSelectedModelId(newSelectedModelId);
     }
-
   };
+  
 
   if (loading) {
     return <CircularProgress />; // Or any loading indicator

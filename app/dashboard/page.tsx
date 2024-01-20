@@ -10,7 +10,7 @@ import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
 import { predictionIsLoadingState } from "@/state/prediction-atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedTabState, dashboardState } from '@/state/config-atoms';
-import { ScrollableThumbnails } from '@/components/ScrollableThumbnails';
+
 
 type ToolType = string
 const DashboardPage: React.FC = () => {
@@ -55,7 +55,7 @@ const DashboardPage: React.FC = () => {
     >
       <Tabs align="center" width="100%" onChange={(index) => handleTabsChange(index)}>
         <GridItem>
-          <TabList maxWidth="640px">
+          <TabList maxWidth={{ base: "375px", md: "650px" }}>
             <Tab>Image Creation</Tab>
             <Tab>Image Editing</Tab>
             <Tab>Image Narratives</Tab>

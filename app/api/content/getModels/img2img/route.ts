@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/route";
 
-
 export async function GET(req: Request) {
   if (req.method !== 'GET') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });

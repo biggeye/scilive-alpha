@@ -8,13 +8,13 @@ export const ScrollableThumbnails = ({ images }) => {
   const scroll = (direction) => {
     if (scrollContainer.current) {
       const { current } = scrollContainer;
-      const scrollAmount = direction === "left" ? -200 : 200;
+      const scrollAmount = direction === "left" ? -200 : 200; // adjust scroll amount if needed
       current.scrollLeft += scrollAmount;
     }
   };
 
   return (
-    <Box position="relative" w="100%" h="100px" overflow="hidden">
+    <Box position="relative" w="65vw" h="200px" overflow="hidden">
       <IconButton
         aria-label="Scroll left"
         icon={<ChevronLeftIcon />}
@@ -32,10 +32,11 @@ export const ScrollableThumbnails = ({ images }) => {
         p="10px"
         w="100%"
         h="100%"
+        whiteSpace="nowrap" // Ensures items are in a single line
       >
         {images.map((image, index) => (
-          <Box key={index} boxShadow="md" borderRadius="md" overflow="hidden">
-            <Image src={image} alt={`Thumbnail ${index}`} />
+          <Box key={index} boxShadow="md" borderRadius="md" overflow="hidden" minWidth="150px"> {/* Fixed width for each image container */}
+            <Image src={image} alt={`Thumbnail ${index}`} boxSize="150px" objectFit="cover" /> {/* Fixed size for images */}
           </Box>
         ))}
       </HStack>

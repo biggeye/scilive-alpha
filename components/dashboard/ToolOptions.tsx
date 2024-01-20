@@ -5,6 +5,13 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
 import { selectedTabState, userContentExamplesState } from "@/state/config-atoms"
+import { CircularProgress } from "@chakra-ui/react";
+
+interface Item {
+  name: string;
+  id: number;
+}
+
 
 const ToolOptions = () => {
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
@@ -31,11 +38,10 @@ const ToolOptions = () => {
       setSelectedModelFriendlyName(firstModel.friendlyname);
       setExampleImage(firstModel.example || "");
       setSelectedModelShortDesc(firstModel.shortdesc || "");
-      
+      getUserContentExamples();
     }
   }, [modelsData, setSelectedModelShortDesc, setSelectedModelId, setSelectedModelFriendlyName, setExampleImage]);
   
-
   const getModels = async () => {
     try {
       const modelGallery = await getUserContentExamples();
@@ -58,34 +64,35 @@ const ToolOptions = () => {
       setLoading(false);
     }
   };
-
   const getUserContentExamples = async () => {
     try {
-
+      const selectedModelIdCall = {
+        "selectedModelId": selectedModelId,
+      }
       let response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json'  
         },
-        body: JSON.stringify(selectedModelId)
+        body: JSON.stringify(selectedModelIdCall)
       });
-      
-      // Handle the response as per your requirement
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+  
       let userContent = await response.json();
-      // Assuming the response contains an array of URLs
-      setUserContentExamples(userContent.urls); // Update this line as per your response structure
+      // Extracting the URLs from the response
+      let urls = userContent.map((item: any) => item.url);
+      setUserContentExamples(urls); // Set the state with the array of URLs
+      console.log(urls); // Logging the URLs for verification
       return userContent;
     } catch (error) {
       console.error("Error fetching user content examples: ", error);
-      return []; // Return an empty array or handle error appropriately
+      return []; // Return an empty array or handle the error appropriately
     }
   }
-
-
+  
   const fetchModelData = async () => {
     switch (tool) {
 
@@ -114,13 +121,17 @@ const ToolOptions = () => {
     setSelectedModelId(newSelectedModelId);
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
     if (selectedModel) {
+      setSelectedModelName(selectedModel.name);
+      setSelectedModelShortDesc(selectedModel.shortdesc);
       setSelectedModelFriendlyName(selectedModel.friendlyname); // Assuming each model has a 'friendlyName' property
       setExampleImage(selectedModel.example || "");
+      getUserContentExamples();
     }
+
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Or any loading indicator
+    return <CircularProgress />; // Or any loading indicator
   }
 
   return (

@@ -80,11 +80,23 @@ const DisplayResults = () => {
 
   return (
     <Grid
-      templateAreas={`"results description"
-                    "results shortDesc"
-                    "results carousel"`}
-      gridTemplateRows={"50px 1fr 75px"}
-      gridTemplateColumns={"40vw 1fc"}
+    templateAreas={{
+      base: `"results"
+             "description"
+             "shortDesc"
+             "carousel"`, // Mobile layout
+      md: `"results description"
+           "results shortDesc"
+           "results carousel"` // Larger screens layout
+    }}
+    gridTemplateRows={{
+      base: "auto auto auto auto", // Mobile layout
+      md: "50px 1fr 75px" // Larger screens layout
+    }}
+    gridTemplateColumns={{
+      base: "auto", // Mobile layout
+      md: "30vw auto" // Larger screens layout
+    }}
       h="100%"
       gap="1"
       color="blackAlpha.700"
@@ -98,7 +110,7 @@ const DisplayResults = () => {
       >
    
             <Image
-              height="40vh"
+              height={{ base: "30vh", md: "40vh" }}
               width="auto"
               src={displayedImage}
               alt="Selected or Processed"
@@ -120,21 +132,25 @@ const DisplayResults = () => {
               </Center>
       </GridItem>
    <Flex direction="column" justifyContent="space-between">
-      <GridItem pr="2" area={"description"}>
+      <GridItem p="2" area={"description"}>
         <Card m="1" p=".5" width="100%">
+        <Text fontSize={{base: "lg", md: "xl"}}>
         {selectedModelName}
+        </Text>
+      
 
         </Card>
       </GridItem>
       
-      <GridItem pr="2" area={"shortDesc"}>
+      <GridItem p="2" area={"shortDesc"}>
         <Card m="1" p=".5" width="100%">
-       
+       <Text fontSize={{base: "xs", md: "md"}}>
         {selectedModelShortDesc}
+        </Text>
         </Card>
       </GridItem>
-      <GridItem pr="2" area={"carousel"}>
-        <Card mt="1" p=".5">
+      <GridItem p="2" area={"carousel"}>
+        <Card mt="2" p=".5">
           <ScrollableThumbnails images={userContentExamples} />
         </Card>
       </GridItem>

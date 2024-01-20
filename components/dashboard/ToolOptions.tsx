@@ -117,7 +117,7 @@ const ToolOptions = () => {
     }
   }
 
-  const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSelectedModelId = event.target.value;
     setSelectedModelId(newSelectedModelId);
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);

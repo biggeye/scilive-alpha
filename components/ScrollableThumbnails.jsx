@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Image, HStack, IconButton } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-
-export const ScrollableThumbnails = ({ images }) => {
+import { userContentExamplesState } from "@/state/config-atoms";
+export const ScrollableThumbnails = () => {
   const scrollContainer = React.createRef();
-
+  const userContentExamples = useRecoilValue(userContentExamplesState);
   const scroll = (direction) => {
     if (scrollContainer.current) {
       const { current } = scrollContainer;
@@ -34,7 +34,7 @@ export const ScrollableThumbnails = ({ images }) => {
         h="100%"
         whiteSpace="nowrap" // Ensures items are in a single line
       >
-        {images.map((image, index) => (
+        {userContentExamples.map((image, index) => (
           <Box key={index} boxShadow="md" borderRadius="md" overflow="hidden" minWidth="150px"> {/* Fixed width for each image container */}
             <Image src={image} alt={`Thumbnail ${index}`} boxSize="150px" objectFit="cover" /> {/* Fixed size for images */}
           </Box>

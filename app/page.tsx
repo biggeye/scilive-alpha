@@ -38,7 +38,9 @@ function Home() {
       </GridItem>
 
       <GridItem area={'footer'} as="section" className="cta">
+<Box w="90vw" bgColor="onyx" borderColor="orange" borderWidth=".5px">
         <Link href="/loginp"><a>Join SciLive Today</a></Link>
+</Box>
       </GridItem>
 
 

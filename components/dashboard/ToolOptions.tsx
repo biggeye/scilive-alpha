@@ -44,7 +44,6 @@ const ToolOptions = () => {
   
   const getModels = async () => {
     try {
-      const modelGallery = await getUserContentExamples();
       const response = await fetchModelData();
 
       if (response && response.ok) {
@@ -61,9 +60,11 @@ const ToolOptions = () => {
     } catch (error) {
       console.error("Error fetching models: ", error);
     } finally {
+      await getUserContentExamples();
       setLoading(false);
     }
   };
+  
   const getUserContentExamples = async () => {
     try {
       const selectedModelIdCall = {
@@ -121,11 +122,12 @@ const ToolOptions = () => {
     setSelectedModelId(newSelectedModelId);
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
     if (selectedModel) {
+      await getUserContentExamples();
       setSelectedModelName(selectedModel.name);
       setSelectedModelShortDesc(selectedModel.shortdesc);
       setSelectedModelFriendlyName(selectedModel.friendlyname); // Assuming each model has a 'friendlyName' property
       setExampleImage(selectedModel.example || "");
-      getUserContentExamples();
+      
     }
 
   };
@@ -143,7 +145,7 @@ const ToolOptions = () => {
             <option key={model.id} value={model.id}>
               {model.friendlyname} {/* Updated to match the property name */}
             </option>
-          )) ?? <option>Loading models...</option>}
+          )) ?? <option><CircularProgress /></option>}
         </Select>
         <Spacer />
       </Flex>

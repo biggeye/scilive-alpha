@@ -1,13 +1,13 @@
 'use client'
 import { useUserContext } from "@/lib/UserProvider";
-import { Text, Center, Grid, GridItem } from "@chakra-ui/react";
+import { Text, Center, Grid, GridItem, Box, Heading, Button } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/react";
 
 function Home() {
 
   return (
     <Grid
-      templateAreas={`"header header"
+      templateAreas={`"hero hero"
                       "feature additional"
                       "footer footer"`}
       gridTemplateRows={'20vh 1fr 1fr'}
@@ -19,10 +19,13 @@ function Home() {
       fontWeight='bold'
     >
 
-      <GridItem area={'header'} as="section" className="introduction">
-        <Text>Welcome to SciLive</Text>
-        <Text as="p">Explore the world of AI-powered content creation and streaming.</Text>
-        <Link href="/about">Learn More</Link>
+      <GridItem area={'hero'} as="section" className="introduction">
+      
+  <Box bg="gray.100" p={10} textAlign="center">
+    <Heading as="h1" mb={4}>Welcome to SciLive</Heading>
+    <Text fontSize="xl">Explore the Future of AI and Live Streaming</Text>
+    <Button mt={4} colorScheme="teal" size="lg">Discover More</Button>
+  </Box>
       </GridItem>
 
       <GridItem area={'feature'} as="section" className="dashboard-feature">

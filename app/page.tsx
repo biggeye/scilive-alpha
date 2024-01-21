@@ -24,23 +24,20 @@ function Home() {
   <Box bg="gray.100" p={10} textAlign="center">
     <Heading as="h1" mb={4}>Welcome to SciLive</Heading>
     <Text fontSize="xl">Explore the Future of AI and Live Streaming</Text>
-    <Button mt={4} colorScheme="teal" size="lg">Discover More</Button>
+ <Link href="/auth/login" passHref>
+      <Button as="a" mt={4} colorScheme="orange" size="lg">Discover More</Button>
+    </Link>
   </Box>
       </GridItem>
-<Box w="100%" bgColor="silver" borderColor="seasalt" borderWidth=".5px">
       <GridItem area={'feature'} as="section" className="dashboard-feature">
-        <Text><Link href="/dashboard">sciGenerate</Link></Text>
       </GridItem>
-</Box>
+
       <GridItem area={'additional'} as="section" className="additional-info">
-        <Text>About SciLive</Text>
-        <Text as="p">Discover how SciLive is revolutionizing content creation...</Text>
+
       </GridItem>
 
       <GridItem area={'footer'} as="section" className="cta">
-<Box w="90vw" bgColor="onyx" borderColor="orange" borderWidth=".5px">
-        <Link href="/login"><a>Join SciLive Today</a></Link>
-</Box>
+
       </GridItem>
 
 

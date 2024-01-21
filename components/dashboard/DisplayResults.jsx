@@ -62,7 +62,9 @@ const DisplayResults = () => {
   const userImagePreview = useRecoilValue(userImagePreviewState);
 
   const finalPrediction = useRecoilValue(finalPredictionState);
-
+  const finalPredictionPrompt = useRecoilValue(finalPredictionPromptState);
+  
+  
   useEffect(() => {
   
     if (finalPrediction) {
@@ -106,7 +108,6 @@ const DisplayResults = () => {
         borderTopRightRadius="5"
         area={"results"}
       >
-   
             <Image
               height={{ base: "30vh", md: "40vh" }}
               width="auto"
@@ -145,7 +146,10 @@ const DisplayResults = () => {
       <GridItem p="2" m="5px" area={"shortDesc"}>
         <Card m="1" p=".5" width="100%">
        <Text fontSize={{base: "xs", md: "sm"}}>
+         {finalPrediction ?? (
+        {finalPredictionPrompt} ) : (
         {selectedModelShortDesc}
+        )
         </Text>
         </Card>
       </GridItem>

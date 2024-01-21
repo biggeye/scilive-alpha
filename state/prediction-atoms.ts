@@ -1,4 +1,4 @@
-'use client'
+b'use client'
 import { atom } from 'recoil';
 
 export const userImagePreviewState = atom<string | null>({
@@ -58,6 +58,10 @@ export const finalPredictionState = atom({
   default: null,
 });
 
+export const finalPredictionPromptState = atom({
+key: 'finalPredictionPromptState',
+default: null,
+});
 
 
 export const imageNarrativesUploadState = atom<File | null>({

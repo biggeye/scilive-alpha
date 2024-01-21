@@ -100,6 +100,7 @@ const DisplayResults = () => {
       color="blackAlpha.700"
     >
       <GridItem
+        m="7px"
         pl="2"
         borderTopLeftRadius="5"
         borderTopRightRadius="5"

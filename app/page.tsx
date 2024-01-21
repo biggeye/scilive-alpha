@@ -24,7 +24,7 @@ function Home() {
   <Box bg="gray.100" p={10} textAlign="center">
     <Heading as="h1" mb={4}>Welcome to SciLive</Heading>
     <Text fontSize="xl">Explore the Future of AI and Live Streaming</Text>
- <Link href="/auth/login" passHref>
+ <Link href="/auth/login">
       <Button as="a" mt={4} colorScheme="orange" size="lg">Discover More</Button>
     </Link>
   </Box>

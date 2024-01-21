@@ -47,24 +47,24 @@ const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
   
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
-  const finalPrediction = useRecoilValue(finalPredictionState);
-  const userImagePreview = useRecoilValue(userImagePreviewState);
-  const exampleImage = useRecoilValue(exampleImageState);
+  
   const predictionProgress = useRecoilValue(predictionProgressState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
-  const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionStatus = useRecoilValue(predictionStatusState);
+  const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionResult = useRecoilValue(predictionResultState);
+  
+  const exampleImage = useRecoilValue(exampleImageState);
   const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
   const userContentExamples = useRecoilValue(userContentExamplesState);
+  const userImagePreview = useRecoilValue(userImagePreviewState);
+
+  const finalPrediction = useRecoilValue(finalPredictionState);
 
   useEffect(() => {
-    console.log("finalPrediction:", finalPrediction);
-    console.log("userImagePreview:", userImagePreview);
-    console.log("exampleImage:", exampleImage);
-
+  
     if (finalPrediction) {
       setDisplayedImage(finalPrediction);
       return;
@@ -75,8 +75,6 @@ const DisplayResults = () => {
       setDisplayedImage(exampleImage);
     }
   }, [finalPrediction, userImagePreview, exampleImage]);
-
-  console.log("displayedImage:", displayedImage);
 
   return (
     <Grid
@@ -100,7 +98,6 @@ const DisplayResults = () => {
       h="100%"
       gap="1"
       color="blackAlpha.700"
-      fontWeight="bold"
     >
       <GridItem
         pl="2"
@@ -124,17 +121,19 @@ const DisplayResults = () => {
                 alignItems="center"
               >
                 {predictionProgress && (
-                  <CircularProgress value={predictionProgress} />
+                  <CircularProgress value={predictionProgress} isIndeterminate={true} />
                 )}
                 <Spacer />
-                {predictionStatus && JSON.stringify(predictionStatus)}
+               <Text fontSize="xxs"> {predictionStatus && JSON.stringify(predictionStatus)}
+                </Text>
               </Flex>
               </Center>
       </GridItem>
+      
    <Flex direction="column" justifyContent="space-between">
-      <GridItem p="2" area={"description"}>
+      <GridItem p="2" m="5px" area={"description"}>
         <Card m="1" p=".5" width="100%">
-        <Text fontSize={{base: "lg", md: "xl"}}>
+        <Text fontWeight="bold" fontSize={{base: "lg", md: "xl"}}>
         {selectedModelName}
         </Text>
       
@@ -142,14 +141,14 @@ const DisplayResults = () => {
         </Card>
       </GridItem>
       
-      <GridItem p="2" area={"shortDesc"}>
+      <GridItem p="2" m="5px" area={"shortDesc"}>
         <Card m="1" p=".5" width="100%">
-       <Text fontSize={{base: "xs", md: "md"}}>
+       <Text fontSize={{base: "xs", md: "sm"}}>
         {selectedModelShortDesc}
         </Text>
         </Card>
       </GridItem>
-      <GridItem p="2" area={"carousel"}>
+      <GridItem p="2" m="5px" area={"carousel"}>
         <Card mt="2" p=".5">
           <ScrollableThumbnails images={userContentExamples} />
         </Card>

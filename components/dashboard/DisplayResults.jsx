@@ -28,6 +28,7 @@ import {
   userImageUploadState,
   userImagePreviewState,
   finalPredictionState,
+  finalPredictionPromptState,
   modelBootProgressState,
   modelBootResultState,
   predictionIsLoadingState,

@@ -20,7 +20,7 @@ const ImageEditForm = () => {
   const userId = userProfile?.id;
 
   const [userInput, setUserInput] = useState<string>('');
-  const { handleImageEditSubmit } = useImageEditSubmit(supabase);
+  const imageEditSubmit = useImageEditSubmit(supabase);
 
   const modelId = useRecoilValue(selectedModelIdState);
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
@@ -51,7 +51,7 @@ const ImageEditForm = () => {
       console.error("No model selected or user not found");
       return;
     }
-    await handleImageEditSubmit(userInput);
+    await imageEditSubmit(userInput);
   };
 
   return (

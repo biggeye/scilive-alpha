@@ -6,5 +6,6 @@
   "deno.unstable": true,
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  },
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

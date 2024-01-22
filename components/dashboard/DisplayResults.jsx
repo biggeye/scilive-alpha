@@ -147,10 +147,10 @@ const DisplayResults = () => {
       <GridItem p="2" m="5px" area={"shortDesc"}>
         <Card m="1" p=".5" width="100%">
        <Text fontSize={{base: "xs", md: "sm"}}>
-         {finalPrediction ?? (
+         {finalPrediction ? (
         {finalPredictionPrompt} ) : (
         {selectedModelShortDesc}
-        )
+        )}
         </Text>
         </Card>
       </GridItem>

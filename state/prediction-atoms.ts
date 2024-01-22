@@ -1,4 +1,4 @@
-b'use client'
+'use client'
 import { atom } from 'recoil';
 
 export const userImagePreviewState = atom<string | null>({

@@ -7,18 +7,15 @@ export async function middleware(request: NextRequest) {
   try {
     const user = await supabase.auth.getSession()
     
-    // Redirect to login page if no user session is found
     if (!user) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
       return NextResponse.redirect(url)
     }
 
-    // Continue with the response if a valid session is found
     return response
   } catch (e) {
     console.error('Error in middleware:', e)
-    // Optional: Redirect to a custom error page or handle error differently
     return NextResponse.next()
   }
 }

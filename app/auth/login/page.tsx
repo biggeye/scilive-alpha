@@ -60,71 +60,59 @@ const Login: React.FC = () => {
 
   return (
     <Card m="3rem" width="90%">
-       <CardHeader display="flex">
+      <CardHeader display="flex">
         {isLoginMode ? 'Login' : 'Signup'}
         <Spacer />
         <Switch isChecked={!isLoginMode} onChange={toggleMode}>Sign-up</Switch>
       </CardHeader>
-   <CardBody>
-    <Flex alignItems="center" direction="column">
-      <form onSubmit={handleSubmit}>
-        <Flex direction="row" justifyContent="space-between">
-          <InputGroup>
-            <FormControl id="email">
-
-              <Input
-       
-              borderColor="onyx"
-                name="email"
-                placeholder="username@domain.com"
-                type="email"
-                onChange={handleChange}
-                value={formData.email}
-              />
-            </FormControl>
-
-            <FormControl id="password">
-
-              <Input
-          
-              borderColor="onyx"
-              placeholder="password"
-                name="password"
-                type="password"
-                onChange={handleChange}
-                value={formData.password}
-              />
-            </FormControl>
-            <InputRightAddon>
-              <Button type="submit" width="100%">
-                {isLoginMode ? 'Login' : 'Signup'}
-              </Button>
-            </InputRightAddon>
-          </InputGroup>
+      <CardBody>
+        <Flex alignItems="center" direction="column">
+          <form onSubmit={handleSubmit}>
+            <Flex direction="row" justifyContent="space-between">
+              <InputGroup>
+                <FormControl id="email">
+                  <Input
+                    borderColor="onyx"
+                    name="email"
+                    placeholder="username@domain.com"
+                    type="email"
+                    onChange={handleChange}
+                    value={formData.email}
+                  />
+                </FormControl>
+                <FormControl id="password">
+                  <Input
+                    borderColor="onyx"
+                    placeholder="password"
+                    name="password"
+                    type="password"
+                    onChange={handleChange}
+                    value={formData.password}
+                  />
+                </FormControl>
+                <InputRightAddon>
+                  <Button type="submit" width="100%">
+                    {isLoginMode ? 'Login' : 'Signup'}
+                  </Button>
+                </InputRightAddon>
+              </InputGroup>
+            </Flex>
+            <Center>
+              <Link size="sm" href="/reset-password" className="link w-full">
+                Reset Password
+              </Link>
+            </Center>
+          </form>
+          {errorMsg && <Text color="red.600">{errorMsg}</Text>}
         </Flex>
-
-
-<Center>
-
- 
-<Link size="sm" href="/reset-password" className="link w-full">
-          Reset Password
-        </Link>
-      
-        </Center>
-      </form>
-      {errorMsg && <Text color="red.600">{errorMsg}</Text>}
-      </Flex>
       </CardBody>
-<CardFooter display="flex" justifyContent="space-around">
-      <Spacer />
+      <CardFooter display="flex" justifyContent="space-around">
+        <Spacer />
         <Button leftIcon={google()} colorScheme="gray" onClick={() => handleOAuthLogin('google')} />
         <Spacer />
         <Button leftIcon={github()} colorScheme="gray" onClick={() => handleOAuthLogin('github')} />
-     
-<Spacer />
+        <Spacer />
       </CardFooter>
-
     </Card>
   );
 };

@@ -1,95 +1,87 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import GetUserDetails from './GetUserDetails'; // Ensure this is the correct path
+import getUserDetails from './getUserDetails';
 import { UserContextType, UserState, UserProfile } from '@/types';
-import { useRecoilState } from 'recoil';
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-
   const supabase = createClient();
-  const [currentUser, setCurrentUser] = useState(null);
-
+  const [currentUser, setCurrentUser] = useState({});
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    id: null,
-    full_name: "",
-    username: "",
-    avatar_url: "",
-    website: "",
-    email: "",
+    id: '',
+    full_name: '',
+    username: '',
+    avatar_url: '',
+    website: '',
+    email: ''
   });
+  
   const [userState, setUserState] = useState<UserState>({
     profile: false,
     loading: true,
     error: null,
   });
 
-  
-
   useEffect(() => {
-    fetchUserDetails();
-  }, []);
-
-  const fetchUserDetails = async () => {
+    const init = async () => {
       try {
-        const userDetails = await GetUserDetails(supabase);
+        const session = await supabase.auth.getSession();
+        setCurrentUser(session.data.session?.user || {});
+        
+        const userDetails = await getUserDetails(supabase);
         if (userDetails.error) {
           setUserState({ profile: false, error: userDetails.error, loading: false });
           return;
         }
-
         if (userDetails.profile) {
-          setUserState({
-            profile: true,
-            loading: false,
-            error: null,
-          });
-          setUserProfile({
-            id: userDetails.profile?.id || "",
-            full_name: userDetails.profile?.full_name || "",
-            username: userDetails.profile?.username || "",
-            avatar_url: userDetails.profile?.avatar_url || "",
-            website: userDetails.profile?.website || "",
-            email: userDetails.profile?.email || "",
-          });
+          setUserState({ profile: true, loading: false, error: null });
+          setUserProfile(userDetails.profile);
         }
       } catch (error) {
-        console.error("Error fetching user details:", error);
-        setUserState({ profile: false, error: `Error fetching user details: ${error}`, loading: false });
+        console.error("Initialization error:", error);
+        setUserState({ profile: false, error: `Initialization error: ${error}`, loading: false });
       }
-  };
+    };
 
+    init();
+  }, [supabase]);
 
-    // Auth state listener
-    useEffect(() => {
-      const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-        if (event === 'SIGNED_IN') {
-          await fetchUserDetails();
-        } else if (event === 'SIGNED_OUT') {
-          setCurrentUser(null);
-          setUserProfile(prevProfile => ({ ...prevProfile, id: null }));
-          setUserState(prevState => ({ ...prevState, profile: false, loading: false }));
-        }
-      });
-  
-      return () => {
-        if (authListener && authListener.subscription) {
-          authListener.subscription.unsubscribe();
-        }
-      };
-    }, []);
-  
-    
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        setCurrentUser(session?.user || {});
+        getUserDetails(supabase); // This needs to be defined or imported
+      } else if (event === 'SIGNED_OUT') {
+        setCurrentUser({});
+        setUserProfile(prevProfile => ({
+          ...prevProfile,
+          id: null, // Assuming 'id' can be null according to your UserProfile type definition
+          full_name: prevProfile?.full_name ?? "",
+          username: prevProfile?.username ?? "",
+          avatar_url: prevProfile?.avatar_url ?? "",
+          website: prevProfile?.website ?? "",
+          email: prevProfile?.email ?? ""
+        }));
+           setUserState(prevState => ({ ...prevState, profile: false, loading: false }));
+      }
+    });
+
+    return () => {
+      if (authListener && authListener.subscription) {
+        authListener.subscription.unsubscribe();
+      }
+    };
+  }, [supabase]);
 
   return (
     <UserContext.Provider value={{ userState, setUserState, userProfile, setUserProfile, supabase }}>
       {children}
     </UserContext.Provider>
   );
-  };
-  
+};
+
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

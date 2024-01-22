@@ -111,9 +111,6 @@ const ToolOptions = () => {
         const img2txtResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
         return img2txtResponse;
 
-      case "avatarStreaming":
-        const avatarsResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/avatars`);
-        return avatarsResponse;
       default:
         return Promise.reject("Invalid tool type");
     }

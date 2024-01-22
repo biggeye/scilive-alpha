@@ -13,6 +13,7 @@ import { selectedTabState, dashboardState } from '@/state/config-atoms';
 
 
 type ToolType = string
+
 const DashboardPage: React.FC = () => {
   const [dashboardState, setDashboardState] = useRecoilState(selectedTabState);
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
@@ -76,9 +77,6 @@ const DashboardPage: React.FC = () => {
             </TabPanel>
             <TabPanel>
               <ImageNarratives />
-            </TabPanel>
-            <TabPanel>
-              <CreateStreamForm />
             </TabPanel>
           </TabPanels>
           </GridItem>

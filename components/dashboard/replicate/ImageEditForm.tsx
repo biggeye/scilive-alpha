@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageEditSubmit } from '@/lib/replicate/useImageEditSubmit';
 import { Box, Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridItem, InputRightAddon } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
-import { predictionStatusState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
+import { userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { selectedModelIdState } from '@/state/config-atoms';
 
@@ -25,7 +25,7 @@ const ImageEditForm = () => {
   const modelId = useRecoilValue(selectedModelIdState);
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const predictionError = useRecoilValue(predictionErrorState);
-  const predictionStatus = useRecoilValue(predictionStatusState);
+
 
   const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);

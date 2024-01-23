@@ -27,10 +27,6 @@ export const modelBootResultState = atom({
   default: "Model not started",
 });
 
-export const predictionStatusState = atom({
-  key: 'predictionStatusState',
-  default: null,
-});
 export const predictionErrorState = atom({
   key: 'predictionErrorState',
   default: null,

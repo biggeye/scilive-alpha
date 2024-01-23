@@ -3,7 +3,7 @@ import { Box, CircularProgress, FormControl, Input, InputGroup, Alert, Button, I
 import { useUserContext } from "@/lib/UserProvider";
 import { useRecoilValue } from "recoil";
 import { selectedModelIdState } from "@/state/config-atoms";
-import { predictionStatusState, predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
+import { predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 
 const ImageCreateForm: React.FC = () => {

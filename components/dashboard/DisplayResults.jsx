@@ -111,30 +111,24 @@ const DisplayResults = () => {
         borderTopRightRadius="5"
         area={"results"}
       >
+      {predictionIsLoading ? ( 
+        <Skeleton 
+    
+         height={{ base: "30vh", md: "40vh" }}
+          width="auto"
+          boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
+          borderRadius=".5rem" />
+      ) : (
         <Image
+        
           height={{ base: "30vh", md: "40vh" }}
           width="auto"
           src={displayedImage}
-          alt="Selected or Processed"
-          boxShadow="0 10px 20px rgba(0, 0, 0, 0.4)"
+          alt="sciGenerate"
+          boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
           borderRadius=".5rem"
-        />
-        <Center>
-          <Flex direction="column" justifyContent="center" alignItems="center">
-            {predictionProgress && (
-              <CircularProgress
-                value={predictionProgress}
-                isIndeterminate={true}
-              />
-            )}
-            <Spacer />
-            <Text fontSize="xxs">
-              {" "}
-              {predictionStatus && JSON.stringify(predictionStatus)}
-            </Text>
-          </Flex>
-        </Center>
-      </GridItem>
+        />)}
+              </GridItem>
 
       <Flex direction="column" justifyContent="space-between">
         <GridItem p="2" m="5px" area={"description"}>

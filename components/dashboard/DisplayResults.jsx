@@ -38,6 +38,7 @@ import {
   selectedModelShortDescState,
   selectedModelNameState,
   exampleImageState,
+  examplesLoadingState,
   userContentExamplesState,
 } from "@/state/config-atoms";
 import { ScrollableThumbnails } from "../ScrollableThumbnails";
@@ -48,6 +49,7 @@ const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
 
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+  const examplesLoading = useRecoilValue(examplesLoadingState);
 
   const predictionProgress = useRecoilValue(predictionProgressState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
@@ -143,7 +145,7 @@ const DisplayResults = () => {
           </Card>
         </GridItem>
 
-        <GridItem p="2" m="5px" area={"shortDesc"}>
+        <GridItem p="2" m="2px" area={"shortDesc"}>
           <Card m="1" p=".5" width="100%">
             <Text fontSize={{ base: "xs", md: "sm" }}>
               {finalPrediction
@@ -154,9 +156,13 @@ const DisplayResults = () => {
             </Text>
           </Card>
         </GridItem>
-        <GridItem p="2" m="5px" area={"carousel"}>
-          <Card mt="2" p=".5">
-            <ScrollableThumbnails images={userContentExamples} />
+        <GridItem p="2" m="2px" area={"carousel"}>
+          <Card mt="1" p=".5">
+            {examplesLoading ? (
+              <Skeleton w={{base: "95vw", md: "65vw"}} h="200px" />
+            ) : (
+              <ScrollableThumbnails images={userContentExamples} />
+            )}
           </Card>
         </GridItem>
       </Flex>

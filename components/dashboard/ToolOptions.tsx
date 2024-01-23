@@ -1,17 +1,9 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
-import { Spacer, Box, Select, Flex } from "@chakra-ui/react";
+import { Spacer, Box, Select, Flex, CircularProgress, Skeleton } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState } from "@/state/config-atoms";
+import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
-import { selectedTabState, userContentExamplesState } from "@/state/config-atoms"
-import { CircularProgress } from "@chakra-ui/react";
-
-interface Item {
-  name: string;
-  id: number;
-}
-
 
 const ToolOptions = () => {
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
@@ -20,81 +12,79 @@ const ToolOptions = () => {
   const [selectedModelName, setSelectedModelName] = useRecoilState(selectedModelNameState);
   const [exampleImage, setExampleImage] = useRecoilState(exampleImageState);
   const [modelsData, setModelsData] = useState<SelectedModel[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [examplesLoading, setExamplesLoading] = useRecoilState(examplesLoadingState);
+  const [modelsLoading, setModelsLoading] = useState(false);
   const tool = useRecoilValue(selectedTabState);
   const [userContentExamples, setUserContentExamples] = useRecoilState(userContentExamplesState);
-  
 
-  
   useEffect(() => {
-    setLoading(true);
-    getModels();
+    if (tool) {
+      fetchModels();
+    }
   }, [tool]);
 
   useEffect(() => {
-    if (modelsData.length > 0) {
-      setExampleImage("");
-      const firstModel = modelsData[0];
-      setSelectedModelName(firstModel.name);
-      setSelectedModelId(firstModel.id);
-      setSelectedModelFriendlyName(firstModel.friendlyname);
-      setExampleImage(firstModel.example || "");
-      setSelectedModelShortDesc(firstModel.shortdesc || "");
-      getUserContentExamples();
+    if (modelsData.length > 0 && selectedModelId === "") {
+      updateModelStates(modelsData[0]);
     }
-  }, [modelsData, setSelectedModelShortDesc, setSelectedModelId, setSelectedModelFriendlyName, setExampleImage]);
-  
-  const getModels = async () => {
+  }, [modelsData]);
+
+  useEffect(() => {
+    if (selectedModelId) {
+      fetchUserContentExamples();
+    }
+  }, [selectedModelId]);
+
+  const updateModelStates = (model: SelectedModel) => {
+    setSelectedModelName(model.name);
+    setSelectedModelId(model.id);
+    setSelectedModelFriendlyName(model.friendlyname);
+    setExampleImage(model.example || "");
+    setSelectedModelShortDesc(model.shortdesc || "");
+  };
+
+  const fetchModels = async () => {
+    setModelsLoading(true);
     try {
       const response = await fetchModelData();
-
       if (response && response.ok) {
-        const responseBody = await response.json();
-        if (Array.isArray(responseBody.data)) { // Extracting the array from the 'data' key
-          setModelsData(responseBody.data);
-          console.log(modelsData);
-        } else {
-          console.error("Unexpected data format:", responseBody);
-        }
-      } else {
-        console.error("ToolOptions: no data fetched or error in response.");
+        const { data } = await response.json();
+        setModelsData(data);
       }
     } catch (error) {
-      console.error("Error fetching models: ", error);
+      console.error("Error fetching models:", error);
     } finally {
-      await getUserContentExamples();
-      setLoading(false);
+      setModelsLoading(false);
     }
   };
-  
-  const getUserContentExamples = async () => {
+
+  const fetchUserContentExamples = async () => {
+    setExamplesLoading(true);
     try {
-      const selectedModelIdCall = {
-        "selectedModelId": selectedModelId,
-      }
-      let response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'  
-        },
-        body: JSON.stringify(selectedModelIdCall)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ selectedModelId })
       });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.ok) {
+        const userContent = await response.json();
+        setUserContentExamples(userContent.map((item: any) => item.url));
       }
-  
-      let userContent = await response.json();
-      // Extracting the URLs from the response
-      let urls = userContent.map((item: any) => item.url);
-      setUserContentExamples(urls); // Set the state with the array of URLs
-      console.log(urls); // Logging the URLs for verification
-      return userContent;
     } catch (error) {
-      console.error("Error fetching user content examples: ", error);
-      return []; // Return an empty array or handle the error appropriately
+      console.error("Error fetching user content examples:", error);
+    } finally {
+      setExamplesLoading(false);
     }
-  }
+  };
+
+  const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSelectedModelId = event.target.value;
+    const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
+    if (selectedModel) {
+      updateModelStates(selectedModel);
+      await fetchUserContentExamples();
+    }
+  };
   
   const fetchModelData = async () => {
     switch (tool) {
@@ -111,52 +101,42 @@ const ToolOptions = () => {
         const img2txtResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
         return img2txtResponse;
 
+      case "avatarStreaming":
+        const avatarResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/avatars`);
+        return avatarResponse;
+        
       default:
         return Promise.reject("Invalid tool type");
     }
   }
-  useEffect(() => {
-    if (selectedModelId) {
-      getUserContentExamples();
-    }
-  }, [selectedModelId, getUserContentExamples]);
-  
-  const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSelectedModelId = event.target.value;
-    const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
-  
-    if (selectedModel) {
-      // Update model details first
-      setSelectedModelName(selectedModel.name);
-      setSelectedModelShortDesc(selectedModel.shortdesc);
-      setSelectedModelFriendlyName(selectedModel.friendlyname);
-      setExampleImage(selectedModel.example || "");
-      // Update selectedModelId last
-      setSelectedModelId(newSelectedModelId);
-    }
-  };
-  
 
-  if (loading) {
-    return <CircularProgress />; // Or any loading indicator
+  
+  const resetAllModelStates = () => {
+    setExampleImage("");
+    setUserContentExamples([]);
+    setSelectedModelName("");
+    setSelectedModelFriendlyName("");
+    setSelectedModelShortDesc("");
+    setSelectedModelId("");
   }
 
   return (
     <Box marginBottom="3px" maxWidth="640px" p="5px">
       <Flex>
         <Spacer />
-        <Select variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
-          {modelsData?.map(model => (
-            <option key={model.id} value={model.id}>
-              {model.friendlyname} {/* Updated to match the property name */}
-            </option>
-          )) ?? <option><CircularProgress /></option>}
-        </Select>
+        {modelsLoading ? (
+          <Skeleton width="75%" height="100px"><CircularProgress isIndeterminate={true} /></Skeleton>
+        ) : (
+          <Select variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
+            {modelsData.map(model => (
+              <option key={model.id} value={model.id}>{model.friendlyname}</option>
+            ))}
+          </Select>
+        )}
         <Spacer />
       </Flex>
     </Box>
   );
-
 };
 
 export default ToolOptions;

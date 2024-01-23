@@ -1,5 +1,10 @@
 import { atom } from "recoil";
 
+export const examplesLoadingState = atom({
+  key: "examplesLoadingState",
+  default: false,
+})
+
 export const selectedModelFriendlyNameState = atom({
     key: "selectedModelFriendlyNameState",
     default: "",

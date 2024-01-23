@@ -40,6 +40,7 @@ export const sciLiveTheme = extendTheme({
       
       main: {
         width: "100vw",
+        height: "100%",
         overflowY: "scroll",
         overflowX: "hidden",
         bgGradient: "linear(to-b, silver 50%, white 75%)",

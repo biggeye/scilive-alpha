@@ -39,3 +39,9 @@ export const sdpResponseState = atom({
     key: 'sdpResponseState',
     default: null,
 });
+
+
+export const userAvatarUrlState = atom({
+    key: 'user AvatarUrlState',
+    default: '',
+})

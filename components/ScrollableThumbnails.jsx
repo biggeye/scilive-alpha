@@ -16,7 +16,7 @@ export const ScrollableThumbnails = () => {
   };
 
   return (
-    <Box position="relative" w="65vw" h="200px" overflow="hidden">
+    <Box position="relative" w={{base: "95vw", md: "65vw"}} h="200px" overflow="hidden">
       <IconButton
         aria-label="Scroll left"
         icon={<ChevronLeftIcon />}

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
+import { Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, useBoolean } from '@chakra-ui/react';
 import ToolOptions from '@/components/dashboard/ToolOptions';
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
@@ -10,7 +10,7 @@ import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
 import { predictionIsLoadingState } from "@/state/prediction-atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedTabState, dashboardState } from '@/state/config-atoms';
-
+import DisplayStream from '@/components/dashboard/d-id/DisplayStream';
 
 type ToolType = string
 
@@ -18,6 +18,7 @@ const DashboardPage: React.FC = () => {
   const [dashboardState, setDashboardState] = useRecoilState(selectedTabState);
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+  const [avatarStreaming, setAvatarStreaming] = useState(false);
 
   useEffect(() => {
     handleTabsChange(0);
@@ -37,6 +38,7 @@ const DashboardPage: React.FC = () => {
         break;
       case 3:
         tool = "avatarStreaming";
+        setAvatarStreaming(true);
         break;
       default:
         tool = "imageCreation"; // Default tool if no index matches
@@ -65,7 +67,7 @@ const DashboardPage: React.FC = () => {
         </GridItem>
         <GridItem overflowY="auto">
           <ToolOptions />
-          <DisplayResults />
+          {avatarStreaming ? (<DisplayStream />) : (<DisplayResults />)}
         </GridItem>
         <GridItem className="bottomInputFormFrame">
           <TabPanels>
@@ -77,6 +79,9 @@ const DashboardPage: React.FC = () => {
             </TabPanel>
             <TabPanel>
               <ImageNarratives />
+            </TabPanel>
+            <TabPanel>
+              <CreateStreamForm />
             </TabPanel>
           </TabPanels>
           </GridItem>

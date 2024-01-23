@@ -10,14 +10,15 @@
   position: fixed;
   bottom: 0;
   width: 100%; /* Add this to span the entire width */
-  background-image: linear-gradient(to top, silver 5%, transparent 75%);
+/*  background-image: linear-gradient(to top, silver 80%, transparent 95%); */
   z-index: 10; /* Ensures it stays on top */
+  color: onyx;
+  background-color: silver;
+  border-width: 1px;
+  border-color: "onyx";
 }
 
 
-bottomInputForm {
-  color: "onyx";
-}
 
 .chatButton {
   position: fixed;

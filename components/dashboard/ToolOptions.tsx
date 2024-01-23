@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import { Spacer, Box, Select, Flex, CircularProgress, Skeleton } from "@chakra-ui/react";
+import { Spacer, Box, Select, Flex, Progress, Skeleton } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
@@ -125,7 +125,7 @@ const ToolOptions = () => {
       <Flex>
         <Spacer />
         {modelsLoading ? (
-          <Skeleton width="75%" height="100px"><CircularProgress isIndeterminate={true} /></Skeleton>
+        <Progress isIndeterminate={true} />
         ) : (
           <Select variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
             {modelsData.map(model => (

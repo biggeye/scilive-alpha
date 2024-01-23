@@ -156,15 +156,7 @@ const DisplayResults = () => {
             </Text>
           </Card>
         </GridItem>
-        <GridItem p="2" m="2px" area={"carousel"}>
-          <Card mt="1" p=".5">
-            {examplesLoading ? (
-              <Skeleton w={{base: "95vw", md: "65vw"}} h="200px" />
-            ) : (
-              <ScrollableThumbnails images={userContentExamples} />
-            )}
-          </Card>
-        </GridItem>
+      
       </Flex>
     </Grid>
   );

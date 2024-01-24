@@ -64,8 +64,8 @@ const Gallery = () => {
                   {currentIndex !== null && (
                     <Image
                       boxShadow="0px 3px 3px"
-                      height="80vh"
-                      width="auto"
+                      height="auto"
+                      width={{ base: "80vw", md: "50vw"}}
                       src={contentItems[currentIndex]?.url}
                       alt={contentItems[currentIndex]?.content_type} />
                   )}

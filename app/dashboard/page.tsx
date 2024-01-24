@@ -59,10 +59,10 @@ const DashboardPage: React.FC = () => {
       <Tabs align="center" width="100%" onChange={(index) => handleTabsChange(index)}>
         <GridItem>
           <TabList maxWidth={{ base: "375px", md: "650px" }}>
-            <Tab>Image Creation</Tab>
-            <Tab>Image Editing</Tab>
-            <Tab>Image Narratives</Tab>
-            <Tab>Avatar Streaming</Tab>
+            <Tab>Create</Tab>
+            <Tab>Edit</Tab>
+            <Tab>Narrate</Tab>
+            <Tab>Stream</Tab>
           </TabList>
         </GridItem>
         <GridItem overflowY="auto">
@@ -78,7 +78,7 @@ const DashboardPage: React.FC = () => {
               <ImageEditForm />
             </TabPanel>
             <TabPanel>
-              <ImageNarratives />
+             <Text>Coming Soon</Text>
             </TabPanel>
             <TabPanel>
               <CreateStreamForm />

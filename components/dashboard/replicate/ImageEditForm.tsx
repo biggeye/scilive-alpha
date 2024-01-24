@@ -23,7 +23,7 @@ const ImageEditForm = () => {
   const imageEditSubmit = useImageEditSubmit(supabase);
 
   const modelId = useRecoilValue(selectedModelIdState);
-  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+  const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
   const predictionError = useRecoilValue(predictionErrorState);
 
 
@@ -47,11 +47,13 @@ const ImageEditForm = () => {
 
   const handleUserImageEditSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  setPredictionIsLoading(true);
     if (!modelId || !userId) {
       console.error("No model selected or user not found");
       return;
     }
     await imageEditSubmit(userInput);
+setPredictionIsLoading(false);
   };
 
   return (

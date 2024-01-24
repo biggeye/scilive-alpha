@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Box, CircularProgress, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedModelIdState } from "@/state/config-atoms";
 import { predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";

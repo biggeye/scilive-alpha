@@ -60,7 +60,7 @@ const GalleryLg: React.FC = () => {
               icon={<ChevronLeftIcon />}
               onClick={() => handleArrowClick('left')}
               position="fixed"
-              left="10px"
+              left="5px"
               top="50%"
               zIndex="2"
               display='block'
@@ -69,7 +69,7 @@ const GalleryLg: React.FC = () => {
             <Spacer />
             <Image
               margin="2rem"
-              maxWidth="85vh"
+              width={{ base: "60vw", md: "80vw" }}
               src={contentItems[currentIndex]?.url}
               alt={contentItems[currentIndex]?.content_type}
               onClick={handleImageClick}
@@ -81,7 +81,7 @@ const GalleryLg: React.FC = () => {
               icon={<ChevronRightIcon />}
               onClick={() => handleArrowClick('right')}
               position="fixed"
-              right="10px"
+              right="5px"
               top="50%"
               zIndex="2"
               display='block'

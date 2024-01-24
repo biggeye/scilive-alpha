@@ -19,6 +19,7 @@ const ToolOptions = () => {
 
   useEffect(() => {
     if (tool) {
+      resetAllModelStates();
       fetchModels();
     }
   }, [tool]);

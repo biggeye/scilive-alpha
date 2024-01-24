@@ -43,22 +43,16 @@ import {
 import { ScrollableThumbnails } from "../ScrollableThumbnails";
 
 const DisplayResults = () => {
-  const theme = useTheme();
-
   const [displayedImage, setDisplayedImage] = useState(null);
 
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const examplesLoading = useRecoilValue(examplesLoadingState);
-
   const predictionProgress = useRecoilValue(predictionProgressState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
-   const modelBootResult = useRecoilValue(modelBootResultState);
+  const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionResult = useRecoilValue(predictionResultState);
-
   const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue(
-    selectedModelFriendlyNameState
-  );
+  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
   const userContentExamples = useRecoilValue(userContentExamplesState);
@@ -80,25 +74,25 @@ const DisplayResults = () => {
   }, [finalPrediction, userImagePreview, exampleImage]);
 
   return (
-<Box>
-      {predictionIsLoading ? ( 
-        <Skeleton 
-    
-         height={{ base: "50vh", md: "60vh" }}
+    <Box>
+      {predictionIsLoading ? (
+        <Skeleton
+          height={{ base: "50vh", md: "60vh" }}
           width="auto"
           boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
-          borderRadius=".5rem" />
+          borderRadius=".5rem"
+        />
       ) : (
         <Image
-        
           height={{ base: "50vh", md: "60vh" }}
           width="auto"
           src={displayedImage}
           alt="sciGenerate"
           boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
           borderRadius=".5rem"
-        />)}
-     </Box>        
+        />
+      )}
+    </Box>
   );
 };
 

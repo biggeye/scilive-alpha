@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { Switch, CardHeader, Card, CardBody, CardFooter, Flex, InputGroup, InputRightAddon, Image, Center, FormControl, FormLabel, Input, Button, Box, Text, Link, Spacer } from '@chakra-ui/react';
 import { github, google } from '@/components/Auth/Icons';
 import { Router } from 'next/router';
+import { fadeOut } from '@/app/theme';
 
 interface FormData {
   email: string;
@@ -58,62 +59,77 @@ const Login: React.FC = () => {
     });
   };
 
+  const handleFadeOut = () => { fadeOut };
+
   return (
-    <Card m="3rem" width="90%">
-      <CardHeader display="flex">
-        {isLoginMode ? 'Login' : 'Signup'}
-        <Spacer />
-        <Switch isChecked={!isLoginMode} onChange={toggleMode}>Sign-up</Switch>
-      </CardHeader>
-      <CardBody>
-        <Flex alignItems="center" direction="column">
+    <Center>
+      <Card
+        width={{ base: "80vw", md: "65vw" }}
+      >
+        <CardHeader display="flex">
+          <Spacer />
+
+
+          <Switch isChecked={!isLoginMode} onChange={toggleMode}>
+            {isLoginMode ? 'Login' : 'Signup'}
+          </Switch>
+          <Spacer />
+        </CardHeader>
+        <CardBody>
+
           <form onSubmit={handleSubmit}>
-            <Flex direction="row" justifyContent="space-between">
-              <InputGroup>
-                <FormControl id="email">
-                  <Input
-                    borderColor="onyx"
-                    name="email"
-                    placeholder="username@domain.com"
-                    type="email"
-                    onChange={handleChange}
-                    value={formData.email}
-                  />
-                </FormControl>
-                <FormControl id="password">
-                  <Input
-                    borderColor="onyx"
-                    placeholder="password"
-                    name="password"
-                    type="password"
-                    onChange={handleChange}
-                    value={formData.password}
-                  />
-                </FormControl>
-                <InputRightAddon>
-                  <Button type="submit" width="100%">
-                    {isLoginMode ? 'Login' : 'Signup'}
-                  </Button>
-                </InputRightAddon>
-              </InputGroup>
+            <Flex direction={{ base: "column", md: "row" }} justifyContent="space-between">
+
+              <FormControl id="email">
+                <Input
+                  name="email"
+                  placeholder="username@domain.com"
+                  type="email"
+                  onChange={handleChange}
+                  value={formData.email}
+                />
+              </FormControl>
+              <FormControl id="password">
+                <Input
+                  placeholder="password"
+                  name="password"
+                  type="password"
+                  onChange={handleChange}
+                  value={formData.password}
+                />
+              </FormControl>
+              <Spacer />
+              <Button type="submit" width="100%">
+                {isLoginMode ? 'Login' : 'Signup'}
+              </Button>
+              <Spacer />
             </Flex>
-            <Center>
-              <Link size="sm" href="/reset-password" className="link w-full">
-                Reset Password
-              </Link>
-            </Center>
+           <Box m="1rem" width="90%" bgColor="seasalt" height="4px" />
+            <Flex direction={{ base: "column", md: "row" }} justifyContent="space-between">
+            <Spacer />
+
+            <Button width="100%" leftIcon={google()} colorScheme="gray" onClick={() => handleOAuthLogin('google')} />
+            <Spacer />
+            <Button width="100%" leftIcon={github()} colorScheme="gray" onClick={() => handleOAuthLogin('github')} />
+
+            <Spacer />
+            </Flex>
           </form>
           {errorMsg && <Text color="red.600">{errorMsg}</Text>}
-        </Flex>
-      </CardBody>
-      <CardFooter display="flex" justifyContent="space-around">
-        <Spacer />
-        <Button leftIcon={google()} colorScheme="gray" onClick={() => handleOAuthLogin('google')} />
-        <Spacer />
-        <Button leftIcon={github()} colorScheme="gray" onClick={() => handleOAuthLogin('github')} />
-        <Spacer />
-      </CardFooter>
-    </Card>
+
+        </CardBody>
+        <CardFooter display="flex" justifyContent="space-around">
+
+          <Center>
+            <Link color="onyx" mt="1rem" size="xs" href="/reset-password" className="link w-full">
+              <Button onClick={handleFadeOut}>
+              Reset Password
+              </Button>
+            </Link>
+          </Center>
+        </CardFooter>
+      </Card>
+    </Center>
   );
 };
 

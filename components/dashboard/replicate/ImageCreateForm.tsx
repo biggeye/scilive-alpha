@@ -12,7 +12,8 @@ const ImageCreateForm: React.FC = () => {
 
   const [userInput, setUserInput] = useState<string>("");
   const modelId = useRecoilValue(selectedModelIdState);
-  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+  const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
+
   const predictionError = useRecoilValue(predictionErrorState);
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
 
@@ -21,12 +22,14 @@ const ImageCreateForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+setPredictionIsLoading(true);
     if (!modelId || !userId) {
       console.error("No model selected or user not found");
       return;
     }
     // Call the function returned by useImageCreateSubmit
     await imageCreateSubmit(userInput);
+setPredictionIsLoading(false);
   };
   
   return (

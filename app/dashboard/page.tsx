@@ -29,12 +29,15 @@ const DashboardPage: React.FC = () => {
     switch (index) {
       case 0:
         tool = "imageCreation";
+setAvatarStreaming(false);
         break;
       case 1:
         tool = "imageEditing";
+setAvatarStreaming(false);
         break;
       case 2:
         tool = "imageNarratives";
+setAvatarStreaming(false);
         break;
       case 3:
         tool = "avatarStreaming";
@@ -78,7 +81,7 @@ const DashboardPage: React.FC = () => {
               <ImageEditForm />
             </TabPanel>
             <TabPanel>
-             <Text>Coming Soon</Text>
+             <ImageNarratives />
             </TabPanel>
             <TabPanel>
               <CreateStreamForm />

@@ -40,7 +40,7 @@ const ToolOptions = () => {
     setSelectedModelName(model.name);
     setSelectedModelId(model.id);
     setSelectedModelFriendlyName(model.friendlyname);
-    setExampleImage(model.example || "");
+    setExampleImage(model.example || model.url || "");
     setSelectedModelShortDesc(model.shortdesc || "");
   };
 
@@ -130,7 +130,7 @@ const ToolOptions = () => {
         ) : (
           <Select variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
             {modelsData.map(model => (
-              <option key={model.id} value={model.id}>{model.friendlyname}</option>
+              <option key={model.id} value={model.id}>{model.friendlyname || model.name}</option>
             ))}
           </Select>
         )}

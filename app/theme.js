@@ -11,6 +11,12 @@ export const fadeOut = keyframes`
   to { opacity: 0; transform: scale(0); }
 `;
 
+export const pulse = keyframes`
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.5); }
+`;
+
+
 export const sciLiveTheme = extendTheme({
   fonts: {
     heading: fonts.rubik.variable,

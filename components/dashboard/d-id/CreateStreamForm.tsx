@@ -1,5 +1,20 @@
 'use client'
-import { InputLeftAddon, Grid, GridItem, Card, CardHeader, CardBody, CardFooter, FormControl, InputGroup, Input, InputRightAddon, Button, Alert, Text, Center, Box } from "@chakra-ui/react";
+import { InputLeftAddon, 
+  Grid, 
+  GridItem, 
+  Card, 
+  CardHeader, 
+  CardBody, 
+  CardFooter, 
+  FormControl, 
+  InputGroup, 
+  Input, 
+  InputRightAddon, 
+  Button, 
+  Alert, 
+  Text, 
+  Center, 
+  Box } from "@chakra-ui/react";
 import StreamStatus from "./StreamStatus";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { createStream } from "@/lib/d-id/createStream";
@@ -13,21 +28,24 @@ import { createClient } from "@/utils/supabase/client";
 import { useUserContext } from "@/lib/UserProvider";
 import uploadAvatar, { uploadFileToBucket } from "@/lib/d-id/uploadAvatar";
 import { userImagePreviewState } from "@/state/prediction-atoms";
-
-const convertToDataURI = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result ? reader.result.toString() : '');
-    reader.onerror = (error) => reject(error);
-  });
+import {
+  streamIdState,
+  sessionIdState,
+  sdpOfferState,
+  iceServersState,
+} from "@/state/d_id_stream-atoms";
+import { convertToDataURI } from "@/lib/convertToDataURI";
 
 export default function CreateStreamForm() {
+  const [streamId, setStreamId] = useRecoilState(streamIdState);
+  const [sessionId, setSessionId] = useRecoilState(sessionIdState);
+  const [sdpOffer, setSdpOffer] = useRecoilState(sdpOfferState);
+  const [iceServers, setIceServers] = useRecoilState(iceServersState);
   const { userProfile } = useUserContext();
   const userId = userProfile.id;
 
   const supabase = createClient();
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [avatarInput, setAvatarInput] = useState("");
@@ -60,28 +78,29 @@ export default function CreateStreamForm() {
     try {
       // Replace this with your actual method to upload a file to the 'avatars' bucket
       const uploadedFileId = await uploadFileToBucket(userInFile, userAvatarUrl, supabase);
-      alert(uploadedFileId);
-      const newAvatar = await uploadAvatar(uploadedFileId, avatarName, userId, supabase);      
-      alert(newAvatar);
+      console.log(uploadedFileId, avatarName, userId, supabase);
+      const newAvatar = await uploadAvatar(uploadedFileId, avatarName, userId, supabase);
     } catch (error) {
       console.error('Error uploading avatar:', error);
     } finally {
-  
+
       setIsLoading(false);
     }
   };
-  
-  const handleAvatarSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevents the default form submission action
+
+  const handleAvatarSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     if (!avatar_url) {
       console.error("No model selected or user not found");
       return;
     }
-    await createStream(avatar_url);
-    await createPeerConnection();
-    await getSdpReply();
-    await createTalkStream();
+
+    // Define your state setters here
+
+
+    await createStream(avatar_url, setStreamId, setSessionId, setSdpOffer, setIceServers);
+    // Other operations
   };
 
   return (

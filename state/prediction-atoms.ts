@@ -17,6 +17,10 @@ export const userImageDataUriState = atom<string | null>({
   key: 'userImageDataUriState',
   default: null,
 });
+export const existingUploadState = atom<File | null>({
+  key: 'existingUploadState',
+  default: null,
+});
 
 export const modelBootProgressState = atom({
   key: 'modelBootProgressState',
@@ -41,6 +45,10 @@ export const predictionResultState = atom({
   default: null,
 });
 
+export const predictionStatusState = atom({
+  key: 'predictionStatusState',
+  default: '',
+})
 export const predictionIsLoadingState = atom({
   key: 'predictionIsLoadingState',
   default: false,

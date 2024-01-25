@@ -30,7 +30,8 @@ export interface SelectedModel {
   id: string,
   name: string,
   friendlyname: string,
-  example: string,
+  example?: string,
+  url?: string,
   shortdesc: string,
 }
 

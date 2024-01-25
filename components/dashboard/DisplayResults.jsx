@@ -41,6 +41,9 @@ import {
   userContentExamplesState,
 } from "@/state/config-atoms";
 import { ScrollableThumbnails } from "../ScrollableThumbnails";
+import ProgressIndicator from "../CircularProgress";
+import { pulse } from "@/app/theme";
+
 
 const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
@@ -76,12 +79,19 @@ const DisplayResults = () => {
   return (
     <Box>
       {predictionIsLoading ? (
-        <Skeleton
-          height={{ base: "50vh", md: "60vh" }}
-          width="auto"
-          boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
-          borderRadius=".5rem"
-        />
+        <Center>
+        <Flex direction="column">
+          <Skeleton
+            height={{ base: "50vh", md: "60vh" }}
+            width="90vw"
+            boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
+            borderRadius=".5rem"
+            animation={`${pulse}`}
+          />
+          <CircularProgress value={predictionProgress} />
+          <ProgressIndicator />
+          </Flex>
+        </Center>
       ) : (
         <Image
           height={{ base: "50vh", md: "60vh" }}

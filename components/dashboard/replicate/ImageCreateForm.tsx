@@ -3,7 +3,7 @@ import { Box, CircularProgress, FormControl, Input, InputGroup, Alert, Button, I
 import { useUserContext } from "@/lib/UserProvider";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedModelIdState } from "@/state/config-atoms";
-import { predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
+import { finalPredictionState, predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 
 const ImageCreateForm: React.FC = () => {
@@ -13,7 +13,7 @@ const ImageCreateForm: React.FC = () => {
   const [userInput, setUserInput] = useState<string>("");
   const modelId = useRecoilValue(selectedModelIdState);
   const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
-
+  const finalPrediction = useRecoilValue(finalPredictionState);
   const predictionError = useRecoilValue(predictionErrorState);
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
 
@@ -29,7 +29,10 @@ setPredictionIsLoading(true);
     }
     // Call the function returned by useImageCreateSubmit
     await imageCreateSubmit(userInput);
-setPredictionIsLoading(false);
+    setPredictionIsLoading(false);
+    if (finalPrediction) {
+      setPredictionIsLoading(false);
+    }
   };
   
   return (

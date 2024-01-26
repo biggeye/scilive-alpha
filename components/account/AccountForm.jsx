@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/lib/UserProvider";
 import {
@@ -14,75 +14,69 @@ import {
   Input,
   Button,
   Spacer,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
+import { createClient } from "@/utils/supabase/client";
 
 export const AccountForm = () => {
-  const { userState, userProfile, setUserProfile } = useUserContext();
-  const userId = userProfile.id;
+  const { userProfile, setUserProfile } = useUserContext();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const [state, setState] = useState({
-    X: false,
-    TikTok: false,
-    YouTube: false,
-    Facebook: false,
-    Instagram: false
+  const [formState, setFormState] = useState({
+    full_name: '',
+    username: '',
+    website: '',
+    // Initialize other fields as needed
   });
+  const [error, setError] = useState('');
 
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
+  // Update form state when userProfile changes
+  useEffect(() => {
+    if (userProfile) {
+      setFormState({
+        full_name: userProfile.full_name || '',
+        username: userProfile.username || '',
+        website: userProfile.website || '',
+        email: userProfile.email || '',
+        // Update other fields as needed
+      });
+    }
+  }, [userProfile]);
 
-  function handleCancel() {
-    router.push("/dashboard");
-  }
-
-  function handleInputChange(event) {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUserProfile((prevState) => ({
+    setFormState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  }
+  };
 
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    const { supabase } = useUserContext();
 
     try {
+      const supabase = createClient();
       const { data, error } = await supabase
         .from("users")
-        .update({
-          full_name: userProfile.full_name,
-          username: userProfile.username,
-          website: userProfile.website,
-        })
+        .update(formState)
         .eq("id", userProfile.id);
 
       if (error) {
-        setIsLoading(false);
         throw error;
       }
 
       console.log("User updated:", data);
-      if (data) {
-        Alert("Profile updated");
-      }
-      getProfile(userId);
-      setIsLoading(false);
+      setUserProfile(data);
       router.push("/dashboard");
     } catch (err) {
       console.error("Error updating user:", err.message);
+      setError(err.message);
+    } finally {
       setIsLoading(false);
     }
-  }
-
-async function getProfile(userId) {
-  const profile = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/user/profile?id=${userId}`)
-  console.log(profile);
-  setUserProflie({profile});
-}
+  };
 
   return (
     <Center>
@@ -93,78 +87,67 @@ async function getProfile(userId) {
         borderBottomRightRadius="10px"
         className="animated-shadow"
       >
-        <Flex
-          direction="column"
-          alignItems="center"
-          justifyContent="space-evenly"
-          minWidth="300px"
-        >
-          <form onSubmit={handleSubmit}>
-            <CardBody>
-              <FormControl id="fullName">
-                <FormLabel>Full Name</FormLabel>
-                <Input
-                  type="text"
-                  name="full_name"
-                  value={userProfile.full_name || ""}
-                  onChange={handleInputChange}
-                />
-              </FormControl>
+        <form onSubmit={handleSubmit}>
+          <CardBody>
+            {error && (
+              <Alert status="error">
+                <AlertIcon />
+                {error}
+              </Alert>
+            )}
+            {/* Form fields here */}
+            {/* Example: Full Name */}
+            <FormControl id="fullName">
+              <FormLabel>Full Name</FormLabel>
+              <Input
+                type="text"
+                name="full_name"
+                value={formState.full_name}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl id="username">
+              <FormLabel>Username</FormLabel>
+              <Input
+                type="text"
+                name="username"
+                value={formState.username}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl id="email">
+              <FormLabel>E-mail</FormLabel>
+              <Input
+                type="text"
+                name="email"
+                value={formState.email}
+                onChange={handleInputChange}
+              />
+            </FormControl><FormControl id="website">
+              <FormLabel>Web Site</FormLabel>
+              <Input
+                type="text"
+                name="website"
+                value={formState.website}
+                onChange={handleInputChange}
+              />
+            </FormControl>
 
-              <FormControl id="username">
-                <FormLabel>Username</FormLabel>
-                <Input
-                  type="text"
-                  name="username"
-                  value={userProfile.username || ""}
-                  onChange={handleInputChange}
-                />
-              </FormControl>
 
-              <FormControl id="website">
-                <FormLabel>Website</FormLabel>
-                <Input
-                  type="text"
-                  name="website"
-                  value={userProfile.website || ""}
-                  onChange={handleInputChange}
-                />
-              </FormControl>
-
-              <FormControl id="socialMediaPlatforms">
-                <FormLabel>Social Media Connections</FormLabel>
-                {Object.keys(state).map((key) => (
-                  <div key={key}>
-                    <label>
-                      <input
-                        name={key}
-                        type="checkbox"
-                        checked={state[key]}
-                        onChange={handleChange}
-                      />
-                      {key}
-                    </label>
-                  </div>
-                ))}
-              </FormControl>
-            </CardBody>
-            <CardFooter>
-              <Flex direction="row" justifyContent="space-evenly">
-                <Button
-                  size="xxs"
-                  padding={".5px"}
-                  mt={2}
-                  p={2}
-                  colorScheme="teal"
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  Update
-                </Button>
-              </Flex>
-            </CardFooter>
-          </form>
-        </Flex>
+            {/* Add other form controls similarly */}
+          </CardBody>
+          <CardFooter>
+            <Button
+              size="sm"
+              mt={2}
+              colorScheme="teal"
+              type="submit"
+              isLoading={isLoading}
+            >
+              Update
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </Center>
   );

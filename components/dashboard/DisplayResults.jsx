@@ -44,7 +44,6 @@ import { ScrollableThumbnails } from "../ScrollableThumbnails";
 import ProgressIndicator from "../CircularProgress";
 import { pulse } from "@/app/theme";
 
-
 const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
 
@@ -55,7 +54,9 @@ const DisplayResults = () => {
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionResult = useRecoilValue(predictionResultState);
   const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
+  const selectedModelFriendlyName = useRecoilValue(
+    selectedModelFriendlyNameState
+  );
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
   const userContentExamples = useRecoilValue(userContentExamplesState);
@@ -77,31 +78,36 @@ const DisplayResults = () => {
   }, [finalPrediction, userImagePreview, exampleImage]);
 
   return (
-    <Box>
-      {predictionIsLoading ? (
-        <Center>
-        <Flex direction="column">
+    <Box height="100%">
+      <Flex direction="column">
+      <Center>
+        {predictionIsLoading ? (
           <Skeleton
             height={{ base: "50vh", md: "60vh" }}
-            width="90vw"
+            width="auto"
             boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
             borderRadius=".5rem"
-            animation={`${pulse}`}
+            className="element-pulse"
+          >
+            <CircularProgress value={predictionProgress} />
+            <ProgressIndicator />
+          </Skeleton>
+        ) : (
+          <>          
+          <Image
+            height={{ base: "50vh", md: "60vh" }}
+            width="auto"
+            src={displayedImage}
+            alt="sciGenerate"
+            boxShadow="0px -5px 25px rgba(0, 0, 0, 0.5)"
+            borderRadius=".5rem"
+            className="animated-shadow"
           />
-          <CircularProgress value={predictionProgress} />
-          <ProgressIndicator />
-          </Flex>
+          {finalPredictionPrompt && <Text>{finalPredictionPrompt}</Text>}
+          </>
+        )}
         </Center>
-      ) : (
-        <Image
-          height={{ base: "50vh", md: "60vh" }}
-          width="auto"
-          src={displayedImage}
-          alt="sciGenerate"
-          boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
-          borderRadius=".5rem"
-        />
-      )}
+      </Flex>
     </Box>
   );
 };

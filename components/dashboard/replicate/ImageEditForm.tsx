@@ -33,6 +33,7 @@ const ImageEditForm = () => {
     if (e.target.files?.[0]) {
       const file = e.target.files[0];
       const imagePreview = URL.createObjectURL(file);
+      setUserImageUpload(file);
       setUserImagePreview(imagePreview);
       const URI = await convertToDataURI(file);
       setUserImageDataUri(URI); // Use the new state setter here

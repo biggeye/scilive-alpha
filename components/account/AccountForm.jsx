@@ -55,20 +55,19 @@ export const AccountForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-
+  
     try {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("users")
         .update(formState)
         .eq("id", userProfile.id);
-
+  
       if (error) {
         throw error;
       }
-
-      console.log("User updated:", data);
-      setUserProfile(data);
+  
+      setUserProfile({ ...userProfile, ...data[0] });
       router.push("/dashboard");
     } catch (err) {
       console.error("Error updating user:", err.message);
@@ -77,7 +76,6 @@ export const AccountForm = () => {
       setIsLoading(false);
     }
   };
-
   return (
     <Center>
       <Card

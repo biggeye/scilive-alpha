@@ -47,19 +47,20 @@ const DropdownMenu = ({ items }) => {
   );
 };
 
-const UserMenu = ({ userImageUrl }) => {
+const UserMenu = () => {
   const { supabase } = useUserContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { userProfile } = useUserContext();
-  const userId = userProfile.id;
   const router = useRouter();
 
-  async function signOut() {
+  const signOut = async () => {
     await supabase.auth.signOut();
     router.push("/");
-  }
+  };
 
-  const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg"; // Replace with your actual fallback image URL
+  const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg";
+
+  const userImageUrl = userProfile.avatar_url || fallbackImageUrl;
 
   return (
      <Menu isOpen={isOpen} onClose={onClose}>
@@ -71,12 +72,12 @@ const UserMenu = ({ userImageUrl }) => {
         marginRight="7px"
         borderRadius="full"
    >
-        <Image
-          src={userImageUrl || fallbackImageUrl}
-          borderRadius="full"
-          width="90%"
-          
-                 />
+     <Image
+      src={userImageUrl}
+      onError={(e) => (e.target.src = fallbackImageUrl)}
+      borderRadius="full"
+      width="90%"
+    />
       </MenuButton>
       <MenuList>
         {userId ? (

@@ -18,6 +18,7 @@ import {
 
 export const AccountForm = () => {
   const { userState, userProfile, setUserProfile } = useUserContext();
+  const userId = userProfile.id;
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [state, setState] = useState({
@@ -68,7 +69,7 @@ export const AccountForm = () => {
       if (data) {
         Alert("Profile updated");
       }
-      setUserProfile(data[0]);
+      getProfile(userId);
       setIsLoading(false);
       router.push("/dashboard");
     } catch (err) {
@@ -77,6 +78,12 @@ export const AccountForm = () => {
     }
   }
 
+async function getProfile(userId) {
+  const profile = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/user/profile?id=${userId}`)
+  console.log(profile);
+  setUserProflie({profile});
+}
+
   return (
     <Center>
       <Card
@@ -84,7 +91,7 @@ export const AccountForm = () => {
         w={{ base: "85vw", md: "60vw" }}
         borderTopLeftRadius="10px"
         borderBottomRightRadius="10px"
-        boxShadow="0px 10px 20px"
+        className="animated-shadow"
       >
         <Flex
           direction="column"

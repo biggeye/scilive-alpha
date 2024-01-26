@@ -29,10 +29,7 @@ setPredictionIsLoading(true);
     }
     // Call the function returned by useImageCreateSubmit
     await imageCreateSubmit(userInput);
-    setPredictionIsLoading(false);
-    if (finalPrediction) {
-      setPredictionIsLoading(false);
-    }
+
   };
   
   return (

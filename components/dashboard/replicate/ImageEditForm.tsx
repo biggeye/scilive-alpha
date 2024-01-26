@@ -48,7 +48,7 @@ const ImageEditForm = () => {
       return;
     }
     await imageEditSubmit(userInput);
-    setPredictionIsLoading(false);
+
      if (finalPrediction) {
       setPredictionIsLoading(false);
       setUserImageUpload(null);

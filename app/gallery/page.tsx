@@ -45,8 +45,8 @@ const Gallery = () => {
           <FormLabel size="xs" htmlFor="thumbnail-toggle" mb="0">
             Thumbnail
           </FormLabel>
-          <Switch id="thumbnail-toggle" isChecked={isThumbnailView} onChange={toggleView} />
-          <Spacer />
+          <Switch id="thumbnail-toggle" isChecked={isThumbnailView} onChange={toggleView} colorScheme="lightBlue" />
+            <Spacer />
         </FormControl>
       </Flex>
       {isThumbnailView ? (

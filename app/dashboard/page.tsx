@@ -49,7 +49,7 @@ setAvatarStreaming(false);
     setSelectedTab(tool);
   };
   return (
-    <Grid
+<Grid
       templateRows="3"
       templateColumns="1"
       display="flex"
@@ -59,8 +59,8 @@ setAvatarStreaming(false);
       overflowX="hidden"
       height="100%"
     >
-      <Tabs align="center" width="100%" onChange={(index) => handleTabsChange(index)}>
-        <GridItem>
+      <Tabs align="center" width="100%" onChange={(index) => handleTabsChange(index)} colorScheme="lightBlue">
+         <GridItem>
           <TabList maxWidth={{ base: "375px", md: "650px" }}>
             <Tab>Create</Tab>
             <Tab>Edit</Tab>

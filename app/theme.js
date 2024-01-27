@@ -77,4 +77,12 @@ export const sciLiveTheme = extendTheme({
     fadeIn: `${fadeIn} 0.3s ease-in-out`,
     fadeOut: `${fadeOut} 0.3s ease-in-out`,
   },
-});
+
+  tabPanelStyles: {
+    borderRadius: "8px", // Rounded corners for a softer look
+    background: "linear-gradient(to top right, #F6F6F6, #FFFFFF)", // Gradient background
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15), 0px 2px 4px rgba(0, 0, 0, 0.05)", // 3D box-shadow
+    borderTop: "2px solid #FFA65D",
+    padding: "16px", // Padding for content inside the tab panel
+  },
+})

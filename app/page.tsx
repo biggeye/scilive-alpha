@@ -10,39 +10,36 @@ function Home() {
 
   return (
     <Grid
-      templateAreas={`"hero hero hero"
-                      "feature feature additional"
-                      "footer footer footer"`}
-      gridTemplateRows={'auto 1fr 1fr'}
-      gridTemplateColumns={'1fc 50vw auto'}
-      h='100%'
-      w='100vw'
-      gap='1'
-      color='blackAlpha.700'
-      fontWeight='bold'
-    >
+    templateAreas={`"hero hero hero"
+                    "feature feature additional"
+                    "footer footer footer"`}
+    gridTemplateRows={'auto 1fr 1fr'}
+    gridTemplateColumns={'1fr 50vw auto'}
+    h='100%'
+    w='100vw'
+    gap='1'
+    color='black' // Adjusted to use the color from the theme
+    fontWeight='bold'
+  >
+    {/* HERO SECTION */}
+    <GridItem area={'hero'} as="section" className="introduction">
+      <Box bg="silver" p={10} textAlign="center"> {/* Using color from the theme */}
+        <Heading as="h1" mb={4}>
+          <Center>
+            <Image
+              h="50vh"
+              animation="fadeIn" // Simplified usage of animation from the theme
+              src="/sciLive.svg"
+            />
+          </Center>
+        </Heading>
+        <Text fontSize="lg">Explore the Future of AI and Live Streaming</Text>
+        <Link href="/auth/login">
+          <Button colorScheme="orange" size="lg">Discover More</Button>
+        </Link>
+      </Box>
+    </GridItem>
 
-      {/* HERO SECTION */}
-      <GridItem area={'hero'} as="section" className="introduction">
-        <Box bg="gray.100" p={10} textAlign="center">
-          <Heading
-            as="h1"
-            mb={4}
-          >
-            <Center>
-              <Image
-                h="50vh"
-                animation={`${fadeIn} 2s ease-in-out`}
-                src="/sciLive.svg"
-              />
-            </Center>
-          </Heading>
-          <Text fontSize="xl">Explore the Future of AI and Live Streaming</Text>
-          <Link href="/auth/login">
-            <Button color="orange" size="lg">Discover More</Button>
-          </Link>
-        </Box>
-      </GridItem>
 
       {/* FEATURE SECTOIN */}
       <GridItem area={'feature'} as="section" className="dashboard-feature">

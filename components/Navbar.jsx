@@ -21,6 +21,11 @@ import { useRouter } from "next/navigation";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useUserContext } from "@/lib/UserProvider";
 
+
+
+const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg";
+
+
 const DropdownMenu = ({ items }) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
@@ -48,36 +53,34 @@ const DropdownMenu = ({ items }) => {
 };
 
 const UserMenu = () => {
-  const { supabase } = useUserContext();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { userProfile } = useUserContext();
   const router = useRouter();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const supabase = useUserContext();
+  const { userProfile } = useUserContext();
+  const userId = userProfile.id;
   const signOut = async () => {
     await supabase.auth.signOut();
     router.push("/");
   };
-
-  const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg";
-
   const userImageUrl = userProfile.avatar_url || fallbackImageUrl;
-
   return (
-     <Menu isOpen={isOpen} onClose={onClose}>
-      <MenuButton as={IconButton} onClick={onOpen} 
-      boxSize="50px" // Adjust the size as needed for your navbar
-      objectFit="cover" // Ensures the image covers the box area
-      boxShadow="md"
-      bgGradient="radial(white 5%, silver 50%)"
+    <Menu isOpen={isOpen} onClose={onClose}>
+      <MenuButton
+        as={IconButton}
+        onClick={onOpen}
+        boxSize="50px" // Adjust the size as needed for your navbar
+        objectFit="cover" // Ensures the image covers the box area
+        boxShadow="md"
+        bgGradient="radial(white 5%, silver 50%)"
         marginRight="7px"
         borderRadius="full"
-   >
-     <Image
-      src={userImageUrl}
-      onError={(e) => (e.target.src = fallbackImageUrl)}
-      borderRadius="full"
-      width="90%"
-    />
+      >
+        <Image
+          src={userImageUrl}
+          onError={(e) => (e.target.src = fallbackImageUrl)}
+          borderRadius="full"
+          width="90%"
+        />
       </MenuButton>
       <MenuList>
         {userId ? (
@@ -88,7 +91,7 @@ const UserMenu = () => {
           </MenuItem>
         )}
         <MenuItem as={Link} href="/account">
-            Account
+          Account
         </MenuItem>
       </MenuList>
     </Menu>
@@ -101,26 +104,24 @@ const Navbar = () => {
     { name: "sciLive", href: "/100ms" },
     { name: "sciGallery", href: "/gallery" },
   ];
-
   const { userProfile } = useUserContext();
   const avatar_url = userProfile.avatar_url;
-
   return (
     <Flex
-    direction="row"
-    justifyContent="space-between"
-    alignItems="center" // Add this to align items vertically in the center
-    as="nav"
-    bgColor="silver"
-    p={1}
-    className="navbar"
-    height="8vh"
-  >
-    <DropdownMenu items={navigation} />
-    <Spacer />
-    
-    <UserMenu userImageUrl={avatar_url} />
-  </Flex>
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center" // Add this to align items vertically in the center
+      as="nav"
+      bgColor="silver"
+      p={1}
+      className="navbar"
+      height="8vh"
+    >
+      <DropdownMenu items={navigation} />
+      <Spacer />
+
+      <UserMenu userImageUrl={avatar_url} />
+    </Flex>
   );
 };
 

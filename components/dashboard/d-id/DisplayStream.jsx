@@ -48,10 +48,18 @@ const DisplayStream = () => {
   const userImagePreview = useRecoilValue(userImagePreviewState);
 
   useEffect(() => {
-   /* if (liveStream?) {
+
+   /* 
+   if (liveStream?) {
       setDisplayedImage(liveStream);
       return;
-    } else*/ if (userImagePreview) {
+    } else 
+    */
+   
+    if (talkVideo) {
+      setDisplayedImage(talkVideo);
+    }
+    else if (userImagePreview) {
       setDisplayedImage(userImagePreview);
       return;
     } else if (exampleImage) {

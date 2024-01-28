@@ -80,33 +80,33 @@ const DisplayResults = () => {
   return (
     <Box height="100%">
       <Flex direction="column">
-      <Center>
-        {predictionIsLoading ? (
-           <Flex direction="column"> 
-          <Skeleton
-            height={{ base: "50vh", md: "60vh" }}
-            width="auto"
-            boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
-            borderRadius=".5rem"
-            className="element-pulse"
-          >
-            <CircularProgress value={predictionProgress} />
-            <ProgressIndicator />
-          </Skeleton>
-        ) : (
-          <Flex direction="column">       
-          <Image
-            height={{ base: "50vh", md: "60vh" }}
-            width="auto"
-            src={displayedImage}
-            alt="sciGenerate"
-            boxShadow="0px -5px 25px rgba(0, 0, 0, 0.5)"
-            borderRadius=".5rem"
-            className="animated-shadow"
-          />
-          {finalPredictionPrompt && <Text>{finalPredictionPrompt}</Text>}
-          </Flex>
-        )}
+        <Center>
+          {predictionIsLoading ? (
+            <Flex>
+              <Skeleton
+                height={{ base: "50vh", md: "60vh" }}
+                width="auto"
+                boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
+                borderRadius=".5rem"
+                className="element-pulse"
+              />
+              <CircularProgress value={predictionProgress} />
+              <ProgressIndicator />
+            </Flex>
+          ) : (
+            <Flex>
+              <Image
+                height={{ base: "50vh", md: "60vh" }}
+                width="auto"
+                src={displayedImage}
+                alt="sciGenerate"
+                boxShadow="0px -5px 25px rgba(0, 0, 0, 0.5)"
+                borderRadius=".5rem"
+                className="animated-shadow"
+              />
+              {finalPredictionPrompt && <Text>{finalPredictionPrompt}</Text>}
+            </Flex>
+          )}
         </Center>
       </Flex>
     </Box>

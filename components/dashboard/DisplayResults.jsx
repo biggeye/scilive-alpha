@@ -82,18 +82,19 @@ const DisplayResults = () => {
       <Flex direction="column">
       <Center>
         {predictionIsLoading ? (
+           <Flex direction="column"> 
           <Skeleton
             height={{ base: "50vh", md: "60vh" }}
             width="auto"
             boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
             borderRadius=".5rem"
             className="element-pulse"
-          >
+           />
             <CircularProgress value={predictionProgress} />
             <ProgressIndicator />
-          </Skeleton>
+          </Flex>
         ) : (
-          <>          
+          <Flex direction="column">       
           <Image
             height={{ base: "50vh", md: "60vh" }}
             width="auto"
@@ -104,7 +105,7 @@ const DisplayResults = () => {
             className="animated-shadow"
           />
           {finalPredictionPrompt && <Text>{finalPredictionPrompt}</Text>}
-          </>
+          </Flex>
         )}
         </Center>
       </Flex>

@@ -1,5 +1,3 @@
-// types for Recoil User State Management
-
 export interface UserProfile {
     id: string | null;
     full_name: string | null;
@@ -7,24 +5,21 @@ export interface UserProfile {
     avatar_url: string | null;
     website: string | null;
     email: string | null;
-  }
+  };
   
-  export interface UserState {
+export interface UserState {
     profile: boolean;
     loading: boolean;
     error: string | null;
-  }
+  };
   
-  export interface UserContextType {
+export interface UserContextType {
     userState: UserState;
     setUserState: React.Dispatch<React.SetStateAction<UserState>>;
     userProfile: UserProfile;
     setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
     supabase: any;
-  }
-
-
-// types for Replicate Model State Management
+  };
 
 export interface SelectedModel {
   id: string,
@@ -33,17 +28,12 @@ export interface SelectedModel {
   example?: string,
   url?: string,
   shortdesc: string,
-}
+};
 
-
-
- // D-ID Live Stream State Management
 export interface IceServer {
   urls: string[];
-  // Other properties if there are any
-}
+};
 
-// Assuming these are the data types for each state
 export type StreamId = string;
 export type SessionId = string;
 export type SdpOffer = string; // or an object if it's more complex
@@ -52,8 +42,6 @@ export type SessionClientAnswer = string; // or an object if it's more complex
 export type Candidate = string; // or an object if it's more complex
 export type SdpMid = string;
 export type SdpMLineIndex = number; // Assuming it's a number
-
-
 
 export type AuthProvider =
   | 'apple'
@@ -72,3 +60,16 @@ export type AuthProvider =
   | 'twitch'
   | 'twitter'
   | 'workos';
+
+export type ContentItem = {
+  content_id: string;
+  url: string;
+  content_type: string | null;
+  prompt: string | "";
+};
+
+export type currentIndex = {
+  url: string;
+  content_type: string; 
+  prompt: string;
+};

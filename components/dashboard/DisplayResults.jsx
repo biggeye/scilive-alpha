@@ -89,10 +89,10 @@ const DisplayResults = () => {
             boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
             borderRadius=".5rem"
             className="element-pulse"
-           />
+          >
             <CircularProgress value={predictionProgress} />
             <ProgressIndicator />
-          </Flex>
+          </Skeleton>
         ) : (
           <Flex direction="column">       
           <Image

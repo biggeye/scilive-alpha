@@ -73,7 +73,7 @@ setAvatarStreaming(false);
           {avatarStreaming ? (<DisplayStream />) : (<DisplayResults />)}
         </GridItem>
         <GridItem className="bottomInputFormFrame">
-          <TabPanels>
+          <TabPanels className="tabPanelStyles">
             <TabPanel>
               <ImageCreateForm />
             </TabPanel>

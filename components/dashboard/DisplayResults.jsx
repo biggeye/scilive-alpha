@@ -54,9 +54,7 @@ const DisplayResults = () => {
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionResult = useRecoilValue(predictionResultState);
   const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue(
-    selectedModelFriendlyNameState
-  );
+  const selectedModelFriendlyName = useRecoilValue( selectedModelFriendlyNameState);
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
   const userContentExamples = useRecoilValue(userContentExamplesState);

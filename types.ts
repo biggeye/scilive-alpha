@@ -66,10 +66,13 @@ export type ContentItem = {
   url: string;
   content_type: string | null;
   prompt: string | "";
+
 };
 
 export type currentIndex = {
   url: string;
   content_type: string; 
-  prompt: string;
+  prompt?: string;
+  model_id?: string;
+  
 };

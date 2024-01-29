@@ -55,7 +55,7 @@ const DropdownMenu = ({ items }) => {
 const UserMenu = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const supabase = useUserContext();
+  const { supabase } = useUserContext();
   const { userProfile } = useUserContext();
   const userId = userProfile.id;
   const signOut = async () => {

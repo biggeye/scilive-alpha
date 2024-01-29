@@ -1,16 +1,15 @@
-// Gallery.tsx
 'use client'
 import React, { useEffect, useState } from 'react';
-import { useUserContext } from '@/lib/UserProvider';
+import { createClient } from '@/utils/supabase/client';
 import { Switch } from '@chakra-ui/react';
 import { GalleryLg } from '@/components/Gallery';
 import { GallerySm } from '@/components/Gallery';
 import { ContentItem } from '@/types';
 
-export const Gallery = () => {
+const Gallery = () => {
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [isThumbnailView, setIsThumbnailView] = useState(false);
-  const { supabase } = useUserContext();
+  const supabase = createClient();
 
   useEffect(() => {
   

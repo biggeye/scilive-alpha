@@ -11,7 +11,7 @@ const CreateAvatarForm = () => {
   const handleCreateAvatar = async () => {
     setLoading(true);
     setError(null);
-  
+
     try {
       const response = await fetch('/api/did/talk/create', {
         method: 'POST',
@@ -19,25 +19,22 @@ const CreateAvatarForm = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          
+          avatar_script: avatarScript,
           source_url: sourceUrl,
-          script: {
-            input: avatarScript,
-            type: 'text', 
-        
-          }
-        })
-      });     
-  
-      // ... rest of the code
-    } catch (error) {
-      setError('Failed to create avatar');
-      setLoading(false);
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create avatar');
+      }
+
+      const responseData = await response.json();
+      setTalkResponse(responseData);
+    } catch (error) {AvatarCreationForm
     }
   };
-  
 
-  return (
+  return ( 
     <div>
       <label>
         Avatar Script:

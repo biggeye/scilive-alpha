@@ -112,7 +112,7 @@ export default function CreateStreamForm() {
               <InputGroup>
                 <InputLeftAddon>
                   <Button type="submit" disabled={isLoading}>
-                    {isLoading ? "Processing..." : "Upload Avatar"}
+                    {isLoading ? "Processing..." : "Upload"}
                   </Button>
                 </InputLeftAddon>
                 <Input
@@ -149,7 +149,6 @@ export default function CreateStreamForm() {
             </InputGroup>
           </form>
           {error && <Alert>{error}</Alert>}
-
         </Grid>
       </FormControl>
       <StreamStatus />

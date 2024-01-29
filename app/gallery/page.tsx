@@ -13,15 +13,30 @@ export const Gallery = () => {
   const { supabase } = useUserContext();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data, error } = await supabase.from("master_content").select("*");
-        if (error) throw error;
-        setContentItems(data);
-      } catch (error) {
-        console.error("Error fetching content:", error);
+  
+
+const fetchData = async () => {
+  try {
+    const { data, error } = await supabase.from("master_content").select("*");
+    if (error) throw error;
+
+    if (data) {
+      const itemsPerPage = 10;
+      const parsedData: ContentItem[][] = [];
+
+      for (let i = 0; i < data.length; i += itemsPerPage) {
+        const slicedData = data.slice(i, i + itemsPerPage);
+        parsedData.push(slicedData);
       }
-    };
+
+      setContentItems(parsedData);
+    }
+  } catch (error) {
+    console.error("Error fetching content:", error);
+  }
+};
+
+
 
     fetchData();
   }, [supabase]);

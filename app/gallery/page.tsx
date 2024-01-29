@@ -6,36 +6,36 @@ import { GalleryLg } from '@/components/Gallery';
 import { GallerySm } from '@/components/Gallery';
 import { ContentItem } from '@/types';
 
+
 const Gallery = () => {
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [isThumbnailView, setIsThumbnailView] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
-  
+    const fetchData = async () => {
+      try {
+        const { data, error } = await supabase.from("master_content").select("*");
+        if (error) throw error;
 
-const fetchData = async () => {
-  try {
-    const { data, error } = await supabase.from("master_content").select("*");
-    if (error) throw error;
+        if (data) {
+          const itemsPerPage = 10;
+          const parsedData: ContentItem[][] = [];
 
-    if (data) {
-      const itemsPerPage = 10;
-      const parsedData: ContentItem[][] = [];
+          for (let i = 0; i < data.length; i += itemsPerPage) {
+            const slicedData = data.slice(i, i + itemsPerPage);
+            parsedData.push(slicedData);
+          }
 
-      for (let i = 0; i < data.length; i += itemsPerPage) {
-        const slicedData = data.slice(i, i + itemsPerPage);
-        parsedData.push(slicedData);
+          // Flatten the two-dimensional array
+          const flatData = parsedData.flat();
+
+          setContentItems(flatData);
+        }
+      } catch (error) {
+        console.error("Error fetching content:", error);
       }
-
-      setContentItems(parsedData);
-    }
-  } catch (error) {
-    console.error("Error fetching content:", error);
-  }
-};
-
-
+    };
 
     fetchData();
   }, [supabase]);

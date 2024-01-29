@@ -5,17 +5,16 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { createClient } from '@/utils/supabase/client';
 import { ContentItem } from '@/types';
 import { useGallery } from '@/lib/replicate/useGallery';
+// ... (imports and other code)
 
-// ... (your existing imports)
-
-export const GallerySm: React.FC<{ contentItems: ContentItem[][] }> = ({ contentItems }) => {
+export const GallerySm: React.FC<{ contentItems: ContentItem[] }> = ({ contentItems }) => {
   const { currentIndex, isModalOpen, handleImageClick, closeModal } = useGallery();
 
   return (
     <Box>
       <Flex direction="row" justifyContent="space-between">
         <Box display="flex" flexWrap="wrap" justifyContent="center" gap="20px">
-          {contentItems[currentIndex].map((item, index) => (
+          {contentItems.map((item, index) => (
             <Box bgColor="white" borderRadius="5px" padding="8px" key={item.content_id}>
               <Tooltip label={item.prompt}>
                 <Image
@@ -28,18 +27,20 @@ export const GallerySm: React.FC<{ contentItems: ContentItem[][] }> = ({ content
               </Tooltip>
             </Box>
           ))}
-            <Modal isOpen={isModalOpen} onClose={closeModal} size="2xl">
+          <Modal isOpen={isModalOpen} onClose={closeModal} size="2xl">
             <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(100px)" />
             <ModalContent>
               <ModalBody>
                 <Center>
                   {currentIndex !== null && (
-                    <Box><Image
-                      boxShadow="0px 3px 3px"
-                      height="auto"
-                      width={{ base: "80vw", md: "50vw" }}
-                      src={contentItems[currentIndex]?.url}
-                      alt={contentItems[currentIndex]?.prompt} />
+                    <Box>
+                      <Image
+                        boxShadow="0px 3px 3px"
+                        height="auto"
+                        width={{ base: "80vw", md: "50vw" }}
+                        src={contentItems[currentIndex]?.url}
+                        alt={contentItems[currentIndex]?.prompt}
+                      />
                       <Text>{contentItems[currentIndex]?.prompt}</Text>
                     </Box>
                   )}
@@ -53,7 +54,7 @@ export const GallerySm: React.FC<{ contentItems: ContentItem[][] }> = ({ content
   );
 };
 
-export const GalleryLg: React.FC<{ contentItems: ContentItem[][] }> = ({ contentItems }) => {
+export const GalleryLg: React.FC<{ contentItems: ContentItem[] }> = ({ contentItems }) => {
   const { currentIndex, setCurrentIndex, isModalOpen, handleImageClick, closeModal } = useGallery();
 
   const handleArrowClick = (direction: 'left' | 'right') => {
@@ -89,12 +90,12 @@ export const GalleryLg: React.FC<{ contentItems: ContentItem[][] }> = ({ content
                 margin="2rem"
                 maxWidth={{ base: '60vw', md: '80vw' }}
                 maxHeight={{ base: '60vh', md: '50vh' }}
-                src={contentItems[currentIndex][0]?.url}
-                alt={contentItems[currentIndex][0]?.prompt}
+                src={contentItems[currentIndex]?.url}
+                alt={contentItems[currentIndex]?.prompt}
                 onClick={() => handleImageClick(0)}
                 boxShadow="2px 0px 8px"
               />
-              <Text mt="10px">{contentItems[currentIndex][0]?.prompt}</Text>
+              <Text mt="10px">{contentItems[currentIndex]?.prompt}</Text>
             </VStack>
             <Spacer />
             <IconButton
@@ -110,22 +111,21 @@ export const GalleryLg: React.FC<{ contentItems: ContentItem[][] }> = ({ content
             />
           </Flex>
         </Card>
-    <Modal isOpen={isModalOpen} onClose={closeModal} size="2xl" motionPreset="scale">
-          <ModalOverlay backdropFilter="blur(500px)"/>
+        <Modal isOpen={isModalOpen} onClose={closeModal} size="2xl" motionPreset="scale">
+          <ModalOverlay backdropFilter="blur(500px)" />
           <ModalContent>
             <ModalBody>
               <Flex direction="column">
                 <Center>
-                <Image
-                  boxShadow="0px 3px 3px"
-                  maxHeight="60vh"
-                  maxWidth="50vw"
-                  src={contentItems[currentIndex]?.url}
-                  alt={contentItems[currentIndex]?.prompt} />
-              <Text>
-                {contentItems[currentIndex].prompt}
-              </Text>
-              </Center>
+                  <Image
+                    boxShadow="0px 3px 3px"
+                    maxHeight="60vh"
+                    maxWidth="50vw"
+                    src={contentItems[currentIndex]?.url}
+                    alt={contentItems[currentIndex]?.prompt}
+                  />
+                  <Text>{contentItems[currentIndex]?.prompt}</Text>
+                </Center>
               </Flex>
             </ModalBody>
           </ModalContent>

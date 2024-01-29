@@ -5,7 +5,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { createClient } from '@/utils/supabase/client';
 import { ContentItem } from '@/types';
 import { useGallery } from '@/lib/replicate/useGallery';
-// ... (imports and other code)
 
 export const GallerySm: React.FC<{ contentItems: ContentItem[] }> = ({ contentItems }) => {
   const { currentIndex, isModalOpen, handleImageClick, closeModal } = useGallery();

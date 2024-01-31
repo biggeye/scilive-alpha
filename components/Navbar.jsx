@@ -21,10 +21,7 @@ import { useRouter } from "next/navigation";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useUserContext } from "@/lib/UserProvider";
 
-
-
 const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg";
-
 
 const DropdownMenu = ({ items }) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -100,7 +97,8 @@ const UserMenu = () => {
 
 const Navbar = () => {
   const navigation = [
-    { name: "sciGenerate", href: "/dashboard" },
+    { name: "sciStill", href: "/dashboard" },
+    { name: "sciVideo", href: "/dashboard/d-id" },
     { name: "sciLive", href: "/100ms" },
     { name: "sciGallery", href: "/gallery" },
   ];

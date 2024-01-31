@@ -32,14 +32,16 @@ import {
   exampleImageState,
   userContentExamplesState,
 } from "@/state/config-atoms";
+import { talkVideoStatusState, talkVideoPendingUrlState, talkVideoUrlState } from "@/state/d_id_talk";
 
 
 const DisplayStream = () => {
   const theme = useTheme();
 
   const [displayedImage, setDisplayedImage] = useState(null);
-
-
+   const talkVideoStatus = useRecoilValue(talkVideoStatusState);
+  const talkVideoPendingUrl = useRecoilValue(talkVideoPendingUrlState);
+  const talkVideoUrl = useRecoilValue(talkVideoUrlState)
   const exampleImage = useRecoilValue(exampleImageState);
   const selectedModelFriendlyName = useRecoilValue(
     selectedModelFriendlyNameState
@@ -56,8 +58,8 @@ const DisplayStream = () => {
     } else 
     */
    
-    if (talkVideo) {
-      setDisplayedImage(talkVideo);
+    if (talkVideoUrl) {
+      setDisplayedImage(talkVideoUrl);
     }
     else if (userImagePreview) {
       setDisplayedImage(userImagePreview);

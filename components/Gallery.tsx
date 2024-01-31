@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { createClient } from '@/utils/supabase/client';
 import { ContentItem } from '@/types';
 import { useGallery } from '@/lib/replicate/useGallery';
+import { fadeIn } from '@/app/theme';
 
 export const GallerySm: React.FC<{ contentItems: ContentItem[] }> = ({ contentItems }) => {
   const { currentIndex, isModalOpen, handleImageClick, closeModal } = useGallery();
@@ -17,6 +18,7 @@ export const GallerySm: React.FC<{ contentItems: ContentItem[] }> = ({ contentIt
             <Box bgColor="white" borderRadius="5px" padding="8px" key={item.content_id}>
               <Tooltip label={item.prompt}>
                 <Image
+                  animation={fadeIn}
                   borderRadius="4px"
                   src={item.url}
                   width="100"

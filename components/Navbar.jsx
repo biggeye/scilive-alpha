@@ -26,7 +26,7 @@ const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg";
 const DropdownMenu = ({ items }) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
-    <Menu isOpen={isOpen} onClose={onToggle}>
+    <Menu zIndex={1000} isOpen={isOpen} onClose={onToggle}>
       <MenuButton
         as={IconButton}
         onClick={onToggle}
@@ -61,7 +61,7 @@ const UserMenu = () => {
   };
   const userImageUrl = userProfile.avatar_url || fallbackImageUrl;
   return (
-    <Menu isOpen={isOpen} onClose={onClose}>
+    <Menu isOpen={isOpen} onClose={onClose} zIndex={1000}>
       <MenuButton
         as={IconButton}
         onClick={onOpen}
@@ -114,6 +114,7 @@ const Navbar = () => {
       p={1}
       className="navbar"
       height="8vh"
+      zIndex={999}
     >
       <DropdownMenu items={navigation} />
       <Spacer />

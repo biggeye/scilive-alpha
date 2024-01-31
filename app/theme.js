@@ -7,8 +7,8 @@ export const fadeIn = keyframes`
 `;
 
 export const fadeOut = keyframes`
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: 0; transform: scale(0); }
+  from { opacity: 1; transform: scale(1) rotate(0deg); }
+  to { opacity: 0; transform: scale(0) rotate(720deg); }
 `;
 
 export const pulse = keyframes`
@@ -73,10 +73,15 @@ export const sciLiveTheme = extendTheme({
     lg: "md",
     xl: "lg",
   },
+
   animations: {
     fadeIn: `${fadeIn} 0.3s ease-in-out`,
     fadeOut: `${fadeOut} 0.3s ease-in-out`,
+    pulsing: `{${pulse} 0.5s ease-in-out`,
+    longFadeIn: `${fadeIn} 15s ease-in-out`,
   },
+
+
 
   tabPanelStyles: {
     borderRadius: "8px", // Rounded corners for a softer look

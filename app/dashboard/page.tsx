@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Spacer, Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, useBoolean } from '@chakra-ui/react';
-import ToolOptions from '@/components/dashboard/ToolOptions';
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
 import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
@@ -61,8 +60,7 @@ const DashboardPage: React.FC = () => {
           </TabList>
         </GridItem>
         <GridItem overflowY="auto">
-          <ToolOptions />
-          <Spacer />
+     
           <DisplayResults />
         </GridItem>
         <GridItem className="bottomInputFormFrame">

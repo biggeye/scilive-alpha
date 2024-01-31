@@ -44,6 +44,7 @@ import { ScrollableThumbnails } from "../ScrollableThumbnails";
 import ProgressIndicator from "../CircularProgress";
 import { pulse } from "@/app/theme";
 import { talkVideoUrlState } from "@/state/d_id_talk";
+import ToolOptions from "./ToolOptions";
 
 const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
@@ -82,9 +83,10 @@ const DisplayResults = () => {
   return (
     <Box height="100%" m="25px">
       <Flex direction="column">
-        <Center>
+  
+        <ToolOptions />
           {predictionIsLoading ? (
-            <Flex>
+            <>
               <Skeleton
                 height={{ base: "50vh", md: "60vh" }}
                 width="auto"
@@ -94,10 +96,9 @@ const DisplayResults = () => {
               />
               <CircularProgress value={predictionProgress} />
               <ProgressIndicator />
-            </Flex>
+            </>
           ) : (
-            <Flex>
-              {talkVideoUrl && (
+          <>{talkVideoUrl && (
                 <video
                   width="auto"
                   height={{ base: "50vh", md: "60vh" }}
@@ -116,9 +117,9 @@ const DisplayResults = () => {
                 borderRadius=".5rem"
                 className="animated-shadow"
               />
-            </Flex>
-          )}
-        </Center>
+        </>
+        )}
+     
       </Flex>
     </Box>
   );

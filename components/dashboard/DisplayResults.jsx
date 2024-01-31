@@ -45,7 +45,6 @@ import ProgressIndicator from "../CircularProgress";
 import { pulse } from "@/app/theme";
 import { talkVideoUrlState } from "@/state/d_id_talk";
 
-
 const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
 
@@ -57,7 +56,9 @@ const DisplayResults = () => {
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionResult = useRecoilValue(predictionResultState);
   const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue( selectedModelFriendlyNameState);
+  const selectedModelFriendlyName = useRecoilValue(
+    selectedModelFriendlyNameState
+  );
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
   const userContentExamples = useRecoilValue(userContentExamplesState);
@@ -96,12 +97,16 @@ const DisplayResults = () => {
             </Flex>
           ) : (
             <Flex>
-              {talkVideoUrl && 
-                <video width="auto" height={{ base: "50vh", md: "60vh" }} controls>
+              {talkVideoUrl && (
+                <video
+                  width="auto"
+                  height={{ base: "50vh", md: "60vh" }}
+                  controls
+                >
                   <source src={talkVideoUrl} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-              }
+              )}
               <Image
                 height={{ base: "50vh", md: "60vh" }}
                 width="auto"
@@ -111,7 +116,6 @@ const DisplayResults = () => {
                 borderRadius=".5rem"
                 className="animated-shadow"
               />
-          
             </Flex>
           )}
         </Center>

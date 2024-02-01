@@ -18,6 +18,7 @@ import {
   Image,
   Skeleton,
   CircularProgress,
+  VStack
 } from "@chakra-ui/react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -50,19 +51,17 @@ const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
 
   const talkVideoUrl = useRecoilValue(talkVideoUrlState);
+  
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
-  const examplesLoading = useRecoilValue(examplesLoadingState);
   const predictionProgress = useRecoilValue(predictionProgressState);
   const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionResult = useRecoilValue(predictionResultState);
+  
   const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue(
-    selectedModelFriendlyNameState
-  );
+  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
-  const userContentExamples = useRecoilValue(userContentExamplesState);
   const userImagePreview = useRecoilValue(userImagePreviewState);
 
   const finalPrediction = useRecoilValue(finalPredictionState);
@@ -83,22 +82,22 @@ const DisplayResults = () => {
   return (
     <Box height="100%" m="25px">
       <Flex direction="column">
-  
+        <Center>
         <ToolOptions />
           {predictionIsLoading ? (
-            <>
+              <VStack>
               <Skeleton
                 height={{ base: "50vh", md: "60vh" }}
                 width="auto"
                 boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
                 borderRadius=".5rem"
-                className="element-pulse"
               />
               <CircularProgress value={predictionProgress} />
               <ProgressIndicator />
-            </>
+              </VStack>
           ) : (
-          <>{talkVideoUrl && (
+            <React.Fragment>
+              {talkVideoUrl && 
                 <video
                   width="auto"
                   height={{ base: "50vh", md: "60vh" }}
@@ -107,20 +106,21 @@ const DisplayResults = () => {
                   <source src={talkVideoUrl} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-              )}
+              }
               <Image
-                height={{ base: "50vh", md: "60vh" }}
-                width="auto"
+                width={{ base: "50vh", md: "60vh" }}
+                maxWidth="70vw"
+                height="auto"
                 src={displayedImage}
                 alt="sciGenerate"
                 boxShadow="0px -5px 25px rgba(0, 0, 0, 0.5)"
                 borderRadius=".5rem"
                 className="animated-shadow"
               />
-        </>
-        )}
-     
-      </Flex>
+            </React.Fragment>
+          )}
+        </Center>
+</Flex>
     </Box>
   );
 };

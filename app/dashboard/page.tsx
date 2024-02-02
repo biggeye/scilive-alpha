@@ -50,13 +50,16 @@ const DashboardPage: React.FC = () => {
       width="100vw"
       overflowX="hidden"
       height="100%"
+      zIndex="1"
     >
-      <Tabs position="absolute" top="0px" align="center" width="100%" onChange={(index) => handleTabsChange(index)} colorScheme="lightBlue">
+      <Tabs
+      variant="enclosed-colored"
+      position="absolute" top="0px" align="center" width="100%" onChange={(index) => handleTabsChange(index)} colorScheme="lightBlue">
         <GridItem>
           <TabList maxWidth={{ base: "375px", md: "650px" }}>
-            <Tab>Create</Tab>
-            <Tab>Edit</Tab>
-            <Tab>Narrate</Tab>
+            <Tab fontWeight="bold">Create</Tab>
+            <Tab fontWeight="bold">Edit</Tab>
+            <Tab fontWeight="bold">Narrate</Tab>
           </TabList>
         </GridItem>
         <GridItem overflowY="auto">

@@ -61,13 +61,20 @@ export type AuthProvider =
   | 'twitter'
   | 'workos';
 
-export type ContentItem = {
-  content_id: string;
-  url: string;
-  content_type: string | null;
-  prompt: string | "";
-
-};
+  export type ContentItem = {
+    content_id: string;
+    name?: string;
+    title?: string;
+    url: string;
+    created_by?: string;
+    created_at?: Date;
+    content?: string;
+    model_id?: string;
+    prediction_id?: string;
+    prompt?: string;
+    is_public?: boolean;
+  };
+  
 
 export type currentIndex = {
   url: string;

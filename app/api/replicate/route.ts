@@ -1,7 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/route'
 
-export async function POST(req) {
+export async function POST(req: Request) {
   const supabase = createClient(req);
   const session = await supabase.auth.getSession();
 

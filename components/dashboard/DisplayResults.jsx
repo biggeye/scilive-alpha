@@ -47,6 +47,7 @@ import { pulse } from "@/app/theme";
 import { talkVideoUrlState } from "@/state/d_id_talk";
 import ToolOptions from "./ToolOptions";
 
+
 const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
 
@@ -54,10 +55,8 @@ const DisplayResults = () => {
   
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const predictionProgress = useRecoilValue(predictionProgressState);
-  const modelBootProgress = useRecoilValue(modelBootProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
-  const predictionResult = useRecoilValue(predictionResultState);
-  
+
   const exampleImage = useRecoilValue(exampleImageState);
   const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
@@ -83,9 +82,10 @@ const DisplayResults = () => {
     <Box height="100%" m="25px">
       <Flex direction="column">
         <Center>
+        <VStack>
         <ToolOptions />
           {predictionIsLoading ? (
-              <VStack>
+            <>
               <Skeleton
                 height={{ base: "50vh", md: "60vh" }}
                 width="auto"
@@ -94,7 +94,7 @@ const DisplayResults = () => {
               />
               <CircularProgress value={predictionProgress} />
               <ProgressIndicator />
-              </VStack>
+           </>
           ) : (
             <React.Fragment>
               {talkVideoUrl && 
@@ -119,6 +119,7 @@ const DisplayResults = () => {
               />
             </React.Fragment>
           )}
+          </VStack>
         </Center>
 </Flex>
     </Box>

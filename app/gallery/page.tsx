@@ -1,53 +1,53 @@
+// 'use client'; is already at the top, indicating this component is client-side only.
 'use client'
 import React, { useEffect, useState } from 'react';
+import { useUserContext } from '@/lib/UserProvider';
 import { createClient } from '@/utils/supabase/client';
-import { Switch } from '@chakra-ui/react';
-import { GalleryLg } from '@/components/Gallery';
-import { GallerySm } from '@/components/Gallery';
+import Gallery from '@/components/Gallery';
 import { ContentItem } from '@/types';
 
-
-const Gallery = () => {
-  const [contentItems, setContentItems] = useState<ContentItem[]>([]);
-  const [isThumbnailView, setIsThumbnailView] = useState(false);
+const GalleryPage: React.FC = () => {
+  // This state will now hold an array of arrays of ContentItems.
+  const [contentItems, setContentItems] = useState<ContentItem[][]>([]);
   const supabase = createClient();
+  const { userProfile } = useUserContext();
+  const userId = userProfile?.id;
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const { data, error } = await supabase.from("master_content").select("*");
-        if (error) throw error;
-
-        if (data) {
-          const itemsPerPage = 10;
-          const parsedData: ContentItem[][] = [];
-
-          for (let i = 0; i < data.length; i += itemsPerPage) {
-            const slicedData = data.slice(i, i + itemsPerPage);
-            parsedData.push(slicedData);
+      if (userId) {
+        try {
+          const { data, error } = await supabase
+            .from('master_content')
+            .select('content_id, name, title, url, created_by, created_at, content, model_id, prediction_id, prompt, is_public')
+            .eq('created_by', userId);
+          if (error) throw error;
+          if (data) {
+            const chunkedData = chunkArray(data, 10);
+            setContentItems(chunkedData);
           }
-
-          // Flatten the two-dimensional array
-          const flatData = parsedData.flat();
-
-          setContentItems(flatData);
+        } catch (error) {
+          console.error("Error fetching content:", error);
         }
-      } catch (error) {
-        console.error("Error fetching content:", error);
       }
     };
-
     fetchData();
-  }, [supabase]);
+  }, [userId]);
 
-  const toggleView = () => setIsThumbnailView(!isThumbnailView);
+  function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+  }
 
   return (
-    <>
-      <Switch id="thumbnail-toggle" isChecked={isThumbnailView} onChange={toggleView} colorScheme="lightBlue" />
-      {isThumbnailView ? <GallerySm contentItems={contentItems} /> : <GalleryLg contentItems={contentItems} />}
-    </>
+    <div>
+      {/* Assuming Gallery can handle an array of arrays */}
+      <Gallery contentItems={contentItems} />
+    </div>
   );
 };
 
-export default Gallery;
+export default GalleryPage;

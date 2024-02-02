@@ -1,9 +1,10 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import { Spacer, Box, Select, Flex, Progress, Skeleton } from "@chakra-ui/react";
+import { Text, Spacer, Box, Select, Flex, Progress, Skeleton } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
+
 
 const ToolOptions = () => {
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
@@ -30,11 +31,6 @@ const ToolOptions = () => {
     }
   }, [modelsData]);
 
-  useEffect(() => {
-    if (selectedModelId) {
-      fetchUserContentExamples();
-    }
-  }, [selectedModelId]);
 
   const updateModelStates = (model: SelectedModel) => {
     setSelectedModelName(model.name);
@@ -59,7 +55,7 @@ const ToolOptions = () => {
     }
   };
 
-  const fetchUserContentExamples = async () => {
+ /* const fetchUserContentExamples = async () => {
     setExamplesLoading(true);
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`, {
@@ -77,13 +73,13 @@ const ToolOptions = () => {
       setExamplesLoading(false);
     }
   };
-
+*/
   const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSelectedModelId = event.target.value;
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
     if (selectedModel) {
       updateModelStates(selectedModel);
-      await fetchUserContentExamples();
+
     }
   };
   
@@ -123,7 +119,9 @@ const ToolOptions = () => {
 
   return (
     <Box marginBottom="3px" maxWidth="640px" p="5px">
-      <Flex>
+      <Flex alignItems="center" justifyContent="center">
+        <Spacer />
+        <Text fontSize="sm">MODEL:  {"   "}</Text>
         <Spacer />
         {modelsLoading ? (
         <Progress isIndeterminate={true} />

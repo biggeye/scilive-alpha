@@ -36,7 +36,7 @@
     "**/*.js",
     "**/*.jsx",
     ".next/types/**/*.ts"
-, "lib/convertToDataURItjs"  ],
+, "lib/convertToDataURItjs", "components/___GalleryLg.old"  ],
   "exclude": [
     "app/api/d-id/*",
     "node_modules"

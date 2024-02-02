@@ -26,7 +26,7 @@ const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg";
 const DropdownMenu = ({ items }) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
-    <Menu zIndex={1000} isOpen={isOpen} onClose={onToggle}>
+    <Menu zIndex="999" isOpen={isOpen} onClose={onToggle}>
       <MenuButton
         as={IconButton}
         onClick={onToggle}
@@ -35,6 +35,7 @@ const DropdownMenu = ({ items }) => {
         boxShadow="md"
         bgGradient="radial(white 5%, silver 50%)"
         marginLeft="7px"
+        zIndex="999"
       >
         <Image src="/sciLive.svg" width={40} />
       </MenuButton>
@@ -71,6 +72,7 @@ const UserMenu = () => {
         bgGradient="radial(white 5%, silver 50%)"
         marginRight="7px"
         borderRadius="full"
+        zIndex="999"
       >
         <Image
           src={userImageUrl}
@@ -114,7 +116,7 @@ const Navbar = () => {
       p={1}
       className="navbar"
       height="8vh"
-      zIndex={999}
+      zIndex="999"
     >
       <DropdownMenu items={navigation} />
       <Spacer />

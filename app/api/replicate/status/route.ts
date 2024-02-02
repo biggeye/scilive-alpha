@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/route'
 
-export async function POST(req) {
+export async function POST(req: Request) {
   const supabase = createClient(req);
   const session = await supabase.auth.getSession();
 
@@ -34,6 +34,6 @@ export async function POST(req) {
     return new Response(JSON.stringify(prediction), { status: 200 });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: 'Internal server error', message: error.message }), { status: 500 });
+    return new Response(JSON.stringify({'message': 'Internal server error', 'error': error}), { status: 500 });
   }
 }

@@ -30,7 +30,11 @@ export const AccountForm = () => {
     // Initialize other fields as needed
   });
   const [error, setError] = useState('');
+  const [modelType, setModelType] = useState();
 
+  const getModelLists = async () => {
+    const modelType = await fetch `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/${modelType}`
+  }
   // Update form state when userProfile changes
   useEffect(() => {
     if (userProfile) {
@@ -131,6 +135,24 @@ export const AccountForm = () => {
               />
             </FormControl>
 
+<Grid templateAreas={`
+"header header header"
+"label pulldown pulldown"
+`}>
+  <GridItem area="header">
+  Create Default: {"  :"}
+  </GridItem>
+  
+  <GridItem area="label">
+    
+  </GridItem>
+  <GridItem area="pulldown">
+    <Select>
+
+    </Select>
+  </GridItem>
+  
+</Grid>
 
             {/* Add other form controls similarly */}
           </CardBody>

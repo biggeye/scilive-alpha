@@ -1,29 +1,22 @@
-// Assuming this is a Next.js API route file: /pages/api/did/talk/create.ts
-import type { NextApiRequest, NextApiResponse } from 'next';
+// Assuming this is a file located in app/api/did/talk/create/route.ts for Next.js 14 App Router
+import { NextRequest, NextResponse } from 'next/server';
 import { createAvatar } from '@/lib/d-id/talks/createTalk';
 
-// Type for the expected request body
 interface AvatarCreationRequest {
   avatar_script: string;
   source_url: string;
 }
 
-export default async function POST(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function POST(req: NextRequest) {
   try {
-    // Validate request method
-    if (req.method !== 'POST') {
-      return res.status(405).json({ error: 'Method Not Allowed' });
-    }
+    // Validate request method is handled directly by the file structure in Next.js 14 App Router
 
-    // Assuming the body has been automatically parsed as JSON by Next.js
-    const requestBody: AvatarCreationRequest = req.body;
+    // Parse the request body. Note: NextRequest.json() is an async operation
+    const requestBody = await req.json() as AvatarCreationRequest;
 
     // Validate request body content
     if (!requestBody.avatar_script || !requestBody.source_url) {
-      return res.status(400).json({ error: 'Missing required fields: avatar_script or source_url' });
+      return new NextResponse(JSON.stringify({ error: 'Missing required fields: avatar_script or source_url' }), { status: 400 });
     }
 
     // Destructure the requestBody for easier access
@@ -33,9 +26,9 @@ export default async function POST(
     const avatarResponse = await createAvatar(avatar_script, source_url);
 
     // Assuming createAvatar returns data that can be directly sent back
-    res.status(200).json(avatarResponse);
+    return new NextResponse(JSON.stringify(avatarResponse), { status: 200 });
   } catch (error) {
     console.error('API route error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    return new NextResponse(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }

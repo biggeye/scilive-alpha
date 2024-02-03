@@ -20,7 +20,6 @@ const ImageEditForm = () => {
   const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
   const predictionError = useRecoilValue(predictionErrorState);
 
-
   const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
   const [userImageDataUri, setUserImageDataUri] = useRecoilState(userImageDataUriState);

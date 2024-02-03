@@ -28,6 +28,7 @@ export interface SelectedModel {
   example?: string,
   url?: string,
   shortdesc: string,
+  inputtype: string,
 };
 
 export interface IceServer {

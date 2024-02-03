@@ -13,13 +13,14 @@ export async function POST(req: Request) {
 
   try {
     const bodyData = await req.json()
-    const { version, image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path, stream } = bodyData
+    const { version, image, pose_image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path, stream } = bodyData
 
     const payload = {
       version,
       input: {
         ...(stream && { stream }),
         ...(image && { image }),
+        ...(pose_image && { pose_image }),
         ...(input_image && { input_image }),
         ...(prompt && { prompt }),
         ...(negative_prompt && { negative_prompt }),
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
         ...(custom_voice && { custom_voice }),
         ...(img && { img }),
         ...(video_path && { video_path }),
+
       },
       webhook: "https://scilive.cloud/api/replicate/webhook",
     };

@@ -1,7 +1,7 @@
 // 'use client'; is already at the top, indicating this component is client-side only.
 'use client'
 import React, { useState } from 'react';
-import { Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip } from '@chakra-ui/react';
+import { Grid, GridItem, Spacer, Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip } from '@chakra-ui/react';
 import { ContentItem } from '@/types';
 
 interface GalleryProps {
@@ -32,13 +32,16 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems }) => {
           {group.map((item, itemIndex) => (
             <Tooltip key={item.content_id} label={item.prompt} hasArrow>
               <Image
-              width="75px"
-              height="auto"
+              marginBottom="15px"
+              boxShadow="1px 3px 5px"
+               borderRadius="2px"
+                width="75px"
+                height="auto"
                 cursor="pointer"
                 src={item.url}
                 alt={item.title}
                 onClick={() => handleImageClick(groupIndex, itemIndex)}
-                // Optional: Apply styles or animations as needed
+              // Optional: Apply styles or animations as needed
               />
             </Tooltip>
           ))}
@@ -50,18 +53,40 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems }) => {
           <ModalOverlay />
           <ModalContent>
             <ModalBody
-            height="auto"
-            width="auto">
-              <Image
-                width="auto'"
-                height="auto"
-                src={contentItems[currentGroup][currentIndex].url}
-                alt={contentItems[currentGroup][currentIndex].title}
-                className="element-fade-in"
-                // Optional: Apply styles or animations as needed
-              />
+              height="auto"
+              width="auto">
+
+              <Grid templateAreas={`"modelName modelName modelName"
+                                    "image image image"
+                                  "id prompt created"`}
+                gridTemplateRows={'50px auto 100px'}
+                gridTemplateColumns={'10% 80% 10%'}
+
+              >
+                <GridItem area="modelName">
+                  {contentItems[currentGroup][currentIndex].name}
+                </GridItem>
+                <GridItem area="image">
+                  <Image
+                    width="auto'"
+                    height="auto"
+                    src={contentItems[currentGroup][currentIndex].url}
+                    alt={contentItems[currentGroup][currentIndex].title}
+                    className="element-fade-in"
+                  // Optional: Apply styles or animations as needed
+                  />
+                </GridItem>
+
+                <GridItem area="prompt">
+                  {contentItems[currentGroup][currentIndex].prompt}
+                </GridItem>
+
+              </Grid>
             </ModalBody>
+
+
           </ModalContent>
+
         </Modal>
       )}
     </Box>

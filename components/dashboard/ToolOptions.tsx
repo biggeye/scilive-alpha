@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { Text, Spacer, Box, Select, Flex, Progress, Skeleton } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/config-atoms";
+import { selectedModelInputFieldsState, exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
 
 
 const ToolOptions = () => {
+  const [selectedModelInputFields, setSelectedModelInputFields] = useRecoilState(selectedModelInputFieldsState);
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
   const [selectedModelFriendlyName, setSelectedModelFriendlyName] = useRecoilState(selectedModelFriendlyNameState);
   const [selectedModelShortDesc, setSelectedModelShortDesc] = useRecoilState(selectedModelShortDescState);
@@ -33,6 +34,7 @@ const ToolOptions = () => {
 
 
   const updateModelStates = (model: SelectedModel) => {
+    setSelectedModelInputFields(model.inputtype);
     setSelectedModelName(model.name);
     setSelectedModelId(model.id);
     setSelectedModelFriendlyName(model.friendlyname);

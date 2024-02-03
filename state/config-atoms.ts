@@ -44,3 +44,8 @@ export const exampleImageState = atom({
     key: "dashboardState",
     default: false,
   });
+
+  export const selectedModelInputFieldsState = atom({
+    key: "selectedModelInputFieldsState",
+    default: "",
+  })

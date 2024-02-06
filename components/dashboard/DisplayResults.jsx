@@ -110,7 +110,7 @@ const DisplayResults = () => {
                     height="auto"
                     src={displayedImage}
                     alt="sciGenerate"
-                    boxShadow="5px 5px 2px rgba(0, 0, 0, 0.5)"
+                  
                     borderRadius=".5rem"
                   />
               {finalPrediction &&  

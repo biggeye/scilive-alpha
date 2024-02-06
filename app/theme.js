@@ -53,7 +53,7 @@ export const sciLiveTheme = extendTheme({
         height: "100%",
         overflowY: "scroll",
         overflowX: "hidden",
-        bgGradient: "linear(to-b, silver 50%, white 75%)",
+        bgGradient: "linear(to-b, silver 25%, white 75%)",
       },
 
       input: {

@@ -10,16 +10,17 @@ import { convertToDataURI } from '@/lib/convertToDataURI';
 import ProgressIndicator from '@/components/CircularProgress';
 
 const ImageEditForm = () => {
+  const imageEditSubmit = useImageCreateSubmit();
   const { userProfile } = useUserContext();
   const userId = userProfile?.id;
-
+  
   const [userInput, setUserInput] = useState<string>('');
-  const imageEditSubmit = useImageCreateSubmit();
+
   const finalPrediction = useRecoilValue(finalPredictionState);
   const modelId = useRecoilValue(selectedModelIdState);
-  const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
   const predictionError = useRecoilValue(predictionErrorState);
 
+  const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
   const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
   const [userImageDataUri, setUserImageDataUri] = useRecoilState(userImageDataUriState);
@@ -52,6 +53,7 @@ const ImageEditForm = () => {
      if (finalPrediction) {
       setPredictionIsLoading(false);
       setUserImageUpload(null);
+      setUserImagePreview(null);
      }
    
   };

@@ -44,7 +44,7 @@ import {
 } from "@/state/config-atoms";
 import { ScrollableThumbnails } from "../ScrollableThumbnails";
 import ProgressIndicator from "../CircularProgress";
-import { fadeIn, fadeOut, pulse } from "@/app/theme";// Assuming animations are correctly exported
+import { fadeIn, fadeOut, pulse } from "@/app/theme"; // Assuming animations are correctly exported
 import { talkVideoUrlState } from "@/state/d_id_talk";
 import ToolOptions from "./ToolOptions";
 import PredictionProgressMonitor from "./replicate/PredictionProgressMonitor";
@@ -58,9 +58,7 @@ const DisplayResults = () => {
 
   const predictionProgress = useRecoilValue(predictionProgressState);
   const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue(
-    selectedModelFriendlyNameState
-  );
+  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
   const userImagePreview = useRecoilValue(userImagePreviewState);
@@ -87,38 +85,52 @@ const DisplayResults = () => {
           <VStack>
             <ToolOptions />
             {predictionIsLoading ? (
-              <Card width="80vw"
-                height="50vh" 
-                className="animated-shadow" // Ensure you have defined this class in your CSS with the desired animations
-               >
-                   <Flex direction="column" justifyContent="spaced-evenly">
+              <Card
+                className="image-card"
+                borderColor="onyx"
+                borderWidth="0.5px" // Ensure you have defined this class in your CSS with the desired animations
+              >
+                <Flex direction="column" justifyContent="spaced-evenly">
                   {modelBootResult === "loading" && (
-                    <CircularProgress isIndeterminate />
+                    <CircularProgress
+                      isIndeterminate
+                      className="element-pulse"
+                    />
                   )}
-           
-                  <Text> Model Status: {modelBootResult}</Text>
+
+                  <Text>Model Status: {modelBootResult}</Text>
                   <Spacer />
+                  <Progress value={predictionProgress} />
                   <Text>Prediction Status: {predictionStatus}</Text>
-                  </Flex>
-              
-                </Card>
+                </Flex>
+              </Card>
             ) : (
-              <Card className="animated-shadow">
+              <>
+                <Card 
+                className="image-card"
+                borderColor="onyx"
+                borderWidth="0.5px">
                   <Image
+                    margin="5px"
                     width={{ base: "50vh", md: "60vh" }}
                     maxWidth="70vw"
                     height="auto"
                     src={displayedImage}
                     alt="sciGenerate"
-                  
                     borderRadius=".5rem"
                   />
-              {finalPrediction &&  
-              <>  
-                  <Text>Prompt: {finalPredictionPrompt}</Text>
-                  <Text>Model: {selectedModelFriendlyName}</Text>
-                  </>}
                 </Card>
+                {finalPrediction && (
+                  <Card bgColor="transparent">
+                    <Text fontSize={{ base: "xs", md: "sm" }}>
+                      <b>Prompt:</b> {finalPredictionPrompt}
+                    </Text>
+                    <Text fontSize={{ base: "xs", md: "sm" }}>
+                      <b>Model:</b> {selectedModelFriendlyName}
+                    </Text>
+                  </Card>
+                )}
+              </>
             )}
           </VStack>
         </Center>

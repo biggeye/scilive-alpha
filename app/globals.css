@@ -53,7 +53,13 @@
   border-color: #374151;
 }
 
-
+.image-card {
+  border-width: 1px;
+  border-color: #454545ff; 
+  width: auto;
+  padding: 10px;
+  animation: shadow-loop 20s linear infinite;
+  }
 
 
 /* Custom Animations */
@@ -143,7 +149,6 @@
 .element-pulse {
   animation: pulse .5s linear infinite;
 }
-
 
 .animated-shadow {
   animation: shadow-loop 20s linear infinite;

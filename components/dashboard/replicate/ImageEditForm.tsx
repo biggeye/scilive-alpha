@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { useImageEditSubmit } from '@/lib/replicate/useImageEditSubmit';
+import { useImageCreateSubmit } from '@/lib/replicate/useImageCreateSubmit';
 import { CircularProgress, Box, Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridItem, InputRightAddon } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
 import { finalPredictionState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
@@ -10,11 +10,11 @@ import { convertToDataURI } from '@/lib/convertToDataURI';
 import ProgressIndicator from '@/components/CircularProgress';
 
 const ImageEditForm = () => {
-  const { supabase, userProfile } = useUserContext();
+  const { userProfile } = useUserContext();
   const userId = userProfile?.id;
 
   const [userInput, setUserInput] = useState<string>('');
-  const imageEditSubmit = useImageEditSubmit(supabase);
+  const imageEditSubmit = useImageCreateSubmit();
   const finalPrediction = useRecoilValue(finalPredictionState);
   const modelId = useRecoilValue(selectedModelIdState);
   const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);

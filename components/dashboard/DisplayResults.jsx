@@ -91,18 +91,16 @@ const DisplayResults = () => {
                 height="50vh" 
                 className="animated-shadow" // Ensure you have defined this class in your CSS with the desired animations
                >
+                   <Flex direction="column" justifyContent="spaced-evenly">
                   {modelBootResult === "loading" && (
                     <CircularProgress isIndeterminate />
                   )}
-                  <CardFooter>
-
-                  <Flex direction="row" justifyContent="spaced-evenly">
+           
                   <Text> Model Status: {modelBootResult}</Text>
                   <Spacer />
                   <Text>Prediction Status: {predictionStatus}</Text>
                   </Flex>
               
-                  </CardFooter>
                 </Card>
             ) : (
               <Card className="animated-shadow">

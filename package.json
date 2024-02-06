@@ -25,6 +25,7 @@
     "geist": "^1.0.0",
     "headlessui": "^0.0.0",
     "heroicons": "^2.0.18",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.307.0",
     "next": "latest",
     "postcss": "^8.4.32",

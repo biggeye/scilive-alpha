@@ -1,35 +1,36 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
-import { Box, CircularProgress, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
+import { Box, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedModelIdState } from "@/state/config-atoms";
-import { finalPredictionState, predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
+import { predictionIsLoadingState, predictionErrorState, finalPredictionState } from "@/state/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 
 const ImageCreateForm: React.FC = () => {
-  const { supabase, userProfile } = useUserContext();
+  // read state
+  const { userProfile } = useUserContext();
   const userId = userProfile?.id;
-
-  const [userInput, setUserInput] = useState<string>("");
   const modelId = useRecoilValue(selectedModelIdState);
-  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
-
-  const finalPrediction = useRecoilValue(finalPredictionState);
   const predictionError = useRecoilValue(predictionErrorState);
+  const finalPrediction = useRecoilValue(finalPredictionState);
+
+  // set state
+  const [userInput, setUserInput] = useState<string>("");
+  const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
-
-  // Initialize the hook at the top level and get the function
-  const imageCreateSubmit = useImageCreateSubmit(supabase, userInput);
-
+  const imageCreateSubmit = useImageCreateSubmit();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPredictionIsLoading(true);
     if (!modelId || !userId) {
       console.error("No model selected or user not found");
       return;
     }
-    // Call the function returned by useImageCreateSubmit
     await imageCreateSubmit(userInput);
-
+    if (finalPrediction) {
+       setPredictionIsLoading(false);
+    }
   };
   
   return (

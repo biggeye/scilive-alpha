@@ -1,11 +1,10 @@
-// 'use client'; is already at the top, indicating this component is client-side only.
 'use client'
 import React, { useState } from 'react';
-import { Grid, GridItem, Spacer, Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip } from '@chakra-ui/react';
+import { Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip } from '@chakra-ui/react';
 import { ContentItem } from '@/types';
 
 interface GalleryProps {
-  contentItems: ContentItem[][]; // Adjusted to match the expected data structure.
+  contentItems: ContentItem[][];
 }
 
 const Gallery: React.FC<GalleryProps> = ({ contentItems }) => {
@@ -28,20 +27,23 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems }) => {
   return (
     <Box>
       {contentItems.map((group, groupIndex) => (
-        <Flex key={groupIndex} direction="row" wrap="wrap" justifyContent="center" gap="20px">
+        <Flex key={groupIndex} direction="row" wrap="wrap" justifyContent="center" gap="20px" mb={5}>
           {group.map((item, itemIndex) => (
-            <Tooltip key={item.content_id} label={item.prompt} hasArrow>
+            <Tooltip key={item.content_id} label={item.prompt} hasArrow bg="lightBlue" color="white">
               <Image
-              marginBottom="15px"
-              boxShadow="1px 3px 5px"
-               borderRadius="2px"
-                width="75px"
-                height="auto"
+                boxShadow="xl"
+                borderRadius="lg"
+                width="150px"
+                height="150px"
                 cursor="pointer"
                 src={item.url}
                 alt={item.title}
                 onClick={() => handleImageClick(groupIndex, itemIndex)}
-              // Optional: Apply styles or animations as needed
+                className="element-fade-in"
+                _hover={{
+                  transform: 'scale(1.05)',
+                  transition: 'transform .2s',
+                }}
               />
             </Tooltip>
           ))}
@@ -49,44 +51,26 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems }) => {
       ))}
 
       {isModalOpen && currentGroup !== null && currentIndex !== null && (
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Modal isOpen={isModalOpen} onClose={closeModal} motionPreset="slideInBottom" size="xl">
           <ModalOverlay />
-          <ModalContent>
-            <ModalBody
-              height="auto"
-              width="auto">
-
-              <Grid templateAreas={`"modelName modelName modelName"
-                                    "image image image"
-                                  "id prompt created"`}
-                gridTemplateRows={'50px auto 100px'}
-                gridTemplateColumns={'10% 80% 10%'}
-
-              >
-                <GridItem area="modelName">
+          <ModalContent bgGradient="linear(to-b, silver, seasalt)">
+            <ModalBody p={5}>
+              <Box textAlign="center" className="fade-in-from-top">
+                <Image
+                  borderRadius="lg"
+                  src={contentItems[currentGroup][currentIndex].url}
+                  alt={contentItems[currentGroup][currentIndex].title}
+                  className="animated-shadow"
+                />
+                <Box mt={3} fontWeight="bold" fontSize="lg" color="onyx">
                   {contentItems[currentGroup][currentIndex].name}
-                </GridItem>
-                <GridItem area="image">
-                  <Image
-                    width="auto'"
-                    height="auto"
-                    src={contentItems[currentGroup][currentIndex].url}
-                    alt={contentItems[currentGroup][currentIndex].title}
-                    className="element-fade-in"
-                  // Optional: Apply styles or animations as needed
-                  />
-                </GridItem>
-
-                <GridItem area="prompt">
+                </Box>
+                <Box fontSize="md" color="gray.600">
                   {contentItems[currentGroup][currentIndex].prompt}
-                </GridItem>
-
-              </Grid>
+                </Box>
+              </Box>
             </ModalBody>
-
-
           </ModalContent>
-
         </Modal>
       )}
     </Box>

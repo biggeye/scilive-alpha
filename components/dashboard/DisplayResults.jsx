@@ -18,7 +18,7 @@ import {
   Image,
   Skeleton,
   CircularProgress,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -32,6 +32,7 @@ import {
   modelBootProgressState,
   modelBootResultState,
   predictionIsLoadingState,
+  predictionStatusState,
 } from "@/state/prediction-atoms";
 import {
   selectedModelFriendlyNameState,
@@ -43,22 +44,23 @@ import {
 } from "@/state/config-atoms";
 import { ScrollableThumbnails } from "../ScrollableThumbnails";
 import ProgressIndicator from "../CircularProgress";
-import { pulse } from "@/app/theme";
+import { fadeIn, fadeOut, pulse } from "@/app/theme";// Assuming animations are correctly exported
 import { talkVideoUrlState } from "@/state/d_id_talk";
 import ToolOptions from "./ToolOptions";
-
+import PredictionProgressMonitor from "./replicate/PredictionProgressMonitor";
 
 const DisplayResults = () => {
   const [displayedImage, setDisplayedImage] = useState(null);
 
-  const talkVideoUrl = useRecoilValue(talkVideoUrlState);
-  
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
-  const predictionProgress = useRecoilValue(predictionProgressState);
   const modelBootResult = useRecoilValue(modelBootResultState);
+  const predictionStatus = useRecoilValue(predictionStatusState);
 
+  const predictionProgress = useRecoilValue(predictionProgressState);
   const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
+  const selectedModelFriendlyName = useRecoilValue(
+    selectedModelFriendlyNameState
+  );
   const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
   const selectedModelName = useRecoilValue(selectedModelNameState);
   const userImagePreview = useRecoilValue(userImagePreviewState);
@@ -82,46 +84,47 @@ const DisplayResults = () => {
     <Box height="100%" m="25px">
       <Flex direction="column">
         <Center>
-        <VStack>
-        <ToolOptions />
-          {predictionIsLoading ? (
-            <>
-              <Skeleton
-                height={{ base: "50vh", md: "60vh" }}
-                width="auto"
-                boxShadow="0px 4px 1px rgba(0, 0, 0, 0.4)"
-                borderRadius=".5rem"
-              />
-              <CircularProgress value={predictionProgress} />
-              <ProgressIndicator />
-           </>
-          ) : (
-            <React.Fragment>
-              {talkVideoUrl && 
-                <video
-                  width="auto"
-                  height={{ base: "50vh", md: "60vh" }}
-                  controls
-                >
-                  <source src={talkVideoUrl} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              }
-              <Image
-                width={{ base: "50vh", md: "60vh" }}
-                maxWidth="70vw"
-                height="auto"
-                src={displayedImage}
-                alt="sciGenerate"
-                boxShadow="0px -5px 25px rgba(0, 0, 0, 0.5)"
-                borderRadius=".5rem"
-                className="animated-shadow"
-              />
-            </React.Fragment>
-          )}
+          <VStack>
+            <ToolOptions />
+            {predictionIsLoading ? (
+              <Card width="80vw"
+                height="50vh" 
+                className="animated-shadow" // Ensure you have defined this class in your CSS with the desired animations
+               >
+                  {modelBootResult === "loading" && (
+                    <CircularProgress isIndeterminate />
+                  )}
+                  <CardFooter>
+
+                  <Flex direction="row" justifyContent="spaced-evenly">
+                  <Text> Model Status: {modelBootResult}</Text>
+                  <Spacer />
+                  <Text>Prediction Status: {predictionStatus}</Text>
+                  </Flex>
+              
+                  </CardFooter>
+                </Card>
+            ) : (
+              <Card className="animated-shadow">
+                  <Image
+                    width={{ base: "50vh", md: "60vh" }}
+                    maxWidth="70vw"
+                    height="auto"
+                    src={displayedImage}
+                    alt="sciGenerate"
+                    boxShadow="5px 5px 2px rgba(0, 0, 0, 0.5)"
+                    borderRadius=".5rem"
+                  />
+              {finalPrediction &&  
+              <>  
+                  <Text>Prompt: {finalPredictionPrompt}</Text>
+                  <Text>Model: {selectedModelFriendlyName}</Text>
+                  </>}
+                </Card>
+            )}
           </VStack>
         </Center>
-</Flex>
+      </Flex>
     </Box>
   );
 };

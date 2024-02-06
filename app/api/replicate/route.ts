@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         ...(custom_voice && { custom_voice }),
         ...(img && { img }),
         ...(video_path && { video_path }),
-
+ 
       },
       webhook: "https://scilive.cloud/api/replicate/webhook",
     };

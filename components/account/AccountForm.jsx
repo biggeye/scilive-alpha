@@ -143,11 +143,11 @@ export const AccountForm = () => {
 "label pulldown pulldown"
 `}>
   <GridItem area="header">
-  Create Default: {"  :"}
+    CUSTOMIZE WORKSPACE DEFAULTS
   </GridItem>
   
   <GridItem area="label">
-    
+    Workspace:
   </GridItem>
   <GridItem area="pulldown">
     <Select>

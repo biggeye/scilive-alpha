@@ -4,6 +4,7 @@ import { Text, Spacer, Box, Select, Flex, Progress, Skeleton } from "@chakra-ui/
 import { useRecoilState, useRecoilValue } from "recoil";
 import { selectedModelInputFieldsState, exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/config-atoms";
 import type { SelectedModel } from "@/types";
+import { finalPredictionState, predictionIsLoadingState } from "@/state/prediction-atoms";
 
 
 const ToolOptions = () => {
@@ -18,6 +19,8 @@ const ToolOptions = () => {
   const [modelsLoading, setModelsLoading] = useState(false);
   const tool = useRecoilValue(selectedTabState);
   const [userContentExamples, setUserContentExamples] = useRecoilState(userContentExamplesState);
+  const [finalPrediction, setFinalPrediction] = useRecoilState(finalPredictionState);
+  const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
 
   useEffect(() => {
     if (tool) {
@@ -34,6 +37,8 @@ const ToolOptions = () => {
 
 
   const updateModelStates = (model: SelectedModel) => {
+    setPredictionIsLoading(false);
+    setFinalPrediction(null);
     setSelectedModelInputFields(model.inputtype);
     setSelectedModelName(model.name);
     setSelectedModelId(model.id);

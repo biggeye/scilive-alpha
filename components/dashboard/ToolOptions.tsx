@@ -86,7 +86,6 @@ const ToolOptions = () => {
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
     if (selectedModel) {
       updateModelStates(selectedModel);
-
     }
   };
   
@@ -100,15 +99,11 @@ const ToolOptions = () => {
       case "imageEditing":
         const img2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
         return img2imgResponse;
-
-      case "imageNarratives":
-        const img2txtResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
-        return img2txtResponse;
-
-      case "avatarStreaming":
-        const avatarResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/avatars`);
-        return avatarResponse;
-        
+   
+      case "imageNarrative":
+        const imageNarrativeResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
+        return imageNarrativeResponse;
+      
       default:
         return Promise.reject("Invalid tool type");
     }

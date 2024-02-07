@@ -67,14 +67,23 @@ key: 'finalPredictionPromptState',
 default: null,
 });
 
+export const finalNarrativePredictionState = atom({
+  key: 'finalNarrativePredictionState',
+  default: '' || null,
+});
 
-export const imageNarrativesUploadState = atom<File | null>({
-  key: 'imageNarrativesUploadState',
+export const finalNarrativeState = atom ({
+  key: 'finalNarrativeState',
+  default: '' || null,
+});
+
+export const imageNarrativeUploadState = atom<File | null>({
+  key: 'imageNarrativeUploadState',
   default: null,
 });
 
-export const imageNarrativesPromptState = atom ({
-  key: 'imageNarrativesPromptState',
+export const imageNarrativePromptState = atom ({
+  key: 'imageNarrativePromptState',
   default: "Describe the image you've uploaded",
 });
 

@@ -13,6 +13,10 @@ const CreateVideoTalkForm = () => {
   const [talkVideoPendingUrl, setTalkVideoPendingUrl] = useRecoilState(talkVideoPendingUrlState);
   const [talkVideoStatus, setTalkVideoStatus] = useRecoilState(talkVideoStatusState);
 
+  const fetchAvatars = async () => {
+  const avatarResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/avatars`);
+  }
+
   useEffect(() => {
     let intervalId;
     const pollStatus = async () => {

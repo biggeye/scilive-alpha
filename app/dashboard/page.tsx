@@ -4,7 +4,7 @@ import { Spacer, Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, useBoo
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
 import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
-import ImageNarratives from "../../components/dashboard/replicate/ImageNarrativeForm";
+import ImageNarrative from "../../components/dashboard/replicate/ImageNarrativeForm";
 import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
 import CreateVideoTalkForm from '@/components/dashboard/d-id/CreateVideoTalkForm';
 import { predictionIsLoadingState } from "@/state/prediction-atoms";
@@ -33,7 +33,7 @@ const DashboardPage: React.FC = () => {
         tool = "imageEditing";
         break;
       case 2:
-        tool = "imageNarratives";
+        tool = "imageNarrative";
         break;
       default:
         tool = "imageCreation"; // Default tool if no index matches
@@ -75,7 +75,7 @@ const DashboardPage: React.FC = () => {
               <ImageEditForm />
             </TabPanel>
             <TabPanel>
-              <ImageNarratives />
+              <ImageNarrative />
             </TabPanel>
           </TabPanels>
         </GridItem>

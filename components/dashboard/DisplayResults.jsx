@@ -1,82 +1,55 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-  useTheme,
-  Flex,
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Center,
-  Grid,
-  GridItem,
   Box,
-  Spacer,
-  Text,
-  Progress,
-  Tag,
-  Image,
-  Skeleton,
-  CircularProgress,
+  Flex,
+  Center,
   VStack,
+  Card,
+  CircularProgress,
+  Progress,
+  Text,
 } from "@chakra-ui/react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import {
-  predictionResultState,
-  predictionErrorState,
+  predictionIsLoadingState,
+  modelBootResultState,
+  predictionStatusState,
   predictionProgressState,
-  userImageUploadState,
-  userImagePreviewState,
   finalPredictionState,
   finalPredictionPromptState,
-  modelBootProgressState,
-  modelBootResultState,
-  predictionIsLoadingState,
-  predictionStatusState,
+  finalNarrativeState,
+  userImagePreviewState,
 } from "@/state/prediction-atoms";
-import {
-  selectedModelFriendlyNameState,
-  selectedModelShortDescState,
-  selectedModelNameState,
-  exampleImageState,
-  examplesLoadingState,
-  userContentExamplesState,
-} from "@/state/config-atoms";
-import { ScrollableThumbnails } from "../ScrollableThumbnails";
-import ProgressIndicator from "../CircularProgress";
-import { fadeIn, fadeOut, pulse } from "@/app/theme"; // Assuming animations are correctly exported
-import { talkVideoUrlState } from "@/state/d_id_talk";
 import ToolOptions from "./ToolOptions";
-import PredictionProgressMonitor from "./replicate/PredictionProgressMonitor";
+import { ImageCard, NarrativeCard } from "../Cards";
+import { exampleImageState, selectedModelFriendlyNameState } from "@/state/config-atoms";
+// Assuming this function is elsewhere or needs to be added
 
 const DisplayResults = () => {
-  const [displayedImage, setDisplayedImage] = useState(null);
-
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionStatus = useRecoilValue(predictionStatusState);
-
   const predictionProgress = useRecoilValue(predictionProgressState);
-  const exampleImage = useRecoilValue(exampleImageState);
-  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
-  const selectedModelShortDesc = useRecoilValue(selectedModelShortDescState);
-  const selectedModelName = useRecoilValue(selectedModelNameState);
-  const userImagePreview = useRecoilValue(userImagePreviewState);
-
+  const finalNarrative = useRecoilValue(finalNarrativeState);
   const finalPrediction = useRecoilValue(finalPredictionState);
   const finalPredictionPrompt = useRecoilValue(finalPredictionPromptState);
+  const userImagePreview = useRecoilValue(userImagePreviewState);
+  const exampleImage = useRecoilValue(exampleImageState);
+  const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
 
-  useEffect(() => {
-    if (finalPrediction) {
-      setDisplayedImage(finalPrediction);
-      return;
-    } else if (userImagePreview) {
-      setDisplayedImage(userImagePreview);
-      return;
-    } else if (exampleImage) {
-      setDisplayedImage(exampleImage);
+  function isValidHttpUrl(string) {
+    let url;
+  
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;  
     }
-  }, [finalPrediction, userImagePreview, exampleImage]);
+  
+    return url.protocol === "http:" || url.protocol === "https:";
+  }
+  
 
   return (
     <Box height="100%" m="25px">
@@ -85,53 +58,30 @@ const DisplayResults = () => {
           <VStack>
             <ToolOptions />
             {predictionIsLoading ? (
-              <Card
-                className="image-card"
-                borderColor="onyx"
-                borderWidth="0.5px" // Ensure you have defined this class in your CSS with the desired animations
-              >
-                <Flex direction="column" justifyContent="spaced-evenly">
+              <Card className="image-card" borderColor="onyx" borderWidth="0.5px">
+                <Flex direction="column" justifyContent="space-evenly">
                   {modelBootResult === "loading" && (
-                    <CircularProgress
-                      isIndeterminate
-                      className="element-pulse"
-                    />
+                    <CircularProgress isIndeterminate className="element-pulse" />
                   )}
-
                   <Text>Model Status: {modelBootResult}</Text>
-                  <Spacer />
                   <Progress value={predictionProgress} />
                   <Text>Prediction Status: {predictionStatus}</Text>
                 </Flex>
               </Card>
-            ) : (
-              <>
-                <Card 
-                className="image-card"
-                borderColor="onyx"
-                borderWidth="0.5px">
-                  <Image
-                    margin="5px"
-                    width={{ base: "50vh", md: "60vh" }}
-                    maxWidth="70vw"
-                    height="auto"
-                    src={displayedImage}
-                    alt="sciGenerate"
-                    borderRadius=".5rem"
-                  />
-                </Card>
-                {finalPrediction && (
-                  <Card bgColor="transparent">
-                    <Text fontSize={{ base: "xs", md: "sm" }}>
-                      <b>Prompt:</b> {finalPredictionPrompt}
-                    </Text>
-                    <Text fontSize={{ base: "xs", md: "sm" }}>
-                      <b>Model:</b> {selectedModelFriendlyName}
-                    </Text>
-                  </Card>
-                )}
-              </>
-            )}
+            ) : finalPrediction ? (
+              isValidHttpUrl(finalPrediction) ? (
+                <ImageCard imageUrl={finalPrediction} prompt={finalPredictionPrompt} modelName={selectedModelFriendlyName} />
+              ) : (
+                <NarrativeCard narrative={finalPrediction} />
+              )
+            ) : finalNarrative ? (
+              <VStack>
+              <ImageCard imageUrl={userImagePreview} />
+              <NarrativeCard narrative={finalNarrative} />
+              </VStack>
+            ) : userImagePreview || exampleImage ? (
+              <ImageCard imageUrl={userImagePreview || exampleImage} />
+            ) : null}
           </VStack>
         </Center>
       </Flex>

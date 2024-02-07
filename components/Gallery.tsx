@@ -1,16 +1,58 @@
 'use client'
 import React, { useState } from 'react';
 import { Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip } from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 import { ContentItem } from '@/types';
+import { useRecoilState } from 'recoil';
+import { currentIndexState, currentGroupState } from '@/state/gallery-atoms';
+import { Button, ModalHeader, ModalFooter, ModalCloseButton } from '@chakra-ui/react';
 
 interface GalleryProps {
   contentItems: ContentItem[][];
+  supabase: any;
+  refresh: any;
 }
 
-const Gallery: React.FC<GalleryProps> = ({ contentItems }) => {
-  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
-  const [currentGroup, setCurrentGroup] = useState<number | null>(null);
+const Gallery: React.FC<GalleryProps> = ({ contentItems, supabase, refresh }) => {
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
+  const [currentGroup, setCurrentGroup] = useRecoilState(currentGroupState);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false);
+  const [deletingContentId, setDeletingContentId] = useState<string | null>(null);
+
+  const openDeleteConfirmModal = (contentId: string) => {
+    setDeletingContentId(contentId);
+    setIsDeleteConfirmOpen(true);
+  };
+
+  const closeDeleteConfirmModal = () => {
+    setIsDeleteConfirmOpen(false);
+    setDeletingContentId(null);
+  };
+
+  const confirmDeleteItem = async () => {
+    if (deletingContentId) {
+      await deleteItem(deletingContentId);
+      closeDeleteConfirmModal();
+      refresh((prevKey: number) => prevKey + 1); // Increment the refreshKey to trigger a gallery refresh
+    }
+  };
+  const deleteItem = async (contentId: string) => {
+    try {
+      console.log(contentId);
+      const { error } = await supabase
+        .from('master_content')
+        .delete()
+        .eq('content_id', contentId);
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error deleting content:", error);
+    }
+  };
+
 
   const handleImageClick = (groupIndex: number, itemIndex: number) => {
     setCurrentGroup(groupIndex);
@@ -68,11 +110,34 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems }) => {
                 <Box fontSize="md" color="gray.600">
                   {contentItems[currentGroup][currentIndex].prompt}
                 </Box>
+                <IconButton
+                  aria-label="Delete item"
+                  icon={<DeleteIcon />}
+                  colorScheme="red"
+                  onClick={() => openDeleteConfirmModal(contentItems[currentGroup][currentIndex].content_id)}
+                />
               </Box>
             </ModalBody>
+
           </ModalContent>
         </Modal>
       )}
+           <Modal isOpen={isDeleteConfirmOpen} onClose={closeDeleteConfirmModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Are you sure you want to delete this item?
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={confirmDeleteItem}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={closeDeleteConfirmModal}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

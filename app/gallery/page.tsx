@@ -1,14 +1,18 @@
-// 'use client'; is already at the top, indicating this component is client-side only.
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from '@/lib/UserProvider';
 import { createClient } from '@/utils/supabase/client';
 import Gallery from '@/components/Gallery';
 import { ContentItem } from '@/types';
+import { contentItemsState } from '@/state/gallery-atoms';
+import { useRecoilState } from 'recoil';
+
 
 const GalleryPage: React.FC = () => {
   // This state will now hold an array of arrays of ContentItems.
-  const [contentItems, setContentItems] = useState<ContentItem[][]>([]);
+
+  const [contentItems, setContentItems] = useRecoilState(contentItemsState);
+  const [refreshKey, setRefreshKey] = useState(0);
   const supabase = createClient();
   const { userProfile } = useUserContext();
   const userId = userProfile?.id;
@@ -32,7 +36,7 @@ const GalleryPage: React.FC = () => {
       }
     };
     fetchData();
-  }, [userId]);
+  }, [userId, refreshKey]);
 
   function chunkArray<T>(array: T[], chunkSize: number): T[][] {
     const result = [];
@@ -45,7 +49,8 @@ const GalleryPage: React.FC = () => {
   return (
     <div>
       {/* Assuming Gallery can handle an array of arrays */}
-      <Gallery contentItems={contentItems} />
+      <Gallery contentItems={contentItems} supabase={supabase} refresh={setRefreshKey} />
+
     </div>
   );
 };

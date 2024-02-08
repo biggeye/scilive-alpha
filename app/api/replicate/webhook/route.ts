@@ -8,19 +8,11 @@ import { extractUserIdFromRequest } from '@/lib/extractUserIdFromRequest';
 export async function POST(req: NextRequest) {
     const supabase = createClient(req);
 
-    // Use a dedicated function to extract the user ID from the request.
-    // This function's implementation will depend on your auth setup.
     const userId = await extractUserIdFromRequest(req);
 
     const { status, id, output, version, input } = await req.json();
     const content = Array.isArray(output) ? output[0] : output;
     const prompt = input.prompt;
-
-    // Determine content type based on output
-    let contentType = 'text';
-    if (typeof output === 'string' && (output.startsWith('http') || output.startsWith('https'))) {
-        contentType = 'image';
-    }
 
     if (status === 'succeeded' && output && userId) {
         try {
@@ -29,8 +21,7 @@ export async function POST(req: NextRequest) {
                 userId,
                 version,
                 id,
-                prompt,
-                contentType
+                prompt
             );
             if (!uploadUrl) {
                 return new NextResponse(JSON.stringify({ message: "uploadPrediction failed" }), { status: 500 });

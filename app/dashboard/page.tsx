@@ -4,13 +4,9 @@ import { Spacer, Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, useBoo
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
 import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
-import ImageNarrative from "../../components/dashboard/replicate/ImageNarrativeForm";
-import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
-import CreateVideoTalkForm from '@/components/dashboard/d-id/CreateVideoTalkForm';
 import { predictionIsLoadingState } from "@/state/prediction-atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedTabState, dashboardState } from '@/state/config-atoms';
-import DisplayStream from '@/components/dashboard/d-id/DisplayStream';
 
 type ToolType = string
 
@@ -31,9 +27,6 @@ const DashboardPage: React.FC = () => {
         break;
       case 1:
         tool = "imageEditing";
-        break;
-      case 2:
-        tool = "imageNarrative";
         break;
       default:
         tool = "imageCreation"; // Default tool if no index matches
@@ -59,11 +52,9 @@ const DashboardPage: React.FC = () => {
           <TabList maxWidth={{ base: "375px", md: "650px" }}>
             <Tab fontWeight="bold">Create</Tab>
             <Tab fontWeight="bold">Edit</Tab>
-            <Tab fontWeight="bold">Narrate</Tab>
           </TabList>
         </GridItem>
         <GridItem overflowY="auto">
-     
           <DisplayResults />
         </GridItem>
         <GridItem className="bottomInputFormFrame">
@@ -73,9 +64,6 @@ const DashboardPage: React.FC = () => {
             </TabPanel>
             <TabPanel>
               <ImageEditForm />
-            </TabPanel>
-            <TabPanel>
-              <ImageNarrative />
             </TabPanel>
           </TabPanels>
         </GridItem>

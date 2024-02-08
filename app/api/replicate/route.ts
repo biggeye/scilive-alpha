@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         ...(video_path && { video_path }),
  
       },
-      webhook: "https://scilive.cloud/api/replicate/webhook",
+    //  webhook: "https://scilive.cloud/api/replicate/webhook",
     };
 
     if (Object.keys(payload.input).length === 0) {

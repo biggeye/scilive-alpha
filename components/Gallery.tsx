@@ -38,8 +38,36 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems, supabase, refresh }) =>
       await deleteItem(deletingContentId);
       closeDeleteConfirmModal();
       refresh((prevKey: number) => prevKey + 1); // Increment the refreshKey to trigger a gallery refresh
+  
+      // Ensure currentGroup is not null before proceeding
+      if (currentGroup !== null) {
+        // Check if the deleted item was the last in its group
+        if (contentItems[currentGroup] && contentItems[currentGroup].length === 1) {
+          // If it was the only item in the group, move to the previous group or set to null if it was the only group
+          if (currentGroup > 0) {
+            setCurrentGroup(currentGroup - 1);
+            // Ensure the new currentGroup is valid before using it as an index
+            if (contentItems[currentGroup - 1]) {
+              setCurrentIndex(contentItems[currentGroup - 1].length - 1); // Move to the last item of the previous group
+            }
+          } else {
+            // No more groups left, reset indices
+            setCurrentGroup(null);
+            setCurrentIndex(null);
+            setIsModalOpen(false); // Close the modal as there are no more items to display
+          }
+        } else {
+          // If there are more items in the group, adjust currentIndex if necessary
+          // Ensure currentIndex is not null before comparing it with the length
+          if (currentIndex !== null && currentIndex >= contentItems[currentGroup].length) {
+            setCurrentIndex(currentIndex - 1); // Move to the new last item in the current group
+          }
+        }
+      }
     }
   };
+  
+  
   const deleteItem = async (contentId: string) => {
     try {
       console.log(contentId);

@@ -29,7 +29,6 @@ export async function POST(req: Request) {
         ...(custom_voice && { custom_voice }),
         ...(img && { img }),
         ...(video_path && { video_path }),
- 
       },
     //  webhook: "https://scilive.cloud/api/replicate/webhook",
     };
@@ -58,4 +57,3 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }
-

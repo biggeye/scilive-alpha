@@ -1,8 +1,9 @@
-import { Card, Text, Image } from "@chakra-ui/react";
+import { Center, Card, Text, Image } from "@chakra-ui/react";
 
 export const ImageCard = ({ imageUrl, prompt, modelName }) => (
-    <Card className="image-card" borderColor="onyx" borderWidth="0.5px">
-      <Image
+    <Card className="image-card" borderColor="onyx" borderWidth="0.5px"
+    maxwidth="80vw">
+     <Image
         margin="5px"
         width={{ base: "50vh", md: "60vh" }}
         maxWidth="70vw"
@@ -21,6 +22,7 @@ export const ImageCard = ({ imageUrl, prompt, modelName }) => (
           <b>Model:</b> {modelName}
         </Text>
       )}
+  
     </Card>
   );
   

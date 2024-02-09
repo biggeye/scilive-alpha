@@ -8,9 +8,8 @@ import {
   finalPredictionState,
   finalPredictionPromptState,
   userImagePreviewState,
-  exampleImageState,
-  selectedModelFriendlyNameState,
-} from 'yourRecoilAtomsPath'; // Adjust the import path according to your project structure
+} from '@/state/prediction-atoms'; 
+import { exampleImageState, selectedModelFriendlyNameState } from "@/state/config-atoms";// Adjust the import path according to your project structure
 import ToolOptions from './ToolOptions';
 import ImageCard from './ImageCard';
 import { motion } from 'framer-motion';

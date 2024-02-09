@@ -11,7 +11,7 @@ import {
 } from '@/state/prediction-atoms'; 
 import { exampleImageState, selectedModelFriendlyNameState } from "@/state/config-atoms";// Adjust the import path according to your project structure
 import ToolOptions from './ToolOptions';
-import ImageCard from './ImageCard';
+import { ImageCard } from "../Cards";
 import { motion } from 'framer-motion';
 
 const DisplayResults = () => {

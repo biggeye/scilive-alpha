@@ -13,5 +13,5 @@ export const currentIndexState = atom<number | null>({
 
 export const currentGroupState = atom<number | null>({
   key: 'currentGroupState',
-  default: null,
+  default: 0,
 });

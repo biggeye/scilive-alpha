@@ -1,25 +1,32 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-import { Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip } from '@chakra-ui/react';
-import { IconButton } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip, IconButton, ModalHeader, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
+import { DeleteIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { ContentItem } from '@/types';
-import { useRecoilState } from 'recoil';
-import { currentIndexState, currentGroupState } from '@/state/gallery-atoms';
-import { Button, ModalHeader, ModalFooter, ModalCloseButton } from '@chakra-ui/react';
+import { Pagination } from './Pagination';
 
 interface GalleryProps {
   contentItems: ContentItem[][];
-  supabase: any;
-  refresh: any;
+  supabase: any; // Consider replacing `any` with a more specific type if available
+  refresh: () => void;
+  currentIndex: number | null;
+  setCurrentIndex: (index: number | null) => void;
+  currentGroup: number | null;
+  setCurrentGroup: (group: number | null) => void;
+  handleDelete: (contentId: string) => Promise<void>;
 }
 
-const Gallery: React.FC<GalleryProps> = ({ contentItems, supabase, refresh }) => {
-  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
-  const [currentGroup, setCurrentGroup] = useRecoilState(currentGroupState);
-
+const Gallery: React.FC<GalleryProps> = ({
+  contentItems,
+  supabase,
+  refresh,
+  currentIndex,
+  setCurrentIndex,
+  currentGroup,
+  setCurrentGroup,
+  handleDelete,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false);
   const [deletingContentId, setDeletingContentId] = useState<string | null>(null);
 
@@ -35,47 +42,13 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems, supabase, refresh }) =>
 
   const confirmDeleteItem = async () => {
     if (deletingContentId) {
-      await deleteItem(deletingContentId);
+      await handleDelete(deletingContentId);
       closeDeleteConfirmModal();
-      refresh((prevKey: number) => prevKey + 1); 
-            if (currentGroup !== null) {
-        if (contentItems[currentGroup] && contentItems[currentGroup].length === 1) {
-          if (currentGroup > 0) {
-            setCurrentGroup(currentGroup - 1);
-            if (contentItems[currentGroup - 1]) {
-              setCurrentIndex(contentItems[currentGroup - 1].length - 1);
-            }
-          } else {
-            setCurrentGroup(null);
-            setCurrentIndex(null);
-            setIsModalOpen(false); 
-          }
-        } else {
-          if (currentIndex !== null && currentIndex >= contentItems[currentGroup].length) {
-            setCurrentIndex(currentIndex - 1); 
-          }
-        }
-      }
-    }
-  };
-  
-  
-  const deleteItem = async (contentId: string) => {
-    try {
-      console.log(contentId);
-      const { error } = await supabase
-        .from('master_content')
-        .delete()
-        .eq('content_id', contentId);
-      if (error) throw error;
-    } catch (error) {
-      console.error("Error deleting content:", error);
+      refresh();
     }
   };
 
-
-  const handleImageClick = (groupIndex: number, itemIndex: number) => {
-    setCurrentGroup(groupIndex);
+  const handleImageClick = (itemIndex: number) => {
     setCurrentIndex(itemIndex);
     setIsModalOpen(true);
   };
@@ -83,34 +56,54 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems, supabase, refresh }) =>
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentIndex(null);
-    setCurrentGroup(null);
   };
 
+  const goToNextGroup = () => {
+    if (currentGroup !== null && currentGroup < contentItems.length - 1) {
+      setCurrentGroup(currentGroup + 1);
+    }
+  };
+
+  const goToPreviousGroup = () => {
+    if (currentGroup !== null && currentGroup > 0) {
+      setCurrentGroup(currentGroup - 1);
+    }
+  };
+
+  // Render gallery UI for the current group with pagination controls
   return (
     <Box>
-      {contentItems.map((group, groupIndex) => (
-        <Flex key={groupIndex} direction="row" wrap="wrap" justifyContent="center" gap="20px" mb={5}>
-          {group.map((item, itemIndex) => (
-            <Tooltip key={item.content_id} label={item.prompt} hasArrow bg="lightBlue" color="white">
-              <Image
-                boxShadow="xl"
-                borderRadius="lg"
-                width="150px"
-                height="150px"
-                cursor="pointer"
-                src={item.url}
-                alt={item.title}
-                onClick={() => handleImageClick(groupIndex, itemIndex)}
-                className="element-fade-in"
-                _hover={{
-                  transform: 'scale(1.05)',
-                  transition: 'transform .2s',
-                }}
-              />
-            </Tooltip>
-          ))}
-        </Flex>
-      ))}
+  {currentGroup !== null && contentItems[currentGroup] && (
+    <>
+      <Flex direction="row" wrap="wrap" justifyContent="center" gap="20px" mb={5}>
+        {contentItems[currentGroup].map((item, itemIndex) => (
+          <Tooltip key={item.content_id} label={item.prompt} hasArrow bg="lightBlue" color="white">
+            <Image
+              boxShadow="xl"
+              borderRadius="lg"
+              width="150px"
+              height="150px"
+              cursor="pointer"
+              src={item.url}
+              alt={item.title}
+              onClick={() => handleImageClick(itemIndex)}
+              className="element-fade-in"
+              _hover={{
+                transform: 'scale(1.05)',
+                transition: 'transform .2s',
+              }}
+            />
+          </Tooltip>
+        ))}
+      </Flex>
+      <Pagination
+        totalGroups={contentItems.length}
+        currentGroup={currentGroup}
+        setCurrentGroup={(newGroup) => setCurrentGroup(newGroup)}
+      />
+    </>
+  )}
+
 
       {isModalOpen && currentGroup !== null && currentIndex !== null && (
         <Modal isOpen={isModalOpen} onClose={closeModal} motionPreset="slideInBottom" size="xl">
@@ -142,7 +135,7 @@ const Gallery: React.FC<GalleryProps> = ({ contentItems, supabase, refresh }) =>
           </ModalContent>
         </Modal>
       )}
-           <Modal isOpen={isDeleteConfirmOpen} onClose={closeDeleteConfirmModal}>
+      <Modal isOpen={isDeleteConfirmOpen} onClose={closeDeleteConfirmModal}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>

@@ -41,7 +41,7 @@ const DropdownMenu = ({ items }) => {
       </MenuButton>
       <MenuList>
         {items.map((item) => (
-          <MenuItem key={item.name} as={Link} href={item.href}>
+          <MenuItem key={item.name} as={Link} href={item.href} fontSize={{ base: "md", md: "lg" }}>
             {item.name}
           </MenuItem>
         ))}
@@ -83,13 +83,13 @@ const UserMenu = () => {
       </MenuButton>
       <MenuList>
         {userId ? (
-          <MenuItem onClick={signOut}>Sign-Out</MenuItem>
+          <MenuItem  fontSize={{ base: "md", md: "lg" }} onClick={signOut}>Sign-Out</MenuItem>
         ) : (
-          <MenuItem as={Link} href="/auth/login">
+          <MenuItem  fontSize={{ base: "md", md: "lg" }} as={Link} href="/auth/login">
             Login
           </MenuItem>
         )}
-        <MenuItem as={Link} href="/account">
+        <MenuItem  fontSize={{ base: "md", md: "lg" }} as={Link} href="/account">
           Account
         </MenuItem>
       </MenuList>
@@ -117,6 +117,7 @@ const Navbar = () => {
       className="navbar"
       height="8vh"
       zIndex="999"
+      fontSize={{ base: "md", md: "lg" }}
     >
       <DropdownMenu items={navigation} />
       <Spacer />

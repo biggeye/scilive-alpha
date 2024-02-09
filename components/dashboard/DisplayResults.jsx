@@ -44,9 +44,9 @@ const DisplayResults = () => {
                   {modelBootResult === "loading" && (
                     <CircularProgress isIndeterminate className="element-pulse" />
                   )}
-                  <Text>Model Status: {modelBootResult}</Text>
+                  <Text fontSize={{ base: "sm", md: "md" }}>Model Status: {modelBootResult}</Text>
                   <Progress value={predictionProgress} />
-                  <Text>Prediction Status: {predictionStatus}</Text>
+                  <Text fontSize={{ base: "sm", md: "md" }}>Prediction Status: {predictionStatus}</Text>
                 </Flex>
               </Card>
             ) : (

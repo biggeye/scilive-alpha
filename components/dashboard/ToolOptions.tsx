@@ -123,12 +123,12 @@ const ToolOptions = () => {
     <Box marginBottom="3px" maxWidth="640px" p="5px">
       <Flex alignItems="center" justifyContent="center">
         <Spacer />
-        <Text fontSize="sm">MODEL:  {"   "}</Text>
+        <Text fontSize={{ base: "sm", md: "md" }}>MODEL:  {"   "}</Text>
         <Spacer />
         {modelsLoading ? (
         <Progress isIndeterminate={true} />
         ) : (
-          <Select variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
+          <Select fontSize={{ base: "sm", md: "md" }} variant="flushed" width="75%" onChange={handleSelectionChange} size="xs">
             {modelsData.map(model => (
               <option key={model.id} value={model.id}>{model.friendlyname || model.name}</option>
             ))}

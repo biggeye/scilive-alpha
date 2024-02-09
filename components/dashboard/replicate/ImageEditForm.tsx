@@ -74,8 +74,9 @@ const ImageEditForm = () => {
                 width="50%"
               />
             </GridItem>
-            <InputGroup>
+            <InputGroup   size={{ base: "sm", md: "md" }}>
               <Input
+                fontSize={{ base: "sm", md: "md" }}
                 placeholder="Enter text for image creation"
                 aria-label="Text for image creation"
                 value={userInput}
@@ -84,6 +85,8 @@ const ImageEditForm = () => {
               />
               <InputRightAddon>
                 <Button
+                size="sm"
+                  fontSize={{ base: "sm", md: "md" }}
                   type="submit"
                   disabled={predictionIsLoading}
                 >
@@ -94,7 +97,7 @@ const ImageEditForm = () => {
 
 
           </Grid>
-          {predictionError && <Alert>{predictionError}</Alert>}
+          {predictionError && <Alert   fontSize={{ base: "sm", md: "md" }}>{predictionError}</Alert>}
         </form>
       </FormControl>
     </Box>

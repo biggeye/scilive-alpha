@@ -37,8 +37,10 @@ const ImageCreateForm: React.FC = () => {
     <Box>
       <FormControl>
         <form onSubmit={handleSubmit}>
-          <InputGroup>
+          <InputGroup   size={{ base: "sm", md: "md" }}>
             <Input
+
+              fontSize={{ base: "sm", md: "md" }}
               placeholder="Enter text for image creation"
               aria-label="Text for image creation"
               value={userInput}
@@ -46,7 +48,7 @@ const ImageCreateForm: React.FC = () => {
               onChange={handleInputChange}
             />
             <InputRightAddon>
-              <Button type="submit" disabled={predictionIsLoading}>
+              <Button   size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
                 Submit
               </Button>
             </InputRightAddon>

@@ -46,12 +46,16 @@ const DashboardPage: React.FC = () => {
       zIndex="1"
     >
       <Tabs
+        fontSize={{ base: "sm", md: "md" }}
       variant="enclosed-colored"
       position="absolute" top="0px" align="center" width="100%" onChange={(index) => handleTabsChange(index)} colorScheme="lightBlue">
         <GridItem>
-          <TabList maxWidth={{ base: "375px", md: "650px" }}>
-            <Tab fontWeight="bold">Create</Tab>
-            <Tab fontWeight="bold">Edit</Tab>
+          <TabList   fontSize={{ base: "sm", md: "md" }}
+          maxWidth={{ base: "375px", md: "650px" }}>
+            <Tab   fontSize={{ base: "sm", md: "md" }} 
+            fontWeight="bold">Create</Tab>
+            <Tab   fontSize={{ base: "sm", md: "md" }}
+            fontWeight="bold">Edit</Tab>
           </TabList>
         </GridItem>
         <GridItem overflowY="auto">

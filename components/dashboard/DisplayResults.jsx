@@ -1,4 +1,4 @@
-import { Box, Flex, Center, VStack, CircularProgress, Text, Progress } from "@chakra-ui/react";
+import { Box, Flex, Center, VStack, CircularProgress, Text, Progress, Card } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import {
   predictionIsLoadingState,

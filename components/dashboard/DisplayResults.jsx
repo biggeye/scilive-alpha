@@ -1,15 +1,4 @@
-"use client";
-import React, { useEffect } from "react";
-import {
-  Box,
-  Flex,
-  Center,
-  VStack,
-  Card,
-  CircularProgress,
-  Progress,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Center, VStack, CircularProgress, Text, Progress } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import {
   predictionIsLoadingState,
@@ -19,11 +8,12 @@ import {
   finalPredictionState,
   finalPredictionPromptState,
   userImagePreviewState,
-} from "@/state/prediction-atoms";
-import ToolOptions from "./ToolOptions";
-import { ImageCard } from "../Cards";
-import { exampleImageState, selectedModelFriendlyNameState } from "@/state/config-atoms";
-// Assuming this function is elsewhere or needs to be added
+  exampleImageState,
+  selectedModelFriendlyNameState,
+} from 'yourRecoilAtomsPath'; // Adjust the import path according to your project structure
+import ToolOptions from './ToolOptions';
+import ImageCard from './ImageCard';
+import { motion } from 'framer-motion';
 
 const DisplayResults = () => {
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
@@ -38,7 +28,12 @@ const DisplayResults = () => {
 
   const displayedImage = finalPrediction || userImagePreview || exampleImage;
 
-    return (
+  const imageVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
+
+  return (
     <Box height="100%" m="25px">
       <Flex direction="column">
         <Center>
@@ -56,7 +51,14 @@ const DisplayResults = () => {
                 </Flex>
               </Card>
             ) : (
-              <ImageCard imageUrl={displayedImage} prompt={finalPredictionPrompt} modelName={selectedModelFriendlyName} />
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={imageVariants}
+                transition={{ duration: 0.5 }}
+              >
+                <ImageCard imageUrl={displayedImage} prompt={finalPredictionPrompt} modelName={selectedModelFriendlyName} />
+              </motion.div>
             )}
           </VStack>
         </Center>

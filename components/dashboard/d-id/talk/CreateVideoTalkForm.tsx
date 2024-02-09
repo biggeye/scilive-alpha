@@ -28,40 +28,59 @@ const CreateVideoTalkForm = () => {
   const supabase = createClient();
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout; // Use `number` if you're in a non-Node.js environment
+    // This should be `number` in a browser environment, not `NodeJS.Timeout`
+    let intervalId: number;
   
     const pollStatus = async () => {
-      console.log("Polling for status with ID:", talkResponse?.id); // Before fetching status
-      if (!talkResponse || talkResponse.status === 'complete' || talkVideoPendingUrl) return;
-  
+      console.log("Polling for status with ID:", talkResponse?.id);
+      // Exit polling if no talkResponse, or if the status is already 'done', or if there's a pending URL.
+      if (!talkResponse || talkResponse.status === 'done' || talkVideoPendingUrl) return;
+    
       try {
-        const response = await fetch(`https://api.d-id.com/talks/${talkResponse.id}`);
-        if (!response.ok) throw new Error('Failed to fetch talk status');
-  
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            authorization: 'Bearer YOUR_SECURED_TOKEN' // Ensure you securely manage this token.
+          }
+        };
+    
+        const response = await fetch(`https://api.d-id.com/talks/${talkResponse.id}`, options);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch talk status: ${response.statusText}`);
+        }
         const responseData = await response.json();
-        console.log("Polling response:", responseData); // Log polling response
-  
-        setTalkVideoStatus(responseData.status);
-  
-        if (responseData.status === 'complete') {
-          setTalkVideoPendingUrl(null);
-          setTalkVideoUrl(responseData.result_url);
+    
+        // Assuming the response includes a status field indicating the processing status.
+        console.log("Polling response:", responseData);
+    
+        // Check for 'done' status instead of 'complete'.
+        if (responseData.status === 'done') {
+          setTalkVideoPendingUrl(null); // Clear any pending URL since the process is done.
+          setTalkVideoUrl(responseData.result_url); // Set the final video URL.
           setLoading(false);
         } else if (responseData.status === 'error' && responseData.pending_url) {
+          // Handle any specific logic for 'error' status, if necessary.
           setTalkVideoPendingUrl(responseData.pending_url);
           setLoading(false);
         } else {
-          setTimeout(pollStatus, 1000); // Poll every 1 second
+          // If the status is neither 'done' nor 'error', continue polling.
+          // No need to manually set a timeout here as setInterval is being used outside this function.
         }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        console.error("Polling error:", errorMessage); // Log polling error
+        console.error("Polling error:", errorMessage);
         setError(errorMessage);
+        setLoading(false);
       }
     };
+    
   
-    intervalId = setTimeout(pollStatus, 1000);
-    return () => clearTimeout(intervalId);
+    // Use setInterval for continuous polling
+    intervalId = window.setInterval(pollStatus, 1000);
+    
+    // Cleanup interval on component unmount
+    return () => window.clearInterval(intervalId);
   }, [talkResponse, talkVideoPendingUrl]);
   
 
@@ -114,7 +133,7 @@ const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   
       console.log("Sending create avatar request with:", { avatar_script: avatarScript, source_url: uploadedFileUrl });
   
-      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/talk/create`, {
+      const response = await fetch(`https://api.d-id.com/talks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,6 +148,7 @@ const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const responseData = await response.json();
       console.log("Create avatar response:", responseData);
       setTalkResponse(responseData);
+      console.log(talkResponse);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       console.error("Create avatar error:", errorMessage);

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     // Proceed with avatar creation
     const avatarResponse = await createAvatar(avatar_script, source_url);
-
+     console.log(avatarResponse);
     // Assuming createAvatar returns data that can be directly sent back
     return new NextResponse(JSON.stringify(avatarResponse), { status: 200 });
   } catch (error) {

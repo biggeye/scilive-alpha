@@ -1,12 +1,15 @@
 'use client'
 import React from 'react';
-import { Image, Text, Center, Grid, GridItem, Box, Heading, Button } from "@chakra-ui/react";
+import { Image, Text, Center, Grid, GridItem, Box, Heading, Button, useTheme } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/react";
 import { fadeIn, fadeOut } from './theme';
 
 function Home() {
   const [isVisible, setIsVisible] = React.useState(true);
   const handleFadeOut = fadeOut;
+  const theme = useTheme();
+
+  const fadeInAnimation = theme.animations.fadeIn;
 
   return (
     <Box h="92vh" bg="silver" p={10} textAlign="center"> {/* Using color from the theme */}
@@ -14,7 +17,7 @@ function Home() {
           <Center>
             <Image
               h="50vh"
-              animation="fadeIn" // Simplified usage of animation from the theme
+              animation={fadeInAnimation} // Simplified usage of animation from the theme
               src="/sciLive.svg"
             />
           </Center>

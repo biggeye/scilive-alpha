@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     // Assuming you want to use the session for something
 
     const modelsData = await supabase.from('avatars').select('*');
-    console.log ("txt2img route: ", modelsData);
+    console.log ("avatars route: ", modelsData);
     return new Response(JSON.stringify(modelsData), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (error) {
     console.error("Error fetching models: ", error);

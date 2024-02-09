@@ -1,6 +1,6 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import CreateStreamForm from "@/components/dashboard/d-id/CreateStreamForm";
-import CreateVideoTalkForm from "@/components/dashboard/d-id/CreateVideoTalkForm";
+import CreateStreamForm from "@/components/dashboard/d-id/stream/CreateStreamForm";
+import CreateVideoTalkForm from "@/components/dashboard/d-id/talk/CreateVideoTalkForm";
 
 const DID = () => {
   return (

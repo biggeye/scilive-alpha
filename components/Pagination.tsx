@@ -29,7 +29,9 @@ export const Pagination: React.FC<PaginationProps> = ({
     // Generate buttons for groups
     for (let i = start; i < end; i++) {
       buttons.push(
-        <Button key={i} onClick={() => setCurrentGroup(i)} colorScheme={i === currentGroup ? "blue" : "gray"}>
+        <Button 
+        size={{ base: "sm", md: "md" }}
+        key={i} onClick={() => setCurrentGroup(i)} colorScheme={i === currentGroup ? "blue" : "gray"}>
           {i + 1}
         </Button>
       );
@@ -51,6 +53,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   return (
     <Flex alignItems="center">
       <IconButton
+      size={{ base: "sm", md: "md" }}
         aria-label="Previous group"
         icon={<ChevronLeftIcon />}
         onClick={() => setCurrentGroup(Math.max(currentGroup - 1, 0))}
@@ -59,6 +62,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       />
       {renderGroupButtons()}
       <IconButton
+        size={{ base: "sm", md: "md" }}
         aria-label="Next group"
         icon={<ChevronRightIcon />}
         onClick={() => setCurrentGroup(Math.min(currentGroup + 1, totalGroups - 1))}

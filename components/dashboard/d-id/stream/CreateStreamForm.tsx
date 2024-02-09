@@ -26,7 +26,7 @@ import { exampleImageState } from "@/state/config-atoms";
 import { userAvatarUrlState } from "@/state/d_id_stream-atoms";
 import { createClient } from "@/utils/supabase/client";
 import { useUserContext } from "@/lib/UserProvider";
-import uploadAvatar, { uploadFileToBucket } from "@/lib/d-id/uploadAvatar";
+import { uploadFileToBucket } from "@/lib/d-id/uploadAvatar";
 import { userImagePreviewState } from "@/state/prediction-atoms";
 import {
   streamIdState,
@@ -77,9 +77,8 @@ export default function CreateStreamForm() {
     setIsLoading(true);
     try {
       // Replace this with your actual method to upload a file to the 'avatars' bucket
-      const uploadedFileId = await uploadFileToBucket(userInFile, userAvatarUrl, supabase);
+      const uploadedFileId = await uploadFileToBucket(userInFile);
       console.log(uploadedFileId, avatarName, userId, supabase);
-      const newAvatar = await uploadAvatar(uploadedFileId, avatarName, userId, supabase);
     } catch (error) {
       console.error('Error uploading avatar:', error);
     } finally {

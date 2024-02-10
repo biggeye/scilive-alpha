@@ -1,115 +1,114 @@
-'use client'
-import { InputLeftAddon, 
-  Grid, 
-  GridItem, 
-  Card, 
-  CardHeader, 
-  CardBody, 
-  CardFooter, 
-  FormControl, 
-  InputGroup, 
-  Input, 
-  InputRightAddon, 
-  Button, 
-  Alert, 
-  Text, 
-  Center, 
-  Box } from "@chakra-ui/react";
-import StreamStatus from "./StreamStatus";
-import React, { useState, useEffect } from 'react';
+'use client';
+import React, { useState } from 'react';
+import {
+  Grid,
+  GridItem,
+  FormControl,
+  InputGroup,
+  Input,
+  Button,
+  Alert,
+  useToast
+} from '@chakra-ui/react';
+import StreamStatus from './StreamStatus';
 import { useRecoilState } from 'recoil';
-// Import your state atoms
-import { streamIdState, sessionIdState, sdpOfferState, iceServersState, sessionClientAnswerState } from '@/state/d_id_stream-atoms';
-// Import utility functions
-import { createStream, createPeerConnection, getSdpReply, createTalkStream } from '@/lib/d-id'; // Adjust imports based on your file structure
+import {
+  streamIdState,
+  sessionIdState,
+  sdpOfferState,
+  iceServersState,
+  sessionClientAnswerState
+} from '@/state/d_id_stream-atoms';
+import {
+  createStream,
+  createPeerConnection,
+  getSdpReply,
+  createTalkStream
+} from '@/lib/d-id';
 
 export default function StreamComponent() {
-    // State managed by Recoil for global use
-    const [streamId, setStreamId] = useRecoilState(streamIdState);
-    const [sessionId, setSessionId] = useRecoilState(sessionIdState);
-    const [sdpOffer, setSdpOffer] = useRecoilState(sdpOfferState);
-    const [iceServers, setIceServers] = useRecoilState(iceServersState);
-    const [sessionClientAnswer, setSessionClientAnswer] = useRecoilState(sessionClientAnswerState);
+  const [streamId, setStreamId] = useRecoilState(streamIdState);
+  const [sessionId, setSessionId] = useRecoilState(sessionIdState);
+  const [sdpOffer, setSdpOffer] = useRecoilState(sdpOfferState);
+  const [iceServers, setIceServers] = useRecoilState(iceServersState);
+  const [sessionClientAnswer, setSessionClientAnswer] = useRecoilState(sessionClientAnswerState);
 
-    // Local component state for UI interactions
-    const [avatarUrl, setAvatarUrl] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [script, setScript] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
 
-    // Function to initiate the stream creation process
-    const handleCreateStream = async () => {
-        setIsLoading(true);
-        setError('');
-        try {
-            await createStream(avatarUrl, setStreamId, setSessionId, setSdpOffer, setIceServers);
-            // Continue the process with creating a peer connection, etc.
-            const answer = await createPeerConnection(sdpOffer, iceServers, setSessionClientAnswer);
-            // Handle the answer, possibly send it back to the server or use it to establish the connection
-        } catch (err) {
-            console.error('Failed to create stream:', err);
-            setError('Failed to create stream. Please try again.');
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  // Handle file upload (assuming it's for avatar image)
+  const onImageChange = async (event) => {
+    if (event.target.files && event.target.files[0]) {
+      // Assuming you have a method to handle the image upload and get back an URL
+      const uploadedAvatarUrl = URL.createObjectURL(event.target.files[0]);
+      setAvatarUrl(uploadedAvatarUrl);
+    }
+  };
 
-    // Effect hook to react to changes in state, for example, to finalize the connection setup
-    useEffect(() => {
-        if (streamId && sessionId && sessionClientAnswer) {
-            // Example: Finalize the setup or log that the stream is ready
-            console.log('Stream setup is complete.');
-        }
-    }, [streamId, sessionId, sessionClientAnswer]);
+  // Combines steps to create and start a stream into one process
+  const handleCreateAndStartStream = async () => {
+    setIsLoading(true);
+    try {
+      // Create Stream
+      await createStream(avatarUrl, setStreamId, setSessionId, setSdpOffer, setIceServers);
+      // Assuming createPeerConnection handles creating the answer and updating the necessary state
+      await createPeerConnection(sdpOffer, iceServers, setSessionClientAnswer);
+      // Additional steps like creating talk stream can be initiated here
+      await createTalkStream(script, streamId, sessionId); // Adjust parameters as needed
+      toast({
+        title: 'Stream created successfully.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error('Error creating stream:', error);
+      toast({
+        title: 'Error creating stream.',
+        description: `${error.message}`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
       <FormControl>
-        <Grid templateRows="2">
-          <form onSubmit={handleAvatarUpload}>
-            <GridItem>
-              <InputGroup>
-                <InputLeftAddon>
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? "Processing..." : "Upload"}
-                  </Button>
-                </InputLeftAddon>
-                <Input
-                  padding=".5"
-                  size="xs"
-                  className="dynamic-input-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={onImageChange}
-                  width="30%"
-                />
-                <Input
-                  size="xs"
-                  type="text"
-                  onChange={onAvatarNameChange}
-                  width="70%"
-                />
-              </InputGroup>
-            </GridItem>
-          </form>
-          <form onSubmit={handleAvatarSubmit}>
+        <Grid templateRows="repeat(2, 1fr)" gap={4}>
+          <GridItem>
             <InputGroup>
               <Input
-                size="sm"
-                placeholder="Enter avatar's script"
-                aria-label="Text for image creation"
-                value={avatarInput}
-                disabled={isLoading}
-                onChange={handleInputChange}
+                pr="4.5rem"
+                type="file"
+                accept="image/*"
+                onChange={onImageChange}
+                placeholder="Upload Avatar"
               />
-              <InputRightAddon> <Button type="submit" disabled={isLoading} size="sm">
-                {isLoading ? "Processing..." : "Start Stream"}
-              </Button></InputRightAddon>
+              <Input
+                value={script}
+                onChange={(e) => setScript(e.target.value)}
+                placeholder="Enter script for avatar"
+              />
+              <Button
+                onClick={handleCreateAndStartStream}
+                isLoading={isLoading}
+                loadingText="Creating..."
+                colorScheme="teal"
+                variant="outline"
+              >
+                Start Stream
+              </Button>
             </InputGroup>
-          </form>
-          {error && <Alert>{error}</Alert>}
+          </GridItem>
         </Grid>
       </FormControl>
-      <StreamStatus />
+      {streamId && <StreamStatus />}
     </>
-  )
+  );
 }

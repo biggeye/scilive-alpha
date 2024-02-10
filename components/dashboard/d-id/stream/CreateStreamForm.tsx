@@ -16,91 +16,50 @@ import { InputLeftAddon,
   Center, 
   Box } from "@chakra-ui/react";
 import StreamStatus from "./StreamStatus";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { createStream } from "@/lib/d-id/createStream";
-import { createPeerConnection } from "@/lib/d-id/createPeerConnection";
-import { getSdpReply } from "@/lib/d-id/getSdpReply";
-import { createTalkStream } from "@/lib/d-id/createTalkStream";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { exampleImageState } from "@/state/config-atoms";
-import { userAvatarUrlState } from "@/state/d_id_stream-atoms";
-import { createClient } from "@/utils/supabase/client";
-import { useUserContext } from "@/lib/UserProvider";
-import { uploadFileToBucket } from "@/lib/d-id/uploadAvatar";
-import { userImagePreviewState } from "@/state/prediction-atoms";
-import {
-  streamIdState,
-  sessionIdState,
-  sdpOfferState,
-  iceServersState,
-} from "@/state/d_id_stream-atoms";
-import { convertToDataURI } from "@/lib/convertToDataURI";
+import React, { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+// Import your state atoms
+import { streamIdState, sessionIdState, sdpOfferState, iceServersState, sessionClientAnswerState } from '@/state/d_id_stream-atoms';
+// Import utility functions
+import { createStream, createPeerConnection, getSdpReply, createTalkStream } from '@/lib/d-id'; // Adjust imports based on your file structure
 
-export default function CreateStreamForm() {
-  const [streamId, setStreamId] = useRecoilState(streamIdState);
-  const [sessionId, setSessionId] = useRecoilState(sessionIdState);
-  const [sdpOffer, setSdpOffer] = useRecoilState(sdpOfferState);
-  const [iceServers, setIceServers] = useRecoilState(iceServersState);
-  const { userProfile } = useUserContext();
-  const userId = userProfile.id;
+export default function StreamComponent() {
+    // State managed by Recoil for global use
+    const [streamId, setStreamId] = useRecoilState(streamIdState);
+    const [sessionId, setSessionId] = useRecoilState(sessionIdState);
+    const [sdpOffer, setSdpOffer] = useRecoilState(sdpOfferState);
+    const [iceServers, setIceServers] = useRecoilState(iceServersState);
+    const [sessionClientAnswer, setSessionClientAnswer] = useRecoilState(sessionClientAnswerState);
 
-  const supabase = createClient();
+    // Local component state for UI interactions
+    const [avatarUrl, setAvatarUrl] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [avatarInput, setAvatarInput] = useState("");
-  const avatar_url = useRecoilValue(exampleImageState);
-  const [userInFile, setUserInFile] = useState<File | null>(null);
-  const [userAvatarUrl, setUserAvatarUrl] = useRecoilState(userAvatarUrlState);
-  const [avatarBucketUrl, setAvatarBucketUrl] = useState(null);
-  const [avatarName, setAvatarName] = useState("");
-  const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
+    // Function to initiate the stream creation process
+    const handleCreateStream = async () => {
+        setIsLoading(true);
+        setError('');
+        try {
+            await createStream(avatarUrl, setStreamId, setSessionId, setSdpOffer, setIceServers);
+            // Continue the process with creating a peer connection, etc.
+            const answer = await createPeerConnection(sdpOffer, iceServers, setSessionClientAnswer);
+            // Handle the answer, possibly send it back to the server or use it to establish the connection
+        } catch (err) {
+            console.error('Failed to create stream:', err);
+            setError('Failed to create stream. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-  const onAvatarNameChange = (e: ChangeEvent<HTMLInputElement>) => setAvatarName(e.target.value);
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setAvatarInput(e.target.value);
-  const onImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const file = e.target.files[0]
-      const avatarUpload = await URL.createObjectURL(file);
-      setUserAvatarUrl(avatarUpload);
-      setUserInFile(file);
-      setUserImagePreview(avatarUpload);
-    }
-  };
-
-  const handleAvatarUpload = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!userInFile) {
-      console.log("Please Upload Image");
-      return;
-    }
-    setIsLoading(true);
-    try {
-      // Replace this with your actual method to upload a file to the 'avatars' bucket
-      const uploadedFileId = await uploadFileToBucket(userInFile);
-      console.log(uploadedFileId, avatarName, userId, supabase);
-    } catch (error) {
-      console.error('Error uploading avatar:', error);
-    } finally {
-
-      setIsLoading(false);
-    }
-  };
-
-  const handleAvatarSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!avatar_url) {
-      console.error("No model selected or user not found");
-      return;
-    }
-
-    // Define your state setters here
-
-
-    await createStream(avatar_url, setStreamId, setSessionId, setSdpOffer, setIceServers);
-    // Other operations
-  };
+    // Effect hook to react to changes in state, for example, to finalize the connection setup
+    useEffect(() => {
+        if (streamId && sessionId && sessionClientAnswer) {
+            // Example: Finalize the setup or log that the stream is ready
+            console.log('Stream setup is complete.');
+        }
+    }, [streamId, sessionId, sessionClientAnswer]);
 
   return (
     <>

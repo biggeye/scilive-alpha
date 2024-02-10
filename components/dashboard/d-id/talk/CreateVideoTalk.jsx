@@ -17,6 +17,7 @@ export const AvatarToVideo = () => {
     initialStep: 0,
     count: steps.length,
   });
+  console.log("Current active step:", activeStep);
 
   const renderStepContent = (stepIndex) => {
     switch (stepIndex) {

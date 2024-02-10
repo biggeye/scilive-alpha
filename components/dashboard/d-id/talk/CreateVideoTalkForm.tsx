@@ -7,6 +7,8 @@ import { createClient } from '@/utils/supabase/client';
 import { uploadFileToBucket } from '@/lib/d-id/uploadAvatar'; // Ensure this is correctly imported
 import AudioUploader from './Voice';
 import { dataUriToBlob } from '@/lib/dataUriToBlob';
+import { voiceIdState } from '@/state/d_id_talk';
+import { useRecoilValue } from 'recoil';
 
 interface TalkResponse {
   id: string;
@@ -25,6 +27,7 @@ const CreateVideoTalkForm = () => {
   const [talkVideoUrl, setTalkVideoUrl] = useRecoilState(talkVideoUrlState);
   const [talkVideoPendingUrl, setTalkVideoPendingUrl] = useRecoilState(talkVideoPendingUrlState);
   const [talkVideoStatus, setTalkVideoStatus] = useRecoilState(talkVideoStatusState);
+  const voiceId = useRecoilValue(voiceIdState);
 
   const supabase = createClient();
 
@@ -64,7 +67,7 @@ const CreateVideoTalkForm = () => {
         } else if (responseData.status === 'error' && responseData.pending_url) {
           // Handle any specific logic for 'error' status, if necessary.
           setTalkVideoPendingUrl(responseData.pending_url);
-          setLoading(false);
+           setLoading(false);
           return;
         } else {
           // If the status is neither 'done' nor 'error', continue polling.
@@ -153,7 +156,7 @@ const CreateVideoTalkForm = () => {
           script: {
             type: 'text',
             subtitles: 'false',
-            provider: { type: 'microsoft', voice_id: 'en-US-JennyNeural' },
+            provider: {type: 'elevenlabs', voice_id: voiceId},
             ssml: 'false',
             input: avatarScript,
           },

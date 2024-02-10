@@ -1,20 +1,20 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import CreateStreamForm from "@/components/dashboard/d-id/stream/CreateStreamForm";
-import CreateVideoTalkForm from "@/components/dashboard/d-id/talk/CreateVideoTalkForm";
+import CreateVideoTalk from "@/components/dashboard/d-id/talk/CreateVideoTalkForm";
 
 const DID = () => {
   return (
     <Tabs isFitted variant="enclosed">
       <TabList mb="1em">
-        <Tab>Create Stream</Tab>
-        <Tab>Video Talk</Tab>
+        <Tab>Create Your Avatar</Tab>
+        <Tab>Streaming</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
-          <CreateStreamForm />
+          <CreateVideoTalk />
         </TabPanel>
         <TabPanel>
-          <CreateVideoTalkForm />
+          <CreateStreamForm />
         </TabPanel>
       </TabPanels>
     </Tabs>

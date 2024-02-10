@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { voiceIdState } from "@/state/d_id_talk";
 // Import necessary components and icons from lucide-react if needed
 
 // Utility function to start recording audio from the microphone
@@ -29,7 +31,7 @@ const startRecording = async () => {
 
 const AudioUploader = () => {
   const [audioFile, setAudioFile] = useState(null);
-  const [voiceId, setVoiceId] = useState("");
+  const [voiceId, setVoiceId] = useRecoilState(voiceIdState);
   const [isRecording, setIsRecording] = useState(false);
   const [recorder, setRecorder] = useState(null);
 
@@ -87,7 +89,7 @@ async function submitAudioData(name, file) {
 
   // Note: Replace 'YOUR_API_ENDPOINT' with the actual endpoint
   try {
-    const response = await fetch('YOUR_API_ENDPOINT', options);
+    const response = await fetch('https://api.d-id.com/tts/voices', options);
     const data = await response.json();
     console.log(data); // For debugging purposes
     return data; // Return the full response object

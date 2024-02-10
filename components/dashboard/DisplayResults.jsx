@@ -1,4 +1,4 @@
-import { Box, Flex, Center, VStack, CircularProgress, Text, Progress, Card } from "@chakra-ui/react";
+import { Box, Flex, Center, VStack, CircularProgress, Text, Progress, Card, Skeleton } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import {
   predictionIsLoadingState,
@@ -9,7 +9,7 @@ import {
   finalPredictionPromptState,
   userImagePreviewState,
 } from '@/state/prediction-atoms'; 
-import { exampleImageState, selectedModelFriendlyNameState } from "@/state/config-atoms";// Adjust the import path according to your project structure
+import { exampleImageState, selectedModelFriendlyNameState } from "@/state/config-atoms";
 import ToolOptions from './ToolOptions';
 import { ImageCard } from "../Cards";
 import { motion } from 'framer-motion';
@@ -25,7 +25,10 @@ const DisplayResults = () => {
   const exampleImage = useRecoilValue(exampleImageState);
   const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
 
+  // Determines which image to display, prioritizing the final prediction
   const displayedImage = finalPrediction || userImagePreview || exampleImage;
+  // Determines if the final prediction image is being loaded
+  const isFinalPredictionLoading = predictionIsLoading && !finalPrediction;
 
   const imageVariants = {
     hidden: { opacity: 0 },
@@ -49,6 +52,8 @@ const DisplayResults = () => {
                   <Text fontSize={{ base: "sm", md: "md" }}>Prediction Status: {predictionStatus}</Text>
                 </Flex>
               </Card>
+            ) : isFinalPredictionLoading ? (
+              <Skeleton height="400px" width="400px" className="element-pulse" />
             ) : (
               <motion.div
                 initial="hidden"

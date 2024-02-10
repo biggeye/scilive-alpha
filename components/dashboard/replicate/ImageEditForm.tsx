@@ -3,9 +3,9 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageCreateSubmit } from '@/lib/replicate/useImageCreateSubmit';
 import { CircularProgress, Box, Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridItem, InputRightAddon } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/UserProvider';
-import { finalPredictionState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/prediction-atoms';
+import { finalPredictionState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/replicate/prediction-atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { selectedModelIdState } from '@/state/config-atoms';
+import { selectedModelIdState } from '@/state/replicate/config-atoms';
 import { convertToDataURI } from '@/lib/convertToDataURI';
 import ProgressIndicator from '@/components/CircularProgress';
 

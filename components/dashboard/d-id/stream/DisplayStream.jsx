@@ -24,14 +24,14 @@ import {
   userImageUploadState,
   userImagePreviewState,
   predictionIsLoadingState
-} from "@/state/prediction-atoms";
+} from "@/state/replicate/prediction-atoms";
 import {
   selectedModelFriendlyNameState,
   selectedModelShortDescState,
   selectedModelNameState,
   exampleImageState,
   userContentExamplesState,
-} from "@/state/config-atoms";
+} from "@/state/replicate/config-atoms";
 import { talkVideoStatusState, talkVideoPendingUrlState, talkVideoUrlState } from "@/state/d_id_talk";
 
 

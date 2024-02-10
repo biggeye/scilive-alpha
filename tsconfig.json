@@ -36,7 +36,7 @@
     "**/*.js",
     "**/*.jsx",
     ".next/types/**/*.ts"
-, "lib/convertToDataURItjs", "components/___GalleryLg.old"  ],
+, "lib/convertToDataURItjs", "components/___GalleryLg.old", "components/dashboard/d-id/talk/CreateAvatar.jtsx"  ],
   "exclude": [
     "app/api/d-id/*",
     "node_modules"

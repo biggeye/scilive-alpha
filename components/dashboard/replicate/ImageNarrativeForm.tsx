@@ -2,7 +2,7 @@
 import { Select, Box, Alert, FormControl, Grid, GridItem, Input, InputGroup, InputRightAddon, Button } from "@chakra-ui/react";
 import { useState, useEffect, ChangeEvent } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { finalNarrativePredictionState, userImagePreviewState, userImageDataUriState, imageNarrativeUploadState, predictionIsLoadingState, predictionErrorState } from "@/state/prediction-atoms";
+import { finalNarrativePredictionState, userImagePreviewState, userImageDataUriState, imageNarrativeUploadState, predictionIsLoadingState, predictionErrorState } from "@/state/replicate/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 import { convertToDataURI } from "@/lib/convertToDataURI";
 

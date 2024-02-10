@@ -20,3 +20,13 @@ export const voiceIdState = atom ({
     default: null,
 })
 
+export const avatarScriptState = atom ({
+    key: "avatarScriptState",
+    default: "",
+})
+
+export const avatarImageState = atom ({
+    key: "avatarImageState",
+    default: "",
+})
+

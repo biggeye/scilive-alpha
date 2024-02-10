@@ -2,8 +2,8 @@ import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Box, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
 import { useUserContext } from "@/lib/UserProvider";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { selectedModelIdState } from "@/state/config-atoms";
-import { predictionIsLoadingState, predictionErrorState, finalPredictionState } from "@/state/prediction-atoms";
+import { selectedModelIdState } from "@/state/replicate/config-atoms";
+import { predictionIsLoadingState, predictionErrorState, finalPredictionState } from "@/state/replicate/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 
 const ImageCreateForm: React.FC = () => {

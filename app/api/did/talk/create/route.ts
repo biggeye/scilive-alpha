@@ -1,31 +1,96 @@
 // Assuming this is a file located in app/api/did/talk/create/route.ts for Next.js 14 App Router
 import { NextRequest, NextResponse } from 'next/server';
-import { createAvatar } from '@/lib/d-id/talks/createTalk';
+
+interface CheckResponse {
+  id: string;
+  user_id: string;
+  source_url: string;
+  driver_url: string;
+  created_at: string;
+  created_by: string;
+  audio_url: string;
+  started_at: string;
+  modified_at: string;
+  status: string;
+  result_url: string;
+  metadata: Record<string, unknown>;
+  webhook: string;
+  config: {
+    logo: {
+      url: string;
+      position: [number, number];
+    };
+    align_driver: boolean;
+    align_expand_factor: number;
+    auto_match: boolean;
+    motion_factor: number;
+    normalization_factor: number;
+    sharpen: boolean;
+    stitch: boolean;
+    result_format: string;
+    fluent: boolean;
+    pad_audio: number;
+    driver_expressions: {
+      expressions: Array<{
+        start_frame: number;
+        expression: string;
+        intensity: number;
+      }>;
+      transition_frames: number;
+    };
+  };
+}
 
 interface AvatarCreationRequest {
-  avatar_script: string;
-  source_url: string;
+  avatarScript: string;
+  uploadedFileUrl: string;
+  voiceId: string;
 }
 
 export async function POST(req: NextRequest) {
   try {
-    // Validate request method is handled directly by the file structure in Next.js 14 App Router
-
-    // Parse the request body. Note: NextRequest.json() is an async operation
     const requestBody = await req.json() as AvatarCreationRequest;
-
-    // Validate request body content
-    if (!requestBody.avatar_script || !requestBody.source_url) {
+    if (!requestBody.avatarScript || !requestBody.uploadedFileUrl) {
       return new NextResponse(JSON.stringify({ error: 'Missing required fields: avatar_script or source_url' }), { status: 400 });
     }
 
-    // Destructure the requestBody for easier access
-    const { avatar_script, source_url } = requestBody;
+    const { avatarScript, uploadedFileUrl, voiceId } = requestBody;
 
-    // Proceed with avatar creation
-    const avatarResponse = await createAvatar(avatar_script, source_url);
-     console.log(avatarResponse);
-    // Assuming createAvatar returns data that can be directly sent back
+    // Initialize a variable to store the response from the D-ID API
+    let avatarResponse: CheckResponse | null = null;
+
+    const response = await fetch(`https://api.d-id.com/talks`, {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        // Use your actual bearer token here
+        authorization: 'Bearer YOUR_ACTUAL_BEARER_TOKEN'
+      },
+      body: JSON.stringify({
+        script: {
+          type: 'text',
+          subtitles: 'false',
+          provider: {type: 'elevenlabs', voice_id: voiceId},
+          ssml: 'false',
+          input: avatarScript,
+        },
+        config: { fluent: 'false', pad_audio: '0.0' },
+        source_url: uploadedFileUrl
+      })
+    });
+
+    if (response.ok) {
+      avatarResponse = await response.json() as CheckResponse;
+      // Assuming polling or other operations are needed after this point
+    } else {
+      console.error('Failed to create avatar');
+      return new NextResponse(JSON.stringify({ error: 'Failed to create avatar' }), { status: response.status });
+    }
+
+    // Perform polling or additional operations as needed
+
+    // Final response to the client
     return new NextResponse(JSON.stringify(avatarResponse), { status: 200 });
   } catch (error) {
     console.error('API route error:', error);

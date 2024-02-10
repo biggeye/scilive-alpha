@@ -4,9 +4,9 @@ import { Spacer, Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, useBoo
 import DisplayResults from "@/components/dashboard/DisplayResults";
 import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
 import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
-import { predictionIsLoadingState } from "@/state/prediction-atoms";
+import { predictionIsLoadingState } from "@/state/replicate/prediction-atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { selectedTabState, dashboardState } from '@/state/config-atoms';
+import { selectedTabState, dashboardState } from '@/state/replicate/config-atoms';
 
 type ToolType = string
 

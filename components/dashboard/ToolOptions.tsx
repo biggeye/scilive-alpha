@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { Text, Spacer, Box, Select, Flex, Progress, Skeleton } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { selectedModelInputFieldsState, exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/config-atoms";
+import { selectedModelInputFieldsState, exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/replicate/config-atoms";
 import type { SelectedModel } from "@/types";
-import { finalPredictionState, predictionIsLoadingState } from "@/state/prediction-atoms";
+import { finalPredictionState, predictionIsLoadingState } from "@/state/replicate/prediction-atoms";
 
 
 const ToolOptions = () => {

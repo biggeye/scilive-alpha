@@ -8,8 +8,8 @@ import {
   finalPredictionState,
   finalPredictionPromptState,
   userImagePreviewState,
-} from '@/state/prediction-atoms'; 
-import { exampleImageState, selectedModelFriendlyNameState } from "@/state/config-atoms";
+} from '@/state/replicate/prediction-atoms'; 
+import { exampleImageState, selectedModelFriendlyNameState } from "@/state/replicate/config-atoms";
 import ToolOptions from './ToolOptions';
 import { ImageCard } from "../Cards";
 import { motion } from 'framer-motion';

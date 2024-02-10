@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgress, CircularProgressLabel, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, useDisclosure } from '@chakra-ui/react';
-import { predictionStatusState } from '@/state/prediction-atoms';
+import { predictionStatusState } from '@/state/replicate/prediction-atoms';
 import { useRecoilValue } from 'recoil';
 import { pulse } from '@/app/theme';
 

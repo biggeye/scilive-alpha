@@ -12,7 +12,7 @@ import {
   predictionStatusState,
   predictionProgressState,
   modelBootProgressState,
-} from '@/state/prediction-atoms'; // Assuming these atoms are exported from the provided path
+} from '@/state/replicate/prediction-atoms'; // Assuming these atoms are exported from the provided path
 
 // Component to monitor and display prediction progress
 const PredictionProgressMonitor: React.FC = () => {

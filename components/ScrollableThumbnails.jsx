@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Image, HStack, IconButton } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { userContentExamplesState } from "@/state/config-atoms";
+import { userContentExamplesState } from "@/state/replicate/config-atoms";
 import { useRecoilValue } from "recoil";
 
 export const ScrollableThumbnails = () => {

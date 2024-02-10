@@ -19,12 +19,11 @@ import {
   iceServersState,
   sessionClientAnswerState
 } from '@/state/d_id_stream-atoms';
-import {
-  createStream,
-  createPeerConnection,
-  getSdpReply,
-  createTalkStream
-} from '@/lib/d-id';
+import { createStream, getSdpReply} from '@/lib/d-id/createStream';
+import { createPeerConnection } from '@/lib/d-id/createPeerConnection';
+import { createTalkStream } from '@/lib/d-id/createTalkStream';
+
+
 
 export default function StreamComponent() {
   const [streamId, setStreamId] = useRecoilState(streamIdState);
@@ -39,8 +38,8 @@ export default function StreamComponent() {
   const toast = useToast();
 
   // Handle file upload (assuming it's for avatar image)
-  const onImageChange = async (event) => {
-    if (event.target.files && event.target.files[0]) {
+  const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
       // Assuming you have a method to handle the image upload and get back an URL
       const uploadedAvatarUrl = URL.createObjectURL(event.target.files[0]);
       setAvatarUrl(uploadedAvatarUrl);
@@ -67,7 +66,7 @@ export default function StreamComponent() {
       console.error('Error creating stream:', error);
       toast({
         title: 'Error creating stream.',
-        description: `${error.message}`,
+        description: `${error}`,
         status: 'error',
         duration: 5000,
         isClosable: true,

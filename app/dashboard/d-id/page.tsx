@@ -8,7 +8,7 @@ import CreateAvatar from '@/components/dashboard/d-id/talk/CreateAvatar';
 import CreateVideoTalkForm from '@/components/dashboard/d-id/talk/CreateVideoTalkForm';
 import WriteScript from '@/components/dashboard/d-id/talk/WriteScript';
 
-export const TalkProduction = () => {
+const Talk = () => {
   const steps = [
     { title: 'Clone Voice', description: 'Record or upload a recording of your voice' },
     { title: 'Create Avatar', description: 'Create the avatar for your video' },
@@ -64,4 +64,4 @@ export const TalkProduction = () => {
     </div>
   );
 };
-export default TalkProduction;
+export default Talk;

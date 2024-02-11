@@ -18,7 +18,7 @@ import {
   sdpOfferState,
   iceServersState,
   sessionClientAnswerState
-} from '@/state/d_id_stream-atoms';
+} from '@/state/d-id/d_id_stream-atoms';
 import { createStream, getSdpReply} from '@/lib/d-id/createStream';
 import { createPeerConnection } from '@/lib/d-id/createPeerConnection';
 import { createTalkStream } from '@/lib/d-id/createTalkStream';

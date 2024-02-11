@@ -9,7 +9,7 @@ import {
     candidateState,
     sdpMidState,
     sdpMLineIndexState
-} from "@/state/d_id_stream-atoms";
+} from "@/state/d-id/d_id_stream-atoms";
 import {
     Table,
     Thead,

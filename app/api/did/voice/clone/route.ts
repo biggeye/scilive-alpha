@@ -3,31 +3,21 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/route';
 import fetch from 'node-fetch'; // Ensure you're using a fetch polyfill compatible with your environment
 import FormData from 'form-data'; // 'form-data' library for server-side form handling
-import { convertToDataURI } from '@/lib/convertToDataURI';
 
 export async function POST(req: any) {
-  const supabase = createClient(req);
-  const session = await supabase.auth.getSession();
 
-  if (!session) {
-    return new NextResponse(JSON.stringify({
-      error: 'not_authenticated',
-      description: 'The user does not have an active session or is not authenticated',
-    }), { status: 401 });
-  }
-
-  const name = req.body.name; // The string variable
-  const file = req.body.file; // The file variable
-  const mp3base64 = convertToDataURI(file);
+  const { name, file } = req.body; // Destructuring assignment for readability
 
   try {
     const dIdFormData = new FormData();
     dIdFormData.append('name', name);
-    dIdFormData.append('file', mp3base64);
+    dIdFormData.append('file', file); // Assuming 'file' is correctly handled before this point
+
     const dIdResponse = await fetch(`https://api.d-id.com/tts/voices`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_DID_BEARER_TOKEN}`,
+        // Removed Content-Type header, assuming authorization header key is corrected in the environment
+        Authorization: `Bearer ${process.env.DID_BEARER_TOKEN}`, // Changed to server-side environment variable
       },
       body: dIdFormData,
     });

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/route';
 import fetch from 'node-fetch'; // Ensure you're using a fetch polyfill compatible with your environment
 import FormData from 'form-data'; // 'form-data' library for server-side form handling
+import { convertToDataURI } from '@/lib/convertToDataURI';
 
 export async function POST(req: any) {
   const supabase = createClient(req);
@@ -17,12 +18,12 @@ export async function POST(req: any) {
 
   const name = req.body.name; // The string variable
   const file = req.body.file; // The file variable
+  const mp3base64 = convertToDataURI(file);
 
   try {
     const dIdFormData = new FormData();
     dIdFormData.append('name', name);
-    dIdFormData.append('file', file.stream(), file.filename);
-
+    dIdFormData.append('file', mp3base64);
     const dIdResponse = await fetch(`https://api.d-id.com/tts/voices`, {
       method: 'POST',
       headers: {

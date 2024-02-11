@@ -23,11 +23,10 @@ export async function POST(req: any) {
     dIdFormData.append('name', name);
     dIdFormData.append('file', file.stream(), file.filename);
 
-    const dIdResponse = await fetch(`https://api.d-id.com/talks/streams`, {
+    const dIdResponse = await fetch(`https://api.d-id.com/tts/voices`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.NEXT_PUBLIC_DID_BEARER_TOKEN}`,
-        ...dIdFormData.getHeaders(),
       },
       body: dIdFormData,
     });

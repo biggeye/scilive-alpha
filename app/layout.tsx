@@ -3,7 +3,7 @@ import './globals.css';
 import { fonts } from './fonts';
 import { ClientLayout } from './ClientLayout';
 import { Analytics } from '@vercel/analytics/react';
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 export const metadata = {
   title: 'SciLive',
   description: 'powered by SciFiction.com',

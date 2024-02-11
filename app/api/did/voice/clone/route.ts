@@ -1,3 +1,4 @@
+// Import necessary utilities and functions
 import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/route';
 import fetch from 'node-fetch'; // Ensure you're using a fetch polyfill compatible with your environment
@@ -14,10 +15,8 @@ export async function POST(req: any) {
     }), { status: 401 });
   }
 
-
   const name = req.body.name; // The string variable
   const file = req.body.file; // The file variable
-
 
   try {
     const dIdFormData = new FormData();

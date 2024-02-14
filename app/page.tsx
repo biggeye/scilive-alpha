@@ -3,6 +3,8 @@ import React from 'react';
 import { Image, Text, Center, Grid, GridItem, Box, Heading, Button, useTheme } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/react";
 import { fadeIn, fadeOut } from './theme';
+import Logo from '@/components/Logo';
+
 
 function Home() {
   const [isVisible, setIsVisible] = React.useState(true);
@@ -15,11 +17,7 @@ function Home() {
     <Box h="92vh" bg="silver" p={10} textAlign="center"> {/* Using color from the theme */}
         <Heading as="h1" mb={4}>
           <Center>
-            <Image
-              h="50vh"
-              animation={fadeInAnimation} // Simplified usage of animation from the theme
-              src="/sciLive.svg"
-            />
+           <Logo />
           </Center>
         </Heading>
         <Text fontSize="lg">Explore the Future of AI and Live Streaming</Text>

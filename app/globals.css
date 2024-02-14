@@ -157,3 +157,7 @@
 .fade-in-from-top{
   animation: animateIn 1.5s;
 }
+
+.Logo {
+  transition: fill 0.5s ease-in-out;
+}

@@ -90,7 +90,7 @@ const Gallery: React.FC<GalleryProps> = ({
               className="element-fade-in"
               _hover={{
                 transform: 'scale(1.05)',
-                transition: 'transform .2s',
+                transition: 'transform .75s',
               }}
             />
           </Tooltip>

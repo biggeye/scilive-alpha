@@ -101,6 +101,7 @@ export const google = () => (
       <path fill="#ffa726" d="M24 43L6 20 3 28z" />
     </svg>
   );
+  
   export const bitbucket = () => (
     <svg
       className="auth-ui-icon"

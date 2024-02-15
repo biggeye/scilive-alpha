@@ -81,7 +81,8 @@ const ToolOptions = () => {
     }
   };
 */
-  const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+ 
+const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSelectedModelId = event.target.value;
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
     if (selectedModel) {
@@ -100,10 +101,7 @@ const ToolOptions = () => {
         const img2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
         return img2imgResponse;
    
-      case "imageNarrative":
-        const imageNarrativeResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2txt`);
-        return imageNarrativeResponse;
-      
+        
       default:
         return Promise.reject("Invalid tool type");
     }

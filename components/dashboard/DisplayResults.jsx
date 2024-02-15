@@ -1,20 +1,23 @@
 import { Box, Flex, Center, VStack, CircularProgress, Text, Progress, Card, Skeleton } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
-import {
-  predictionIsLoadingState,
-  modelBootResultState,
-  predictionStatusState,
-  predictionProgressState,
-  finalPredictionState,
-  finalPredictionPromptState,
-  userImagePreviewState,
-} from '@/state/replicate/prediction-atoms'; 
-import { exampleImageState, selectedModelFriendlyNameState } from "@/state/replicate/config-atoms";
+import { predictionAtoms, configAtoms } from '@/state/replicate';
 import ToolOptions from './ToolOptions';
 import { ImageCard } from "../Cards";
 import { motion } from 'framer-motion';
 
 const DisplayResults = () => {
+  const { 
+    predictionIsLoadingState, 
+    modelBootResultState, 
+    predictionStatusState, 
+    predictionProgressState, 
+    finalPredictionState, 
+    finalPredictionPromptState, 
+    userImagePreviewState 
+  } = predictionAtoms;
+
+  const { exampleImageState, selectedModelFriendlyNameState } = configAtoms;
+
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionStatus = useRecoilValue(predictionStatusState);
@@ -25,9 +28,7 @@ const DisplayResults = () => {
   const exampleImage = useRecoilValue(exampleImageState);
   const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
 
-  // Determines which image to display, prioritizing the final prediction
   const displayedImage = finalPrediction || userImagePreview || exampleImage;
-  // Determines if the final prediction image is being loaded
   const isFinalPredictionLoading = predictionIsLoading && !finalPrediction;
 
   const imageVariants = {

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { voiceIdState } from '@/state/d-id/d_id_talk-atoms'; // Ensure this path is correct
-import { randomUUID } from 'crypto';
-import generateUUID from '@/lib/generateUUID';
-
+import { v4 as uuidv4 } from 'uuid';
 interface CloneVoiceProps {
   onCompleted: () => void;
 }
@@ -13,7 +11,6 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
   const [voiceId, setVoiceId] = useRecoilState(voiceIdState);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
-
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -52,9 +49,6 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
         setIsRecording(true);
       }
     } else if (recorder) {
-      recorder.onstop = async () => {
-        // Handle the recording stop logic
-      };
       recorder.stop();
       setIsRecording(false);
     }
@@ -70,16 +64,12 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
     if (!audioFile) return;
 
     const formData = new FormData();
-    const uniqueName = generateUUID();
+    const uniqueName = uuidv4();
     formData.append('name', uniqueName);
     formData.append('file', audioFile);
-
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
         method: 'POST',
-        headers: {
-          // Ensure correct headers are set, if needed
-        },
         body: formData,
       });
       const data = await response.json();

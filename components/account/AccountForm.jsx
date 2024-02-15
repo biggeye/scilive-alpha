@@ -100,8 +100,7 @@ export const AccountForm = () => {
                 {error}
               </Alert>
             )}
-            {/* Form fields here */}
-            {/* Example: Full Name */}
+        
             <FormControl id="fullName">
               <FormLabel>Full Name</FormLabel>
               <Input

@@ -30,3 +30,7 @@ export const avatarImageState = atom ({
     default: "",
 })
 
+export const audioFileState = atom<File | null> ({
+    key: "audioFileState",
+    default: null,
+})

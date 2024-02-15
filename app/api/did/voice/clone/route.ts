@@ -1,23 +1,20 @@
-// Import necessary utilities and functions
 import { NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/route';
-import fetch from 'node-fetch'; // Ensure you're using a fetch polyfill compatible with your environment
-import FormData from 'form-data'; // 'form-data' library for server-side form handling
+import fetch from 'node-fetch'; 
+import FormData from 'form-data'; 
 
 export async function POST(req: any) {
 
-  const { name, file } = req.body; // Destructuring assignment for readability
+  const { name, file } = req.body; 
 
   try {
     const dIdFormData = new FormData();
     dIdFormData.append('name', name);
-    dIdFormData.append('file', file); // Assuming 'file' is correctly handled before this point
+    dIdFormData.append('file', file); 
 
     const dIdResponse = await fetch(`https://api.d-id.com/tts/voices`, {
       method: 'POST',
       headers: {
-        // Removed Content-Type header, assuming authorization header key is corrected in the environment
-        Authorization: `Bearer ${process.env.DID_BEARER_TOKEN}`, // Changed to server-side environment variable
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_DID_BEARER_TOKEN}`, 
       },
       body: dIdFormData,
     });
@@ -31,6 +28,6 @@ export async function POST(req: any) {
     return new NextResponse(JSON.stringify(dIdData), { status: 200 });
   } catch (error) {
     console.error('Error making API call to D-ID:', error);
-    return new NextResponse(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+    return new NextResponse(JSON.stringify({ error: console.error() }), { status: 500 });
   }
-}
+}  

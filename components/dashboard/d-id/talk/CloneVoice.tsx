@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { voiceIdState } from '@/state/d-id/d_id_talk-atoms'; // Ensure this path is correct
-import { v4 as uuidv4 } from 'uuid';
+import { audioFileState, voiceIdState } from '@/state/d-id/d_id_talk-atoms';
+import AudioPlayer from '@/components/AudioPlayer';
+
 interface CloneVoiceProps {
   onCompleted: () => void;
 }
 
 const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
-  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioFile, setAudioFile] = useRecoilState(audioFileState);
+  const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [voiceId, setVoiceId] = useRecoilState(voiceIdState);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
@@ -54,43 +56,41 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
     }
   };
 
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.[0]) {
-      setAudioFile(event.target.files[0]);
+    const file = event.target.files?.[0];
+    if (file) {
+      setAudioFile(file);
+      setAudioSrc(URL.createObjectURL(file));
     }
   };
 
   const handleSubmit = async () => {
-    if (!audioFile) return;
+    if (!audioFile) {
+      alert('Please upload an audio file before submitting.');
+      return;
+    }
 
     const formData = new FormData();
-    const uniqueName = uuidv4();
-    formData.append('name', uniqueName);
-    formData.append('file', audioFile);
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-
-      if (data.voiceId) {
-        setVoiceId(data.voiceId);
-        onCompleted();
-      }
-    } catch (error) {
-      console.error('Error submitting audio data:', error);
+    formData.append('voice', audioFile);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
+      method: "POST",
+      body: formData
+    })
+    if (response.ok) {
+      const newVoiceId = await response.json();
+      setVoiceId(newVoiceId.id);
+      onCompleted(); // Signal that the component task is completed and proceed to the next step
+    } else {
+      alert('Failed to upload audio file. Please try again.');
     }
   };
 
   return (
     <div>
-      <button onClick={handleRecordClick}>
-        {isRecording ? 'Stop Recording' : 'Start Recording'}
-      </button>
       <input type="file" accept="audio/*" onChange={handleChange} />
       <button onClick={handleSubmit}>Submit</button>
-      {voiceId && <div>Response Voice ID: {voiceId}</div>}
+      {audioSrc && <AudioPlayer src={audioSrc} />}
     </div>
   );
 };

@@ -54,7 +54,10 @@ export const predictionIsLoadingState = atom({
   default: false,
 });
 
-
+export const webpageUrlState = atom({
+  key: 'webpageUrlState',
+  default: '',
+})
 
 // finalized
 export const finalPredictionState = atom({

@@ -1,4 +1,4 @@
-import { Center, Box, Button, Flex, IconButton } from '@chakra-ui/react';
+import { Center, Box, Button, Flex, IconButton, Spacer } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 interface PaginationProps {
@@ -51,8 +51,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <Flex alignItems="center">
-      <Center>
+    <Flex justifyContent="space-between" width="100%" direction="row" alignItems="center">
       <IconButton
       size={{ base: "sm", md: "md" }}
         aria-label="Previous group"
@@ -61,7 +60,9 @@ export const Pagination: React.FC<PaginationProps> = ({
         isDisabled={currentGroup === 0}
         mr="2"
       />
+      <Spacer />
       {renderGroupButtons()}
+       <Spacer />
       <IconButton
         size={{ base: "sm", md: "md" }}
         aria-label="Next group"
@@ -70,7 +71,6 @@ export const Pagination: React.FC<PaginationProps> = ({
         isDisabled={currentGroup === totalGroups - 1}
         ml="2"
       />
-      </Center>
     </Flex>
   );
 };

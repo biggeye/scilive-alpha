@@ -1,25 +1,28 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { webpageUrlState, voiceIdState, avatarUrlState, avatarScriptState } from '@/state/createTalk-atoms';
-import { StepStatus, Box, Step, Stepper, StepIcon, StepTitle, StepDescription } from "@chakra-ui/react";
+import { Box, Button, useSteps, Stepper, Step, StepIndicator, StepStatus, StepIcon, StepNumber, StepSeparator, StepTitle, StepDescription } from "@chakra-ui/react";
+import { voiceIdState, audioFileState } from '@/state/d-id/d_id_talk-atoms';
+import { webpageUrlState } from '@/state/replicate/prediction-atoms';
 import { avatarNameState, avatarDescriptionState } from '@/state/videoState';
-import { audioFileState } from '@/state/d-id/d_id_talk-atoms';
 import CloneVoice from '@/components/dashboard/d-id/talk/CloneVoice';
 import CreateAvatar from '@/components/dashboard/d-id/talk/CreateAvatar';
 import WriteScript from '@/components/dashboard/d-id/talk/WriteScript';
 import { Leap } from "@leap-ai/workflows";
 
-const CreateTalk = () => {
-  const userAvatarUrl = useRecoilValue(avatarUrlState);  
-  const voiceId = useRecoilValue(voiceIdState);
-  const avatarScript = useRecoilValue(avatarScriptState);
-  
-  const [activeStep, setActiveStep] = useState(0);
+const CreateVideo = () => {
+  // Recoil state values
+  const webpageUrl = useRecoilValue(webpageUrlState);
+  const avatarName = useRecoilValue(avatarNameState);
+  const avatarDescription = useRecoilValue(avatarDescriptionState);
+  const audioFile = useRecoilValue(audioFileState);
 
+  // Define steps
   const steps = [
-    { title: 'Clone Voice', component: CloneVoice },
-    { title: 'Create Avatar', component: CreateAvatar },
-    { title: 'Write Script', component: WriteScript },
+    { title: 'Clone Voice', description: 'Record or upload a recording of your voice' },
+    { title: 'Create Avatar', description: 'Create the avatar for your video' },
+    { title: 'Write Script', description: 'Write the script for your video' },
+    { title: 'Submit', description: 'Review and submit your video creation' },
   ];
 
   const { activeStep, setActiveStep } = useSteps({
@@ -48,11 +51,10 @@ const CreateTalk = () => {
           clone_voice: audioFile,
         },
       });
-      const data = await response.json();
-      console.log(data);
-      // Proceed to the next step or handle completion here
+      // Logic to handle the response
+      setActiveStep(steps.length); // Assuming you want to move to a "completed" state
     } catch (error) {
-      console.error('Error submitting talk:', error);
+      console.error("Failed to submit workflow:", error);
     }
   };
 
@@ -86,4 +88,4 @@ const CreateTalk = () => {
   );
 };
 
-export default CreateTalk;
+export default CreateVideo;

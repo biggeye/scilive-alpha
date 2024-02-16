@@ -34,3 +34,8 @@ export const audioFileState = atom<File | null> ({
     key: "audioFileState",
     default: null,
 })
+
+export const userVoiceoverUrlState = atom ({
+    key: "userVoiceoverUrlState",
+    default: "",
+})

@@ -1,97 +1,164 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { audioFileState, voiceIdState } from '@/state/d-id/d_id_talk-atoms';
+import { voiceIdState, audioFileState } from '@/state/createTalk-atoms';
 import AudioPlayer from '@/components/AudioPlayer';
+import { Box, Button, Card, FormControl, FormLabel, Heading, Input, Switch, useToast, VStack } from '@chakra-ui/react';
 
 interface CloneVoiceProps {
   onCompleted: () => void;
 }
 
 const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
-  const [audioFile, setAudioFile] = useRecoilState(audioFileState);
-  const [audioSrc, setAudioSrc] = useState<string | null>(null);
+  const [audioFile, setAudioFile] = useRecoilState<File | null>(audioFileState); // Ensure this state can handle File | null
   const [voiceId, setVoiceId] = useRecoilState(voiceIdState);
+  const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [useMicrophone, setUseMicrophone] = useState<boolean>(false);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (audioSrc) {
+      return () => {
+        URL.revokeObjectURL(audioSrc);
+      };
+    }
+  }, [audioSrc]);
+
+  const toggleMicrophoneUse = () => {
+    setUseMicrophone(!useMicrophone);
+    setIsRecording(false);
+    if (recorder && isRecording) {
+      recorder.stop();
+    }
+  };
+
+
   const startRecording = async () => {
+    if (!navigator.mediaDevices || !window.MediaRecorder) {
+      toast({
+        title: 'Error',
+        description: 'Recording is not supported in this browser.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const newRecorder = new MediaRecorder(stream);
-      let audioChunks: BlobPart[] = [];
+      let audioChunks: BlobPart[] = []; // Explicitly type audioChunks
 
-      newRecorder.ondataavailable = (event: BlobEvent) => {
-        audioChunks.push(event.data);
+      newRecorder.ondataavailable = e => {
+        audioChunks.push(e.data);
+      };
+
+      newRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
+        const audioFile = new File([audioBlob], "recording.mp3", { type: 'audio/mpeg' }); // Create a File object
+        setAudioFile(audioFile); // Set the File object
+        const audioUrl = URL.createObjectURL(audioFile);
+        setAudioSrc(audioUrl);
       };
 
       newRecorder.start();
-
-      const stopRecording = (): Promise<Blob> => {
-        return new Promise((resolve) => {
-          newRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
-            resolve(audioBlob);
-          };
-
-          newRecorder.stop();
-        });
-      };
-
+      setIsRecording(true);
       setRecorder(newRecorder);
-      return { stopRecording };
     } catch (error) {
-      console.error('Error starting recording:', error);
-      return null;
+      toast({
+        title: 'Recording Error',
+        description: 'Failed to start recording. Please try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
-  const handleRecordClick = async () => {
-    if (!isRecording) {
-      const recording = await startRecording();
-      if (recording) {
-        setIsRecording(true);
-      }
-    } else if (recorder) {
-      recorder.stop();
-      setIsRecording(false);
-    }
-  };
-
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
+    if (file && (file.type === "audio/mp3" || file.type === "audio/wav")) {
       setAudioFile(file);
-      setAudioSrc(URL.createObjectURL(file));
+      const urlObject = URL.createObjectURL(file);
+      setAudioSrc(urlObject);
+    } else {
+      toast({
+        title: 'Invalid File',
+        description: 'Please upload a valid audio file (MP3 or WAV).',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
   const handleSubmit = async () => {
     if (!audioFile) {
-      alert('Please upload an audio file before submitting.');
+      toast({
+        title: 'No Audio File',
+        description: 'Please upload an audio file before submitting.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
       return;
     }
 
-    const formData = new FormData();
-    formData.append('voice', audioFile);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
-      method: "POST",
-      body: formData
-    })
-    if (response.ok) {
-      const newVoiceId = await response.json();
-      setVoiceId(newVoiceId.id);
-      onCompleted(); // Signal that the component task is completed and proceed to the next step
-    } else {
-      alert('Failed to upload audio file. Please try again.');
+    try {
+      const formData = new FormData();
+      formData.append('voice', audioFile);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
+        method: "POST",
+        body: formData
+      });
+
+      if (response.ok) {
+        const newVoiceId = await response.json();
+        setVoiceId(newVoiceId.id);
+        onCompleted(); // Signal completion
+      } else {
+        throw new Error('Failed to upload audio file.');
+      }
+    } catch (error) {
+      toast({
+        title: 'Submission Error',
+        description: 'Failed to upload audio file. Please try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
   return (
-    <div>
-      <input type="file" accept="audio/*" onChange={handleChange} />
-      <button onClick={handleSubmit}>Submit</button>
-      {audioSrc && <AudioPlayer src={audioSrc} />}
-    </div>
+    <Box maxW="md" mx="auto" mt={5}>
+      <Card>
+        <VStack spacing={4} as="form" onSubmit={(e) => e.preventDefault()} p={5} boxShadow="xl" rounded="md" bg="white">
+          <Heading>Clone Voice</Heading>
+          <FormControl display="flex" alignItems="center">
+            <FormLabel htmlFor="use-microphone" mb="0">
+              Use Microphone
+            </FormLabel>
+            <Switch id="use-microphone" isChecked={useMicrophone} onChange={toggleMicrophoneUse} />
+          </FormControl>
+          {useMicrophone ? (
+            <Button colorScheme="blue" onClick={startRecording}>
+              {isRecording ? 'Stop Recording' : 'Start Recording'}
+            </Button>
+          ) : (
+            <FormControl isRequired>
+              <Input type="file" accept="audio/*" onChange={handleChange} p={1.5} />
+            </FormControl>
+          )}
+          
+          <Button colorScheme="blue" onClick={handleSubmit}>Submit</Button>
+          {audioSrc && <AudioPlayer src={audioSrc} />}
+        </VStack>
+      </Card>
+    </Box>
   );
 };
 

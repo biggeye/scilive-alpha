@@ -1,13 +1,11 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { Box, VStack, HStack, Button, useToast } from "@chakra-ui/react";
 import { webpageUrlState, voiceIdState, avatarUrlState, avatarScriptState } from '@/state/createTalk-atoms';
-import { StepStatus, Box, Step, Stepper, StepIcon, StepTitle, StepDescription } from "@chakra-ui/react";
-import { avatarNameState, avatarDescriptionState } from '@/state/videoState';
-import { audioFileState } from '@/state/d-id/d_id_talk-atoms';
 import CloneVoice from '@/components/dashboard/d-id/talk/CloneVoice';
 import CreateAvatar from '@/components/dashboard/d-id/talk/CreateAvatar';
 import WriteScript from '@/components/dashboard/d-id/talk/WriteScript';
-import { Leap } from "@leap-ai/workflows";
 
 const CreateTalk = () => {
   const userAvatarUrl = useRecoilValue(avatarUrlState);  
@@ -22,31 +20,16 @@ const CreateTalk = () => {
     { title: 'Write Script', component: WriteScript },
   ];
 
-  const { activeStep, setActiveStep } = useSteps({
-    count: steps.length, // Correct usage
-  });
-  
+  const nextStep = () => setActiveStep(prev => Math.min(prev + 1, steps.length));
+  const isLastStep = activeStep === steps.length - 1;
 
-  // Async function to submit the workflow
-  const submitWorkflow = async () => {
-    if (!process.env.NEXT_PUBLIC_LEAP_API_KEY) {
-      console.error("NEXT_PUBLIC_LEAP_API_KEY is not defined");
-      return;
-    }
-
-    const leap = new Leap({
-      apiKey: process.env.NEXT_PUBLIC_LEAP_API_KEY as string,
-    });
-
+  const handleSubmit = async () => {
+    // Assuming this function is to be called on the last step
     try {
-      await leap.workflowRuns.workflow({
-        workflow_id: "wkf_VJNj4EZZQNhxmd",
-        input: {
-          avatar_name: avatarName,
-          avatar_description: avatarDescription,
-          web_page_to_summarize: webpageUrl,
-          clone_voice: audioFile,
-        },
+      const response = await fetch('/api/did/talk/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userAvatarUrl, voiceId, avatarScript }),
       });
       const data = await response.json();
       console.log(data);
@@ -56,33 +39,26 @@ const CreateTalk = () => {
     }
   };
 
-  // Implement renderStepContent
-  const renderStepContent = (stepIndex: number) => {
-    switch (stepIndex) {
-      case 0:
-        return <CloneVoice onCompleted={() => setActiveStep(stepIndex + 1)} />;
-      case 1:
-        return <CreateAvatar onCompleted={() => setActiveStep(stepIndex + 1)} />;
-      case 2:
-        return <WriteScript onCompleted={submitWorkflow} />;
-      default:
-        return <div>All steps completed!</div>;
-    }
-  };
+  const StepComponent = steps[activeStep].component;
 
   return (
-    <div>
-      <Stepper margin={25} index={activeStep}>
-        {steps.map((step, index) => (
-          <Step key={index}>
-            {/* Step components */}
-          </Step>
-        ))}
-      </Stepper>
-      <Box mt={4}>
-        {renderStepContent(activeStep)}
-      </Box>
-    </div>
+    <Box>
+      <VStack spacing={4}>
+        <StepComponent onCompleted={nextStep} />
+        <HStack>
+          {activeStep > 0 && (
+            <Button onClick={() => setActiveStep(prev => Math.max(prev - 1, 0))}>
+              Previous
+            </Button>
+          )}
+          {!isLastStep ? (
+            <Button onClick={nextStep}>Next</Button>
+          ) : (
+            <Button onClick={handleSubmit}>Submit</Button>
+          )}
+        </HStack>
+      </VStack>
+    </Box>
   );
 };
 

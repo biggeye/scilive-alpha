@@ -1,13 +1,13 @@
-'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { Box, Button, useSteps, Stepper, Step, StepIndicator, StepStatus, StepIcon, StepNumber, StepSeparator, StepTitle, StepDescription } from "@chakra-ui/react";
-import { voiceIdState, audioFileState } from '@/state/d-id/d_id_talk-atoms';
+import { StepStatus, Box, Step, Stepper, StepIcon, StepTitle, StepDescription } from "@chakra-ui/react";
 import { webpageUrlState } from '@/state/replicate/prediction-atoms';
 import { avatarNameState, avatarDescriptionState } from '@/state/videoState';
+import { audioFileState } from '@/state/d-id/d_id_talk-atoms';
 import CloneVoice from '@/components/dashboard/d-id/talk/CloneVoice';
 import CreateAvatar from '@/components/dashboard/d-id/talk/CreateAvatar';
 import WriteScript from '@/components/dashboard/d-id/talk/WriteScript';
+import { useSteps } from '@chakra-ui/react';
 import { Leap } from "@leap-ai/workflows";
 
 const CreateVideo = () => {
@@ -26,9 +26,9 @@ const CreateVideo = () => {
   ];
 
   const { activeStep, setActiveStep } = useSteps({
+    index: 1,
     count: steps.length, // Correct usage
   });
-  
 
   // Async function to submit the workflow
   const submitWorkflow = async () => {
@@ -59,12 +59,12 @@ const CreateVideo = () => {
   };
 
   // Implement renderStepContent
-  const renderStepContent = (stepIndex: number) => {
-    switch (stepIndex) {
+  const renderStepContent = (index: number) => {
+    switch (index) {
       case 0:
-        return <CloneVoice onCompleted={() => setActiveStep(stepIndex + 1)} />;
+        return <CloneVoice onCompleted={() => setActiveStep(index + 1)} />;
       case 1:
-        return <CreateAvatar onCompleted={() => setActiveStep(stepIndex + 1)} />;
+        return <CreateAvatar onCompleted={() => setActiveStep(index + 1)} />;
       case 2:
         return <WriteScript onCompleted={submitWorkflow} />;
       default:
@@ -77,7 +77,10 @@ const CreateVideo = () => {
       <Stepper margin={25} index={activeStep}>
         {steps.map((step, index) => (
           <Step key={index}>
-            {/* Step components */}
+            <StepStatus />
+              <StepIcon>{index + 1}</StepIcon>
+              <StepTitle>{step.title}</StepTitle>
+              <StepDescription>{step.description}</StepDescription>
           </Step>
         ))}
       </Stepper>

@@ -15,7 +15,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
         <RecoilRoot>
           <HMSRoomProvider>
             <Navbar />
-            <Box as="main" className="main" overflowX="hidden" mt="10%">
+            <Box as="main" className="main" overflowX="hidden" p={3}>
               {children}
             </Box>
           </HMSRoomProvider>

@@ -1,7 +1,7 @@
 // Assuming this file is located at app/api/did/talk/create/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function middleware(req: NextRequest) {
+export async function POST(req: NextRequest) {
   if (req.method === 'POST') {
     // Parse the JSON body
     const { avatarUrl, voiceId, avatarScript } = await req.json();

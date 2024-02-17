@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { Button, Textarea, Box, VStack, HStack, Input, useToast } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
-import { avatarScriptState } from '@/state/d-id/d_id_talk-atoms';
-import { webpageUrlState } from '@/state/replicate/prediction-atoms';
+import { avatarScriptState, webpageUrlState } from '@/state/createTalk-atoms';
 
 interface WriteScriptProps {
   onCompleted: () => void;
 }
 
 const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
-  const [webpageUrl, setWebPageUrl] = useRecoilState(webpageUrlState);
+  // Ensure initial state is an empty string instead of null
+  const [webpageUrl, setWebpageUrl] = useRecoilState(webpageUrlState);
   const [avatarScript, setAvatarScript] = useRecoilState(avatarScriptState);
   const [isTextareaEnabled, setTextareaEnabled] = useState(false);
   const toast = useToast();
 
   const handlePageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setWebPageUrl(event.target.value);
+    setWebpageUrl(event.target.value || ''); // Ensure value is never null
   };
 
   const handleScriptChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAvatarScript(event.target.value);
+    setAvatarScript(event.target.value || ''); // Ensure value is never null
   };
 
   const fetchAvatarScript = async () => {
@@ -43,7 +43,7 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`, // Ensures the value is a string
         },
-        
+
         body: JSON.stringify({
           workflow_id: "wkf_U3tsr91oDF9UaL", // Unique ID of the workflow you want to run
           webhook_url: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/run`, // Optional
@@ -89,6 +89,7 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
         <Input 
           value={webpageUrl}
           onChange={handlePageChange}
+          defaultValue="www.somewebsite.com/somearticle"
           placeholder="Enter the web article URL here"
         />
         <Button

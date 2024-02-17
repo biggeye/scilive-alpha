@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Box, FormControl, FormLabel, Input, Textarea, Button, useToast, VStack, Card, Heading } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState } from '@/state/createTalk-atoms';
 import { Leap } from "@leap-ai/workflows";
@@ -9,7 +9,7 @@ interface CreateAvatarProps {
 }
 
 const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
-  const [avatarName, setAvatarName] = useRecoilState(avatarNameState);
+  const avatarName = useRecoilValue(avatarNameState);
   const [avatarDescription, setAvatarDescription] = useRecoilState(avatarDescriptionState);
   const [avatarUrl, setAvatarUrl] = useRecoilState(avatarUrlState);
   const toast = useToast();
@@ -63,11 +63,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
           <Heading as="h3" size="lg" textAlign="center">
             Create Avatar
           </Heading>
-          <FormControl isRequired>
-            <FormLabel>Avatar Name</FormLabel>
-            <Input type="text" value={avatarName || ''} onChange={(e) => setAvatarName(e.target.value)} placeholder="Enter avatar name" />
-          </FormControl>
-          <FormControl isRequired>
+           <FormControl isRequired>
             <FormLabel>Avatar Description</FormLabel>
             <Textarea value={avatarDescription || ''} onChange={(e) => setAvatarDescription(e.target.value)} placeholder="Describe your avatar" />
           </FormControl>

@@ -25,7 +25,7 @@ const DisplayResults = () => {
   const selectedModelFriendlyName = useRecoilValue(selectedModelFriendlyNameState);
 
   const displayedImage = finalPrediction || userImagePreview || exampleImage;
-  const isFinalPredictionLoading = predictionIsLoading && !finalPrediction;
+  const isFinalPredictionLoading = predictionIsLoading && exampleImage && userImagePreview;
 
   const imageVariants = {
     hidden: { opacity: 0 },

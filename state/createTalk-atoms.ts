@@ -28,14 +28,14 @@ export const avatarUrlState = atom<string | null>({
 });
 
 // voiceover creation
-export const webpageUrlState = atom<string | null>({
+export const webpageUrlState = atom<string>({
   key: 'webpageUrlState',
-  default: null,
+  default: "", // Changed from null to an empty string
 });
 
-export const avatarScriptState = atom<string | null>({
+export const avatarScriptState = atom<string>({
   key: 'avatarScriptState',
-  default: null,
+  default: "", // Changed from null to an empty string
 });
 
 export const voiceoverUrlState = atom<string | null>({

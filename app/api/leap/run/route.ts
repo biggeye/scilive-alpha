@@ -1,11 +1,6 @@
-// app/api/workflowWebhook/route.ts
-
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 import uploadPrediction from '@/lib/replicate/uploadPrediction';
 
 type WorkflowStatus = 'completed' | 'running' | 'failed';
-
 
 interface WorkflowOutput {
   images: string[];
@@ -25,43 +20,49 @@ interface WorkflowWebhookRequestBody {
   output: WorkflowOutput | null;
 }
 
-export default async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   if (req.method !== 'POST') {
-    return new NextResponse('Method Not Allowed', { status: 405 });
+    return new Response(JSON.stringify({
+      error: 'Method Not Allowed',
+      description: 'This endpoint only supports POST requests.',
+    }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   try {
     const body: WorkflowWebhookRequestBody = await req.json();
-    // Process the webhook payload here
     console.log('Received webhook for workflow:', body.id);
 
-    // Implement your custom logic based on the workflow status
-    switch (body.status) {
-      case 'completed':
-        const imageArray1 = body.output?.images[0];
-        const imageArray2 = body.output?.images[1];
-        const imageArray3 = body.output?.images[2];
-        const imageArray4 = body.output?.images[3];
-        const userId = body.output?.user_id;
-        const predictionId = body.id;
-        const prompt = body.input.avatar_description;
-        
-        uploadPrediction(imageArray1, userId, "leapAvatar", predictionId, prompt);
-        uploadPrediction(imageArray2, userId, "leapAvatar", predictionId, prompt);
-        uploadPrediction(imageArray3, userId, "leapAvatar", predictionId, prompt);
-        uploadPrediction(imageArray4, userId, "leapAvatar", predictionId, prompt);
-         break;
-      case 'running':
-        // Handle running workflow
-        break;
-      case 'failed':
-        // Handle failed workflow, possibly using body.error
-        break;
-    }
+    if (body.status === 'completed' && body.output) {
+      const { images, user_id: userId } = body.output;
+      const predictionId = body.id;
+      const prompt = body.input.avatar_description;
+      
+      // Use map to create an array of promises from uploadPrediction calls
+      const uploadPromises = images.map((image, index) => 
+        uploadPrediction(image, userId, "leapAvatar", `${predictionId}-${index}`, prompt)
+      );
+      
+      // Wait for all the uploadPrediction calls to complete
+      await Promise.all(uploadPromises);
+  }
+  
 
-    return new NextResponse('Webhook processed successfully', { status: 200 });
+    // Assuming you want to return a success message after processing
+    return new Response(JSON.stringify({ message: 'Webhook processed successfully' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
   } catch (error) {
     console.error('Error processing webhook:', error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    return new Response(JSON.stringify({
+      status: 'error',
+      message: 'Internal Server Error'
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 }

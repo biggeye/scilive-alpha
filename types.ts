@@ -84,3 +84,23 @@ export type currentIndex = {
   model_id?: string;
   
 };
+
+type WorkflowStatus = 'completed' | 'running' | 'failed';
+
+interface WorkflowOutput {
+  images: string[];
+  user_id: string;
+}
+
+interface WorkflowWebhookRequestBody {
+  id: string;
+  version_id: string;
+  status: WorkflowStatus;
+  created_at: string;
+  started_at: string | null;
+  ended_at: string | null;
+  workflow_id: string;
+  error: string | null;
+  input: Record<string, any>;
+  output: WorkflowOutput | null;
+}

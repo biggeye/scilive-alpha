@@ -30,12 +30,11 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
       const response = await fetch("https://api.workflows.tryleap.ai/v1/runs", {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'X-Api-Key': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`,
         },
         body: JSON.stringify({
           workflow_id: "wkf_fENKVAhNzDo2cq",
-          webhook_url: `https://scilive.cloud/api/leap/run`,
+          webhook_url: "https://scilive.cloud/api/leap/run",
           input: {
             avatar_name: avatarName,
             avatar_description: avatarDescription,

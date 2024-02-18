@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { Box, VStack, HStack, Button, useToast } from "@chakra-ui/react";
+import { Stepper, Step, StepIndicator, StepTitle, StepNumber, StepIcon, StepDescription, StepStatus, StepSeparator, Box, VStack, HStack, Button, useToast } from "@chakra-ui/react";
 import { webpageUrlState, voiceIdState, avatarUrlState, avatarScriptState } from '@/state/createTalk-atoms';
 import CloneVoice from '@/components/dashboard/d-id/talk/CloneVoice';
 import CreateAvatar from '@/components/dashboard/d-id/talk/CreateAvatar';
@@ -15,9 +15,9 @@ const CreateTalk = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   const steps = [
-    { title: 'Clone Voice', component: CloneVoice },
-    { title: 'Create Avatar', component: CreateAvatar },
-    { title: 'Write Script', component: WriteScript },
+    { title: 'Clone Voice', description: "Record or upload a sample of your voice", component: CloneVoice },
+    { title: 'Create Avatar', description: "Design your avatar", component: CreateAvatar },
+    { title: 'Write Script', description: "Create voiceover script", component: WriteScript },
   ];
 
   const nextStep = () => setActiveStep(prev => Math.min(prev + 1, steps.length));
@@ -42,23 +42,44 @@ const CreateTalk = () => {
   const StepComponent = steps[activeStep].component;
 
   return (
+    
     <Box>
-      <VStack spacing={4}>
-        <StepComponent onCompleted={nextStep} />
-        <HStack>
-          {activeStep > 0 && (
-            <Button onClick={() => setActiveStep(prev => Math.max(prev - 1, 0))}>
-              Previous
-            </Button>
-          )}
-          {!isLastStep ? (
-            <Button onClick={nextStep}>Next</Button>
-          ) : (
-            <Button onClick={handleSubmit}>Submit</Button>
-          )}
-        </HStack>
-      </VStack>
-    </Box>
+    <Stepper index={activeStep}>
+      {steps.map((step, index) => (
+        <Step key={index}>
+          <StepIndicator>
+            <StepStatus
+              complete={<StepIcon />}
+              incomplete={<StepNumber />}
+              active={<StepNumber />}
+            />
+          </StepIndicator>
+
+          <Box flexShrink='0'>
+            <StepTitle>{step.title}</StepTitle>
+            <StepDescription>{step.description}</StepDescription>
+          </Box>
+
+          <StepSeparator />
+        </Step>
+      ))}
+    </Stepper>
+    <VStack spacing={4}>
+      <StepComponent onCompleted={nextStep} />
+      <HStack spacing={4}>
+        {activeStep > 0 && (
+          <Button onClick={() => setActiveStep(prev => Math.max(prev - 1, 0))}>
+            Previous
+          </Button>
+        )}
+        {!isLastStep ? (
+          <Button onClick={nextStep}>Next</Button>
+        ) : (
+          <Button onClick={handleSubmit}>Submit</Button>
+        )}
+      </HStack>
+    </VStack>
+  </Box>
   );
 };
 

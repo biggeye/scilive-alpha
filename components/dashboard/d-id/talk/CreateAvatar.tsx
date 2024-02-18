@@ -39,6 +39,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
           inputs: {
             avatar_name: avatarName,
             avatar_description: avatarDescription,
+            user_id: userId,
           }
         }),
       });

@@ -1,8 +1,11 @@
+// Import necessary dependencies
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Box, FormControl, FormLabel, Input, Textarea, Button, useToast, VStack, Card, Heading } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState } from '@/state/createTalk-atoms';
-import { Leap } from "@leap-ai/workflows";
+import uploadPrediction from '@/lib/replicate/uploadPrediction';
+import { randomUUID } from 'crypto';
+import { useUserContext } from '@/lib/UserProvider';
 
 interface CreateAvatarProps {
   onCompleted: () => void;
@@ -12,66 +15,79 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
   const avatarName = useRecoilValue(avatarNameState);
   const [avatarDescription, setAvatarDescription] = useRecoilState(avatarDescriptionState);
   const [avatarUrl, setAvatarUrl] = useRecoilState(avatarUrlState);
+  const [images, setImages] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string>('');
   const toast = useToast();
+  const modelId = "leapPrediction"
+  const predictionId = `leapPrediction-${randomUUID}`;
+  const { userProfile } = useUserContext();
+  const userId = userProfile.id;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch("https://api.workflows.tryleap.ai/v1/runs", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`, // Ensures the value is a string
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`,
         },
-        
         body: JSON.stringify({
-          workflow_id: "wkf_fENKVAhNzDo2cq", // Unique ID of the workflow you want to run
-          webhook_url: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/run`, // Optional
+          workflow_id: "wkf_fENKVAhNzDo2cq",
+          webhook_url: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/run`,
           inputs: {
             avatar_name: avatarName,
             avatar_description: avatarDescription,
           }
         }),
       });
-      const data = await response.json(); // Assuming the response is JSON
+      // Inside the handleSubmit function after receiving the response
+      const data = await response.json();
       if (data && data.output) {
-        setAvatarUrl(JSON.stringify(data.output));
+        // Assuming 'output' is an object with keys like output[0], output[1], etc., containing image URLs
+        const imageUrls = Object.keys(data.output).map(key => data.output[key]);
+        setImages(imageUrls);
       } else {
         console.error('No output data from the workflow run');
       }
+
     } catch (error) {
       console.error('Error running the workflow', error);
     }
-  
-    toast({
-      title: 'Avatar Created',
-      description: 'The avatar has been successfully created.',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-      position: 'top',
-    });
-  
+  };
+
+  const handleImageSelect = async (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    const supabaseUpload = await uploadPrediction(selectedImage, userId, modelId, predictionId, prompt);
+    setAvatarUrl(supabaseUpload);
     onCompleted();
   };
-  
+
+  const renderImages = () => (
+    <VStack>
+      {images.map((imageUrl, index) => (
+        <Box key={index} p={2} borderWidth="1px" borderRadius="lg" overflow="hidden">
+          <Image src={imageUrl} alt={`Avatar ${index + 1}`} onClick={() => handleImageSelect(imageUrl)} cursor="pointer" />
+        </Box>
+      ))}
+    </VStack>
+  );
+
   return (
     <Box maxW="md" mx="auto" mt={5}>
-      <Card>
-        <VStack spacing={4} as="form" onSubmit={handleSubmit} p={5} boxShadow="xl" rounded="md" bg="white">
-          <Heading as="h3" size="lg" textAlign="center">
-            Create Avatar
-          </Heading>
-           <FormControl isRequired>
+      <form onSubmit={handleSubmit}>
+        <VStack spacing={4} p={5}>
+          <FormControl isRequired>
             <FormLabel>Avatar Description</FormLabel>
             <Textarea value={avatarDescription || ''} onChange={(e) => setAvatarDescription(e.target.value)} placeholder="Describe your avatar" />
           </FormControl>
           <Button type="submit" colorScheme="blue" size="lg" width="full">
             Submit
           </Button>
+          {images.length > 0 && renderImages()}
         </VStack>
-      </Card>
+      </form>
     </Box>
   );
 };

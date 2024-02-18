@@ -31,12 +31,12 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`,
+          'X-Api-Key': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`,
         },
         body: JSON.stringify({
           workflow_id: "wkf_fENKVAhNzDo2cq",
           webhook_url: `https://scilive.cloud/api/leap/run`,
-          inputs: {
+          input: {
             avatar_name: avatarName,
             avatar_description: avatarDescription,
             user_id: userId,

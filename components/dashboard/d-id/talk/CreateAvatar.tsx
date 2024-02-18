@@ -35,7 +35,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
         },
         body: JSON.stringify({
           workflow_id: "wkf_fENKVAhNzDo2cq",
-          webhook_url: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/run`,
+          webhook_url: `https://scilive.cloud/api/leap/run`,
           inputs: {
             avatar_name: avatarName,
             avatar_description: avatarDescription,

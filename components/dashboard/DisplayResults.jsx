@@ -9,7 +9,7 @@ import { predictionIsLoadingState,
     userImagePreviewState  } from '@/state/replicate/prediction-atoms';
 import { exampleImageState, selectedModelFriendlyNameState } from '@/state/replicate/config-atoms';
 import ToolOptions from './ToolOptions';
-import { ImageCard } from "../Cards";
+import { ImageCard } from "../utils/Cards";
 import { motion } from 'framer-motion';
 
 const DisplayResults = () => {

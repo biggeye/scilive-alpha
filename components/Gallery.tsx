@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip, IconButton, ModalHeader, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
 import { DeleteIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { ContentItem } from '@/types';
-import { Pagination } from './Pagination';
+import { Pagination } from './utils/Pagination';
 
 interface GalleryProps {
   contentItems: ContentItem[][];

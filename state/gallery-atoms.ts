@@ -1,3 +1,5 @@
+//state/gallery-atoms.ts
+
 import { atom } from "recoil";
 import { ContentItem } from '@/types';
 

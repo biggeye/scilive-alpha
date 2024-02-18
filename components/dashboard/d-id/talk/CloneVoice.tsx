@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { voiceIdState, audioFileState, avatarNameState } from '@/state/createTalk-atoms';
-import AudioPlayer from '@/components/AudioPlayer';
+import AudioPlayer from '@/components/utils/AudioPlayer';
 import { Box, Button, Card, FormControl, FormLabel, Heading, Input, Switch, useToast, VStack } from '@chakra-ui/react';
 
 interface CloneVoiceProps {

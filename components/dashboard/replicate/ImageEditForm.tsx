@@ -7,7 +7,7 @@ import { finalPredictionState, userImageDataUriState, userImagePreviewState, use
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { selectedModelIdState } from '@/state/replicate/config-atoms';
 import { convertToDataURI } from '@/lib/convertToDataURI';
-import ProgressIndicator from '@/components/CircularProgress';
+import ProgressIndicator from '@/components/utils/CircularProgress';
 
 const ImageEditForm = () => {
   const imageEditSubmit = useImageCreateSubmit();

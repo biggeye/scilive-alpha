@@ -13,7 +13,9 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     <ChakraProvider theme={sciLiveTheme}>
       <UserProvider>
         <RecoilRoot>
+          
           <HMSRoomProvider>
+    
             <Navbar />
             <Box as="main" className="main" overflowX="hidden" p={3}>
               {children}

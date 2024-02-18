@@ -1,4 +1,5 @@
-'use client'
+//state/replicate/prediction-atoms.ts
+
 import { atom } from 'recoil';
 
 export const userImagePreviewState = atom<string | null>({

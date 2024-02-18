@@ -25,44 +25,74 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
-      const response = await fetch("https://api.workflows.tryleap.ai/v1/runs", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/out/create-avatar`, {
         method: 'POST',
         headers: {
-          'X-Api-Key': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          workflow_id: "wkf_fENKVAhNzDo2cq",
-          webhook_url: "https://scilive.cloud/api/leap/run",
-          input: {
-            avatar_name: avatarName,
-            avatar_description: avatarDescription,
-            user_id: userId,
-          }
+          avatar_name: avatarName,
+          avatar_description: avatarDescription,
+          user_id: userId,
         }),
       });
-      // Inside the handleSubmit function after receiving the response
-      const data = await response.json();
-      if (data && data.output) {
-        // Assuming 'output' is an object with keys like output[0], output[1], etc., containing image URLs
-        const imageUrls = Object.keys(data.output).map(key => data.output[key]);
-        setImages(imageUrls);
-      } else {
-        console.error('No output data from the workflow run');
+  
+      if (!response.ok) {
+        throw new Error(`API call failed with status: ${response.status}`);
       }
-
+  
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.indexOf('application/json') !== -1) {
+        const data = await response.json();
+        if (data && data.output) {
+          const imageUrls = Object.keys(data.output).map(key => data.output[key]);
+          setImages(imageUrls);
+        } else {
+          console.error('No output data from the workflow run');
+          toast({
+            title: 'Error',
+            description: 'No output data from the workflow run',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      } else {
+        throw new Error('Received non-JSON response from server');
+      }
     } catch (error) {
       console.error('Error running the workflow', error);
+      toast({
+        title: 'Error',
+        description: 'Error running the workflow',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
+  
 
   const handleImageSelect = async (imageUrl: string) => {
     setSelectedImage(imageUrl);
-    const supabaseUpload = await uploadPrediction(selectedImage, userId, modelId, predictionId, prompt);
-    setAvatarUrl(supabaseUpload);
-    onCompleted();
+    try {
+      const supabaseUpload = await uploadPrediction(imageUrl, userId, modelId, predictionId, avatarDescription);
+      setAvatarUrl(supabaseUpload);
+      onCompleted();
+    } catch (error) {
+      console.error('Error uploading image to Supabase', error);
+      toast({
+        title: 'Error',
+        description: 'Error uploading image to Supabase',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
+  
 
   const renderImages = () => (
     <VStack>

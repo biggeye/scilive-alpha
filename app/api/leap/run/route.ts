@@ -1,4 +1,4 @@
-import uploadPrediction from '@/lib/replicate/uploadPrediction';
+import uploadPredictionRoute from '@/lib/replicate/uploadPredictionRoute';
 
 type WorkflowStatus = 'completed' | 'running' | 'failed';
 
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       
       // Use map to create an array of promises from uploadPrediction calls
       const uploadPromises = images.map((image, index) => 
-        uploadPrediction(image, userId, "leapAvatar", `${predictionId}-${index}`, prompt)
+        uploadPredictionRoute(image, userId, "leapAvatar", `${predictionId}-${index}`, prompt)
       );
       
       // Wait for all the uploadPrediction calls to complete

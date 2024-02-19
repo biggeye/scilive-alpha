@@ -1,7 +1,7 @@
 // Import necessary dependencies
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Grid, GridItem, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState } from '@/state/createTalk-atoms';
 import { useUserContext } from '@/lib/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
@@ -19,6 +19,8 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
   const [avatarDescription, setAvatarDescription] = useRecoilState(avatarDescriptionState);
   const [avatarUrl, setAvatarUrl] = useRecoilState(avatarUrlState);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [polling, setPolling] = useState(false); // A state to trigger polling
   const [images, setImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -28,28 +30,22 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
   const userId = userProfile.id;
 
   useEffect(() => {
-    // Subscribe to insert events on the master_content table
-    // Subscribe to insert events on the master_content table
     const subscription = supabase
       .channel('custom-insert-channel')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'master_content' }, (payload) => {
         console.log('Change received!', payload);
-        // Access the URL column of the new row data
         if (payload.new && payload.new.url) {
           setImages(currentImages => [...currentImages, payload.new.url]);
         }
       })
       .subscribe();
-
-
-    // Cleanup subscription on component unmount
     return () => {
       supabase.removeChannel(subscription);
     };
   }, []);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPolling(true);
+    setIsLoading(true);
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/avatar`, {
         method: 'POST',
@@ -76,12 +72,9 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
           duration: 9000,
           isClosable: true,
         });
-        // Since the process is asynchronous and handled via webhook, trigger onCompleted to indicate the start
         onCompleted();
       } else {
-        // If the workflow somehow completes immediately, handle accordingly
         console.log(responseData);
-        // Perform actions with the responseData if needed
       }
     } catch (error) {
       console.error('Error running the workflow', error);
@@ -107,13 +100,30 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
           <Button type="submit" colorScheme="blue" size="lg" width="full">
             Submit
           </Button>
-          <Grid h='auto' templateRows='repeat(2, 1fr)' templateColumns='repeat(2, 1fr)' gap={4}>
-  {images.map((imgUrl, index) => (
-    <GridItem key={index} colSpan={1} bg='tomato'>
-      <Image src={imgUrl} alt={`Avatar Image ${index + 1}`} objectFit="cover" />
-    </GridItem>
-  ))}
-</Grid>
+          {isLoading ? (
+            <CircularProgress isIndeterminate color="blue.300" />
+          ) : (
+            <Grid templateRows="repeat(2, 1fr)" templateColumns="repeat(2, 1fr)" gap={4}>
+              {images.map((imgUrl, index) => (
+                <GridItem key={index} colSpan={1}>
+                  <Image src={imgUrl} alt={`Avatar Image ${index + 1}`} />
+                  <Checkbox isChecked={selectedImageIndex === index} onChange={() => setSelectedImageIndex(index)} />
+                </GridItem>
+              ))}
+            </Grid>
+          )}
+         <Button
+  colorScheme="blue"
+  isDisabled={selectedImageIndex === null}
+  onClick={() => {
+    if (selectedImageIndex !== null) {
+      setAvatarUrl(images[selectedImageIndex]);
+    }
+  }}
+>
+  Select Avatar
+</Button>
+
 
         </VStack>
       </form>

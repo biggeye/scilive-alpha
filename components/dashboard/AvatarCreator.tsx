@@ -1,29 +1,22 @@
-// Import necessary dependencies
+'use client'
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
+import { Input, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState } from '@/state/createTalk-atoms';
 import { useUserContext } from '@/lib/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
 import { createClient } from '@/utils/supabase/client';
 
-interface CreateAvatarProps {
-  onCompleted: () => void;
-}
-
-const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
+const AvatarCreator: React.FC = () => {
   const supabase = createClient();
 
-  const imageArray = useRecoilValue(imageArrayState);
-  const avatarName = useRecoilValue(avatarNameState);
+  const [avatarName, setAvatarName] = useRecoilState(avatarNameState);
   const [avatarDescription, setAvatarDescription] = useRecoilState(avatarDescriptionState);
   const [avatarUrl, setAvatarUrl] = useRecoilState(avatarUrlState);
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [polling, setPolling] = useState(false); // A state to trigger polling
   const [images, setImages] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string>('');
   const toast = useToast();
 
   const { userProfile } = useUserContext();
@@ -43,6 +36,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
       supabase.removeChannel(subscription);
     };
   }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -93,6 +87,10 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
     <Box maxW="md" mx="auto" mt={5}>
       <form onSubmit={handleSubmit}>
         <VStack spacing={4} p={5}>
+        <FormControl isRequired>
+            <FormLabel>Avatar Name</FormLabel>
+            <Input value={avatarName || ''} onChange={(e) => setAvatarName(e.target.value)} placeholder="Name your avatar" />
+          </FormControl>
           <FormControl isRequired>
             <FormLabel>Avatar Description</FormLabel>
             <Textarea value={avatarDescription || ''} onChange={(e) => setAvatarDescription(e.target.value)} placeholder="Describe your avatar" />
@@ -112,13 +110,14 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
               ))}
             </Grid>
           )}
+          
           <Button
             colorScheme="blue"
             isDisabled={selectedImageIndex === null}
             onClick={() => {
               if (selectedImageIndex !== null) {
                 setAvatarUrl(images[selectedImageIndex]);
-                onCompleted();
+            
               }
             }}
           >
@@ -132,4 +131,4 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
   );
 };
 
-export default CreateAvatar;
+export default AvatarCreator;

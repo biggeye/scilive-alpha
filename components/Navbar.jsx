@@ -99,8 +99,9 @@ const UserMenu = () => {
 
 const Navbar = () => {
   const navigation = [
-    { name: "sciStill", href: "/dashboard" },
-    { name: "sciVideo", href: "/dashboard/d-id" },
+    { name: "image creation", href: "/dashboard" },
+    { name: "video creation", href: "/dashboard/d-id" },
+    { name: "avatar creation", href: "/dashboard/avatar" },
     { name: "sciLive", href: "/100ms" },
     { name: "sciGallery", href: "/gallery" },
   ];

@@ -1,10 +1,11 @@
-import uploadPredictionRoute from '@/lib/replicate/uploadPredictionRoute';
+import uploadWebsiteSummary from '@/lib/createAvatar/uploadWebsiteSummary';
 
 type WorkflowStatus = 'completed' | 'running' | 'failed';
 
 interface WorkflowOutput {
-  images: string[];
+  website_summary: string;
   user_id: string;
+  url: string;
 }
 
 interface WorkflowWebhookRequestBody {
@@ -36,17 +37,10 @@ export async function POST(req: Request) {
     console.log('Received webhook for workflow:', body.id);
 
     if (body.status === 'completed' && body.output) {
-      const { images, user_id: userId } = body.output;
-      const predictionId = body.id;
-      const prompt = body.input.avatar_description;
+        const { website_summary, user_id: userId, url: prompt } = body.output;
+        const predictionId = body.id;
       
-      // Use map to create an array of promises from uploadPrediction calls
-      const uploadPromises = images.map((image, index) => 
-        uploadPredictionRoute(image, userId, "leapAvatar", `${predictionId}-${index}`, prompt)
-      );
-      
-      // Wait for all the uploadPrediction calls to complete
-      await Promise.all(uploadPromises);
+      await uploadWebsiteSummary(website_summary, userId, "leapWebsiteSummary", predictionId, prompt);
   }
   
 

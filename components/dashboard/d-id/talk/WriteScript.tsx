@@ -46,8 +46,8 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
 
         body: JSON.stringify({
           workflow_id: "wkf_U3tsr91oDF9UaL", // Unique ID of the workflow you want to run
-          webhook_url: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/run`, // Optional
-          inputs: {
+          webhook_url: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/websummaryhook`, // Optional
+          input: {
             webpage_url: webpageUrl,
           }
         }),

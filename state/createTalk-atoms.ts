@@ -44,3 +44,8 @@ export const voiceoverUrlState = atom<string | null>({
   key: 'voiceoverUrlState',
   default: null,
 });
+
+export const imageArrayState = atom<Array<[]> | null>({
+  key: 'imageArrayState',
+  default: [],
+})

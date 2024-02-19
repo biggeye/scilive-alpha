@@ -1,3 +1,5 @@
+import { Leap } from "@leap-ai/workflows";
+
 export async function POST(req: Request) {
 
    try {
@@ -6,30 +8,41 @@ export async function POST(req: Request) {
     const avatar_description = bodyData.avatar_description;
     const user_id = bodyData.user_id;
     
-    const response = await fetch("https://api.workflows.tryleap.ai/v1/runs", {
-          method: 'POST',
-          headers: {
-            'X-Api-Key': `${process.env.NEXT_PUBLIC_LEAP_API_KEY}`,
-          },
-          body: JSON.stringify({
-            workflow_id: "wkf_fENKVAhNzDo2cq",
-            webhook_url: "https://scilive.cloud/api/leap/run",
-            input: {
-              avatar_name: avatar_name,
-              avatar_description: avatar_description,
-              user_id: user_id,
-            }
-          }),
-        });
-
+    const leap = new Leap({
+      apiKey: "le_2063514b_i5qgFukiMYVcCKDBK00U6Mgp",
+    });
+    
+    const response = await leap.workflowRuns.workflow(
+      {
+        workflow_id: "wkf_fENKVAhNzDo2cq",
+        webhook_url:
+          "https://scilive.cloud/api/leap/run",
+        input: {
+          avatar_name: avatar_name,
+          avatar_description:
+            avatar_description,
+          user_id:
+           user_id
+        },
+      },
+    );
     if (response.status !== 201) {
-      const error = await response.json();
-      return new Response(JSON.stringify({ detail: error.detail }), { status: 500 });
+      const error = await response;
+      return new Response(JSON.stringify({ detail: error }), { status: 500 });
     }
 
-    const prediction = await response.json();
-    console.log(prediction);
-    return new Response(JSON.stringify(prediction), { status: 201 });
+  
+    console.log(response);
+    // Adjusted to return the initial response indicating the workflow is running
+return new Response(JSON.stringify({
+  id: response.data.id,
+  status: response.data.status,
+  created_at: response.data.created_at,
+  workflow_id: response.data.workflow_id,
+  input: response.data.input,
+  output: response.data.output, // This will be null if the workflow is still running
+}), { status: 201 });
+
   } catch (error) {
     // Check if the error is an instance of Error to access its message property
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';

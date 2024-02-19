@@ -28,7 +28,12 @@ const AvatarCreator: React.FC = () => {
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'master_content' }, (payload) => {
         console.log('Change received!', payload);
         if (payload.new && payload.new.url) {
-          setImages(currentImages => [...currentImages, payload.new.url]);
+          setImages(currentImages => {
+            const updatedImages = [...currentImages, payload.new.url];
+            // Assume loading is complete once an image is successfully received and added
+            setIsLoading(false);
+            return updatedImages;
+          });
         }
       })
       .subscribe();
@@ -36,6 +41,7 @@ const AvatarCreator: React.FC = () => {
       supabase.removeChannel(subscription);
     };
   }, []);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

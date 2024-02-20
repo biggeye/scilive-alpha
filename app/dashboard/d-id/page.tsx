@@ -15,9 +15,9 @@ const CreateTalk = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   const steps = [
-    { title: 'Clone Voice', description: "Record or upload a sample of your voice", component: CloneVoice },
-    { title: 'Create Avatar', description: "Design your avatar", component: CreateAvatar },
-    { title: 'Write Script', description: "Create voiceover script", component: WriteScript },
+    { title: 'Voice', component: CloneVoice },
+    { title: 'Avatar', component: CreateAvatar },
+    { title: 'Script', component: WriteScript },
   ];
 
   const nextStep = () => setActiveStep(prev => Math.min(prev + 1, steps.length));
@@ -57,8 +57,7 @@ const CreateTalk = () => {
 
           <Box flexShrink='0'>
             <StepTitle>{step.title}</StepTitle>
-            <StepDescription>{step.description}</StepDescription>
-          </Box>
+                      </Box>
 
           <StepSeparator />
         </Step>

@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { voiceIdState, audioFileState, avatarNameState } from '@/state/createTalk-atoms';
 import AudioPlayer from '@/components/utils/AudioPlayer';
 import { Box, Button, Card, FormControl, FormLabel, Heading, Input, Switch, useToast, VStack } from '@chakra-ui/react';
+import { convertToDataURI } from '@/lib/convertToDataURI';
 
 interface CloneVoiceProps {
   onCompleted: () => void;
@@ -64,18 +65,20 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const newRecorder = new MediaRecorder(stream);
-      let audioChunks = [];
-  
+
+      let audioChunks: BlobPart[] = [];
+
       newRecorder.ondataavailable = (e) => {
         audioChunks.push(e.data);
       };
+      
   
       newRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
         const audioFile = new File([audioBlob], "recording.mp3", { type: 'audio/mpeg' });
         setAudioFile(audioFile);
-        const audioUrl = URL.createObjectURL(audioFile);
-        setAudioSrc(audioUrl);
+        const audioUri = await convertToDataURI(audioFile);
+        setAudioSrc(audioUri);
         setIsRecording(false); // Ensure this is set to false once recording stops.
       };
   
@@ -111,61 +114,66 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
   };
 
   const handleSubmit = async () => {
-     setIsLoading(true);
-    if (!audioFile || !avatarName) {
+    setIsLoading(true);
+    if (!audioSrc || !avatarName) { // Changed to check audioSrc instead of audioFile
       toast({
         title: 'Missing Information',
-        description: 'Please provide an avatar name and an audio file before submitting.',
+        description: 'Please provide an avatar name and an audio recording before submitting.',
         status: 'warning',
         duration: 5000,
         isClosable: true,
       });
+      setIsLoading(false);
       return;
     }
-
-    const formData = new FormData();
-    formData.append('voice', audioFile);
-    formData.append('name', avatarName);
-
+  
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
         method: "POST",
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json', // Specify JSON content type
+        },
+        body: JSON.stringify({
+          voice: audioSrc, // Send the Data URI
+          name: avatarName,
+        }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         setVoiceId(data.id);
         setIsLoading(false);
         toast({
           title: 'Voice Clone Complete',
-          description: `Voice cloned successfully, ID: ${voiceId}`,
+          description: `Voice cloned successfully, ID: ${data.id}`,
           status: 'success',
           duration: 5000,
           isClosable: true,
-        })
+        });
         onCompleted();
       } else {
         const error = await response.json();
         setIsLoading(false);
         toast({
           title: 'Submission Error',
-          description: error.message || 'Failed to upload audio file. Please try again.',
+          description: error.message || 'Failed to upload audio recording. Please try again.',
           status: 'error',
           duration: 9000,
           isClosable: true,
         });
       }
     } catch (error) {
+      setIsLoading(false);
       toast({
-        title: 'Submission Error',
-        description: 'Failed to upload audio file. Please try again.',
+        title: 'Network Error',
+        description: 'Failed to upload audio recording. Please try again.',
         status: 'error',
         duration: 9000,
         isClosable: true,
       });
     }
   };
+  
 
   return (
     <Box maxW="md" mx="auto" mt={5}>

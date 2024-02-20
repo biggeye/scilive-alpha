@@ -4,8 +4,8 @@ export async function POST(req: Request) {
 
   try {
     const bodyData = await req.json();
-    const host_name = bodyData.avatar_name;
-    const podcast_name = bodyData.podcast_name;
+    const host_name = bodyData.host;
+    const podcast_name = bodyData.podcast;
     const webpage_url = bodyData.webpage_url;
 
     const leap = new Leap({
@@ -18,9 +18,9 @@ export async function POST(req: Request) {
         webhook_url:
           "https://scilive.cloud/api/leap/websummaryhook",
         input: {
+          webpage_url: webpage_url,
           host: host_name,
           podcast: podcast_name,
-          webpage_url: webpage_url,
         },
       },
     );

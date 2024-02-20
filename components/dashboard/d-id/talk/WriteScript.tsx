@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Textarea, Box, VStack, HStack, Input, useToast } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
-import { avatarScriptState, webpageUrlState } from '@/state/createTalk-atoms';
+import { avatarScriptState, webpageUrlState, hostNameState, podcastNameState } from '@/state/createTalk-atoms';
 
 interface WriteScriptProps {
   onCompleted: () => void;
@@ -9,6 +9,8 @@ interface WriteScriptProps {
 
 const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
   // Ensure initial state is an empty string instead of null
+  const [hostName, setHostName] = useRecoilState(hostNameState);
+  const [podcastName, setPodcastName] = useRecoilState(podcastNameState);
   const [webpageUrl, setWebpageUrl] = useRecoilState(webpageUrlState);
   const [avatarScript, setAvatarScript] = useRecoilState(avatarScriptState);
   const [isTextareaEnabled, setTextareaEnabled] = useState(false);
@@ -37,7 +39,7 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
     // Placeholder for the actual API call
     try {
       // Simulate an API call
-      const response = await fetch('https://api.workflows.tryleap.ai/v1/runs', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/websummary`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,12 +47,11 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
         },
 
         body: JSON.stringify({
-          workflow_id: "wkf_U3tsr91oDF9UaL", // Unique ID of the workflow you want to run
-          webhook_url: `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/websummaryhook`, // Optional
-          input: {
             webpage_url: webpageUrl,
+            host: hostName,
+            podcast: podcastName
           }
-        }),
+        ),
       });
   
       if (!response.ok) {
@@ -86,6 +87,16 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
   return (
     <Box>
       <VStack spacing={4}>
+        <Input
+          value={hostName}
+          onChange={(e) => setHostName(e.target.value)}
+          placeholder="Host of the show"
+          />
+          <Input 
+          value={podcastName} 
+          onChange={(e) => setPodcastName(e.target.value)}
+          placeholder="Name of the podcast"
+          />
         <Input 
           value={webpageUrl}
           onChange={handlePageChange}

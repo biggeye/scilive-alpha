@@ -35,6 +35,14 @@ export const avatarUrlState = atom<string | null>({
 });
 
 // voiceover creation
+export const hostNameState = atom<string>({
+  key: 'hostNameState',
+  default: "",
+});
+export const podcastNameState = atom<string>({
+  key: 'podcastNameState',
+  default: "",
+});
 export const webpageUrlState = atom<string>({
   key: 'webpageUrlState',
   default: "", // Changed from null to an empty string

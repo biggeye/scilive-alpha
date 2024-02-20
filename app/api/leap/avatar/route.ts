@@ -6,8 +6,11 @@ export async function POST(req: Request) {
     const bodyData = await req.json();
     const avatar_name = bodyData.avatar_name;
     const avatar_description = bodyData.avatar_description;
+    const photo_style = bodyData.photo_style;
+    const frame_style = bodyData.frame_style;
     const user_id = bodyData.user_id;
     
+
     const leap = new Leap({
       apiKey: "le_2063514b_i5qgFukiMYVcCKDBK00U6Mgp",
     });
@@ -22,7 +25,9 @@ export async function POST(req: Request) {
           avatar_description:
             avatar_description,
           user_id:
-           user_id
+           user_id,
+           photo_style: photo_style,
+           frame_style: frame_style
         },
       },
     );

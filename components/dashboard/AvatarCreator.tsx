@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Input, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
-import { avatarNameState, avatarDescriptionState, avatarUrlState } from '@/state/createTalk-atoms';
+import { Select, Input, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
+import { avatarNameState, avatarDescriptionState, avatarUrlState, frameStyleState, photoStyleState } from '@/state/createTalk-atoms';
 import { useUserContext } from '@/lib/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
 import { createClient } from '@/utils/supabase/client';
@@ -12,6 +12,8 @@ const AvatarCreator: React.FC = () => {
 
   const [avatarName, setAvatarName] = useRecoilState(avatarNameState);
   const [avatarDescription, setAvatarDescription] = useRecoilState(avatarDescriptionState);
+  const [frameStyle, setFrameStyle] = useRecoilState(frameStyleState);
+  const [photoStyle, setPhotoStyle] = useRecoilState(photoStyleState);
   const [avatarUrl, setAvatarUrl] = useRecoilState(avatarUrlState);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +58,8 @@ const AvatarCreator: React.FC = () => {
           avatar_name: avatarName,
           avatar_description: avatarDescription,
           user_id: userId,
+          frame_style: frameStyle,
+          photo_style: photoStyle
         }),
       });
 
@@ -101,6 +105,30 @@ const AvatarCreator: React.FC = () => {
             <FormLabel>Avatar Description</FormLabel>
             <Textarea value={avatarDescription || ''} onChange={(e) => setAvatarDescription(e.target.value)} placeholder="Describe your avatar" />
           </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Photo Style</FormLabel>
+            <Select placeholder="Select option" onChange={(e) => setPhotoStyle(e.target.value)}>
+              <option value="Photorealistic">Photorealistic</option>
+              <option value="Semi-Illustrated">Semi-Illustrated</option>
+              <option value="Illustration">Illustration</option>
+              <option value="Manga Illustration">Manga Illustration</option>
+              <option value="Pixar">Pixar</option>
+              <option value="Minecraft">Minecraft</option>
+              <option value="custom">Custom</option>
+            </Select>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Frame Style</FormLabel>
+            <Select placeholder="Select option" onChange={(e) => setFrameStyle(e.target.value)}>
+              <option value="Minimal">Minimal</option>
+              <option value="Matrix">Matrix</option>
+              <option value="Digital">Digital</option>
+              <option value="HUD">HUD</option>
+              <option value="Aiming Reticle">Aiming Reticle</option>
+              <option value="Tribal">Tribal</option>
+              <option value="custom">Custom</option>
+            </Select>
+            </FormControl>
           <Button type="submit" colorScheme="blue" size="lg" width="full">
             Submit
           </Button>

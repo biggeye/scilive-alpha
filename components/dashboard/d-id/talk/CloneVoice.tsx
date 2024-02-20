@@ -13,6 +13,8 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
   const [audioFile, setAudioFile] = useRecoilState<File | null>(audioFileState);
   const [voiceId, setVoiceId] = useRecoilState<string | null>(voiceIdState);
   const [avatarName, setAvatarName] = useRecoilState<string | null>(avatarNameState);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [useMicrophone, setUseMicrophone] = useState<boolean>(false);
@@ -30,14 +32,23 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
 
   const toggleMicrophoneUse = () => {
     setUseMicrophone((prev) => !prev);
-    if (recorder && isRecording) {
-      recorder.stop();
-      setIsRecording(false);
+    if (!useMicrophone && isRecording) {
+      // This checks if we're currently using the microphone and recording.
+      // If so, and the user wants to stop using the microphone, we stop the recorder.
+      recorder?.stop();
+      setIsRecording(false); // Make sure to set recording to false as the recorder stops.
     }
   };
-
-
+  
   const startRecording = async () => {
+    if (isRecording) {
+      // If already recording, stop the recording.
+      recorder?.stop();
+      setIsRecording(false);
+      return;
+    }
+  
+    setIsRecording(true); // Set isRecording to true right when we start the process.
     if (!navigator.mediaDevices || !window.MediaRecorder) {
       toast({
         title: 'Error',
@@ -46,16 +57,16 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
         duration: 9000,
         isClosable: true,
       });
+      setIsRecording(false); // Reset recording state if it's not supported.
       return;
     }
   
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const newRecorder = new MediaRecorder(stream);
-      // Explicitly declare audioChunks as an array of BlobPart
-      let audioChunks: BlobPart[] = [];
+      let audioChunks = [];
   
-      newRecorder.ondataavailable = e => {
+      newRecorder.ondataavailable = (e) => {
         audioChunks.push(e.data);
       };
   
@@ -65,19 +76,10 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
         setAudioFile(audioFile);
         const audioUrl = URL.createObjectURL(audioFile);
         setAudioSrc(audioUrl);
-        setIsRecording(false);
-  
-        toast({
-          title: 'Recording Complete',
-          description: 'Your recording is ready for playback.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
+        setIsRecording(false); // Ensure this is set to false once recording stops.
       };
   
       newRecorder.start();
-      setIsRecording(true);
       setRecorder(newRecorder);
     } catch (error) {
       toast({
@@ -87,6 +89,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
         duration: 9000,
         isClosable: true,
       });
+      setIsRecording(false); // Reset recording state on error.
     }
   };
   
@@ -108,6 +111,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
   };
 
   const handleSubmit = async () => {
+     setIsLoading(true);
     if (!audioFile || !avatarName) {
       toast({
         title: 'Missing Information',
@@ -132,9 +136,18 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       if (response.ok) {
         const data = await response.json();
         setVoiceId(data.id);
+        setIsLoading(false);
+        toast({
+          title: 'Voice Clone Complete',
+          description: `Voice cloned successfully, ID: ${voiceId}`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
         onCompleted();
       } else {
         const error = await response.json();
+        setIsLoading(false);
         toast({
           title: 'Submission Error',
           description: error.message || 'Failed to upload audio file. Please try again.',

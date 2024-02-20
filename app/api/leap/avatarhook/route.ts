@@ -7,6 +7,8 @@ interface WorkflowOutput {
   user_id: string;
   avatar_name: string;
   avatar_description: string;
+  photo_style: string;
+  frame_style: string;
 }
 
 interface WorkflowWebhookRequestBody {
@@ -38,9 +40,11 @@ export async function POST(req: Request) {
     console.log('Received webhook for workflow:', body.id);
 
     if (body.status === 'completed' && body.output) {
-      const { images, user_id: userId, avatar_name: name, avatar_description: prompt,  } = body.output;
+      const { images, user_id, avatar_name, photo_style, frame_style, avatar_description } = body.output;
+      const userId = user_id;
+      const name = avatar_name;
+      const prompt = `${photo_style}, ${frame_style}, ${avatar_description}`;
       const predictionId = body.id;
-
       // Use map to create an array of promises from uploadPrediction calls
       const uploadPromises = images.map((image, index) => 
         uploadAvatar(image, userId, name, "leapAvatar", `${predictionId}-${index}`, prompt)

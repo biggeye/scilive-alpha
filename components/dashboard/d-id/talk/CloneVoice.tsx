@@ -9,7 +9,6 @@ interface CloneVoiceProps {
   onCompleted: () => void;
 }
 
-
 const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
   const [audioFile, setAudioFile] = useRecoilState<File | null>(audioFileState);
   const [voiceId, setVoiceId] = useRecoilState<string | null>(voiceIdState);
@@ -115,7 +114,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (!audioSrc || !avatarName) { // Changed to check audioSrc instead of audioFile
+    if (!audioFile || !avatarName) {
       toast({
         title: 'Missing Information',
         description: 'Please provide an avatar name and an audio recording before submitting.',
@@ -126,18 +125,18 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       setIsLoading(false);
       return;
     }
-  
+
+    const formData = new FormData();
+    formData.append('file', audioFile);
+    formData.append('name', avatarName);
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json', // Specify JSON content type
-        },
-        body: JSON.stringify({
-          voice: audioSrc, // Send the Data URI
-          name: avatarName,
-        }),
+        method: 'POST',
+        // 'Content-Type' is not needed here; it's automatically set by the browser when using FormData
+        body: formData,
       });
+
   
       if (response.ok) {
         const data = await response.json();

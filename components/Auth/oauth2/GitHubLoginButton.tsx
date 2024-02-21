@@ -1,5 +1,5 @@
 'use client'
-import { useUserContext } from "@/lib/UserProvider";
+import { useUserContext } from "@/lib/user/UserProvider";
 
 export default function GitHubLoginButton() {
     const { supabase } = useUserContext();

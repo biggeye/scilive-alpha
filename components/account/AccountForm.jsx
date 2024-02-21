@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useUserContext } from "@/lib/UserProvider";
+import { useUserContext } from "@/lib/user/UserProvider";
 import {
   Grid,
   GridItem,
@@ -18,34 +18,36 @@ import {
   Spacer,
   Alert,
   AlertIcon,
-  Select
+  Select,
 } from "@chakra-ui/react";
 import { createClient } from "@/utils/supabase/client";
+import MasterContentDisplay from "../MasterContent";
 
 export const AccountForm = () => {
   const { userProfile, setUserProfile } = useUserContext();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [formState, setFormState] = useState({
-    full_name: '',
-    username: '',
-    website: '',
+    full_name: "",
+    username: "",
+    website: "",
     // Initialize other fields as needed
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [modelType, setModelType] = useState();
 
   const getModelLists = async () => {
-    const modelType = await fetch `${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/${modelType}`
-  }
+    const modelType =
+      await fetch`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/${modelType}`;
+  };
   // Update form state when userProfile changes
   useEffect(() => {
     if (userProfile) {
       setFormState({
-        full_name: userProfile.full_name || '',
-        username: userProfile.username || '',
-        website: userProfile.website || '',
-        email: userProfile.email || '',
+        full_name: userProfile.full_name || "",
+        username: userProfile.username || "",
+        website: userProfile.website || "",
+        email: userProfile.email || "",
         // Update other fields as needed
       });
     }
@@ -62,18 +64,18 @@ export const AccountForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-  
+
     try {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("users")
         .update(formState)
         .eq("id", userProfile.id);
-  
+
       if (error) {
         throw error;
       }
-  
+
       setUserProfile({ ...userProfile, ...data[0] });
       router.push("/dashboard");
     } catch (err) {
@@ -100,7 +102,7 @@ export const AccountForm = () => {
                 {error}
               </Alert>
             )}
-        
+
             <FormControl id="fullName">
               <FormLabel>Full Name</FormLabel>
               <Input
@@ -127,7 +129,8 @@ export const AccountForm = () => {
                 value={formState.email}
                 onChange={handleInputChange}
               />
-            </FormControl><FormControl id="website">
+            </FormControl>
+            <FormControl id="website">
               <FormLabel>Web Site</FormLabel>
               <Input
                 type="text"
@@ -137,25 +140,20 @@ export const AccountForm = () => {
               />
             </FormControl>
 
-<Grid templateAreas={`
-"header header header"
-"label pulldown pulldown"
-`}>
-  <GridItem area="header">
-    CUSTOMIZE WORKSPACE DEFAULTS
-  </GridItem>
-  
-  <GridItem area="label">
-    Workspace:
-  </GridItem>
-  <GridItem area="pulldown">
-    <Select>
+            <Grid
+              templateAreas={`
+                 "header header header"
+                 "label pulldown pulldown"
+`}
+            >
+              <GridItem area="header">CUSTOMIZE WORKSPACE DEFAULTS</GridItem>
 
-    </Select>
-  </GridItem>
-  
-</Grid>
-
+              <GridItem area="label">Workspace:</GridItem>
+              <GridItem area="pulldown">
+                <Select></Select>
+              </GridItem>
+            </Grid>
+            <MasterContentDisplay />
             {/* Add other form controls similarly */}
           </CardBody>
           <CardFooter>

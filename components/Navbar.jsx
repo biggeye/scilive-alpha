@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useUserContext } from "@/lib/UserProvider";
+import { useUserContext } from "@/lib/user/UserProvider";
 
 const fallbackImageUrl = "https://scilive.cloud/avatar-icon.svg";
 

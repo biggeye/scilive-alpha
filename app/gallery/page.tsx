@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useUserContext } from '@/lib/UserProvider';
+import { useUserContext } from '@/lib/user/UserProvider';
 import { createClient } from '@/utils/supabase/client';
 import Gallery from '@/components/Gallery';
 import { ContentItem } from '@/types';

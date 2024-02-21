@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserContext } from '@/lib/UserProvider';
+import { useUserContext } from '@/lib/user/UserProvider';
 import { Button } from '@chakra-ui/react';
 
 export default function SignOut() {

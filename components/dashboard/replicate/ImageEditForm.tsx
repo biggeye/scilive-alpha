@@ -2,7 +2,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useImageCreateSubmit } from '@/lib/replicate/useImageCreateSubmit';
 import { CircularProgress, Box, Card, InputGroup, Input, Button, FormControl, Alert, Grid, GridItem, InputRightAddon } from '@chakra-ui/react';
-import { useUserContext } from '@/lib/UserProvider';
+import { useUserContext } from '@/lib/user/UserProvider';
 import { finalPredictionState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/replicate/prediction-atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { selectedModelIdState } from '@/state/replicate/config-atoms';

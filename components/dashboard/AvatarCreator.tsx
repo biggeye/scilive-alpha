@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Select, Input, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState, frameStyleState, photoStyleState } from '@/state/createTalk-atoms';
-import { useUserContext } from '@/lib/UserProvider';
+import { useUserContext } from '@/lib/user/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
 import { createClient } from '@/utils/supabase/client';
 

@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { Box, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } from "@chakra-ui/react";
-import { useUserContext } from "@/lib/UserProvider";
+import { useUserContext } from "@/lib/user/UserProvider";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedModelIdState } from "@/state/replicate/config-atoms";
 import { predictionIsLoadingState, predictionErrorState, finalPredictionState } from "@/state/replicate/prediction-atoms";

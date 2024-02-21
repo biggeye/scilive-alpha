@@ -125,18 +125,16 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       setIsLoading(false);
       return;
     }
-
+  
     const formData = new FormData();
-    formData.append('file', audioFile);
+    formData.append('file', audioFile, audioFile.name);
     formData.append('name', avatarName);
-
+  
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
         method: 'POST',
-        // 'Content-Type' is not needed here; it's automatically set by the browser when using FormData
         body: formData,
       });
-
   
       if (response.ok) {
         const data = await response.json();
@@ -172,6 +170,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       });
     }
   };
+  
   
 
   return (

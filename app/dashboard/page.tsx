@@ -57,10 +57,8 @@ const DashboardPage: React.FC = () => {
               fontWeight="bold">Create Images</Tab>
             <Tab fontSize={{ base: "sm", md: "md" }}
               fontWeight="bold">Edit Images</Tab>
-            <Tab fontSize={{ base: "sm", md: "md" }}
-              fontWeight="bold">Create Avatar</Tab>
-          </TabList>
-        </GridItem>
+              </TabList>
+                   </GridItem>
         <GridItem overflowY="auto">
           <DisplayResults />
         </GridItem>

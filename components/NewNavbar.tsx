@@ -101,7 +101,15 @@ const NewNavbar = () => {
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter>
-                        <Button variant="outline" onClick={onDrawerClose}>Close</Button>
+                         {userId ? (
+                            <Stack>
+                                <Link href="/gallery">Gallery</Link>
+                                <Link href="/account">Account</Link>
+                                <SignOut />
+                            </Stack>
+                        ) : (
+                            <Link href="/auth/signup">Login / Signup</Link>
+                        )}
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>

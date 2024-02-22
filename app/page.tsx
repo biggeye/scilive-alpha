@@ -14,7 +14,7 @@ function Home() {
   const fadeInAnimation = theme.animations.fadeIn;
 
   return (
-    <Box h="92vh" bg="silver" p={10} textAlign="center"> {/* Using color from the theme */}
+    <Box h="92vh" bg="silver"  textAlign="center"> {/* Using color from the theme */}
         <Heading as="h1" mb={4}>
           <Center>
            <Logo />

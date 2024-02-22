@@ -20,8 +20,10 @@ const Logo = () => {
   };
 
   return (
-    <svg style={colorStyle} className="Logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700">
-<path fill="#17181a" d="
+    <svg style={colorStyle} className="Logo" width="150" height="150" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
+    {/* SVG paths */}
+
+ <path fill="#17181a" d="
   M 632.83 2.58
   A 0.19 0.19 0.0 0 1 632.57 2.84
   Q 631.80 2.40 631.30 1.58

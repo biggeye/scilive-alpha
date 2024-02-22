@@ -3,6 +3,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import getUserDetails from './getUserDetails';
 import { UserContextType, UserState, UserProfile } from '@/types';
+import { AuthProvider } from '@saas-ui/auth';
+import { createAuthService } from '@saas-ui/supabase';
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -76,9 +78,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, [supabase]);
 
   return (
+    <AuthProvider {...createAuthService(supabase)}>
     <UserContext.Provider value={{ userState, setUserState, userProfile, setUserProfile, supabase }}>
       {children}
     </UserContext.Provider>
+    </AuthProvider>
   );
 };
 

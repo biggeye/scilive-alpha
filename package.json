@@ -18,6 +18,8 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@leap-ai/workflows": "^1.1.0",
+    "@saas-ui/react": "^2.6.0",
+    "@saas-ui/supabase": "^2.1.4",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@vercel/analytics": "^1.1.1",

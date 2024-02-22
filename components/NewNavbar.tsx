@@ -88,18 +88,15 @@ const NewNavbar = () => {
                     <DrawerHeader><Logo /></DrawerHeader>
                     <DrawerBody>
                         <Stack as="nav" spacing={4}>
-                            <NavbarItem>
-                                <NavbarLink href="/">Home</NavbarLink>
-                            </NavbarItem>
-                            <NavbarItem>
-                                <NavbarLink href="/dashboard">Image</NavbarLink>
-                            </NavbarItem>
-                            <NavbarItem>
-                                <NavbarLink href="/dashboard/d-id">Video</NavbarLink>
-                            </NavbarItem>
-                            <NavbarItem>
-                                <NavbarLink href="/dashboard/avatar">Avatar</NavbarLink>
-                            </NavbarItem>
+                            
+                                <Link href="/">Home</Link>
+                          
+                                <Link href="/dashboard">Image</Link>
+                          
+                                <Link href="/dashboard/d-id">Video</Link>
+                     
+                                <Link href="/dashboard/avatar">Avatar</Link>
+                        
                             {/* Add more links as needed */}
                         </Stack>
                     </DrawerBody>

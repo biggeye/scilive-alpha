@@ -18,12 +18,12 @@ const shadowLoop = keyframes`
   75% { box-shadow: 2px 10px 100px rgba(0, 0, 0, 0.2); }
 `;
 
-const fadeIn = keyframes`
+export const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
 `;
 
-const fadeOut = keyframes`
+export const fadeOut = keyframes`
   from { opacity: 1; }
   to { opacity: 0; }
 `;
@@ -45,7 +45,6 @@ export const sciLiveTheme = extendTheme({
     main: fonts.inter.variable,
     mono: fonts.roboto_mono.variable,
   },
-
   fontSizes: {
     sm: "12px", //
     md: "16px", // Base size for 'md'
@@ -153,14 +152,12 @@ export const sciLiveTheme = extendTheme({
     lg: "md",
     xl: "lg",
   },
-
   animations: {
     fadeIn: `${fadeIn} 0.3s ease-in-out`,
     fadeOut: `${fadeOut} 0.3s ease-in-out`,
     pulsing: `{${pulse} 0.5s ease-in-out`,
     longFadeIn: `${fadeIn} 15s ease-in-out`,
   },
-
   tabPanelStyles: {
     borderRadius: "8px", // Rounded corners for a softer look
     background: "linear-gradient(to top right, #F6F6F6, #FFFFFF)", // Gradient background

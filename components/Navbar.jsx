@@ -17,6 +17,14 @@ import {
   Text,
   Center,
 } from "@chakra-ui/react";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarLink,
+} from '@saas-ui/react'
+
 import { useRouter } from "next/navigation";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useUserContext } from "@/lib/user/UserProvider";

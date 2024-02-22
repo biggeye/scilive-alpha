@@ -20,7 +20,7 @@ const Logo = () => {
   };
 
   return (
-    <svg style={colorStyle} className="Logo" width="150" height="150" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
+    <svg style={colorStyle} className="Logo" width="50" height="50" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
     {/* SVG paths */}
 
  <path fill="#17181a" d="

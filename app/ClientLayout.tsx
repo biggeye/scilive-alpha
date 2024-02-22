@@ -6,28 +6,46 @@ import { RecoilRoot } from "recoil";
 import { HMSRoomProvider } from '@100mslive/react-sdk';
 import { sciLiveTheme } from "./theme";
 import React from 'react';
-import Navbar from "@/components/Navbar";
+import {
+  AppShell,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarLink,
+} from '@saas-ui/react'
+import Logo from '@/components/Logo';
+import {
+  Button,
 
-
+  Container,
+  Stack,
+  Skeleton,
+  SkeletonText,
+} from '@chakra-ui/react'
+import NewNavbar from '@/components/NewNavbar';
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
-  
+
   return (
     <ChakraProvider theme={sciLiveTheme}>
       <SaasProvider>
-      <UserProvider>
-        <RecoilRoot>
-          
-          <HMSRoomProvider>
-    
-            <Navbar />
-            <Box as="main" className="main" overflowX="hidden" p={3}>
-              {children}
-            </Box>
-          </HMSRoomProvider>
-        </RecoilRoot>
-      </UserProvider>
+        <UserProvider>
+          <RecoilRoot>
+            <HMSRoomProvider>
+              <AppShell
+                navbar={
+                  <NewNavbar />
+                }>
+                <Box as="main" className="main" py="2" position="relative">
+                  {children}
+                </Box>
+              </AppShell>
+            </HMSRoomProvider>
+          </RecoilRoot>
+        </UserProvider>
       </SaasProvider>
     </ChakraProvider>
   );
 };
+

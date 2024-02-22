@@ -8,6 +8,7 @@ import { predictionIsLoadingState } from "@/state/replicate/prediction-atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedTabState, dashboardState } from '@/state/replicate/config-atoms';
 
+
 type ToolType = string
 
 const DashboardPage: React.FC = () => {
@@ -47,15 +48,17 @@ const DashboardPage: React.FC = () => {
     >
       <Tabs
         fontSize={{ base: "sm", md: "md" }}
-      variant="enclosed-colored"
-      position="absolute" top="0px" align="center" width="100%" onChange={(index) => handleTabsChange(index)} colorScheme="lightBlue">
+        variant="enclosed-colored"
+        position="absolute" top="0px" align="center" width="100%" onChange={(index) => handleTabsChange(index)} colorScheme="lightBlue">
         <GridItem>
-          <TabList   fontSize={{ base: "sm", md: "md" }}
-          maxWidth={{ base: "375px", md: "650px" }}>
-            <Tab   fontSize={{ base: "sm", md: "md" }} 
-            fontWeight="bold">Create</Tab>
-            <Tab   fontSize={{ base: "sm", md: "md" }}
-            fontWeight="bold">Edit</Tab>
+          <TabList fontSize={{ base: "sm", md: "md" }}
+            maxWidth={{ base: "375px", md: "650px" }}>
+            <Tab fontSize={{ base: "sm", md: "md" }}
+              fontWeight="bold">Create Images</Tab>
+            <Tab fontSize={{ base: "sm", md: "md" }}
+              fontWeight="bold">Edit Images</Tab>
+            <Tab fontSize={{ base: "sm", md: "md" }}
+              fontWeight="bold">Create Avatar</Tab>
           </TabList>
         </GridItem>
         <GridItem overflowY="auto">
@@ -69,7 +72,7 @@ const DashboardPage: React.FC = () => {
             <TabPanel>
               <ImageEditForm />
             </TabPanel>
-          </TabPanels>
+                      </TabPanels>
         </GridItem>
       </Tabs>
     </Grid>

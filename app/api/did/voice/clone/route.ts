@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       formData.append('file', file);
       formData.append('name', name);
       
-      const response = await fetch('https://api.d-id.com/tts/voices', {
+      const response = await fetch('https://jsonblob.com/api/239ca594-47d7-11e9-b3cd-7be194ed8dd9', {
         method: 'POST',
         headers: {
           accept: 'application/json',

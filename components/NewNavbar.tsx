@@ -30,22 +30,16 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import Logo from '@/components/Logo';
 import { useUserContext } from "@/lib/user/UserProvider";
 import { useRouter } from 'next/navigation'; // Corrected from 'next/navigation' to 'next/router'
-
-
-
-
+import SignOut from './Auth/SignOut';
 
 const NewNavbar = () => {
     const router = useRouter();
     const { supabase } = useUserContext();
     const { userProfile } = useUserContext();
     const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure();
+
     const userName = userProfile.full_name;
     const userId = userProfile?.id; // Ensure userProfile is accessed safely
-    const signOut = async () => {
-        await supabase.auth.signOut();
-        router.push("/");
-    };
 
     const UserMenu = () => {
 
@@ -66,10 +60,10 @@ const NewNavbar = () => {
                             <Stack>
                                 <Link href="/gallery">Gallery</Link>
                                 <Link href="/account">Account</Link>
-                                <Button variant="link" onClick={signOut}>Sign-Out</Button>
+                                <SignOut />
                             </Stack>
                         ) : (
-                            <Link href="/auth/login">Login</Link>
+                            <Link href="/auth/signup">Login / Signup</Link>
                         )}
                     </PopoverBody>
                 </PopoverContent>

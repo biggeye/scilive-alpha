@@ -16,7 +16,7 @@ const AvatarCreator: React.FC = () => {
   const [photoStyle, setPhotoStyle] = useRecoilState(photoStyleState);
   const [avatarUrl, setAvatarUrl] = useRecoilState(avatarUrlState);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const toast = useToast();

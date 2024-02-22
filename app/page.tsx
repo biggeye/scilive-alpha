@@ -21,7 +21,7 @@ function Home() {
           </Center>
         </Heading>
         <Text fontSize="lg">Explore the Future of AI and Live Streaming</Text>
-        <Link href="/auth/login">
+        <Link href="/auth/signup">
           <Button colorScheme="orange" size="lg">Discover More</Button>
         </Link>
       </Box>

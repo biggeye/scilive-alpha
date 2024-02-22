@@ -44,7 +44,7 @@ const CreateTalk = () => {
   return (
     
     <Box>
-    <Stepper index={activeStep}>
+    <Stepper index={activeStep} px={5}>
       {steps.map((step, index) => (
         <Step key={index}>
           <StepIndicator>

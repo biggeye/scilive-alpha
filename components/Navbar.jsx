@@ -93,7 +93,7 @@ const UserMenu = () => {
         {userId ? (
           <MenuItem  fontSize={{ base: "md", md: "lg" }} onClick={signOut}>Sign-Out</MenuItem>
         ) : (
-          <MenuItem  fontSize={{ base: "md", md: "lg" }} as={Link} href="/auth/login">
+          <MenuItem  fontSize={{ base: "md", md: "lg" }} as={Link} href="/auth/signup">
             Login
           </MenuItem>
         )}

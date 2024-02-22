@@ -1,7 +1,7 @@
 // Import necessary dependencies
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
+import { Heading, Card, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState } from '@/state/createTalk-atoms';
 import { useUserContext } from '@/lib/user/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
@@ -90,9 +90,12 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
 
 
   return (
-    <Box maxW="md" mx="auto" mt={5}>
-      <form onSubmit={handleSubmit}>
-        <VStack spacing={4} p={5}>
+    <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
+        <VStack spacing={4}>
+        <form onSubmit={handleSubmit}>
+          
+        <Heading>Create Avatar</Heading>
+        <FormControl>
           <FormControl isRequired>
             <FormLabel>Avatar Description</FormLabel>
             <Textarea value={avatarDescription || ''} onChange={(e) => setAvatarDescription(e.target.value)} placeholder="Describe your avatar" />
@@ -124,11 +127,12 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
           >
             Select Avatar
           </Button>
-
-
+        </FormControl>
+          </form>
         </VStack>
-      </form>
-    </Box>
+
+      </Card>
+
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Textarea, Box, VStack, HStack, Input, useToast } from '@chakra-ui/react';
+import { FormControl, Heading, Card, Button, Textarea, Box, VStack, HStack, Input, useToast } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
 import { avatarScriptState, webpageUrlState, hostNameState, podcastNameState } from '@/state/createTalk-atoms';
 
@@ -36,14 +36,12 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
       return;
     }
 
-    // Placeholder for the actual API call
     try {
-      // Simulate an API call
-      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/websummary`, {
+       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/websummary`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`, // Ensures the value is a string
+          'Authorization': `${process.env.NEXT_PUBLIC_LEAP_API_KEY || ''}`, // Ensures the value is a string
         },
 
         body: JSON.stringify({
@@ -72,12 +70,10 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
     }
   };
 
-  const handleUpdateScript = () => {
-    // Here, you can make an API call to update the script or perform any action required upon updating the script.
-    onCompleted(); // Assuming this is called after updating the script successfully.
+  const generateVoiceover = () => {
     toast({
       title: "Success",
-      description: "Your script has been updated.",
+      description: "This feature is not yet available.",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -85,8 +81,11 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
   };
 
   return (
-    <Box>
+      <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
       <VStack spacing={4}>
+      <form>
+      <Heading>Generate Voiceover</Heading>
+      <FormControl display="flex" alignItems="center">
         <Input
           value={hostName}
           onChange={(e) => setHostName(e.target.value)}
@@ -103,8 +102,8 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
           defaultValue="www.somewebsite.com/somearticle"
           placeholder="Enter the web article URL here"
         />
+        
         <Button
-          colorScheme="teal"
           onClick={fetchAvatarScript}
         >
           Fetch Script
@@ -116,14 +115,16 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
           isDisabled={!isTextareaEnabled}
         />
         <Button
-          colorScheme="teal"
-          onClick={handleUpdateScript}
+          onClick={generateVoiceover}
           isDisabled={!isTextareaEnabled} // Disable the update button until the script is fetched
         >
-          Update
+          Generate Voiceover
         </Button>
+        </FormControl>
+        </form>
       </VStack>
-    </Box>
+      </Card>
+
   );
 };
 

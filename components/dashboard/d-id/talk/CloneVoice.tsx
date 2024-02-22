@@ -174,33 +174,32 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
   
 
   return (
-    <Box maxW="md" mx="auto" mt={5}>
-      <Card>
-        <VStack spacing={4} as="form" onSubmit={(e) => e.preventDefault()} p={5} boxShadow="xl" rounded="md" bg="white">
+    <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
+        <VStack spacing={4}>
+          <form onSubmit={handleSubmit}>
           <Heading>Clone Voice</Heading>
-          <FormControl display="flex" alignItems="center">
+          <FormControl display="flex" flexDirection="column" alignItems="center">
             <FormLabel htmlFor="use-microphone" mb="0">Use Microphone</FormLabel>
             <Switch id="use-microphone" isChecked={useMicrophone} onChange={toggleMicrophoneUse} />
-          </FormControl>
-          <FormControl>
             <FormLabel>Avatar Name</FormLabel>
           <Input type="text" value={avatarName || ''} onChange={(e) => setAvatarName(e.target.value)} placeholder="Enter avatar name" />
-          </FormControl>
+        
           {useMicrophone ? (
             <Button colorScheme="blue" onClick={startRecording}>
               {isRecording ? 'Stop Recording' : 'Start Recording'}
             </Button>
           ) : (
-            <FormControl isRequired>
+     
               <Input type="file" accept="audio/*" onChange={handleChange} p={1.5} />
-            </FormControl>
+ 
           )}
           
           <Button colorScheme="blue" onClick={handleSubmit}>Submit</Button>
+         </FormControl>
+          </form>
           {audioSrc && <AudioPlayer src={audioSrc} />}
         </VStack>
       </Card>
-    </Box>
   );
 };
 

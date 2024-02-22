@@ -26,6 +26,7 @@ import {
     PopoverHeader,
     PopoverBody
 } from '@chakra-ui/react';
+import { NavbarItem, NavbarLink } from '@saas-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Logo from '@/components/Logo';
 import { useUserContext } from "@/lib/user/UserProvider";
@@ -87,10 +88,18 @@ const NewNavbar = () => {
                     <DrawerHeader><Logo /></DrawerHeader>
                     <DrawerBody>
                         <Stack as="nav" spacing={4}>
-                            <Link href="/">Home</Link>
-                            <Link href="/dashboard">Image</Link>
-                            <Link href="/dashboard/d-id">Video</Link>
-                            <Link href="/dashboard/avatar">Avatar</Link>
+                            <NavbarItem>
+                                <NavbarLink href="/">Home</NavbarLink>
+                            </NavbarItem>
+                            <NavbarItem>
+                                <NavbarLink href="/dashboard">Image</NavbarLink>
+                            </NavbarItem>
+                            <NavbarItem>
+                                <NavbarLink href="/dashboard/d-id">Video</NavbarLink>
+                            </NavbarItem>
+                            <NavbarItem>
+                                <NavbarLink href="/dashboard/avatar">Avatar</NavbarLink>
+                            </NavbarItem>
                             {/* Add more links as needed */}
                         </Stack>
                     </DrawerBody>
@@ -116,9 +125,11 @@ const NewNavbar = () => {
                     <Link href="/dashboard">Image</Link>
                     <Link href="/dashboard/d-id">Video</Link>
                     <Link href="/dashboard/avatar">Avatar</Link>
-                    {/* User menu or profile icon */}
-                    <UserMenu />
+
+
                 </Stack>
+                <Spacer />
+                <UserMenu />
             </Flex>
         </Box>
     );

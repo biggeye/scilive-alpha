@@ -20,6 +20,10 @@ import { createClient } from '@/utils/supabase/client';
 import { useEffect } from 'react';
 import { ViewIcon } from '@saas-ui/react';
 
+
+import { ContextMenu, ContextMenuTrigger } from '@saas-ui/react';
+import CustomContextMenuList from '../ContextMenu'; // Adjust the import path as necessary
+
 interface GalleryItem {
   id: string; // Adjust types according to your actual data structure
   url: string;
@@ -39,7 +43,7 @@ const ImageEditForm = () => {
   const finalPrediction = useRecoilValue(finalPredictionState);
   const modelId = useRecoilValue(selectedModelIdState);
   const predictionError = useRecoilValue(predictionErrorState);
-
+  
   const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
   const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
@@ -55,16 +59,24 @@ const ImageEditForm = () => {
 
       if (error) {
         console.error('Error fetching gallery items:', error);
-      } else {
-        setGalleryItems(data || []);
-      }
+      } else if (data) {
+        const galleryItems: GalleryItem[] = data.map(item => ({
+          id: item.id,
+          url: item.url,
+          name: item.name,
+        }));
+       
+        setGalleryItems(galleryItems);
+      
+        }
+      
+
     };
 
     if (userProfile?.id) {
       fetchGalleryItems();
     }
   }, [userProfile?.id]);
-
 
   const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
@@ -81,7 +93,8 @@ const ImageEditForm = () => {
     }
   };
 
-  const handleGallerySelection = async (imageUrl: string) => {
+  
+  const handleGalleryEditSelection = async (imageUrl: string) => {
     try {
       const response = await fetch(imageUrl);
       const blob = await response.blob();
@@ -127,13 +140,22 @@ const ImageEditForm = () => {
           <DrawerHeader>Your Gallery</DrawerHeader>
           <DrawerBody>
             <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+
               {galleryItems.map((item) => (
-                <GridItem key={item.id} cursor="pointer" onClick={() => handleGallerySelection(item.url)}>
-                  <Image src={item.url} alt={item.name} boxSize="100px" objectFit="cover" />
-                  <Text fontSize="sm" mt={2}>{item.name}</Text>
-                </GridItem>
+                <ContextMenu key={item.id}>
+          <ContextMenuTrigger>
+            <GridItem cursor="pointer">
+              <Image src={item.url} alt={item.name} boxSize="100px" objectFit="cover" />
+              <Text fontSize="sm" mt={2}>{item.name}</Text>
+            </GridItem>
+          </ContextMenuTrigger>
+          <CustomContextMenuList edit={() => handleGalleryEditSelection(item.url)} />
+        </ContextMenu>
               ))}
+
+
             </Grid>
+        
 
           </DrawerBody>
         </DrawerContent>
@@ -143,8 +165,6 @@ const ImageEditForm = () => {
           <Grid templateRows="2">
             <GridItem>
               <FileUpload
-
-                /* Remove `getRootNode` in your code, only required for this example */
                 maxFileSize={10000 * 10000}
                 maxFiles={1}
                 accept="image/*"

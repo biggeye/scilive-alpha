@@ -300,9 +300,10 @@ export const sciLiveTheme = extendTheme({
     FeatureCard: {
       baseStyle: {
         padding: "20px",
-        boxShadow: "md",
+        boxShadow: "xl",
         rounded: "lg",
-        bg: "gray.700",
+        borderRadius: "15px",
+        
         _hover: {
           bg: "gray.600",
           transform: "translateY(-5px)",

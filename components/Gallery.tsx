@@ -72,7 +72,7 @@ const Gallery: React.FC<GalleryProps> = ({
 
   // Render gallery UI for the current group with pagination controls
   return (
-    <Box>
+    <Box mt={9}>
   {currentGroup !== null && contentItems[currentGroup] && (
     <>
       <Flex direction="row" wrap="wrap" justifyContent="center" gap="20px" mb={5}>
@@ -103,8 +103,6 @@ const Gallery: React.FC<GalleryProps> = ({
       />
     </>
   )}
-
-
       {isModalOpen && currentGroup !== null && currentIndex !== null && (
         <Modal isOpen={isModalOpen} onClose={closeModal} motionPreset="slideInBottom" size="xl">
           <ModalOverlay />
@@ -115,7 +113,7 @@ const Gallery: React.FC<GalleryProps> = ({
                   borderRadius="lg"
                   src={contentItems[currentGroup][currentIndex].url}
                   alt={contentItems[currentGroup][currentIndex].title}
-                  className="animated-shadow"
+                  boxShadow="xl"
                 />
                 <Box mt={3} fontWeight="bold" fontSize="lg" color="onyx">
                   {contentItems[currentGroup][currentIndex].name}

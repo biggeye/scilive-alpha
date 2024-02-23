@@ -8,10 +8,10 @@ import CreateAvatar from '@/components/dashboard/d-id/talk/CreateAvatar';
 import WriteScript from '@/components/dashboard/d-id/talk/WriteScript';
 
 const CreateTalk = () => {
-  const userAvatarUrl = useRecoilValue(avatarUrlState);  
+  const userAvatarUrl = useRecoilValue(avatarUrlState);
   const voiceId = useRecoilValue(voiceIdState);
   const avatarScript = useRecoilValue(avatarScriptState);
-  
+
   const [activeStep, setActiveStep] = useState(0);
 
   const steps = [
@@ -42,43 +42,43 @@ const CreateTalk = () => {
   const StepComponent = steps[activeStep].component;
 
   return (
-    
+
     <Box>
-    <Stepper index={activeStep} px={5} mb={9} mt={4}>
-      {steps.map((step, index) => (
-        <Step key={index}>
-          <StepIndicator>
-            <StepStatus
-              complete={<StepIcon />}
-              incomplete={<StepNumber />}
-              active={<StepNumber />}
-            />
-          </StepIndicator>
+      <Stepper index={activeStep} px={5} mb={9} mt={4}>
+        {steps.map((step, index) => (
+          <Step key={index}>
+            <StepIndicator>
+              <StepStatus
+                complete={<StepIcon />}
+                incomplete={<StepNumber />}
+                active={<StepNumber />}
+              />
+            </StepIndicator>
 
-          <Box flexShrink='0'>
-            <StepTitle>{step.title}</StepTitle>
-                      </Box>
+            <Box flexShrink='0'>
+              <StepTitle>{step.title}</StepTitle>
+            </Box>
 
-          <StepSeparator />
-        </Step>
-      ))}
-    </Stepper>
-    <VStack spacing={4}>
-      <StepComponent onCompleted={nextStep} />
-      <HStack spacing={4}>
-        {activeStep > 0 && (
-          <Button onClick={() => setActiveStep(prev => Math.max(prev - 1, 0))}>
-            Previous
-          </Button>
-        )}
-        {!isLastStep ? (
-          <Button onClick={nextStep}>Next</Button>
-        ) : (
-          <Button onClick={handleSubmit}>Submit</Button>
-        )}
-      </HStack>
-    </VStack>
-  </Box>
+            <StepSeparator />
+          </Step>
+        ))}
+      </Stepper>
+      <VStack spacing={4}>
+        <StepComponent onCompleted={nextStep} />
+        <HStack spacing={4}>
+          {activeStep > 0 && (
+            <Button onClick={() => setActiveStep(prev => Math.max(prev - 1, 0))}>
+              Previous
+            </Button>
+          )}
+          {!isLastStep ? (
+            <Button onClick={nextStep}>Next</Button>
+          ) : (
+            <Button onClick={handleSubmit}>Submit</Button>
+          )}
+        </HStack>
+      </VStack>
+    </Box>
   );
 };
 

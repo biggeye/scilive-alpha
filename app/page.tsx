@@ -4,7 +4,7 @@ import { Image, Text, Center, Grid, GridItem, Box, Heading, Button, useTheme } f
 import { Link } from "@chakra-ui/react";
 import { fadeIn, fadeOut } from './theme';
 import Logo from '@/components/Logo';
-
+import FeaturesSection from '@/components/FeatureCard';
 
 function Home() {
   const [isVisible, setIsVisible] = React.useState(true);
@@ -23,7 +23,9 @@ function Home() {
         <Text fontSize="lg">Explore the Future of AI and Live Streaming</Text>
         <Link href="/auth/signup">
           <Button size="lg">Discover More</Button>
+          
         </Link>
+        <FeaturesSection />
       </Box>
    )
 }

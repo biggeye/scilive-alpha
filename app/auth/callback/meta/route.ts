@@ -1,7 +1,6 @@
 // app/api/auth/callback/route.ts
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { fetch } from 'next/dist/compiled/@edge-runtime/primitives/fetch';
 
 export const runtime = "experimental-edge"
 

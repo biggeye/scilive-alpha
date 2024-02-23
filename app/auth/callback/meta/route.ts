@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 // app/api/auth/callback/route.ts
 export const runtime = "experimental-edge"
-export default async function post(req: NextRequest) {
+export async function post(req: NextRequest) {
   const url = req.nextUrl.clone();
   const code = url.searchParams.get('code');
 

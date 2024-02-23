@@ -3,9 +3,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { fetch } from 'next/dist/compiled/@edge-runtime/primitives/fetch';
 
-export const config = {
-  runtime: 'experimental-edge',
-};
+export const runtime = "experimental-edge"
 
 export default async function handler(req: NextRequest) {
   const url = req.nextUrl.clone();

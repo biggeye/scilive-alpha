@@ -1,13 +1,11 @@
 import { NextRequest } from "next/server";
-// app/api/auth/callback/route.ts
+
 export const runtime = "experimental-edge"
 
 export async function POST(req: NextRequest) {
   const url = req.nextUrl.clone();
   const code = url.searchParams.get('code');
 
-
-  
   if (!code) {
     return new Response('Authorization code not found', { status: 400 });
   }

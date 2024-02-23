@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody } from '@chakra-ui/react';
 import { Auth } from '@saas-ui/auth';
 import { useSnackbar } from '@saas-ui/react';
 import Logo from '../Logo';
-import { github, google } from '@/components/Auth/Icons';
+import { facebook, github, google } from '@/components/Auth/Icons';
 import { useRouter } from 'next/navigation';
 
 
@@ -33,6 +33,10 @@ const SignUp: React.FC = () => {
               icon: google,
               name: 'Google'
             },
+            facebook: {
+              icon: facebook,
+              name: 'Facebook'
+            }
           }}
           onSuccess={(view, error) => {
             if (view === 'login') {

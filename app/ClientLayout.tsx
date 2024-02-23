@@ -7,9 +7,10 @@ import { RecoilRoot } from "recoil";
 import { HMSRoomProvider } from '@100mslive/react-sdk';
 import { sciLiveTheme } from "./theme";
 import NewNavbar from '@/components/NewNavbar';
-
+import { useFacebookSDK } from '@/utils/auth/useFacebookSDK';
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
+  useFacebookSDK(`${process.env.META_SCILIVE_APPID}`, '19.0');
 
   return (
     <ChakraProvider theme={sciLiveTheme}>
@@ -21,6 +22,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
                 navbar={
                   <NewNavbar />
                 }>
+        
                 <Box as="main" className="main" py="2" position="relative">
                   {children}
                 </Box>

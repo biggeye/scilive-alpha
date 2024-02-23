@@ -1,10 +1,7 @@
+import { NextRequest } from "next/server";
 // app/api/auth/callback/route.ts
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
-
 export const runtime = "experimental-edge"
-
-export default async function handler(req: NextRequest) {
+export default async function post(req: NextRequest) {
   const url = req.nextUrl.clone();
   const code = url.searchParams.get('code');
 
@@ -41,7 +38,7 @@ export default async function handler(req: NextRequest) {
     const tokenData = await tokenResponse.json();
 
     // Redirect or handle the tokenData (e.g., access_token) as needed
-    return NextResponse.redirect(new URL('/', req.url));
+    return Response.redirect(new URL('/', req.url));
   } catch (error: any) { // Type assertion here
     return new Response(error.message || 'An unknown error occurred', { status: 500 });
   }

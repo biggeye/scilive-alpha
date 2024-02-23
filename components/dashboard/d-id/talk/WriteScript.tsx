@@ -84,7 +84,7 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
     <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
       <VStack spacing={4}>
         <form>
-          <Heading>Generate Voiceover</Heading>
+          <Heading mb={9}>Generate Voiceover</Heading>
           <FormControl display="flex" alignItems="center">
             <Input
               value={hostName}

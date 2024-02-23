@@ -176,7 +176,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       <VStack spacing={4}>
         <form onSubmit={handleSubmit}>
 
-          <Heading>
+          <Heading mb={9}>
             <Flex direction="row" justifyContent="space-around">Clone Voice<Spacer />
               {useMicrophone ? (
                 <MicIcon />

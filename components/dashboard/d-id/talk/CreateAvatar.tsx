@@ -72,7 +72,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
           duration: 9000,
           isClosable: true,
         });
-  
+
       } else {
         console.log(responseData);
       }
@@ -91,18 +91,19 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
 
   return (
     <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
-        <VStack spacing={4}>
+      <VStack spacing={4}>
         <form onSubmit={handleSubmit}>
-          
-        <Heading>Create Avatar</Heading>
-        <FormControl>
+
+          <Heading
+            mb={9}>Avatar Creator</Heading>
           <FormControl isRequired>
             <FormLabel>Avatar Description</FormLabel>
             <Textarea value={avatarDescription || ''} onChange={(e) => setAvatarDescription(e.target.value)} placeholder="Describe your avatar" />
+
+            <Button type="submit" size="lg" width="full">
+              Submit
+            </Button>
           </FormControl>
-          <Button type="submit"  size="lg" width="full">
-            Submit
-          </Button>
           {isLoading ? (
             <CircularProgress isIndeterminate color="blue.300" />
           ) : (
@@ -115,23 +116,24 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
               ))}
             </Grid>
           )}
-          <Button
-            
-            isDisabled={selectedImageIndex === null}
-            onClick={() => {
-              if (selectedImageIndex !== null) {
-                setAvatarUrl(images[selectedImageIndex]);
-                onCompleted();
-              }
-            }}
-          >
-            Select Avatar
-          </Button>
-        </FormControl>
-          </form>
-        </VStack>
+          <FormControl>
+            <Button
 
-      </Card>
+              isDisabled={selectedImageIndex === null}
+              onClick={() => {
+                if (selectedImageIndex !== null) {
+                  setAvatarUrl(images[selectedImageIndex]);
+                  onCompleted();
+                }
+              }}
+            >
+              Select Avatar
+            </Button>
+          </FormControl>
+        </form>
+      </VStack>
+
+    </Card>
 
   );
 };

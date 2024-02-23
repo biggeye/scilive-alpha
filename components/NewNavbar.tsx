@@ -32,7 +32,7 @@ import Logo from '@/components/Logo';
 import { useUserContext } from "@/lib/user/UserProvider";
 import { useRouter } from 'next/navigation'; // Corrected from 'next/navigation' to 'next/router'
 import SignOut from './Auth/SignOut';
-import FacebookTest from './FacebookTest';
+
 const NewNavbar = () => {
     const router = useRouter();
     const { supabase } = useUserContext();
@@ -136,7 +136,7 @@ const NewNavbar = () => {
                     <NavbarItem>
                         <NavbarLink href="/dashboard/avatar">Avatar</NavbarLink>
                     </NavbarItem>
-                    <NavbarItem><FacebookTest /></NavbarItem>
+               
 
 
                 </Stack>

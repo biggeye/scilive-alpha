@@ -37,7 +37,7 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
     }
 
     try {
-       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/websummary`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/leap/websummary`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,13 +45,13 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
         },
 
         body: JSON.stringify({
-            webpage_url: webpageUrl,
-            host: hostName,
-            podcast: podcastName
-          }
+          webpage_url: webpageUrl,
+          host: hostName,
+          podcast: podcastName
+        }
         ),
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -81,49 +81,54 @@ const WriteScript: React.FC<WriteScriptProps> = ({ onCompleted }) => {
   };
 
   return (
-      <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
+    <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
       <VStack spacing={4}>
-      <form>
-      <Heading>Generate Voiceover</Heading>
-      <FormControl display="flex" alignItems="center">
-        <Input
-          value={hostName}
-          onChange={(e) => setHostName(e.target.value)}
-          placeholder="Host of the show"
-          />
-          <Input 
-          value={podcastName} 
-          onChange={(e) => setPodcastName(e.target.value)}
-          placeholder="Name of the podcast"
-          />
-        <Input 
-          value={webpageUrl}
-          onChange={handlePageChange}
-          defaultValue="www.somewebsite.com/somearticle"
-          placeholder="Enter the web article URL here"
-        />
-        
-        <Button
-          onClick={fetchAvatarScript}
-        >
-          Fetch Script
-        </Button>
-        <Textarea
-          value={avatarScript}
-          onChange={handleScriptChange}
-          placeholder="The script will appear here"
-          isDisabled={!isTextareaEnabled}
-        />
-        <Button
-          onClick={generateVoiceover}
-          isDisabled={!isTextareaEnabled} // Disable the update button until the script is fetched
-        >
-          Generate Voiceover
-        </Button>
-        </FormControl>
+        <form>
+          <Heading>Generate Voiceover</Heading>
+          <FormControl display="flex" alignItems="center">
+            <Input
+              value={hostName}
+              onChange={(e) => setHostName(e.target.value)}
+              placeholder="Host of the show"
+            />
+            <Input
+              value={podcastName}
+              onChange={(e) => setPodcastName(e.target.value)}
+              placeholder="Name of the podcast"
+            />
+          </FormControl>
+          <FormControl>
+            <Input
+              value={webpageUrl}
+              onChange={handlePageChange}
+              defaultValue="www.somewebsite.com/somearticle"
+              placeholder="Enter the web article URL here"
+            />
+
+            <Button
+              onClick={fetchAvatarScript}
+            >
+              Fetch Script
+            </Button>
+          </FormControl>
+          <FormControl>
+            <Textarea
+              value={avatarScript}
+              onChange={handleScriptChange}
+              placeholder="The script will appear here"
+              isDisabled={!isTextareaEnabled}
+            />
+            <Button
+              onClick={generateVoiceover}
+              isDisabled={!isTextareaEnabled} // Disable the update button until the script is fetched
+            >
+              Generate Voiceover
+            </Button>
+
+          </FormControl>
         </form>
       </VStack>
-      </Card>
+    </Card>
 
   );
 };

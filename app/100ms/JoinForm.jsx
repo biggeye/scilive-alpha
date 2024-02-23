@@ -70,7 +70,7 @@ function JoinForm() {
             mb="20px"
           />
         </Box>
-        <Button onClick={handleSubmit} type="submit" colorScheme="blue">Join</Button>
+        <Button onClick={handleSubmit} type="submit" >Join</Button>
       </VStack>
 
     </FormControl>  

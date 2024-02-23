@@ -14,15 +14,15 @@ function Home() {
   const fadeInAnimation = theme.animations.fadeIn;
 
   return (
-    <Box h="92vh" bg="silver"  textAlign="center"> {/* Using color from the theme */}
-        <Heading as="h1" mb={4}>
+    <Box h="92vh" textAlign="center"> {/* Using color from the theme */}
+        <Heading as="h1" mb={4} mt={4}>
           <Center>
-           <Logo />
+           <Logo width="250" height="250" />
           </Center>
         </Heading>
         <Text fontSize="lg">Explore the Future of AI and Live Streaming</Text>
         <Link href="/auth/signup">
-          <Button colorScheme="orange" size="lg">Discover More</Button>
+          <Button size="lg">Discover More</Button>
         </Link>
       </Box>
    )

@@ -126,7 +126,7 @@ const Gallery: React.FC<GalleryProps> = ({
                 <IconButton
                   aria-label="Delete item"
                   icon={<DeleteIcon />}
-                  colorScheme="red"
+                  
                   onClick={() => openDeleteConfirmModal(contentItems[currentGroup][currentIndex].content_id)}
                 />
               </Box>
@@ -144,7 +144,7 @@ const Gallery: React.FC<GalleryProps> = ({
             Are you sure you want to delete this item?
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={confirmDeleteItem}>
+            <Button  mr={3} onClick={confirmDeleteItem}>
               Delete
             </Button>
             <Button variant="ghost" onClick={closeDeleteConfirmModal}>Cancel</Button>

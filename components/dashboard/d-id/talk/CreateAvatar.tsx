@@ -100,7 +100,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
             <FormLabel>Avatar Description</FormLabel>
             <Textarea value={avatarDescription || ''} onChange={(e) => setAvatarDescription(e.target.value)} placeholder="Describe your avatar" />
           </FormControl>
-          <Button type="submit" colorScheme="blue" size="lg" width="full">
+          <Button type="submit"  size="lg" width="full">
             Submit
           </Button>
           {isLoading ? (
@@ -116,7 +116,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
             </Grid>
           )}
           <Button
-            colorScheme="blue"
+            
             isDisabled={selectedImageIndex === null}
             onClick={() => {
               if (selectedImageIndex !== null) {

@@ -13,7 +13,7 @@ export const ChatAssistant = ({ isOpen, onClose }: ChatAssistantProps) => {
     <Box position="fixed" bottom="20px" right="20px" bg="white" p={4} boxShadow="md" borderRadius="md">
       <VStack spacing={3}>
         <Input placeholder="Type your message..." />
-        <Button colorScheme="blue">Send</Button>
+        <Button >Send</Button>
       </VStack>
     </Box>
   );

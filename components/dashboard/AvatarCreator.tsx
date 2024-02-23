@@ -129,7 +129,7 @@ const AvatarCreator: React.FC = () => {
               <option value="custom">Custom</option>
             </Select>
             </FormControl>
-          <Button type="submit" colorScheme="blue" size="lg" width="full">
+          <Button type="submit"  size="lg" width="full">
             Submit
           </Button>
           {isLoading ? (
@@ -146,7 +146,7 @@ const AvatarCreator: React.FC = () => {
           )}
           
           <Button
-            colorScheme="blue"
+            
             isDisabled={selectedImageIndex === null}
             onClick={() => {
               if (selectedImageIndex !== null) {

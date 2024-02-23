@@ -29,26 +29,30 @@ const ImageCreateForm: React.FC = () => {
     }
     await imageCreateSubmit(userInput);
     if (finalPrediction) {
-       setPredictionIsLoading(false);
+      setPredictionIsLoading(false);
     }
   };
-  
+
   return (
     <Box>
       <FormControl>
         <form onSubmit={handleSubmit}>
-          <InputGroup   size={{ base: "sm", md: "md" }}>
+          <InputGroup size={{ base: "sm", md: "md" }}>
             <Input
-
               fontSize={{ base: "sm", md: "md" }}
               placeholder="Enter text for image creation"
               aria-label="Text for image creation"
               value={userInput}
               disabled={predictionIsLoading}
               onChange={handleInputChange}
+              sx={{ 
+                '::placeholder': { 
+                  color: 'white',
+                },
+              }}
             />
             <InputRightAddon>
-              <Button   size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
+              <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
                 Submit
               </Button>
             </InputRightAddon>
@@ -61,4 +65,3 @@ const ImageCreateForm: React.FC = () => {
 };
 
 export default ImageCreateForm;
-  

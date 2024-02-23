@@ -160,7 +160,6 @@ export const AccountForm = () => {
             <Button
               size="sm"
               mt={2}
-              colorScheme="teal"
               type="submit"
               isLoading={isLoading}
             >

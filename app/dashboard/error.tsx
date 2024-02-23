@@ -27,8 +27,7 @@ const ErrorPage: React.FC = () => {
           We're sorry for the inconvenience. Please try again or return to the dashboard.
         </Text>
         <Button
-          colorScheme="blue"
-          onClick={handleBackToDashboard}
+              onClick={handleBackToDashboard}
         >
           Back to Dashboard
         </Button>

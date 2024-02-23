@@ -52,14 +52,143 @@ export const sciLiveTheme = extendTheme({
     xl: "20px", // Base size for 'xl'
     // Add more sizes if needed
   },
-  colors: {
-    black: "#070708ff",
-    onyx: "#454545ff",
-    orange: "rgb(255, 166, 93)",
-    lightBlue: "rgb(75, 108, 255)",
-    silver: "#f0f0f0",
-    seasalt: "#F6F6F6ff",
-  },
+  colors: 
+    {
+      black: "#0f1010",
+      gray: {
+        50: "#f9fafa",
+        100: "#f1f2f2",
+        200: "#e6e8e8",
+        300: "#d1d4d4",
+        400: "#a9aeae",
+        500: "#7c8080",
+        600: "#535555",
+        700: "#353737",
+        800: "#1f2020",
+        900: "#191a1a"
+      },
+      cyan: {
+        50: "#f8fafa",
+        100: "#e4eaec",
+        200: "#d8e1e4",
+        300: "#cad7da",
+        400: "#a2b8bf",
+        500: "#90aab2",
+        600: "#7b9ba4",
+        700: "#5a818d",
+        800: "#3e6c79",
+        900: "#1f5565"
+      },
+      blue: {
+        50: "#f5f6f8",
+        100: "#d9dee5",
+        200: "#bec6d2",
+        300: "#a0adbd",
+        400: "#8595aa",
+        500: "#6d809a",
+        600: "#556c89",
+        700: "#375275",
+        800: "#264369",
+        900: "#17365f"
+      },
+      purple: {
+        50: "#f7f6f9",
+        100: "#e1dde8",
+        200: "#cbc4d6",
+        300: "#aca0be",
+        400: "#9788ad",
+        500: "#7c6998",
+        600: "#6a558a",
+        700: "#59427c",
+        800: "#4b3272",
+        900: "#3a1f64"
+      },
+      pink: {
+        50: "#f9f7f8",
+        100: "#e8dee3",
+        200: "#d7c4cc",
+        300: "#bfa2af",
+        400: "#af8b9b",
+        500: "#9b6e81",
+        600: "#8d5970",
+        700: "#7d425c",
+        800: "#6d2b48",
+        900: "#5c1333"
+      },
+      red: {
+        50: "#f9f7f6",
+        100: "#e8dedd",
+        200: "#d4c1c0",
+        300: "#bc9f9d",
+        400: "#ae8c8a",
+        500: "#9c7370",
+        600: "#8d5d5a",
+        700: "#7c4541",
+        800: "#713632",
+        900: "#5f1c18"
+      },
+      orange: {
+        50: "#fbfaf9",
+        100: "#f0ede9",
+        200: "#ded8cf",
+        300: "#c6baac",
+        400: "#afa08c",
+        500: "#9c8970",
+        600: "#897254",
+        700: "#745936",
+        800: "#62431c",
+        900: "#56350a"
+      },
+      yellow: {
+        50: "#fefefe",
+        100: "#f9f9f6",
+        200: "#eeede6",
+        300: "#e1dfd3",
+        400: "#cfccb9",
+        500: "#ada988",
+        600: "#8d885a",
+        700: "#706a30",
+        800: "#574f0b",
+        900: "#484103"
+      },
+      green: {
+        50: "#fafcfb",
+        100: "#e4ede9",
+        200: "#c8d9d2",
+        300: "#aac4b9",
+        400: "#8aae9e",
+        500: "#6a9884",
+        600: "#498168",
+        700: "#23674a",
+        800: "#0b5635",
+        900: "#034729"
+      },
+      teal: {
+        50: "#f8fafa",
+        100: "#e1eaea",
+        200: "#c8d8d9",
+        300: "#aac2c4",
+        400: "#84a8aa",
+        500: "#649194",
+        600: "#40787b",
+        700: "#1d5f63",
+        800: "#085055",
+        900: "#034246"
+      },
+      primary: {
+        50: "#f5f8f8",
+        100: "#d9e2e5",
+        200: "#b8c8ce",
+        300: "#90aab2",
+        400: "#7a99a3",
+        500: "#5d838f",
+        600: "#44707e",
+        700: "#285b6b",
+        800: "#174d5f",
+        900: "#033849"
+      }
+    },
+
   styles: {
     global: {
       body: {
@@ -99,13 +228,11 @@ export const sciLiveTheme = extendTheme({
       main: {
         bgGradient: "linear(to-b, silver 25%, white 75%)",
      },
-
       input: {
         borderRadius: "1rem",
       },
       a: {
         _hover: {
-          color: "orange", // Use your defined color here
           transition: "color 0.3s", // Transition time for the hover effect
         },
       },
@@ -146,24 +273,27 @@ export const sciLiveTheme = extendTheme({
       },
     },
   },
+
   tabs: {
     sm: "xs",
     md: "sm",
     lg: "md",
     xl: "lg",
   },
+
   animations: {
     fadeIn: `${fadeIn} 0.3s ease-in-out`,
     fadeOut: `${fadeOut} 0.3s ease-in-out`,
     pulsing: `{${pulse} 0.5s ease-in-out`,
     longFadeIn: `${fadeIn} 15s ease-in-out`,
   },
+
   tabPanelStyles: {
-    borderRadius: "8px", // Rounded corners for a softer look
-    background: "linear-gradient(to top right, #F6F6F6, #FFFFFF)", // Gradient background
+    borderRadius: "8px", 
+    background: "linear-gradient(to top right, #F6F6F6, #FFFFFF)",
     boxShadow:
-      "0px 4px 8px rgba(0, 0, 0, 0.15), 0px 2px 4px rgba(0, 0, 0, 0.05)", // 3D box-shadow
+      "0px 4px 8px rgba(0, 0, 0, 0.15), 0px 2px 4px rgba(0, 0, 0, 0.05)",
     borderTop: "2px solid #FFA65D",
-    padding: "16px", // Padding for content inside the tab panel
+    padding: "16px", 
   },
 });

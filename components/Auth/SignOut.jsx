@@ -26,7 +26,7 @@ export default function SignOut() {
     <Button
     padding={".5px"}
     mt={2}
-    colorScheme="red"
+    
     type="submit"
     onClick={handleSignOut}>
       Sign Out

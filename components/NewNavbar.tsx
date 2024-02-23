@@ -26,7 +26,7 @@ import {
     PopoverHeader,
     PopoverBody
 } from '@chakra-ui/react';
-import { NavbarItem, NavbarLink } from '@saas-ui/react';
+import { Navbar, NavbarItem, NavbarLink } from '@saas-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Logo from '@/components/Logo';
 import { useUserContext } from "@/lib/user/UserProvider";
@@ -85,7 +85,7 @@ const NewNavbar = () => {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader><Logo /></DrawerHeader>
+                    <DrawerHeader><Logo width="50" height="50" /></DrawerHeader>
                     <DrawerBody>
                         <Stack as="nav" spacing={4}>
                             
@@ -115,27 +115,33 @@ const NewNavbar = () => {
             </Drawer>
 
             {/* Desktop Navbar */}
-            <Flex
-                as="nav"
-                align="center"
-                justify="space-between"
-                wrap="wrap"
-                padding="1.5rem"
-                display={{ base: "none", md: "flex" }}
+            <Navbar
+                position="sticky"
+                borderBottomWidth="1px"
+                background="transparent"
+                backdropFilter="blur(10px)"
             >
-                <Logo />
+                <Logo width="50" height="50" />
                 <Spacer />
                 <Stack direction="row" spacing={4} align="center">
-                    <Link href="/">Home</Link>
-                    <Link href="/dashboard">Image</Link>
-                    <Link href="/dashboard/d-id">Video</Link>
-                    <Link href="/dashboard/avatar">Avatar</Link>
+                    <NavbarItem>
+                        <NavbarLink href="/">Home</NavbarLink>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <NavbarLink href="/dashboard">Image</NavbarLink>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <NavbarLink href="/dashboard/d-id">Video</NavbarLink>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <NavbarLink href="/dashboard/avatar">Avatar</NavbarLink>
+                    </NavbarItem>
 
 
                 </Stack>
                 <Spacer />
                 <UserMenu />
-            </Flex>
+            </Navbar>
         </Box>
     );
 };

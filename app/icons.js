@@ -1,6 +1,9 @@
 import React from "react";
 import { FaPlay, FaPause } from 'react-icons/fa';
+import { LuMic, LuMicOff } from "react-icons/lu";
 
+export const MicIcon = LuMic;
+export const MicOffIcon = LuMicOff;
 export const PlayIcon = FaPlay;
 export const PauseIcon = FaPause;
 export const AccountIcon = () => (
@@ -28,3 +31,5 @@ export const GalleryIcon = () => (
     </g>
   </svg>
 );
+
+

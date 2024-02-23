@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { voiceIdState, audioFileState, avatarNameState } from '@/state/createTalk-atoms';
 import AudioPlayer from '@/components/utils/AudioPlayer';
-import { Box, Button, Card, FormControl, FormLabel, Heading, Input, Switch, useToast, VStack } from '@chakra-ui/react';
+import { Flex, Box, Button, Card, FormControl, FormLabel, Heading, Input, Switch, useToast, VStack, Spacer } from '@chakra-ui/react';
 import { convertToDataURI } from '@/lib/convertToDataURI';
-
+import Code from '@/components/utils/Code';
+import { MicIcon, MicOffIcon } from '@/app/icons';
 interface CloneVoiceProps {
   onCompleted: () => void;
 }
@@ -33,21 +34,18 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
   const toggleMicrophoneUse = () => {
     setUseMicrophone((prev) => !prev);
     if (!useMicrophone && isRecording) {
-      // This checks if we're currently using the microphone and recording.
-      // If so, and the user wants to stop using the microphone, we stop the recorder.
       recorder?.stop();
-      setIsRecording(false); // Make sure to set recording to false as the recorder stops.
+      setIsRecording(false);
     }
   };
-  
+
   const startRecording = async () => {
     if (isRecording) {
-      // If already recording, stop the recording.
       recorder?.stop();
       setIsRecording(false);
       return;
     }
-  
+
     setIsRecording(true); // Set isRecording to true right when we start the process.
     if (!navigator.mediaDevices || !window.MediaRecorder) {
       toast({
@@ -60,7 +58,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       setIsRecording(false); // Reset recording state if it's not supported.
       return;
     }
-  
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const newRecorder = new MediaRecorder(stream);
@@ -70,8 +68,8 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       newRecorder.ondataavailable = (e) => {
         audioChunks.push(e.data);
       };
-      
-  
+
+
       newRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
         const audioFile = new File([audioBlob], "recording.mp3", { type: 'audio/mpeg' });
@@ -80,7 +78,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
         setAudioSrc(audioUri);
         setIsRecording(false); // Ensure this is set to false once recording stops.
       };
-  
+
       newRecorder.start();
       setRecorder(newRecorder);
     } catch (error) {
@@ -94,7 +92,7 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       setIsRecording(false); // Reset recording state on error.
     }
   };
-  
+
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && (file.type === "audio/mp3" || file.type === "audio/wav")) {
@@ -125,17 +123,17 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       setIsLoading(false);
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('file', audioFile, audioFile.name);
     formData.append('name', avatarName);
-  
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/did/voice/clone`, {
         method: 'POST',
         body: formData,
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         setVoiceId(data.id);
@@ -170,36 +168,42 @@ const CloneVoice: React.FC<CloneVoiceProps> = ({ onCompleted }) => {
       });
     }
   };
-  
-  
+
+
 
   return (
     <Card p={5} boxShadow="xl" rounded="md" bg="white" width={{ base: '80vw', md: '60vw' }}>
-        <VStack spacing={4}>
-          <form onSubmit={handleSubmit}>
-          <Heading>Clone Voice</Heading>
+      <VStack spacing={4}>
+        <form onSubmit={handleSubmit}>
+
+          <Heading>
+            <Flex direction="row" justifyContent="space-around">Clone Voice<Spacer />
+              {useMicrophone ? (
+                <MicIcon />
+              ) : (
+                <MicOffIcon color="red" />
+              )}
+
+              <Switch id="use-microphone" isChecked={useMicrophone} onChange={toggleMicrophoneUse} />
+            </Flex>
+          </Heading>
+
           <FormControl display="flex" flexDirection="column" alignItems="center">
-            <FormLabel htmlFor="use-microphone" mb="0">Use Microphone</FormLabel>
-            <Switch id="use-microphone" isChecked={useMicrophone} onChange={toggleMicrophoneUse} />
             <FormLabel>Avatar Name</FormLabel>
-          <Input type="text" value={avatarName || ''} onChange={(e) => setAvatarName(e.target.value)} placeholder="Enter avatar name" />
-        
-          {useMicrophone ? (
-            <Button colorScheme="blue" onClick={startRecording}>
-              {isRecording ? 'Stop Recording' : 'Start Recording'}
-            </Button>
-          ) : (
-     
+            <Input type="text" value={avatarName || ''} onChange={(e) => setAvatarName(e.target.value)} placeholder="Enter avatar name" />
+            {useMicrophone ? (
+              <Button onClick={startRecording}>
+                {isRecording ? 'Stop Recording' : 'Start Recording'}
+              </Button>
+            ) : (
               <Input type="file" accept="audio/*" onChange={handleChange} p={1.5} />
- 
-          )}
-          
-          <Button colorScheme="blue" onClick={handleSubmit}>Submit</Button>
-         </FormControl>
-          </form>
-          {audioSrc && <AudioPlayer src={audioSrc} />}
-        </VStack>
-      </Card>
+            )}
+            <Button onClick={handleSubmit}>Submit</Button>
+          </FormControl>
+        </form>
+        {audioSrc && <AudioPlayer src={audioSrc} />}
+      </VStack>
+    </Card>
   );
 };
 

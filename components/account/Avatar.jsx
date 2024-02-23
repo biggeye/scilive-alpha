@@ -76,7 +76,6 @@ export default function Avatar({ uid, url, size, onUpload, supabase, setProfileD
           as="label"
           htmlFor="avatar-input"
           size="sm"
-          colorScheme="teal"
           isLoading={uploading}
           loadingText="Uploading..."
           variant="outline"

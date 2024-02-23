@@ -20,7 +20,7 @@ const SignUp: React.FC = () => {
   return (
     <Card flex="1" maxW="400px">
       <CardHeader display="flex" alignItems="center" justifyContent="center">
-        <Logo />
+        <Logo width="120" height="120"/>
       </CardHeader>
       <CardBody>
         <Auth

@@ -8,7 +8,6 @@ import { predictionIsLoadingState } from "@/state/replicate/prediction-atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedTabState, dashboardState } from '@/state/replicate/config-atoms';
 
-
 type ToolType = string
 
 const DashboardPage: React.FC = () => {

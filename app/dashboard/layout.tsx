@@ -42,6 +42,6 @@ useEffect(() => {
 }, [router, toast]);
 
 return(
-  {children}
+  [{children}]
 )
 };

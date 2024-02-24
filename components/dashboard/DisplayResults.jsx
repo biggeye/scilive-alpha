@@ -6,7 +6,8 @@ import { predictionIsLoadingState,
     predictionProgressState, 
     finalPredictionState, 
     finalPredictionPromptState, 
-    userImagePreviewState  } from '@/state/replicate/prediction-atoms';
+    userImagePreviewState,  
+    globalLoadingState} from '@/state/replicate/prediction-atoms';
 import { exampleImageState, selectedModelFriendlyNameState } from '@/state/replicate/config-atoms';
 import ToolOptions from './ToolOptions';
 import { ImageCard } from "../utils/Cards";
@@ -14,6 +15,7 @@ import { motion } from 'framer-motion';
 
 const DisplayResults = () => {
 
+  const globalLoading = useRecoilValue(globalLoadingState);
   const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
   const modelBootResult = useRecoilValue(modelBootResultState);
   const predictionStatus = useRecoilValue(predictionStatusState);
@@ -38,7 +40,8 @@ const DisplayResults = () => {
         <Center>
           <VStack>
             <ToolOptions />
-            {predictionIsLoading ? (
+            {globalLoading ? (
+              <Skeleton height="400px" width="400px" className="element-pulse">
               <Card className="image-card" borderColor="onyx" borderWidth="0.5px">
                 <Flex direction="column" justifyContent="space-evenly">
                   {modelBootResult === "loading" && (
@@ -49,9 +52,8 @@ const DisplayResults = () => {
                   <Text fontSize={{ base: "sm", md: "md" }}>Prediction Status: {predictionStatus}</Text>
                 </Flex>
               </Card>
-            ) : isFinalPredictionLoading ? (
-              <Skeleton height="400px" width="400px" className="element-pulse" />
-            ) : (
+              </Skeleton>
+                  ) : (
               <motion.div
                 initial="hidden"
                 animate="visible"

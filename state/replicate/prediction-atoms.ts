@@ -2,6 +2,11 @@
 
 import { atom } from 'recoil';
 
+export const globalLoadingState = atom<boolean>({
+  key: 'globalLoadingState',
+  default: false,
+});
+
 export const userImagePreviewState = atom<string | null>({
   key: 'userImagePreviewState',
   default: null,
@@ -54,11 +59,6 @@ export const predictionIsLoadingState = atom({
   key: 'predictionIsLoadingState',
   default: false,
 });
-
-export const webpageUrlState = atom({
-  key: 'webpageUrlState',
-  default: '',
-})
 
 // finalized
 export const finalPredictionState = atom({

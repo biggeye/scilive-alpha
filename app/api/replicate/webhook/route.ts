@@ -1,6 +1,6 @@
 import uploadAvatar from '@/lib/createAvatar/uploadAvatar';
 
-type WorkflowStatus = 'completed' | 'running' | 'failed';
+type WorkflowStatus = 'completed' | 'running' | 'processing' | 'failed';
 
 interface WorkflowOutput {
   images: string[];
@@ -11,19 +11,31 @@ interface WorkflowOutput {
   frame_style: string;
 }
 
-interface WorkflowWebhookRequestBody {
+interface PredictionResponsePostBody {
   id: string;
-  version_id: string;
-  status: WorkflowStatus;
+  model: string;
+  version: string;
+  input: {
+    image: string; // Assuming base64 image data is a string
+    prompt: string;
+  };
+  logs: string;
+  output: string[];
+  error: null | string;
+  status: 'starting' | 'processing' | 'succeeded' | 'failed'; // Adjust based on possible values
   created_at: string;
-  started_at: string | null;
-  ended_at: string | null;
-  workflow_id: string;
-  error: string | null;
-  input: Record<string, any>;
-  output: WorkflowOutput | null;
-}
+  started_at: string;
+  completed_at: string;
+  webhook: string;
+  urls: {
+    cancel: string;
+    get: string;
+  };
 
+  metrics: {
+    predict_time: number;
+  };
+}
 export async function POST(req: Request) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({
@@ -36,30 +48,48 @@ export async function POST(req: Request) {
   }
 
   try {
-    const body: WorkflowWebhookRequestBody = await req.json();
+    const body: PredictionResponsePostBody = await req.json();
     console.log('Received webhook for workflow:', body.id);
 
-    if (body.status === 'completed' && body.output) {
-      const { images, user_id, avatar_name, photo_style, frame_style, avatar_description } = body.output;
-      const userId = user_id;
-      const name = avatar_name;
-      const prompt = `${photo_style}, ${frame_style}, ${avatar_description}`;
-      const predictionId = body.id;
-      // Use map to create an array of promises from uploadPrediction calls
-      const uploadPromises = images.map((image, index) => 
-        uploadAvatar(image, userId, name, "leapAvatar", `${predictionId}-${index}`, prompt)
-      );
-      
-      // Wait for all the uploadPrediction calls to complete
-      await Promise.all(uploadPromises);
-  }
-  
+    // Additional code for handling other parts of the request
 
-    // Assuming you want to return a success message after processing
-    return new Response(JSON.stringify({ message: 'Webhook processed successfully' }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    if (body.status === 'succeeded' && body.output) {
+      const { id, output } = body;
+      const predictionId = id;
+      const prompt = body.input.prompt; // Corrected access to prompt
+
+      // Check if output is an array and handle accordingly
+      if (Array.isArray(output) && output.every(item => typeof item === 'string')) {
+        const uploadPromises = output.map((image, index) =>
+          uploadAvatar(image, `${predictionId}-${index}`, prompt)
+        );
+
+        await Promise.all(uploadPromises)
+          .then(results => {
+            // handle successful uploads
+          })
+          .catch(error => {
+            // handle errors
+          });
+      } else if (typeof output === 'string') {
+        // Handling output when it's a single string
+        await uploadAvatar(output, `${predictionId}-0`, prompt)
+          .then(result => {
+            // handle successful upload
+          })
+          .catch(error => {
+            // handle error
+          });
+      } else {
+        console.error('output is neither an array of strings nor a string');
+      }
+
+      // Assuming you want to return a success message after processing
+      return new Response(JSON.stringify({ message: 'Webhook processed successfully' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
   } catch (error) {
     console.error('Error processing webhook:', error);
     return new Response(JSON.stringify({

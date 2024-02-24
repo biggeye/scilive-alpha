@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { Card, CardHeader, CardBody } from '@chakra-ui/react';
 import { Auth } from '@saas-ui/auth';

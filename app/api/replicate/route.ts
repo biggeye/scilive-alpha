@@ -30,13 +30,13 @@ export async function POST(req: Request) {
         ...(img && { img }),
         ...(video_path && { video_path }),
       },
-    //  webhook: "https://scilive.cloud/api/replicate/webhook",
+      webhook: "https://hook.us1.make.com/clf16vf95dn11r76118xl5yr5cr6oqce",
     };
-
+    
     if (Object.keys(payload.input).length === 0) {
       return new Response(JSON.stringify({ error: 'Missing input parameters' }), { status: 400 });
     }
-
+     console.log("Parsed payload: ", payload);
     const response = await fetch('https://api.replicate.com/v1/predictions', {
       method: 'POST',
       headers: {

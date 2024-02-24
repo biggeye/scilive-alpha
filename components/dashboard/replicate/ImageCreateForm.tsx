@@ -47,7 +47,7 @@ const ImageCreateForm: React.FC = () => {
               onChange={handleInputChange}
               sx={{
                 '::placeholder': {
-                  color: 'white',
+                  color: 'black',
                 },
               }}
             />

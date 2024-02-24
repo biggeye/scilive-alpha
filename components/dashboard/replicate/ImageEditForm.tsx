@@ -6,7 +6,7 @@ import {
   Image, Grid, GridItem, Text, IconButton
 } from '@chakra-ui/react';
 import { useUserContext } from '@/lib/user/UserProvider';
-import { finalPredictionState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState } from '@/state/replicate/prediction-atoms';
+import { finalPredictionState, userImageDataUriState, userImagePreviewState, userImageUploadState, predictionIsLoadingState, predictionErrorState, globalLoadingState } from '@/state/replicate/prediction-atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { selectedModelIdState } from '@/state/replicate/config-atoms';
 import { convertToDataURI } from '@/lib/convertToDataURI';
@@ -43,7 +43,8 @@ const ImageEditForm = () => {
   const finalPrediction = useRecoilValue(finalPredictionState);
   const modelId = useRecoilValue(selectedModelIdState);
   const predictionError = useRecoilValue(predictionErrorState);
-  
+  const globalLoading = useRecoilValue(globalLoadingState);
+
   const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
   const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
@@ -202,14 +203,13 @@ const ImageEditForm = () => {
                 onChange={handleTextInputChange}
               />
               <InputRightAddon>
-                <Button
-                  size="sm"
-                  fontSize={{ base: "sm", md: "md" }}
-                  type="submit"
-                  disabled={predictionIsLoading}
-                >
-                  Submit
-                </Button>
+              {globalLoading ? ( 
+              <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
+                Submit
+              </Button> ) : (
+                <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" isDisabled={true}>
+                  Processing</Button>
+                  )}
               </InputRightAddon>
             </InputGroup>
 

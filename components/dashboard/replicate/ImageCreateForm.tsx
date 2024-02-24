@@ -3,7 +3,7 @@ import { Box, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } f
 import { useUserContext } from "@/lib/user/UserProvider";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedModelIdState } from "@/state/replicate/config-atoms";
-import { predictionIsLoadingState, predictionErrorState, finalPredictionState } from "@/state/replicate/prediction-atoms";
+import { predictionIsLoadingState, predictionErrorState, finalPredictionState, globalLoadingState } from "@/state/replicate/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 
 const ImageCreateForm: React.FC = () => {
@@ -13,7 +13,7 @@ const ImageCreateForm: React.FC = () => {
   const modelId = useRecoilValue(selectedModelIdState);
   const predictionError = useRecoilValue(predictionErrorState);
   const finalPrediction = useRecoilValue(finalPredictionState);
-
+  const globalLoading = useRecoilValue(globalLoadingState);
   // set state
   const [userInput, setUserInput] = useState<string>("");
   const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
@@ -52,9 +52,13 @@ const ImageCreateForm: React.FC = () => {
               }}
             />
             <InputRightAddon>
+            {globalLoading ? ( 
               <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
                 Submit
-              </Button>
+              </Button> ) : (
+                <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" isDisabled={true}>
+                  Processing</Button>
+                  )}
             </InputRightAddon>
           </InputGroup>
           {predictionError && <Alert>{predictionError}</Alert>}

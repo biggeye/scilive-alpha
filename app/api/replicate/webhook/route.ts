@@ -1,4 +1,5 @@
 import uploadAvatar from '@/lib/createAvatar/uploadAvatar';
+import uploadPrediction from '@/lib/replicate/uploadPrediction';
 
 type WorkflowStatus = 'completed' | 'running' | 'processing' | 'failed';
 
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
       // Check if output is an array and handle accordingly
       if (Array.isArray(output) && output.every(item => typeof item === 'string')) {
         const uploadPromises = output.map((image, index) =>
-          uploadAvatar(image, `${predictionId}-${index}`, prompt)
+          uploadPrediction(image, `${predictionId}-${index}`, prompt)
         );
 
         await Promise.all(uploadPromises)
@@ -73,7 +74,7 @@ export async function POST(req: Request) {
           });
       } else if (typeof output === 'string') {
         // Handling output when it's a single string
-        await uploadAvatar(output, `${predictionId}-0`, prompt)
+        await uploadPrediction(output, `${predictionId}-0`, prompt)
           .then(result => {
             // handle successful upload
           })

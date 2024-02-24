@@ -4,7 +4,6 @@ import { Box, ChakraProvider } from '@chakra-ui/react';
 import { AppShell, SaasProvider } from '@saas-ui/react';
 import { UserProvider } from "@/lib/user/UserProvider";
 import { RecoilRoot } from "recoil";
-import { HMSRoomProvider } from '@100mslive/react-sdk';
 import { sciLiveTheme } from "./theme";
 import NewNavbar from '@/components/NewNavbar';
 
@@ -16,7 +15,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
       <SaasProvider>
         <UserProvider>
           <RecoilRoot>
-            <HMSRoomProvider>
+           
               
               <AppShell
                 navbar={
@@ -27,7 +26,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
                   {children}
                 </Box>
               </AppShell>
-            </HMSRoomProvider>
+  
           </RecoilRoot>
         </UserProvider>
       </SaasProvider>

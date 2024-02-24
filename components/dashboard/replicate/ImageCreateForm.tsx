@@ -56,7 +56,7 @@ const ImageCreateForm: React.FC = () => {
                 <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" isDisabled={true}>
                   Processing</Button>
               ) : (
-                <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
+                <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit">
                   Submit
                 </Button>
               )}

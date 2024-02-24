@@ -19,7 +19,7 @@ import {
 import { createClient } from '@/utils/supabase/client';
 import { useEffect } from 'react';
 import { ViewIcon } from '@saas-ui/react';
-
+import { handleGalleryEditSelection } from '@/lib/replicate/handleGalleryEditSelection';
 
 import { ContextMenu, ContextMenuTrigger } from '@saas-ui/react';
 import CustomContextMenuList from '../ContextMenu'; // Adjust the import path as necessary
@@ -150,7 +150,7 @@ const ImageEditForm = () => {
               <Text fontSize="sm" mt={2}>{item.name}</Text>
             </GridItem>
           </ContextMenuTrigger>
-          <CustomContextMenuList edit={() => handleGalleryEditSelection(item.url)} />
+          <CustomContextMenuList edit={() => handleGalleryEditSelection(item.url, )} />
         </ContextMenu>
               ))}
 
@@ -207,7 +207,7 @@ const ImageEditForm = () => {
                 <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" isDisabled={true}>
                   Processing</Button>
               ) : (
-                <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
+                <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit">
                   Submit
                 </Button>
               )}

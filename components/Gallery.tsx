@@ -1,9 +1,15 @@
 'use client';
-import React, { useState } from 'react';
-import { Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip, IconButton, ModalHeader, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
+import React, { useState, useCallback } from 'react';
+import { Card, Box, Flex, Image, Modal, ModalBody, ModalContent, ModalOverlay, Tooltip, IconButton, ModalHeader, ModalFooter, ModalCloseButton, Button } from '@chakra-ui/react';
+import { StructuredList, StructuredListCell, StructuredListItem, StructuredListButton, StructuredListIcon } from '@saas-ui/react';
 import { DeleteIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { ContentItem } from '@/types';
 import { Pagination } from './utils/Pagination';
+import { handleGalleryEditSelection } from '@/lib/replicate/handleGalleryEditSelection';
+import { ContextMenu, ContextMenuTrigger } from '@saas-ui/react';
+import CustomContextMenuList from './dashboard/ContextMenu'; // Adjust the import path as necessary
+import { useRecoilState } from 'recoil';
+import { userImageDataUriState, userImagePreviewState, userImageUploadState } from '@/state/replicate/prediction-atoms';
 
 interface GalleryProps {
   contentItems: ContentItem[][];
@@ -29,6 +35,18 @@ const Gallery: React.FC<GalleryProps> = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false);
   const [deletingContentId, setDeletingContentId] = useState<string | null>(null);
+  const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
+  const [userImagePreview, setUserImagePreview] = useRecoilState(userImagePreviewState);
+  const [userImageDataUri, setUserImageDataUri] = useRecoilState(userImageDataUriState);
+
+  const handleEditSelection = useCallback(async (imageUrl: string) => {
+    const result = await handleGalleryEditSelection(imageUrl);
+    if (result) {
+      setUserImageUpload(result.file);
+      setUserImagePreview(result.imagePreview);
+      setUserImageDataUri(result.URI);
+    }
+  }, []);
 
   const openDeleteConfirmModal = (contentId: string) => {
     setDeletingContentId(contentId);
@@ -77,9 +95,16 @@ const Gallery: React.FC<GalleryProps> = ({
     <>
       <Flex direction="row" wrap="wrap" justifyContent="center" gap="20px" mb={5}>
         {contentItems[currentGroup].map((item, itemIndex) => (
-          <Tooltip key={item.content_id} label={item.prompt} hasArrow bg="lightBlue" color="white">
-            <Image
-              boxShadow="xl"
+         <Tooltip key={item.content_id} label={item.prompt} hasArrow bg="lightBlue" color="white">
+            <ContextMenu>
+            <ContextMenuTrigger>
+
+         <Card key={itemIndex} boxShadow="xl">
+         <StructuredList>
+           <StructuredListItem href="#">
+             <StructuredListCell width="auto" height="150">
+             <Image
+              boxShadow="sm"
               borderRadius="lg"
               width="150px"
               height="150px"
@@ -93,7 +118,17 @@ const Gallery: React.FC<GalleryProps> = ({
                 transition: 'transform .75s',
               }}
             />
-          </Tooltip>
+             </StructuredListCell>
+             <StructuredListCell flex="1">
+             {item.name}
+             </StructuredListCell>
+           </StructuredListItem> 
+        </StructuredList>
+         </Card>
+                </ContextMenuTrigger>
+         <CustomContextMenuList edit={() => handleEditSelection(item.url, )} />
+         </ContextMenu>
+         </Tooltip>
         ))}
       </Flex>
       <Pagination

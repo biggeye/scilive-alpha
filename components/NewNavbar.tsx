@@ -75,12 +75,45 @@ const NewNavbar = () => {
     return (
         <Box>
             {/* Mobile menu button */}
-            <IconButton
+          
+
+            {/* Desktop Navbar */}
+            <Navbar
+                position="sticky"
+                borderBottomWidth="1px"
+                background="transparent"
+                backdropFilter="blur(10px)"
+            >
+                  <IconButton
                 display={{ base: "inline-flex", md: "none" }} // Only show on mobile
-                icon={<HamburgerIcon />}
+                icon={<Logo width="50px" height="50px" />}
                 onClick={onDrawerOpen}
                 aria-label="Open Menu"
             />
+           <Box display={{base: "none", md: "flex"}}>
+                <Logo width="50" height="50" />
+                </Box>
+                <Spacer />
+                <Stack direction="row" spacing={4} align="center">
+                    <NavbarItem>
+                        <NavbarLink href="/">Home</NavbarLink>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <NavbarLink href="/dashboard">Image</NavbarLink>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <NavbarLink href="/dashboard/d-id">Video</NavbarLink>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <NavbarLink href="/dashboard/avatar">Avatar</NavbarLink>
+                    </NavbarItem>
+               
+
+
+                </Stack>
+                <Spacer />
+                <UserMenu />
+            </Navbar>
             <Drawer isOpen={isDrawerOpen} placement="left" onClose={onDrawerClose}>
                 <DrawerOverlay />
                 <DrawerContent>
@@ -113,36 +146,6 @@ const NewNavbar = () => {
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
-
-            {/* Desktop Navbar */}
-            <Navbar
-                position="sticky"
-                borderBottomWidth="1px"
-                background="transparent"
-                backdropFilter="blur(10px)"
-            >
-                <Logo width="50" height="50" />
-                <Spacer />
-                <Stack direction="row" spacing={4} align="center">
-                    <NavbarItem>
-                        <NavbarLink href="/">Home</NavbarLink>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <NavbarLink href="/dashboard">Image</NavbarLink>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <NavbarLink href="/dashboard/d-id">Video</NavbarLink>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <NavbarLink href="/dashboard/avatar">Avatar</NavbarLink>
-                    </NavbarItem>
-               
-
-
-                </Stack>
-                <Spacer />
-                <UserMenu />
-            </Navbar>
         </Box>
     );
 };

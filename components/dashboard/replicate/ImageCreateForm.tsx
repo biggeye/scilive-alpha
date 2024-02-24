@@ -3,7 +3,7 @@ import { Box, FormControl, Input, InputGroup, Alert, Button, InputRightAddon } f
 import { useUserContext } from "@/lib/user/UserProvider";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { selectedModelIdState } from "@/state/replicate/config-atoms";
-import { userImageDataUriState, userImageUploadState, predictionIsLoadingState, predictionErrorState, finalPredictionState, globalLoadingState } from "@/state/replicate/prediction-atoms";
+import { predictionProgressState, userImageDataUriState, userImageUploadState, predictionIsLoadingState, predictionErrorState, finalPredictionState, globalLoadingState } from "@/state/replicate/prediction-atoms";
 import { useImageCreateSubmit } from "@/lib/replicate/useImageCreateSubmit";
 import { useToast } from "@chakra-ui/react";
 
@@ -17,12 +17,13 @@ const ImageCreateForm: React.FC = () => {
   const modelId = useRecoilValue(selectedModelIdState);
   const predictionError = useRecoilValue(predictionErrorState);
   const finalPrediction = useRecoilValue(finalPredictionState);
+  const predictionProgress = useRecoilValue(predictionProgressState);
   const [globalLoading, setGlobalLoading] = useRecoilState(globalLoadingState);
   // set state
   const [userInput, setUserInput] = useState<string>("");
   const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
   const [userImageUpload, setUserImageUpload] = useRecoilState(userImageUploadState);
- 
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value);
   const imageCreateSubmit = useImageCreateSubmit();
 

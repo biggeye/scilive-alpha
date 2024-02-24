@@ -107,12 +107,11 @@ const NewNavbar = () => {
                     <NavbarItem>
                         <NavbarLink href="/dashboard/avatar">Avatar</NavbarLink>
                     </NavbarItem>
-               
-
-
                 </Stack>
                 <Spacer />
+                <Box display={{base: "none", md: "flex"}}>
                 <UserMenu />
+                </Box>
             </Navbar>
             <Drawer isOpen={isDrawerOpen} placement="left" onClose={onDrawerClose}>
                 <DrawerOverlay />

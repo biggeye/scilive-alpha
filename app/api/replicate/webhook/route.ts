@@ -53,6 +53,10 @@ export async function POST(req: Request) {
     console.log('Received webhook for workflow:', body.id);
 
     // Additional code for handling other parts of the request
+    if (body.status === 'processing') {
+      const progress = body.logs;
+      
+    }
 
     if (body.status === 'succeeded' && body.output) {
       const { id, output } = body;

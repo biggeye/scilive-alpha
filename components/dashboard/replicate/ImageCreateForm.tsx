@@ -45,20 +45,21 @@ const ImageCreateForm: React.FC = () => {
               value={userInput}
               disabled={predictionIsLoading}
               onChange={handleInputChange}
-              sx={{ 
-                '::placeholder': { 
+              sx={{
+                '::placeholder': {
                   color: 'white',
                 },
               }}
             />
             <InputRightAddon>
-            {globalLoading ? ( 
-              <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
-                Submit
-              </Button> ) : (
+              {globalLoading ? (
                 <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" isDisabled={true}>
                   Processing</Button>
-                  )}
+              ) : (
+                <Button size="sm" fontSize={{ base: "sm", md: "md" }} type="submit" disabled={predictionIsLoading}>
+                  Submit
+                </Button>
+              )}
             </InputRightAddon>
           </InputGroup>
           {predictionError && <Alert>{predictionError}</Alert>}

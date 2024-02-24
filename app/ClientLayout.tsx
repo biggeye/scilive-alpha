@@ -9,10 +9,10 @@ import { sciLiveTheme } from "./theme";
 import NewNavbar from '@/components/NewNavbar';
 import { Toast } from '@chakra-ui/react';
 import { createClient } from '@/utils/supabase/client';
-import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
 import { finalPredictionState } from '@/state/replicate/prediction-atoms';
 import { useRecoilState } from 'recoil';
+import { useRouter } from 'next/navigation';
 
 interface SubscriptionToastPayload {
 event: 'string',
@@ -20,7 +20,7 @@ schema: 'string',
 table: 'string',
 }
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const toast = useToast();
   const supabase = createClient();
   const [finalPrediction, setFinalPrediction] = useRecoilState(finalPredictionState);
@@ -36,7 +36,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
           status: 'info',
           duration: 5000,
           isClosable: true,
-          onClick: () => navigate('/gallery'),
+          onClick: () => router.push('/gallery'),
         });
        
         const output = await payload.new.url; // im trying to access the value** of the inserted row in column 'url'
@@ -48,7 +48,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, [navigate, toast]);
+  }, [router, toast]);
 
   return (
     <ChakraProvider theme={sciLiveTheme}>

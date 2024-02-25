@@ -1,5 +1,5 @@
-import uploadAvatar from '@/lib/createAvatar/uploadAvatar';
 import uploadPrediction from '@/lib/replicate/uploadPrediction';
+import UpdateProgress from '@/lib/replicate/calculateProgressFromLogs';
 
 type WorkflowStatus = 'completed' | 'running' | 'processing' | 'failed';
 
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     // Additional code for handling other parts of the request
     if (body.status === 'processing') {
       const progress = body.logs;
-      
+      UpdateProgress(progress);
     }
 
     if (body.status === 'succeeded' && body.output) {
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
             // handle errors
           });
       } else if (typeof output === 'string') {
-        // Handling output when it's a single string
+       console.log("uploadPrediction: ", output, predictionId, prompt)
         await uploadPrediction(output, `${predictionId}-0`, prompt)
           .then(result => {
             // handle successful upload

@@ -41,8 +41,8 @@ const DisplayResults = () => {
           <VStack>
             <ToolOptions />
             {globalLoading ? (
-              <Skeleton height="400px" width="400px" className="element-pulse">
               <Card className="image-card" borderColor="onyx" borderWidth="0.5px">
+              <Skeleton height="400px" width="400px" className="element-pulse" />
                 <Flex direction="column" justifyContent="space-evenly">
                   {modelBootResult === "loading" && (
                     <CircularProgress isIndeterminate className="element-pulse" />
@@ -52,7 +52,7 @@ const DisplayResults = () => {
                   <Text fontSize={{ base: "sm", md: "md" }}>Prediction Status: {predictionStatus}</Text>
                 </Flex>
               </Card>
-              </Skeleton>
+              
                   ) : (
               <motion.div
                 initial="hidden"

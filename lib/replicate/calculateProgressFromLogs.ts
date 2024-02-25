@@ -2,7 +2,7 @@
 import { useRecoilState } from "recoil";
 import { predictionProgressState } from "@/state/replicate/prediction-atoms";
 
-const calculateProgressFromLogs = (logs: string) => {
+const UpdateProgress = (logs: string) => {
     const [predictionProgress, setPredictionProgress] = useRecoilState(predictionProgressState);
 
     const regex = /(\d+)%/g;
@@ -20,3 +20,5 @@ const calculateProgressFromLogs = (logs: string) => {
     }
     return highestPercentage; // Returning highest percentage instead of logs.length
   };
+
+  export default UpdateProgress;

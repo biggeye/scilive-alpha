@@ -1,6 +1,5 @@
-import uploadPrediction from '@/lib/replicate/uploadPrediction';
-import UpdateProgress from '@/lib/replicate/calculateProgressFromLogs';
-import cancelPrediction from '@/lib/replicate/cancelPrediction';
+import uploadPrediction from "@/lib/replicate/uploadPrediction";
+
 
 type WorkflowStatus = 'completed' | 'running' | 'processing' | 'failed';
 
@@ -55,13 +54,12 @@ export async function POST(req: Request) {
     console.log('Received webhook for workflow:', body.id);
     if (body.status === 'starting') {
       const status = body.status;
-      UpdateProgress("0%");
-      cancelPrediction(cancelUrl);
+
     }
     // Additional code for handling other parts of the request
     if (body.status === 'processing') {
       const progress = body.logs;
-      UpdateProgress(progress);
+
     }
 
     if (body.status === 'succeeded' && body.output) {

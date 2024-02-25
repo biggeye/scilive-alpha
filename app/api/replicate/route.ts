@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/route'
+import { Leap } from '@leap-ai/workflows';
 
 export async function POST(req: Request) {
   const supabase = createClient(req);
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: 'Missing input parameters' }), { status: 400 });
     }
      console.log("Parsed payload: ", payload);
-    const response = await fetch('https://api.replicate.com/v1/predictions', {
+    const response = await Leap(
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN}`,

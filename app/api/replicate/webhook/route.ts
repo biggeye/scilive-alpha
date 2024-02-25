@@ -1,5 +1,6 @@
 import uploadPrediction from '@/lib/replicate/uploadPrediction';
 import UpdateProgress from '@/lib/replicate/calculateProgressFromLogs';
+import cancelPrediction from '@/lib/replicate/cancelPrediction';
 
 type WorkflowStatus = 'completed' | 'running' | 'processing' | 'failed';
 
@@ -23,7 +24,7 @@ interface PredictionResponsePostBody {
   logs: string;
   output: string[];
   error: null | string;
-  status: 'starting' | 'processing' | 'succeeded' | 'failed'; // Adjust based on possible values
+  status: 'starting' | 'processing' | 'succeeded' | 'failed' | 'cancelled'; // Adjust based on possible values
   created_at: string;
   started_at: string;
   completed_at: string;
@@ -50,8 +51,13 @@ export async function POST(req: Request) {
 
   try {
     const body: PredictionResponsePostBody = await req.json();
+    const cancelUrl = body.urls.cancel;
     console.log('Received webhook for workflow:', body.id);
-
+    if (body.status === 'starting') {
+      const status = body.status;
+      UpdateProgress("0%");
+      cancelPrediction(cancelUrl);
+    }
     // Additional code for handling other parts of the request
     if (body.status === 'processing') {
       const progress = body.logs;

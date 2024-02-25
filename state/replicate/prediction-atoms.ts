@@ -7,6 +7,11 @@ export const globalLoadingState = atom<boolean>({
   default: false,
 });
 
+export const cancelRunningPredictionState = atom<string | null>({
+  key: 'cancelRuningPredictionState',
+  default: null,
+})
+
 export const userImagePreviewState = atom<string | null>({
   key: 'userImagePreviewState',
   default: null,

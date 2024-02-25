@@ -7,7 +7,8 @@ import { useUserContext } from '@/lib/user/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
 import { createClient } from '@/utils/supabase/client';
 
-const AvatarCreator: React.FC = () => {
+const AvatarCreator: React.FC = ({ onCompleted }) => {
+
   const supabase = createClient();
 
   const [avatarName, setAvatarName] = useRecoilState(avatarNameState);
@@ -76,9 +77,10 @@ const AvatarCreator: React.FC = () => {
           duration: 9000,
           isClosable: true,
         });
-  
-      } else {
+        return
+      } else if {
         console.log(responseData);
+        onCompleted();
       }
     } catch (error) {
       console.error('Error running the workflow', error);

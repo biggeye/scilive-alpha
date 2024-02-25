@@ -84,10 +84,10 @@ export async function POST(req: Request) {
        console.log("uploadPrediction: ", output, predictionId, prompt)
         await uploadPrediction(output, `${predictionId}-0`, prompt)
           .then(result => {
-            // handle successful upload
+            
           })
           .catch(error => {
-            // handle error
+        
           });
       } else {
         console.error('output is neither an array of strings nor a string');

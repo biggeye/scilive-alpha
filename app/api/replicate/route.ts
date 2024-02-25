@@ -1,5 +1,4 @@
 import { createClient } from '@/utils/supabase/route'
-import { Leap } from '@leap-ai/workflows';
 
 export async function POST(req: Request) {
   const supabase = createClient(req);
@@ -14,31 +13,21 @@ export async function POST(req: Request) {
 
   try {
     const bodyData = await req.json()
-    const { version, image, pose_image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path, stream } = bodyData
-
+    const { user_id, version, image, pose_image, input_image, prompt, negative_prompt, text, text_prompt, custom_voice, img, video_path, stream } = bodyData;
+    const input_images = Array.isArray(input_image) ? input_image : [input_image];
     const payload = {
+      workflow_id: "wkf_sgNpY4fZBWTSML",
+      user_id,
       version,
-      input: {
-        ...(stream && { stream }),
-        ...(image && { image }),
-        ...(pose_image && { pose_image }),
-        ...(input_image && { input_image }),
-        ...(prompt && { prompt }),
-        ...(negative_prompt && { negative_prompt }),
-        ...(text && { text }),
-        ...(text_prompt && { text_prompt }),
-        ...(custom_voice && { custom_voice }),
-        ...(img && { img }),
-        ...(video_path && { video_path }),
-      },
-      webhook: "https://scilive.cloud/api/replicate/webhook",
+      input_images,
+      prompt,
     };
     
-    if (Object.keys(payload.input).length === 0) {
-      return new Response(JSON.stringify({ error: 'Missing input parameters' }), { status: 400 });
+    if (Object.keys(payload.version).length === 0) {
+      return new Response(JSON.stringify({ error: 'Missing model Id' }), { status: 400 });
     }
      console.log("Parsed payload: ", payload);
-    const response = await Leap(
+    const response = await fetch('https://api.replicate.com/v1/predictions', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN}`,

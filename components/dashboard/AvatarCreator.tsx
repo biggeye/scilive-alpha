@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Select, Input, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
+import { Card, Select, Input, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState, frameStyleState, photoStyleState } from '@/state/createTalk-atoms';
 import { useUserContext } from '@/lib/user/UserProvider';
 import { createClient } from '@/utils/supabase/client';
@@ -96,6 +96,7 @@ const AvatarCreator: React.FC = () => {
 
   return (
     <Box maxW="md" mx="auto" mt={5}>
+      <Card>
       <form onSubmit={handleSubmit}>
         <VStack spacing={4} p={5}>
         <FormControl isRequired>
@@ -164,6 +165,7 @@ const AvatarCreator: React.FC = () => {
 
         </VStack>
       </form>
+      </Card>
     </Box>
   );
 };

@@ -4,10 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { Select, Input, Box, Button, FormControl, FormLabel, Textarea, useToast, VStack, Image, Grid, GridItem, CircularProgress, Checkbox } from '@chakra-ui/react';
 import { avatarNameState, avatarDescriptionState, avatarUrlState, frameStyleState, photoStyleState } from '@/state/createTalk-atoms';
 import { useUserContext } from '@/lib/user/UserProvider';
-import { imageArrayState } from '@/state/createTalk-atoms';
 import { createClient } from '@/utils/supabase/client';
-
-
 
 const AvatarCreator: React.FC = () => {
 
@@ -19,7 +16,7 @@ const AvatarCreator: React.FC = () => {
   const [photoStyle, setPhotoStyle] = useRecoilState(photoStyleState);
   const [avatarUrl, setAvatarUrl] = useRecoilState(avatarUrlState);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const toast = useToast();
@@ -140,6 +137,7 @@ const AvatarCreator: React.FC = () => {
             <CircularProgress isIndeterminate color="blue.300" />
           ) : (
             <Grid templateRows="repeat(2, 1fr)" templateColumns="repeat(2, 1fr)" gap={4}>
+           
               {images.map((imgUrl, index) => (
                 <GridItem key={index} colSpan={1}>
                   <Image src={imgUrl} alt={`Avatar Image ${index + 1}`} />
@@ -147,6 +145,7 @@ const AvatarCreator: React.FC = () => {
                 </GridItem>
               ))}
             </Grid>
+              
           )}
           
           <Button

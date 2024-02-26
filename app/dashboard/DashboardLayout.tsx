@@ -29,7 +29,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             duration: 5000,
             isClosable: true,
           });
-
+           console.log("webhook payload: ", payload)
           // Corrected access to payload data
           const output = payload.new.url; // Assuming this is the correct path to the data
           setFinalPrediction(output); // Update state here

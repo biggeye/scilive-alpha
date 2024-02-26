@@ -69,7 +69,7 @@ const DisplayResults = () => {
                 borderWidth="0.5px"
               >
                 <CardHeader>
-                  <Link href={cancelPrediction}>Cancel</Link>
+                  {cancelPrediction && <Link href={cancelPrediction}>Cancel</Link>}
                 </CardHeader>
                 <Skeleton
                   height="400px"

@@ -29,7 +29,6 @@ const ImageCreateForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setUserImageUpload(null);
     setPredictionIsLoading(true);
     setGlobalLoading(true);
     if (!modelId || !userId) {

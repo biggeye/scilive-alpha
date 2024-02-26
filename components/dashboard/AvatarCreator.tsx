@@ -7,7 +7,9 @@ import { useUserContext } from '@/lib/user/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
 import { createClient } from '@/utils/supabase/client';
 
-const AvatarCreator: React.FC = ({ onCompleted }) => {
+
+
+const AvatarCreator: React.FC = () => {
 
   const supabase = createClient();
 
@@ -78,9 +80,9 @@ const AvatarCreator: React.FC = ({ onCompleted }) => {
           isClosable: true,
         });
         return
-      } else if {
+      } else {
         console.log(responseData);
-        onCompleted();
+
       }
     } catch (error) {
       console.error('Error running the workflow', error);

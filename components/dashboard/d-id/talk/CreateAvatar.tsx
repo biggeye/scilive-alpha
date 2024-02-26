@@ -5,7 +5,7 @@ import { Heading, Card, Box, Button, FormControl, FormLabel, Textarea, useToast,
 import { avatarNameState, avatarDescriptionState, avatarUrlState } from '@/state/createTalk-atoms';
 import { useUserContext } from '@/lib/user/UserProvider';
 import { imageArrayState } from '@/state/createTalk-atoms';
-import AvatarCreator from '@/components/AvatarCreator';
+import AvatarCreator from '../../AvatarCreator';
 
 interface CreateAvatarProps {
   onCompleted: () => void;
@@ -18,7 +18,7 @@ const CreateAvatar: React.FC<CreateAvatarProps> = ({ onCompleted }) => {
   const userId = userProfile.id;
 
   return (
-   <AvatarCreator complete={onCompleted}/>
+   <AvatarCreator />
   );
 };
 

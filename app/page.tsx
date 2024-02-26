@@ -15,17 +15,11 @@ function Home() {
 
   return (
     <Box h="92vh" textAlign="center"> {/* Using color from the theme */}
-        <Heading as="h1" mb={4} mt={4}>
-          <Center>
-           <Logo width="250" height="250" />
-          </Center>
-        </Heading>
-        <Text fontSize="lg">Explore the Future of AI and Live Streaming</Text>
+           <FeaturesSection />
         <Link href="/auth/signup">
           <Button size="lg">Discover More</Button>
           
         </Link>
-        <FeaturesSection />
       </Box>
    )
 }

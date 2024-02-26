@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/route'
+import { createClient } from '@/utils/supabase/route';
 
 export async function POST(req: Request) {
   const supabase = createClient(req);
@@ -12,33 +12,14 @@ export async function POST(req: Request) {
   }
 
   try {
-    const bodyData = await req.json();
-    const { version, user_id, image, pose_image, input_image, prompt } = bodyData;
-
-    // Check for version field
-    if (!version) {
-      return new Response(JSON.stringify({ error: 'Missing version' }), { status: 400 });
-    }
-
-    // Check for at least one other field
-    const inputFields = [image, pose_image, input_image, prompt];
-    const providedFields = inputFields.filter(field => field !== undefined);
-
-    if (providedFields.length < 1) {
-      return new Response(JSON.stringify({ error: 'At least one of image, pose_image, input_image, or prompt is required' }), { status: 400 });
-    }
-
-    // Adjust payload as needed for your API call
+    const { version, user_id, prompt } = await req.json();
     const payload = {
       version,
-      input: {
-        prompt
-      },
+      input: { prompt },
       webhook: `https://scilive.cloud/api/replicate/webhook/${user_id}`
     };
 
-    // Example API call
-    const response = await fetch('https://api.replicate.com/predictions/v1', {
+    const response = await fetch('https://api.replicate.com/v1/predictions', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN}`,
@@ -47,14 +28,27 @@ export async function POST(req: Request) {
       body: JSON.stringify(payload)
     });
 
-    if (response.status !== 201) {
-      const error = await response.json();
-      return new Response(JSON.stringify({ detail: error.detail }), { status: response.status });
+    if (!response.ok) {
+      // Handle non-2xx responses
+      const errorText = await response.text(); // Use text() to avoid JSON parse error
+      console.error('API call failed:', errorText);
+      return new Response(errorText, { status: response.status });
     }
 
-    const prediction = await response.json();
-    return new Response(JSON.stringify(prediction), { status: 201 });
+    const responseData = await response.json(); // Now safe to assume response is JSON
+    if (response.status === 201) {
+      return new Response(JSON.stringify({
+        id: responseData.id,
+        message: "Prediction started successfully"
+      }), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } else {
+      return new Response(JSON.stringify(responseData), { status: response.status });
+    }
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Internal server error', detail: error }), { status: 500 });
+    console.error('Error processing request:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error', details: error }), { status: 500 });
   }
 }

@@ -47,7 +47,6 @@ const GalleryPage: React.FC = () => {
       />
     </Box>
   );
-  
 };
 
 export default GalleryPage;

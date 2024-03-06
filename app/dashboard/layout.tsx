@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { Box, useToast, CircularProgress } from "@chakra-ui/react";
 import { createClient } from "@/utils/supabase/client";
 import { useRecoilState } from "recoil";
-import { finalPredictionState } from "@/state/replicate/prediction-atoms";
-import { avatarScriptState } from "@/state/d-id/createTalk-atoms";
 import { ErrorBoundary } from "@saas-ui/react";
 
 interface DashboardLayoutProps {
@@ -17,9 +15,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const router = useRouter();
   const toast = useToast();
   const supabase = createClient();
-  const [finalPrediction, setFinalPrediction] = useRecoilState(finalPredictionState);
-  const [avatarScript, setAvatarScript] = useRecoilState(avatarScriptState);
-  
+
   useEffect(() => {
     const handleEvent = (payload: any) => {
       console.log("webhook payload: ", payload);
@@ -33,11 +29,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       });
       // Corrected access to payload data
       if (newRow.url) {
-        const output = newRow.url; // Correct path to the data
-        setFinalPrediction(output);
+        const output = newRow.url;
+        console.log(output); // Correct path to the data
       } else if (newRow.content) {
         const output = newRow.content;
-        setAvatarScript(output);
+        console.log(output);
       }
     };
   

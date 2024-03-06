@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       {
         workflow_id: "wkf_U3tsr91oDF9UaL",
         webhook_url:
-          "https://scilive.cloud/api/leap/websummaryhook",
+          "https://29c1-2603-8000-2700-d75b-00-1258.ngrok-free.app/api/leap/websummary/hook",
         input: {
           webpage_url: webpage_url,
           host: host_name,

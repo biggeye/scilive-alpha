@@ -1,36 +1,31 @@
-'use client';
-import React, { useEffect } from 'react';
-import { Box, ChakraProvider } from '@chakra-ui/react';
+'use client'
+import React from 'react';
 import { AppShell, SaasProvider } from '@saas-ui/react';
-import { UserProvider } from "@/lib/user/UserProvider";
 import { RecoilRoot } from "recoil";
-import { sciLiveTheme } from "./theme";
-import NewNavbar from '@/components/NewNavbar';
+import NavbarAlpha from '@/components/NavbarAlpha';
+import { UserProvider } from '@/lib/user/UserProvider';
+import { Box } from '@chakra-ui/react';
+import { ClientLayoutProps } from '@/types';
 
-export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
- 
+const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
+  const parentRef = React.useRef(null);
 
   return (
-    <ChakraProvider theme={sciLiveTheme}>
-      <SaasProvider>
+    <SaasProvider>
+      <RecoilRoot>
         <UserProvider>
-          <RecoilRoot>
-           
-              
-              <AppShell
-                navbar={
-                  <NewNavbar />
-                }>
-        
-                <Box as="main" className="main" py="2" position="relative">
-                  {children}
-                </Box>
-              </AppShell>
-  
-          </RecoilRoot>
+          <Box
+            ref={parentRef}
+            as="main">
+            <AppShell variant="static"
+            navbar={<NavbarAlpha parentRef={parentRef} />}>
+              {children}
+            </AppShell>
+          </Box>
         </UserProvider>
+        </RecoilRoot>
       </SaasProvider>
-    </ChakraProvider>
   );
 };
 
+export default ClientLayout;

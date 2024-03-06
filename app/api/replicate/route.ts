@@ -12,12 +12,19 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { version, user_id, prompt } = await req.json();
+    const { version, user_id, prompt, input_images } = await req.json();
+    let image;
+    if (Array.isArray(input_images)) { 
+      image = input_images;
+    } else {
+      image = input_images;
+    }
     const payload = {
       version,
-      input: { prompt },
-      webhook: `https://scilive.cloud/api/replicate/webhook/${user_id}`
+      input: { prompt, image },
+      webhook: `${process.env.NEXT_PUBLIC_NGROK_URL}/api/replicate/webhook/${user_id}`
     };
+    // Further code to use the payload
 
     const response = await fetch('https://api.replicate.com/v1/predictions', {
       method: 'POST',

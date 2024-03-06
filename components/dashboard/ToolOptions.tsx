@@ -2,32 +2,38 @@
 import React, { useEffect, useState } from "react";
 import { Text, Spacer, Box, Select, Flex, Progress, Skeleton } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { selectedModelInputFieldsState, exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState, userContentExamplesState, examplesLoadingState } from "@/state/replicate/config-atoms";
+import { exampleImageState, selectedModelFriendlyNameState, selectedModelIdState, selectedModelShortDescState, selectedModelNameState, selectedTabState } from "@/state/replicate/config-atoms";
 import type { SelectedModel } from "@/types";
-import { finalPredictionState, predictionIsLoadingState } from "@/state/replicate/prediction-atoms";
+import { finalPredictionState } from "@/state/replicate/prediction-atoms";
+import { fetchTxt2ImgModels, fetchImg2ImgModels } from "@/lib/modelServer";
+import { currentPageState } from '@/state/user/user_state-atoms';
 
-
-const ToolOptions = () => {
-  const [selectedModelInputFields, setSelectedModelInputFields] = useRecoilState(selectedModelInputFieldsState);
+const ToolOptions = ({ localPage }) => {
+  const currentPage = useRecoilValue(currentPageState);
   const [selectedModelId, setSelectedModelId] = useRecoilState(selectedModelIdState);
   const [selectedModelFriendlyName, setSelectedModelFriendlyName] = useRecoilState(selectedModelFriendlyNameState);
   const [selectedModelShortDesc, setSelectedModelShortDesc] = useRecoilState(selectedModelShortDescState);
   const [selectedModelName, setSelectedModelName] = useRecoilState(selectedModelNameState);
   const [exampleImage, setExampleImage] = useRecoilState(exampleImageState);
   const [modelsData, setModelsData] = useState<SelectedModel[]>([]);
-  const [examplesLoading, setExamplesLoading] = useRecoilState(examplesLoadingState);
   const [modelsLoading, setModelsLoading] = useState(false);
-  const tool = useRecoilValue(selectedTabState);
-  const [userContentExamples, setUserContentExamples] = useRecoilState(userContentExamplesState);
   const [finalPrediction, setFinalPrediction] = useRecoilState(finalPredictionState);
-  const [predictionIsLoading, setPredictionIsLoading] = useRecoilState(predictionIsLoadingState);
+
 
   useEffect(() => {
-    if (tool) {
-      resetAllModelStates();
-      fetchModels();
-    }
-  }, [tool]);
+    // Prioritize localPage over the global currentPage state if it's provided
+    const effectivePage = localPage || currentPage;
+    resetAllModelStates();
+    fetchModels(effectivePage);
+  }, [currentPage, localPage]);
+
+/*
+  useEffect(() => {
+    resetAllModelStates();
+    fetchModels(currentPage); // Pass currentPage to fetchModels function
+  }, [currentPage]);
+
+*/
 
   useEffect(() => {
     if (modelsData.length > 0 && selectedModelId === "") {
@@ -37,9 +43,7 @@ const ToolOptions = () => {
 
 
   const updateModelStates = (model: SelectedModel) => {
-    setPredictionIsLoading(false);
     setFinalPrediction(null);
-    setSelectedModelInputFields(model.inputtype);
     setSelectedModelName(model.name);
     setSelectedModelId(model.id);
     setSelectedModelFriendlyName(model.friendlyname);
@@ -47,14 +51,22 @@ const ToolOptions = () => {
     setSelectedModelShortDesc(model.shortdesc || "");
   };
 
-  const fetchModels = async () => {
+  const fetchModels = async (page) => {
     setModelsLoading(true);
     try {
-      const response = await fetchModelData();
-      if (response && response.ok) {
-        const { data } = await response.json();
-        setModelsData(data);
+      let modelsData;
+      switch (page) {
+        case "createImage":
+          modelsData = await fetchTxt2ImgModels();
+          break;
+        case "editImage":
+          modelsData = await fetchImg2ImgModels();
+          break;
+        // Add more cases as needed
+        default:
+          modelsData = []; // Or set to a default state
       }
+      setModelsData(modelsData);
     } catch (error) {
       console.error("Error fetching models:", error);
     } finally {
@@ -62,26 +74,7 @@ const ToolOptions = () => {
     }
   };
 
- /* const fetchUserContentExamples = async () => {
-    setExamplesLoading(true);
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/userContent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ selectedModelId })
-      });
-      if (response.ok) {
-        const userContent = await response.json();
-        setUserContentExamples(userContent.map((item: any) => item.url));
-      }
-    } catch (error) {
-      console.error("Error fetching user content examples:", error);
-    } finally {
-      setExamplesLoading(false);
-    }
-  };
-*/
- 
+
 const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSelectedModelId = event.target.value;
     const selectedModel = modelsData.find(model => model.id === newSelectedModelId);
@@ -90,15 +83,17 @@ const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>
     }
   };
   
-  const fetchModelData = async () => {
-    switch (tool) {
+  const fetchModelData = async (localPage?) => {
+    switch (tool | localPage) {
 
-      case "imageCreation":
-        const txt2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/txt2img`);
+      case "createImage":
+        const txt2imgResponse = await fetchTxt2ImgModels();
+        setModelsData(txt2imgResponse);
         return txt2imgResponse;
 
-      case "imageEditing":
-        const img2imgResponse = await fetch(`${process.env.NEXT_PUBLIC_DEFAULT_URL}/api/content/getModels/img2img`);
+      case "editImage":
+        const img2imgResponse = await fetchImg2ImgModels();
+        setModelsData(img2imgResponse);
         return img2imgResponse;
    
         
@@ -110,7 +105,6 @@ const handleSelectionChange = async (event: React.ChangeEvent<HTMLSelectElement>
   
   const resetAllModelStates = () => {
     setExampleImage("");
-    setUserContentExamples([]);
     setSelectedModelName("");
     setSelectedModelFriendlyName("");
     setSelectedModelShortDesc("");

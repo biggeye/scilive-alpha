@@ -1,16 +1,13 @@
-//state/replicate/prediction-atoms.ts
 
 import { atom } from 'recoil';
 
-export const globalLoadingState = atom<boolean>({
-  key: 'globalLoadingState',
-  default: false,
-});
 
-export const cancelRunningPredictionState = atom<string | null>({
-  key: 'cancelRuningPredictionState',
+
+// INPUTS
+export const imageNarrativeUploadState = atom<File | null>({
+  key: 'imageNarrativeUploadState',
   default: null,
-})
+});
 
 export const userImagePreviewState = atom<string | null>({
   key: 'userImagePreviewState',
@@ -20,80 +17,59 @@ export const userImageUploadState = atom<File | null>({
   key: 'userImageUploadState',
   default: null,
 });
-export const userInFileState = atom<File | null>({
-  key: 'userInFileState',
-  default: null,
-});
+
 export const userImageDataUriState = atom<string | null>({
   key: 'userImageDataUriState',
   default: null,
 });
-export const existingUploadState = atom<File | null>({
-  key: 'existingUploadState',
-  default: null,
-});
 
-export const modelBootProgressState = atom({
-  key: 'modelBootProgressState',
-  default: 0,
+
+
+  // MONITORING
+export const globalLoadingState = atom<boolean>({
+  key: 'globalLoadingState',
+  default: false,
 });
-export const modelBootResultState = atom({
+export const cancelRunningPredictionState = atom<string | null>({
+  key: 'cancelRuningPredictionState',
+  default: null,
+})
+export const modelBootResultState = atom<string | null>({
   key: 'modelBootResultState',
   default: "Model not started",
 });
-
-export const predictionErrorState = atom({
+export const predictionErrorState = atom<string | null>({
   key: 'predictionErrorState',
   default: null,
 });
-
-export const predictionProgressState = atom<number | null>({
+export const predictionProgressState = atom<number>({
   key: 'predictionProgressState',
   default: 0, // Default progress is 0
 });
-
-export const predictionResultState = atom({
-  key: 'predictionResultState',
-  default: null,
-});
-
 export const predictionStatusState = atom({
   key: 'predictionStatusState',
   default: '',
 })
-export const predictionIsLoadingState = atom({
-  key: 'predictionIsLoadingState',
-  default: false,
-});
 
-// finalized
-export const finalPredictionState = atom({
+
+
+
+// OUTPUTS
+export const finalPredictionState = atom<string | null>({
   key: 'finalPredictionState',
   default: null,
 });
 
-export const finalPredictionPromptState = atom({
+export const finalPredictionPromptState = atom<string>({
 key: 'finalPredictionPromptState',
-default: null,
+default: '',
 });
 
-export const finalNarrativePredictionState = atom({
+export const finalNarrativePredictionState = atom<string | null>({
   key: 'finalNarrativePredictionState',
   default: '' || null,
 });
 
-export const finalNarrativeState = atom ({
-  key: 'finalNarrativeState',
-  default: '' || null,
-});
 
-export const imageNarrativeUploadState = atom<File | null>({
-  key: 'imageNarrativeUploadState',
-  default: null,
-});
 
-export const imageNarrativePromptState = atom ({
-  key: 'imageNarrativePromptState',
-  default: "Describe the image you've uploaded",
-});
 

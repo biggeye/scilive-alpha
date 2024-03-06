@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`https://scilive.cloud/dashboard`)
+      return NextResponse.redirect(`https://29c1-2603-8000-2700-d75b-00-1258.ngrok-free.app/dashboard`)
     }
   }
 

@@ -1,5 +1,6 @@
-// Simplify handleGalleryEditSelection to return the necessary values
-import { convertToDataURI } from "../convertToDataURI";
+'use client'
+import { convertToDataURI } from "../../utils/convertToDataURI";
+
 export const handleGalleryEditSelection = async (imageUrl: string) => {
   try {
     const response = await fetch(imageUrl);

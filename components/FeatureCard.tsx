@@ -41,7 +41,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, text, imgSrc, list }) 
         )}
         <Heading size="md">{title}</Heading>
         <Text>{text}</Text>
-        {list}
+  
     </VStack>
     </Card>
 );

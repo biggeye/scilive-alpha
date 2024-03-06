@@ -2,7 +2,7 @@
 
 import React, { useState, FormEvent } from 'react';
 import { Center } from '@chakra-ui/react';
-import SignUp from '@/components/Auth/SignUp';
+import SignUp from '@/components/ui/AuthForms/SignUp';
 
 const Auth: React.FC = () => {
 

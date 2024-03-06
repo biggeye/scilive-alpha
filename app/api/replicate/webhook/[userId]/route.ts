@@ -1,17 +1,5 @@
-import uploadPrediction from "@/lib/replicate/uploadPrediction";
-import { createClient } from "@/utils/supabase/route";
-import { NextRequest } from "next/server";
-
-type WorkflowStatus = 'completed' | 'running' | 'processing' | 'failed';
-
-interface WorkflowOutput {
-  images: string[];
-  user_id: string;
-  avatar_name: string;
-  avatar_description: string;
-  photo_style: string;
-  frame_style: string;
-}
+import { uploadPrediction } from "@/lib/replicate/uploadPrediction";
+import { createClient } from "@/utils/supabase/server";
 
 interface PredictionResponsePostBody {
   id: string;
@@ -38,8 +26,8 @@ interface PredictionResponsePostBody {
     predict_time: number;
   };
 }
-export async function POST(req: NextRequest) {
-  const supabase = createClient(req);
+export async function POST(req: Request) {
+  const supabase = createClient();
 
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({
@@ -54,22 +42,22 @@ export async function POST(req: NextRequest) {
   try {
 
     const body: PredictionResponsePostBody = await req.json();
-
-    const userId = req.nextUrl.pathname.split('/').pop();
+    console.log("webhook -incoming-: ", body);
+    console.log('Received webhook for workflow:', body.id);
+    const url = require('url');
+    const userId = url.parse(req.url).pathname.split('/').pop();
     const modelId = body.version;
     const cancelUrl = body.urls.cancel;
-    console.log('Received webhook for workflow:', body.id);
     const predictionId = body.id;
     const prompt = body.input.prompt;
     const status = body.status;
-    // Assuming body.status is either 'starting' or 'processing'
 
     if (body.status === 'starting') {
-      // Insert into Supabase table "master_content"
+
       const { data, error } = await supabase
         .from('master_content')
         .insert([
-          { id: predictionId, created_by: userId, prompt: prompt, status: body.status }
+          { predction_id: predictionId, created_by: userId, prompt: prompt, status: body.status }
         ]);
 
       if (error) {
@@ -84,7 +72,7 @@ export async function POST(req: NextRequest) {
       const { data, error } = await supabase
         .from('master_content')
         .update({ status: body.status })
-        .match({ id: predictionId });
+        .match({ prediction_id: predictionId });
 
       if (error) {
         console.error('Error updating Supabase:', error);

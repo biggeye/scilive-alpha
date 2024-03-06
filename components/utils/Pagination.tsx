@@ -1,3 +1,4 @@
+import React from 'react';
 import { Center, Box, Button, Flex, IconButton, Spacer } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
@@ -16,7 +17,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   const maxGroupButtons = 5; // Adjust based on your UI space
 
   const renderGroupButtons = () => {
-    let buttons = [];
+    const buttons = [];
     let start = Math.max(currentGroup - 2, 0);
     let end = Math.min(start + maxGroupButtons, totalGroups);
 

@@ -1,20 +1,7 @@
 'use client';
 import { createClient } from "@/utils/supabase/client";
-
-interface UserProfile {
-  id: string;
-  full_name: string;
-  username: string;
-  avatar_url: string;
-  website: string;
-  email: string;
-}
-
-interface UserDetailsResponse {
-  userId?: string;
-  profile?: UserProfile;
-  error?: string;
-}
+import { UserProfile } from "@/types";
+import { UserDetailsResponse } from "@/types";
 
 export default async function getUserDetails(supabase: any): Promise<UserDetailsResponse> {
   try {

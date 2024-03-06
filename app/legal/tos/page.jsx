@@ -1,3 +1,4 @@
+import React from 'react';
 import { Center, Card, CardHeader, CardBody, CardFooter, Box, Text } from "@chakra-ui/react"; 
 
 const TermsOfService = () => {

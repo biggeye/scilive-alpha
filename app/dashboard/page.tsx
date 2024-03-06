@@ -1,78 +1,123 @@
-"use client";
-import React, { useState, useEffect } from 'react';
-import { Spacer, Grid, GridItem, Tabs, TabList, Tab, TabPanels, TabPanel, useBoolean } from '@chakra-ui/react';
-import DisplayResults from "@/components/dashboard/DisplayResults";
-import ImageCreateForm from "@/components/dashboard/replicate/ImageCreateForm";
-import ImageEditForm from "@/components/dashboard/replicate/ImageEditForm";
-import { predictionIsLoadingState } from "@/state/replicate/prediction-atoms";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { selectedTabState, dashboardState } from '@/state/replicate/config-atoms';
+'use client'
+import React, { Suspense } from 'react';
+import { Skeleton, Tabs, Tab, TabList, TabPanels, TabPanel, VStack, Box, Grid, GridItem, Card, Link, Text } from '@chakra-ui/react';
+import ImageCreator from '@/components/dashboard/ImageCreator';
+import ImageEditor from '@/components/dashboard/ImageEditor';
+import DisplayResults from '@/components/dashboard/DisplayResults';
+import VoiceCloner from '@/components/dashboard/VoiceCloner';
+import ScriptWriter from '@/components/dashboard/ScriptWriter';
+import AvatarCreator from '@/components/dashboard/AvatarCreator';
 
-type ToolType = string
+import { useRecoilValue } from 'recoil';
+import { viewModeState } from '@/state/user/user_state-atoms';
 
-const DashboardPage: React.FC = () => {
-  const [dashboardState, setDashboardState] = useRecoilState(selectedTabState);
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
-  const predictionIsLoading = useRecoilValue(predictionIsLoadingState);
+const DashboardPage = () => {
+  const viewMode = useRecoilValue(viewModeState);
 
-  useEffect(() => {
-    handleTabsChange(0);
-  }, []);
-
-  const handleTabsChange = (index: number) => {
-    let tool: ToolType;
-    switch (index) {
-      case 0:
-        tool = "imageCreation";
-        break;
-      case 1:
-        tool = "imageEditing";
-        break;
-      default:
-        tool = "imageCreation"; // Default tool if no index matches
-    }
-    setSelectedTab(tool);
-  };
-  return (
-    <Grid
-      templateRows="3"
-      templateColumns="1"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width="100vw"
-      overflowX="hidden"
-      height="100%"
-      zIndex="1"
-    >
-      <Tabs
+  const renderTabs = () => (
+       <Tabs
         fontSize={{ base: "sm", md: "md" }}
         variant="enclosed-colored"
-        position="absolute" top="0px" align="center" width="100%" onChange={(index) => handleTabsChange(index)} colorScheme="lightBlue">
-        <GridItem>
-          <TabList fontSize={{ base: "sm", md: "md" }}
-            maxWidth={{ base: "375px", md: "650px" }}>
-            <Tab fontSize={{ base: "sm", md: "md" }}
-              fontWeight="bold">Create Images</Tab>
-            <Tab fontSize={{ base: "sm", md: "md" }}
-              fontWeight="bold">Edit Images</Tab>
-              </TabList>
-                   </GridItem>
-        <GridItem overflowY="auto">
-          <DisplayResults />
-        </GridItem>
-        <GridItem className="bottomInputFormFrame">
-          <TabPanels className="tabPanelStyles">
-            <TabPanel>
-              <ImageCreateForm />
-            </TabPanel>
-            <TabPanel>
-              <ImageEditForm />
-            </TabPanel>
-                      </TabPanels>
-        </GridItem>
+      >
+        <TabList mb="1em">
+          <Tab>Image Creator</Tab>
+          <Tab>Image Editor</Tab>
+          <Tab>Script Writer</Tab>
+          <Tab>Voice Cloner</Tab>
+          <Tab>Avatar Creator</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <VStack spacing={1}>
+              <DisplayResults localPage="createImage" />   // TODO toolOptions  is rendering incorrect list of models for createImage / imageCreator
+              <Box position="fixed" backdropFilter="blur(50px)" width="98vw" bottom="0px">
+                <ImageCreator />
+              </Box>
+            </VStack>
+          </TabPanel>
+          <TabPanel>
+            <VStack spacing={1}>
+              <DisplayResults localPage="editImage" />     // TODO ImageEditor gallery sidepanel opens, but with no contents
+                <Box position="fixed" backdropFilter="blur(50px)" width="98vw" bottom="0px">
+                  <ImageEditor />
+                </Box>
+            </VStack>
+          </TabPanel>
+          <TabPanel>
+            <VStack spacing={1}>
+              <ScriptWriter />
+            </VStack>
+          </TabPanel>
+          <TabPanel>
+            <VStack spacing={1}>
+              <VoiceCloner />
+            </VStack>
+          </TabPanel>
+          <TabPanel>
+            <VStack spacing={1}>
+              <AvatarCreator />
+            </VStack>
+          </TabPanel>
+        </TabPanels>
       </Tabs>
+  )
+
+  const renderGrid = () => (
+
+    <Grid
+      templateAreas={{
+        lg: `"panel createDisplay editDisplay "
+           "panel createDisplay editDisplay"
+           "voice script avatar`,
+        base: `"display display"
+               "create edit"
+              "avatar voice"
+              "script script"
+              "footer footer"` }}
+      gridTemplateColumns={{ base: '60vw 35vw', lg: '50vw 45vw' }}
+      gridTemplateRows={{ base: '5', lg: '3' }}
+      h='92vh'
+      w='100vw'
+      gap='1'
+      color='blackAlpha.700'
+      fontWeight='bold'
+    >
+      <GridItem area="createDisplay">
+        <DisplayResults localPage="createImage" />
+        <ImageCreator />
+      </GridItem>
+      <GridItem area="editDisplay">
+        <DisplayResults localPage="editImage" />
+        <ImageEditor />
+      </GridItem>
+      <GridItem area="panel">
+        <Box
+          w="55vw"
+          h="auto"
+          bgColor="silver"
+          borderRadius="md">
+
+        </Box>
+      </GridItem>
+      <GridItem area="avatar">
+        <AvatarCreator />
+      </GridItem>
+      <GridItem area="voice">
+        <VoiceCloner />
+      </GridItem>
+      <GridItem area="script">
+        <ScriptWriter />
+      </GridItem>
+      <GridItem area="footer">
+
+      </GridItem>
     </Grid>
+  );
+
+  return (
+    <Box>
+      {viewMode === 'tabs' ? renderTabs() : renderGrid()}
+    </Box>
   );
 };
 

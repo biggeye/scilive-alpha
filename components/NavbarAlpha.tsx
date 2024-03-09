@@ -58,13 +58,13 @@ const NavbarAlpha = ({ parentRef }: NavbarAlphaProps) => {
             </NavbarBrand>
             <NavbarContent display={{ base: 'hidden', sm: 'flex' }}>
                 <NavbarItem>
-                    <NavbarLink href="/dashboard">Production</NavbarLink>
+                    <NavbarLink as="h1" href="/dashboard">Production</NavbarLink>
                 </NavbarItem>
                 <NavbarItem>
-                    <NavbarLink href="/dashboard/assets">Assets</NavbarLink>
+                    <NavbarLink as="h1" href="/dashboard/assets">Assets</NavbarLink>
                 </NavbarItem>
                 <NavbarItem>
-                    <NavbarLink>Training</NavbarLink>
+                    <NavbarLink as="h1">Training</NavbarLink>
                 </NavbarItem>
             </NavbarContent>
 
